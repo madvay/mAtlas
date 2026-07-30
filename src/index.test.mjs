@@ -56,6 +56,16 @@ test('prerequisite highlighting is an opt-in browser preference', () => {
   assert.doesNotMatch(html, /id="highlightPrerequisitesToggle"[^>]*checked/);
 });
 
+test('experimental features is an opt-in browser preference', () => {
+  assert.match(html, /id="experimentalFeaturesToggle"[^>]*type="checkbox"/);
+  assert.doesNotMatch(html, /id="experimentalFeaturesToggle"[^>]*checked/);
+});
+
+test('Connect and Semantic Map toolbar buttons are hidden by default', () => {
+  assert.match(html, /id="connectionButton"[^>]*hidden/);
+  assert.match(html, /id="semanticMapButton"[^>]*hidden/);
+});
+
 test('connection explorer exposes endpoint search and direction-preserving traversal', () => {
   assert.match(html, /id="connectionButton"[^>]*aria-haspopup="dialog"[^>]*aria-pressed="false"/);
   assert.match(html, /id="connectionDialog"[^>]*class="[^"]*connection-dialog/);

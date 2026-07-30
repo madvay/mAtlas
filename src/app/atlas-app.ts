@@ -197,6 +197,14 @@ export async function startAtlasApp(): Promise<void> {
     byId<HTMLSelectElement>('layoutSelect').value = state.layout;
   }
 
+  function syncExperimentalToolbarButtons(): void {
+    const showExperimental = preferences.experimentalFeatures;
+    const connectionButton = document.getElementById('connectionButton');
+    const semanticMapButton = document.getElementById('semanticMapButton');
+    if (connectionButton) connectionButton.hidden = !showExperimental;
+    if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
+  }
+
   function updateCompactLayoutSuggestion(): void {
     const compactButton = byId<HTMLButtonElement>('compactLayoutButton');
     let helpful = false;
@@ -294,11 +302,19 @@ export async function startAtlasApp(): Promise<void> {
     renderMathText,
     preferences: () => preferences,
     setPreferences: (next) => {
+      const previousPreferences = preferences;
       preferences = next;
       writePreferences();
       applyRendererPreferences(cy, preferences);
       graphLabelLayer.setPreferences(preferences);
       graphView.applyFilters({ relayout: false });
+      if (previousPreferences.experimentalFeatures !== preferences.experimentalFeatures) {
+        const showExperimental = preferences.experimentalFeatures;
+        const connectionButton = document.getElementById('connectionButton');
+        const semanticMapButton = document.getElementById('semanticMapButton');
+        if (connectionButton) connectionButton.hidden = !showExperimental;
+        if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
+      }
     }
   });
   const buildFilters = (): void => filterControls.build();
@@ -796,6 +812,7 @@ export async function startAtlasApp(): Promise<void> {
   const routedView = locationController.activeView();
   if (routedView && !graphView.preservesView(routedView)) locationController.deactivateView();
   filterControls.initialize();
+  syncExperimentalToolbarButtons();
   const semanticMapController = new SemanticMapController({
     model,
     state,

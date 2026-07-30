@@ -130,6 +130,10 @@ code {
   flex-wrap: wrap;
 }
 
+.toolbar [hidden] {
+  display: none !important;
+}
+
 .layout-toolbar-toggle {
   display: inline-flex;
   align-items: center;

@@ -162,6 +162,7 @@ export interface Preferences {
   allowNodeMovement: boolean;
   dimPrerequisites: boolean;
   highlightPrerequisites: boolean;
+  experimentalFeatures: boolean;
 }
 
 export interface UrlUiState {

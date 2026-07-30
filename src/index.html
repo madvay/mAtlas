@@ -183,7 +183,7 @@
         <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
           <span class="material-icons" aria-hidden="true">highlight_alt</span>
         </button>
-        <button id="connectionButton" class="button connection-button" aria-haspopup="dialog" aria-pressed="false" title="Find and explain paths between two concepts">
+        <button id="connectionButton" class="button connection-button" hidden aria-haspopup="dialog" aria-pressed="false" title="Find and explain paths between two concepts">
           <span class="material-icons" aria-hidden="true">route</span><span class="connection-button-label">Connect</span>
         </button>
         <div class="layout-toolbar-toggle" role="group" aria-label="Graph layout">
@@ -197,7 +197,7 @@
         <button id="fitButton" class="button icon-button" aria-label="Fit graph" title="Fit all concepts currently allowed by the filters into the viewport (F)">
           <span class="material-icons" aria-hidden="true">fit_screen</span>
         </button>
-        <button id="semanticMapButton" class="button icon-button" aria-haspopup="dialog" aria-label="Open structure map" title="Open a field- and domain-scale map of the visible atlas">
+        <button id="semanticMapButton" class="button icon-button" hidden aria-haspopup="dialog" aria-label="Open structure map" title="Open a field- and domain-scale map of the visible atlas">
           <span class="material-icons" aria-hidden="true">hub</span>
         </button>
         <button id="detailsToggle" class="button icon-button panel-button" aria-label="Toggle details" aria-pressed="false" title="Show or hide details">
@@ -284,6 +284,7 @@
             <label class="toggle-row"><input id="allowNodeMovementToggle" type="checkbox"> Allow node movement</label>
             <label class="toggle-row"><input id="dimPrerequisitesToggle" type="checkbox" checked> Dim prerequisites</label>
             <label class="toggle-row"><input id="highlightPrerequisitesToggle" type="checkbox"> Highlight prerequisite path</label>
+            <label class="toggle-row"><input id="experimentalFeaturesToggle" type="checkbox"> Experimental features</label>
             <p class="filter-note">Saved only in this browser and never included in shared URLs.</p>
           </div>
         </section>

@@ -12,7 +12,8 @@ export const DEFAULT_PREFERENCES: Readonly<Preferences> = Object.freeze({
   hideEdgesWhileMoving: true,
   allowNodeMovement: false,
   dimPrerequisites: true,
-  highlightPrerequisites: false
+  highlightPrerequisites: false,
+  experimentalFeatures: false
 });
 
 export function parsePreferences(raw: string | null): Preferences {
@@ -32,7 +33,8 @@ export function parsePreferences(raw: string | null): Preferences {
       hideEdgesWhileMoving: typeof candidate.hideEdgesWhileMoving === 'boolean' ? candidate.hideEdgesWhileMoving : true,
       allowNodeMovement: typeof candidate.allowNodeMovement === 'boolean' ? candidate.allowNodeMovement : false,
       dimPrerequisites: typeof candidate.dimPrerequisites === 'boolean' ? candidate.dimPrerequisites : true,
-      highlightPrerequisites: typeof candidate.highlightPrerequisites === 'boolean' ? candidate.highlightPrerequisites : false
+      highlightPrerequisites: typeof candidate.highlightPrerequisites === 'boolean' ? candidate.highlightPrerequisites : false,
+      experimentalFeatures: typeof candidate.experimentalFeatures === 'boolean' ? candidate.experimentalFeatures : false
     };
   } catch {
     return { ...DEFAULT_PREFERENCES };

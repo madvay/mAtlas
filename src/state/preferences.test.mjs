@@ -15,7 +15,8 @@ test('preferences have performance-conscious defaults and their own storage name
     hideEdgesWhileMoving: true,
     allowNodeMovement: false,
     dimPrerequisites: true,
-    highlightPrerequisites: false
+    highlightPrerequisites: false,
+    experimentalFeatures: false
   });
   assert.equal(parsePreferences('{bad').formulaeInGraph, false);
 });
