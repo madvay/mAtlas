@@ -13,6 +13,35 @@ const viewPath = (viewId) => `views/${encodeURIComponent(viewId)}/`;
 const nodeSequence = (view) => view.nodeSequence ?? [];
 const publicKind = (view) => nodeSequence(view).length ? 'Story' : 'View';
 
+function creditRecords(view) {
+  return view.metadata?.credits ?? [];
+}
+
+function viewCreditSummary(view) {
+  return creditRecords(view).map((credit) => {
+    const creators = credit.creators?.join(', ') ?? '';
+    const rights = credit.license ?? credit.copyright ?? credit.attribution ?? '';
+    return [creators, rights].filter(Boolean).join(' · ');
+  }).filter(Boolean).join('; ');
+}
+
+function viewJsonLdMetadata(view) {
+  const credits = creditRecords(view);
+  const creators = [...new Set(credits.flatMap((credit) => credit.creators ?? []))];
+  const license = credits.find((credit) => credit.licenseUrl)?.licenseUrl
+    ?? credits.find((credit) => credit.license)?.license;
+  const creditText = credits.map((credit) => credit.attribution).filter(Boolean).join(' · ');
+  const copyrightNotice = credits.map((credit) => credit.copyright).filter(Boolean).join(' · ');
+  return {
+    ...(creators.length ? { creator: creators.map((name) => ({ '@type': 'Person', name })) } : {}),
+    ...(license ? { license } : {}),
+    ...(creditText ? { creditText } : {}),
+    ...(copyrightNotice ? { copyrightNotice } : {}),
+    ...(view.metadata?.createdAt ? { dateCreated: view.metadata.createdAt } : {}),
+    ...(view.metadata?.updatedAt ? { dateModified: view.metadata.updatedAt } : {})
+  };
+}
+
 function replaceFirst(html, pattern, replacement) {
   return pattern.test(html) ? html.replace(pattern, replacement) : html;
 }
@@ -26,7 +55,8 @@ function renderStaticSequence(view, graphData) {
   if (!sequence.length) return '';
   const firstNodeId = sequence[0];
   const firstLabel = graphData.nodes.find((node) => node.id === firstNodeId)?.label ?? firstNodeId ?? '';
-  return `<div class="view-sequence-controls" role="group" aria-label="Guided sequence navigation">
+  const stepNarrative = view.stepNarratives?.[firstNodeId];
+  return `${stepNarrative ? `<p class="view-step-narrative math-rich">${renderInlineMath(stepNarrative)}</p>` : ''}<div class="view-sequence-controls" role="group" aria-label="Guided sequence navigation">
       <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step" disabled><span class="material-icons" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
       <div class="view-sequence-position"><span>Step 1 of ${sequence.length}</span><strong>${renderInlineMath(firstLabel)}</strong></div>
       <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${sequence.length < 2 ? ' disabled' : ''}><span class="view-sequence-button-label">Next</span><span class="material-icons" aria-hidden="true">chevron_right</span></button>
@@ -44,6 +74,7 @@ function renderStaticBanner(view, graphData) {
         </summary>
         <div class="view-context-body">
           <p>${escapeHtml(view.narrative)}</p>
+          ${viewCreditSummary(view) ? `<p class="view-card-credit compact">${escapeHtml(viewCreditSummary(view))}</p>` : ''}
           ${renderStaticSequence(view, graphData)}
           <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><a href="${appUrl(viewPath(view.id))}">Permalink</a></div>
         </div>
@@ -77,6 +108,7 @@ function renderViewPage(templateHtml, graphData, view) {
     url: canonicalUrl,
     isPartOf: { '@type': 'WebSite', name: graphData.meta.title, url: appUrl() },
     about: view.tags,
+    ...viewJsonLdMetadata(view),
     ...(sequence.length ? { mainEntity: {
       '@type': 'ItemList',
       itemListElement: sequence.map((nodeId, index) => ({
@@ -97,7 +129,8 @@ function renderViewCard(view) {
   const sequence = nodeSequence(view);
   const kind = publicKind(view);
   const meta = sequence.length ? `${sequence.length} guided steps` : 'Curated graph configuration';
-  return `<article>${image}<div><h2><a href="./${encodeURIComponent(view.id)}/">${title}</a></h2><p>${summary}</p>${renderTags(view.tags)}<p><strong>${kind} · ${meta}</strong></p><a class="open" href="./${encodeURIComponent(view.id)}/">Open ${kind.toLowerCase()}</a></div></article>`;
+  const credit = viewCreditSummary(view);
+  return `<article>${image}<div><h2><a href="./${encodeURIComponent(view.id)}/">${title}</a></h2><p>${summary}</p>${renderTags(view.tags)}<p><strong>${kind} · ${meta}</strong></p>${credit ? `<p class="credit">${escapeHtml(credit)}</p>` : ''}<a class="open" href="./${encodeURIComponent(view.id)}/">Open ${kind.toLowerCase()}</a></div></article>`;
 }
 
 function renderViewIndex(graphData, viewsData) {
@@ -106,8 +139,8 @@ function renderViewIndex(graphData, viewsData) {
   const other = viewsData.views.filter((view) => !view.featured);
   const section = (title, views) => `<section><h2>${escapeHtml(title)}</h2><div class="grid">${views.map(renderViewCard).join('')}</div></section>`;
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Curated stories and views through the Atlas of Fundamental Concepts."><link rel="canonical" href="${canonicalUrl}"><title>Stories &amp; Views — ${escapeHtml(graphData.meta.title)}</title><style>
-  :root{font-family:Inter,system-ui,sans-serif;color:#172033;background:#f6f7f9}body{margin:0}main{max-width:1180px;margin:auto;padding:2rem 1rem 4rem}header{margin-bottom:2rem}h1{margin:.25rem 0;font-size:2rem}header p{max-width:760px;color:#475569;line-height:1.55}.home{color:#1d4ed8;text-decoration:none;font-weight:650}section{margin-top:2.2rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}article{background:white;border:1px solid #d8dee8;border-radius:14px;box-shadow:0 8px 24px rgba(15,23,42,.06);overflow:hidden}article>div{padding:1rem}article img{width:100%;aspect-ratio:16/8;object-fit:cover}article h2{font-size:1.05rem;margin:0 0 .5rem}article h2 a{color:#172033;text-decoration:none}article p{color:#475569;font-size:.9rem;line-height:1.5;min-height:4.1em}.view-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin:.8rem 0}.view-tags span{font-size:.72rem;padding:.2rem .5rem;border-radius:999px;background:#eff6ff;color:#1e3a8a}.open{display:inline-block;margin-top:.25rem;color:white;background:#1e40af;border-radius:8px;padding:.55rem .8rem;text-decoration:none;font-weight:700;font-size:.85rem}
-  </style></head><body><main><header><a class="home" href="/">← Atlas home</a> · <a class="home" href="/directory/">Atlas directory</a><h1>Stories &amp; Views</h1><p>Views apply curated filters, relation types, and display settings. Stories add a numbered concept sequence with Previous and Next navigation. You can adjust either while keeping its URL as long as its required nodes remain visible.</p></header>${section('Featured stories and views', featured)}${other.length ? section('More stories and views', other) : ''}</main></body></html>`;
+  :root{font-family:Inter,system-ui,sans-serif;color:#172033;background:#f6f7f9}body{margin:0}main{max-width:1180px;margin:auto;padding:2rem 1rem 4rem}header{margin-bottom:2rem}h1{margin:.25rem 0;font-size:2rem}header p{max-width:760px;color:#475569;line-height:1.55}.home{color:#1d4ed8;text-decoration:none;font-weight:650}section{margin-top:2.2rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}article{background:white;border:1px solid #d8dee8;border-radius:14px;box-shadow:0 8px 24px rgba(15,23,42,.06);overflow:hidden}article>div{padding:1rem}article img{width:100%;aspect-ratio:16/8;object-fit:cover}article h2{font-size:1.05rem;margin:0 0 .5rem}article h2 a{color:#172033;text-decoration:none}article p{color:#475569;font-size:.9rem;line-height:1.5;min-height:4.1em}article p.credit{min-height:0;font-size:.75rem}.view-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin:.8rem 0}.view-tags span{font-size:.72rem;padding:.2rem .5rem;border-radius:999px;background:#eff6ff;color:#1e3a8a}.open{display:inline-block;margin-top:.25rem;color:white;background:#1e40af;border-radius:8px;padding:.55rem .8rem;text-decoration:none;font-weight:700;font-size:.85rem}
+  </style></head><body><main><header><a class="home" href="/">← Atlas home</a> · <a class="home" href="/directory/">Atlas directory</a><h1>Stories &amp; Views</h1><p>Views apply curated filters, relation types, and display settings. Stories add a numbered concept sequence, optional step narration, and Previous and Next navigation. In the application, use Details → Compose to create personal items, preserve inherited rights metadata when duplicating, share a self-contained link, or export YAML.</p></header>${section('Featured stories and views', featured)}${other.length ? section('More stories and views', other) : ''}</main></body></html>`;
 }
 
 export async function generateViewPages({ graphData, viewsData, templateHtml, distUrl }) {

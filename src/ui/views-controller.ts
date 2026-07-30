@@ -1,20 +1,27 @@
 import { byId, escapeHtml } from '../core/dom.js';
+import { viewStepNarrative } from '../state/custom-view.js';
 import { moveSequenceIndex, sequenceIndexForNode } from '../state/view-sequence.js';
-import { resolveViewSurface } from './view-surface.js';
+import { publicViewKind, viewNodeSequence } from '../state/view-state.js';
 import type { AtlasView, SelectionTarget } from '../types.js';
 import type { MathRenderer } from './math-renderer.js';
 import { renderHtml } from './render.js';
-import { publicViewKind, viewNodeSequence } from '../state/view-state.js';
+import { resolveViewSurface } from './view-surface.js';
 
 const WELCOME_STORAGE_KEY = 'human-knowledge-atlas:views-welcome-dismissed:v1';
 
 export interface ViewsControllerOptions {
-  views: readonly AtlasView[];
+  views: () => readonly AtlasView[];
   activeView: () => AtlasView | null;
   currentSelection: () => SelectionTarget | null;
   activateNode: (nodeId: string) => boolean;
   nodeLabel: (nodeId: string) => string;
   viewPageUrl: (viewId: string) => string;
+  navigate: (href: string) => void;
+  isPersonalView: (viewId: string) => boolean;
+  createView: () => void;
+  duplicateView: (view: AtlasView) => void;
+  editView: (view: AtlasView) => void;
+  deleteView: (viewId: string) => void;
   isMobileLayout: () => boolean;
   detailsOpen: () => boolean;
   math: MathRenderer;
@@ -108,6 +115,7 @@ export class ViewsController {
 
   private bindEvents(): void {
     byId('viewsButton').addEventListener('click', () => this.open());
+    byId('viewsContent').addEventListener('click', (event) => this.handleDialogClick(event));
     byId('viewBanner').addEventListener('click', (event) => this.handleViewSurfaceClick(event));
     byId('viewBanner').addEventListener('toggle', (event) => this.handleViewBannerToggle(event as Event));
     byId('mobileViewContext').addEventListener('click', (event) => this.handleViewSurfaceClick(event));
@@ -122,6 +130,43 @@ export class ViewsController {
     });
   }
 
+  private handleDialogClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (target.closest('[data-create-view]')) {
+      this.closeDialog();
+      this.options.createView();
+      return;
+    }
+    const open = target.closest<HTMLAnchorElement>('[data-open-view]');
+    if (open?.href) {
+      event.preventDefault();
+      this.closeDialog();
+      this.options.navigate(open.href);
+      return;
+    }
+    const duplicate = target.closest<HTMLElement>('[data-duplicate-view]');
+    const edit = target.closest<HTMLElement>('[data-edit-view]');
+    const remove = target.closest<HTMLElement>('[data-delete-view]');
+    const viewId = duplicate?.dataset.duplicateView ?? edit?.dataset.editView ?? remove?.dataset.deleteView;
+    const view = viewId ? this.options.views().find((candidate) => candidate.id === viewId) : null;
+    if (!view) return;
+    if (duplicate) {
+      this.closeDialog();
+      this.options.duplicateView(view);
+    } else if (edit) {
+      this.closeDialog();
+      this.options.editView(view);
+    } else if (remove && window.confirm(`Delete the local ${publicViewKind(view).toLowerCase()} “${view.title}”?`)) {
+      this.options.deleteView(view.id);
+      this.buildDialog();
+    }
+  }
+
+  private closeDialog(): void {
+    const dialog = byId<HTMLDialogElement>('viewsDialog');
+    if (dialog.open) dialog.close();
+  }
+
   private handleViewSurfaceClick(event: Event): void {
     const target = event.target as HTMLElement;
     if (target.closest('[data-view-prev]')) {
@@ -130,14 +175,15 @@ export class ViewsController {
       this.navigateSequence(1);
     } else if (target.closest('[data-open-views]')) {
       this.open();
+    } else if (target.closest('[data-duplicate-active-view]')) {
+      const view = this.options.activeView();
+      if (view) this.options.duplicateView(view);
     }
   }
 
   private handleViewBannerToggle(event: Event): void {
     const details = (event.target as HTMLElement).closest('details.view-context-details') as HTMLDetailsElement | null;
-    if (details) {
-      this.bannerDetailsOpen = details.open;
-    }
+    if (details) this.bannerDetailsOpen = details.open;
   }
 
   private navigateSequence(direction: -1 | 1): void {
@@ -154,10 +200,18 @@ export class ViewsController {
 
   private buildDialog(): void {
     const active = this.options.activeView();
-    const featured = this.options.views.filter((view) => view.featured);
-    const other = this.options.views.filter((view) => !view.featured);
+    const views = this.options.views();
+    const personal = views.filter((view) => this.options.isPersonalView(view.id));
+    const authored = views.filter((view) => !this.options.isPersonalView(view.id));
+    const featured = authored.filter((view) => view.featured);
+    const other = authored.filter((view) => !view.featured);
     renderHtml(byId('viewsContent'), `
-      <p class="views-intro"><strong>Views</strong> apply a curated graph configuration. <strong>Stories</strong> add a numbered sequence that you can follow with Previous and Next while still exploring freely.</p>
+      <div class="views-dialog-toolbar">
+        <p>Construct a view from the current graph, or duplicate an existing item while retaining its credit and rights metadata.</p>
+        <button type="button" class="button primary" data-create-view><span class="material-icons" aria-hidden="true">add</span> Create</button>
+      </div>
+      <p class="views-intro"><strong>Views</strong> apply a curated graph configuration. <strong>Stories</strong> add a numbered sequence, optional step narration, and Previous/Next navigation.</p>
+      ${personal.length ? this.renderViewSection('My views and stories', personal, active) : ''}
       ${this.renderViewSection('Featured stories and views', featured, active)}
       ${other.length ? this.renderViewSection('More stories and views', other, active) : ''}`);
   }
@@ -169,17 +223,25 @@ export class ViewsController {
   private renderCard(view: AtlasView, active: boolean): string {
     const sequence = viewNodeSequence(view);
     const kind = publicViewKind(view);
+    const personal = this.options.isPersonalView(view.id);
     const image = view.image
       ? `<img class="view-card-image" src="${escapeHtml(view.image.src)}" alt="${escapeHtml(view.image.alt)}" loading="lazy">`
       : '';
+    const credit = this.renderCreditSummary(view);
     return `<article class="view-card${active ? ' active' : ''}">
       ${image}
       <div class="view-card-body">
         <div class="view-card-heading"><h4 class="math-rich">${this.options.math.renderText(view.title)}</h4>${active ? '<span class="current-view-badge">Current</span>' : ''}</div>
         <p class="math-rich">${this.options.math.renderText(view.summary)}</p>
         <div class="view-tags">${view.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join('')}</div>
-        <div class="view-card-meta">${kind}${sequence.length ? ` · ${sequence.length} steps` : ' · curated configuration'}</div>
-        <a class="button view-open-button${active ? ' secondary' : ' primary'}" href="${escapeHtml(this.options.viewPageUrl(view.id))}">${active ? (sequence.length ? 'Restart story' : 'Reset view') : `Open ${kind.toLowerCase()}`}</a>
+        <div class="view-card-meta">${kind}${sequence.length ? ` · ${sequence.length} steps` : ' · curated configuration'}${personal ? ' · local' : ''}</div>
+        ${credit}
+        <div class="view-card-actions">
+          <a class="button view-open-button${active ? ' secondary' : ' primary'}" data-open-view href="${escapeHtml(this.options.viewPageUrl(view.id))}">${active ? (sequence.length ? 'Restart story' : 'Reset view') : `Open ${kind.toLowerCase()}`}</a>
+          ${personal ? `<button type="button" class="text-button" data-edit-view="${escapeHtml(view.id)}">Edit</button>` : ''}
+          <button type="button" class="text-button" data-duplicate-view="${escapeHtml(view.id)}">Duplicate and edit</button>
+          ${personal ? `<button type="button" class="text-button danger" data-delete-view="${escapeHtml(view.id)}">Delete</button>` : ''}
+        </div>
       </div>
     </article>`;
   }
@@ -196,8 +258,10 @@ export class ViewsController {
         </summary>
         <div class="view-context-body">
           <p class="math-rich">${this.options.math.renderText(view.narrative)}</p>
+          ${this.renderCreditSummary(view, true)}
+          ${this.renderStepNarrative(view)}
           ${this.renderSequenceControls(view)}
-          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><a href="${permalink}">Permalink</a></div>
+          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><button type="button" class="text-button" data-duplicate-active-view>Duplicate and edit</button><a href="${permalink}">Permalink</a></div>
         </div>
       </details>
     </div>
@@ -219,11 +283,30 @@ export class ViewsController {
         </summary>
         <div class="view-context-body">
           <p class="math-rich">${this.options.math.renderText(view.narrative)}</p>
-          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><a href="${escapeHtml(this.options.viewPageUrl(view.id))}">Permalink</a></div>
+          ${this.renderCreditSummary(view, true)}
+          ${this.renderStepNarrative(view)}
+          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><button type="button" class="text-button" data-duplicate-active-view>Duplicate and edit</button><a href="${escapeHtml(this.options.viewPageUrl(view.id))}">Permalink</a></div>
         </div>
       </details>
       ${this.renderSequenceControls(view, true)}
     </div>`;
+  }
+
+  private renderCreditSummary(view: AtlasView, compact = false): string {
+    if (!view.metadata.credits.length) return compact ? '' : '<div class="view-card-credit">No credit record</div>';
+    const records = view.metadata.credits.map((credit) => {
+      const rights = credit.license ?? credit.copyright ?? credit.attribution;
+      return `${escapeHtml(credit.creators.join(', '))}${rights ? ` · ${escapeHtml(rights)}` : ''}`;
+    });
+    return `<div class="view-card-credit${compact ? ' compact' : ''}">${records.join('<span aria-hidden="true">; </span>')}</div>`;
+  }
+
+  private renderStepNarrative(view: AtlasView): string {
+    const sequence = viewNodeSequence(view);
+    const nodeId = sequence[this.sequenceIndex];
+    if (!nodeId) return '';
+    const narrative = viewStepNarrative(view, nodeId);
+    return narrative ? `<p class="view-step-narrative math-rich">${this.options.math.renderText(narrative)}</p>` : '';
   }
 
   private renderSequenceControls(view: AtlasView, compact = false): string {
@@ -253,5 +336,4 @@ export class ViewsController {
     byId<HTMLElement>('viewsWelcome').hidden = true;
     try { window.localStorage.setItem(WELCOME_STORAGE_KEY, '1'); } catch { /* ignore */ }
   }
-
 }

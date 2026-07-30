@@ -321,19 +321,26 @@
         </div>
       </main>
 
-      <article id="detailsPanel" class="sidebar details-panel" aria-label="Details" aria-hidden="true">
+      <article id="detailsPanel" class="sidebar details-panel" aria-label="Details and view composer" aria-hidden="true">
         <section id="mobileViewContext" class="mobile-view-context" aria-label="Current story or view" hidden></section>
-        <div class="details-header">
-          <div>
-            <h2 id="detailTitle">Select a concept</h2>
-            <div id="detailEditLink" class="detail-edit-link"></div>
+        <div class="details-tabs" role="tablist" aria-label="Details panel mode">
+          <button id="detailsTabButton" type="button" role="tab" aria-selected="true" aria-controls="detailsSurface" class="active">Details</button>
+          <button id="composeTabButton" type="button" role="tab" aria-selected="false" aria-controls="viewComposer">Compose</button>
+        </div>
+        <div id="detailsSurface" class="details-surface" role="tabpanel" aria-labelledby="detailsTabButton">
+          <div class="details-header">
+            <div>
+              <h2 id="detailTitle">Select a concept</h2>
+              <div id="detailEditLink" class="detail-edit-link"></div>
+            </div>
+            <button id="detailsClose" class="icon-button" aria-label="Close details" title="Hide details">×</button>
           </div>
-          <button id="detailsClose" class="icon-button" aria-label="Close details" title="Hide details">×</button>
+          <div id="detailBody" class="detail-body">
+            <p>Click any concept, construction junction, or annotated edge.</p>
+            <p class="muted">Construction junctions are diamonds. They show where multiple structures must coexist on the same carrier and satisfy compatibility conditions.</p>
+          </div>
         </div>
-        <div id="detailBody" class="detail-body">
-          <p>Click any concept, construction junction, or annotated edge.</p>
-          <p class="muted">Construction junctions are diamonds. They show where multiple structures must coexist on the same carrier and satisfy compatibility conditions.</p>
-        </div>
+        <section id="viewComposer" class="view-composer" role="tabpanel" aria-labelledby="composeTabButton" hidden></section>
       </article>
     </div>
   </div>

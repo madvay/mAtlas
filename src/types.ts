@@ -186,6 +186,27 @@ export interface AtlasViewImage {
   alt: string;
 }
 
+export interface AtlasViewCredit {
+  creators: string[];
+  attribution?: string;
+  copyright?: string;
+  license?: string;
+  licenseUrl?: string;
+}
+
+export interface AtlasViewDerivation {
+  id: string;
+  title: string;
+}
+
+export interface AtlasViewMetadata {
+  credits: AtlasViewCredit[];
+  inheritedCreditCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  derivedFrom?: AtlasViewDerivation[];
+}
+
 export interface AtlasViewSettings {
   fields?: string[];
   domains?: string[];
@@ -209,9 +230,11 @@ export interface AtlasView {
   summary: string;
   narrative: string;
   tags: string[];
+  metadata: AtlasViewMetadata;
   featured?: boolean;
   coreNodes?: string[];
   nodeSequence?: string[];
+  stepNarratives?: Record<string, string>;
   image?: AtlasViewImage;
   settings: AtlasViewSettings;
 }

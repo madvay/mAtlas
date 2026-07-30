@@ -140,8 +140,41 @@ export function validate(context) {
     requireObject(errors, view, path);
     for (const key of ['id', 'title', 'summary', 'narrative']) requireString(errors, view?.[key], `${path}.${key}`);
     requireStringArray(errors, view?.tags, `${path}.tags`, { nonEmpty: true, unique: true });
+    requireObject(errors, view?.metadata, `${path}.metadata`);
+    if (!Array.isArray(view?.metadata?.credits)) errors.push(`${path}.metadata.credits must be an array.`);
+    for (const [creditIndex, credit] of arrayOrEmpty(view?.metadata?.credits).entries()) {
+      const creditPath = `${path}.metadata.credits[${creditIndex}]`;
+      requireObject(errors, credit, creditPath);
+      requireStringArray(errors, credit?.creators, `${creditPath}.creators`, { nonEmpty: true, unique: true });
+      for (const key of ['attribution', 'copyright', 'license', 'licenseUrl']) {
+        if (credit?.[key] !== undefined) requireString(errors, credit[key], `${creditPath}.${key}`);
+      }
+    }
+    if (view?.metadata?.inheritedCreditCount !== undefined) {
+      const count = view.metadata.inheritedCreditCount;
+      if (!Number.isInteger(count) || count < 0 || count > arrayOrEmpty(view.metadata.credits).length) {
+        errors.push(`${path}.metadata.inheritedCreditCount must be an integer between zero and metadata.credits.length.`);
+      }
+    }
+    for (const key of ['createdAt', 'updatedAt']) if (view?.metadata?.[key] !== undefined) requireString(errors, view.metadata[key], `${path}.metadata.${key}`);
+    if (view?.metadata?.derivedFrom !== undefined) {
+      if (!Array.isArray(view.metadata.derivedFrom)) errors.push(`${path}.metadata.derivedFrom must be an array.`);
+      for (const [derivedIndex, derived] of arrayOrEmpty(view.metadata.derivedFrom).entries()) {
+        const derivedPath = `${path}.metadata.derivedFrom[${derivedIndex}]`;
+        requireObject(errors, derived, derivedPath);
+        requireString(errors, derived?.id, `${derivedPath}.id`);
+        requireString(errors, derived?.title, `${derivedPath}.title`);
+      }
+    }
     if (view?.coreNodes !== undefined) requireStringArray(errors, view.coreNodes, `${path}.coreNodes`, { nonEmpty: true, unique: true });
     if (view?.nodeSequence !== undefined) requireStringArray(errors, view.nodeSequence, `${path}.nodeSequence`, { unique: true });
+    if (view?.stepNarratives !== undefined) {
+      requireObject(errors, view.stepNarratives, `${path}.stepNarratives`);
+      for (const [nodeId, narrative] of Object.entries(view.stepNarratives ?? {})) {
+        requireString(errors, narrative, `${path}.stepNarratives.${nodeId}`);
+        if (!arrayOrEmpty(view?.nodeSequence).includes(nodeId)) errors.push(`${path}.stepNarratives key ${nodeId} must appear in nodeSequence.`);
+      }
+    }
     if (view?.featured !== undefined) requireBoolean(errors, view.featured, `${path}.featured`);
     if (view?.image !== undefined) {
       requireObject(errors, view.image, `${path}.image`);

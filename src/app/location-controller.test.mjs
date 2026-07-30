@@ -29,6 +29,7 @@ const view = {
   summary: 'Follow evidence through physics.',
   narrative: 'A guided history of experiments and theories.',
   tags: ['Physics'],
+  metadata: { credits: [{ creators: ['Test Author'] }] },
   nodeSequence: ['blackbody', 'quantum'],
   settings: {
     fields: ['physics'],
@@ -133,6 +134,32 @@ function controllerFor(state) {
   });
 }
 
+
+
+test('custom views resolve and generate self-contained query routes', () => {
+  const token = 'custom-token-v1';
+  const browser = installBrowser(`https://atlas.madvay.com/?view=${token}`);
+  try {
+    const state = matchingState();
+    const model = modelFixture();
+    const customView = { ...view, id: 'personal-example' };
+    const controller = new LocationController({
+      model,
+      getState: () => state,
+      views: new Map([[customView.id, customView]]),
+      customViewTokens: new Map([[customView.id, token]]),
+      fieldOrder: ['physics'],
+      domainOrder: ['experiments'],
+      edgeTypeOrder: ['motivated', 'verified'],
+      shareCodec
+    });
+    assert.equal(controller.resolveViewFromLocation()?.id, customView.id);
+    assert.equal(controller.viewPageUrl(customView.id), `https://atlas.madvay.com/?view=${token}`);
+    assert.equal(controller.viewNodeUrl(customView.id, 'quantum'), `https://atlas.madvay.com/?view=${token}&node=quantum`);
+  } finally {
+    browser.restore();
+  }
+});
 
 test('view defaults preserve prohibited-domain settings', () => {
   const browser = installBrowser('https://atlas.madvay.com/views/experimental-discovery/');

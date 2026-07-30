@@ -2573,3 +2573,493 @@ body:not(.atlas-loading) .graph-loader {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* In-app view/story composer */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.details-surface,
+.view-composer {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.details-surface[hidden],
+.view-composer[hidden] {
+  display: none;
+}
+
+.details-tabs {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin: -4px 0 12px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel-2);
+}
+
+.details-tabs button {
+  min-height: 30px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.details-tabs button.active {
+  background: white;
+  color: #1e3a8a;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, .12);
+}
+
+.view-composer {
+  overflow: hidden;
+}
+
+.composer-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--line);
+}
+
+.composer-header h2 {
+  overflow: hidden;
+  margin: 2px 0 0;
+  font-size: 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composer-header-actions,
+.composer-output-actions,
+.composer-node-tools,
+.composer-section-heading,
+.composer-credit-heading,
+.composer-step-heading,
+.composer-step-actions {
+  display: flex;
+  align-items: center;
+}
+
+.composer-header-actions {
+  gap: 5px;
+}
+
+.composer-header-actions .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  padding: 4px 7px;
+  font-size: 10px;
+}
+
+.composer-header-actions .material-icons {
+  font-size: 16px;
+}
+
+.composer-scroll {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 12px 1px 40px 0;
+}
+
+.composer-section {
+  padding: 0 0 16px;
+}
+
+.composer-section + .composer-section {
+  margin-top: 2px;
+  padding-top: 15px;
+  border-top: 1px solid var(--line);
+}
+
+.composer-section h3,
+.composer-credit-group h4 {
+  margin: 0 0 8px;
+  color: #475569;
+  font-size: 10px;
+  letter-spacing: .065em;
+  text-transform: uppercase;
+}
+
+.composer-section-heading {
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.composer-count {
+  display: inline-flex;
+  min-width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #e2e8f0;
+  font-size: 9px;
+}
+
+.composer-field {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 9px;
+  color: #475569;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.composer-field input,
+.composer-field textarea,
+.composer-step-list textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: white;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.composer-field input {
+  min-height: 34px;
+  padding: 6px 8px;
+}
+
+.composer-field textarea,
+.composer-step-list textarea {
+  min-height: 54px;
+  padding: 7px 8px;
+  resize: vertical;
+}
+
+.composer-field textarea:focus-visible,
+.composer-step-list textarea:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .24);
+  outline-offset: 1px;
+}
+
+.composer-scope-options {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+  font-size: 11px;
+}
+
+.composer-scope-options label,
+.composer-record-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.composer-record-toggle {
+  color: #334155;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.composer-note,
+.composer-empty-list {
+  margin: 8px 0;
+  color: #64748b;
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.composer-node-tools {
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.composer-node-tools .button {
+  min-height: 30px;
+  padding: 5px 7px;
+  font-size: 10px;
+}
+
+.composer-node-list,
+.composer-step-list {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.composer-node-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 7px 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: white;
+  font-size: 11px;
+}
+
+.composer-node-list li > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composer-node-list .icon-button,
+.composer-step-actions .icon-button {
+  width: 25px;
+  height: 25px;
+  min-height: 25px;
+  border-color: transparent;
+  font-size: 16px;
+}
+
+.composer-step-list > li {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.composer-step-list > li[draggable="true"] {
+  cursor: grab;
+}
+
+.composer-step-heading {
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.composer-step-heading strong {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.composer-step-heading strong span {
+  color: #64748b;
+}
+
+.composer-drag-handle {
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+.composer-step-actions {
+  flex: 0 0 auto;
+  gap: 1px;
+}
+
+.composer-step-actions .material-icons {
+  font-size: 14px;
+}
+
+.composer-step-list label {
+  display: grid;
+  gap: 4px;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.composer-credit-group + .composer-credit-group,
+.composer-credit-form {
+  margin-top: 10px;
+}
+
+.composer-credit {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+
+.composer-credit + .composer-credit {
+  margin-top: 6px;
+}
+
+.composer-credit.inherited {
+  border-color: #bfdbfe;
+  background: #f8fbff;
+}
+
+.composer-credit-heading {
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.composer-credit-heading > span {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  font-size: 8px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.composer-credit dl {
+  display: grid;
+  gap: 4px;
+  margin: 7px 0 0;
+}
+
+.composer-credit dl > div {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 7px;
+}
+
+.composer-credit dt {
+  color: #64748b;
+  font-size: 8px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.composer-credit dd {
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-size: 9.5px;
+  line-height: 1.35;
+}
+
+.composer-credit-form {
+  padding: 9px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.composer-output-section {
+  padding-bottom: 0;
+}
+
+.composer-output-actions {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.composer-output-actions .button {
+  min-height: 31px;
+  padding: 5px 8px;
+  font-size: 10px;
+}
+
+.composer-status {
+  min-height: 18px;
+  margin: 0 0 7px;
+  color: #166534;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.composer-status.error {
+  color: #b91c1c;
+}
+
+.composer-empty {
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.composer-empty .material-icons {
+  color: #64748b;
+  font-size: 36px;
+}
+
+.composer-empty h2,
+.composer-empty p {
+  margin: 0;
+}
+
+.composer-empty h2 {
+  font-size: 16px;
+}
+
+.composer-empty p {
+  max-width: 260px;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.views-dialog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  background: #f8fbff;
+}
+
+.views-dialog-toolbar p {
+  margin: 0;
+  color: #475569;
+  font-size: 11px;
+}
+
+.view-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.view-card-credit {
+  margin: -3px 0 8px;
+  color: #64748b;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.view-card .text-button.danger {
+  color: #b91c1c;
+}
+
+.view-step-narrative {
+  margin-top: 8px !important;
+  padding: 8px;
+  border-left: 3px solid #93c5fd;
+  background: #f8fbff;
+  color: #334155 !important;
+}
+
+.view-card-credit.compact {
+  margin: .35rem 0 .65rem;
+  font-size: .75rem;
+  line-height: 1.35;
+}

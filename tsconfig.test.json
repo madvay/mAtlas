@@ -20,6 +20,7 @@
     "src/state/binary-token.ts",
     "src/state/filter-token.ts",
     "src/state/display-token.ts",
+    "src/state/custom-view.ts",
     "src/state/ui-state.ts",
     "src/state/view-state.ts",
     "src/state/view-sequence.ts",

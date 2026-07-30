@@ -4,6 +4,7 @@ import { GraphModel } from '../model/graph-model.js';
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
 import { viewCoreNodes, viewNodeSequence } from '../state/view-state.js';
+import { decodeCustomViewToken, encodeCustomViewToken, loadLocalViews, saveLocalViews, type CustomViewKnownIds } from '../state/custom-view.js';
 import { LabelSizer } from '../graph/label-sizer.js';
 import { applyRendererPreferences, createGraph } from '../graph/create-graph.js';
 import { LayoutManager } from '../graph/layout-manager.js';
@@ -20,6 +21,7 @@ import { PanelController } from '../ui/panel-controller.js';
 import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
+import { ViewComposerController } from '../ui/view-composer-controller.js';
 import { LocationController } from './location-controller.js';
 import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
@@ -37,12 +39,71 @@ export async function startAtlasApp(): Promise<void> {
     fetchAtlasJson<AtlasViewsData>(viewsDataUrl, 'views data'),
     fetchAtlasJson<ShareCodecConfig>(shareCodecUrl, 'share codec')
   ]);
-  const viewsById = new Map(viewsData.views.map((view) => [view.id, view]));
   const graphEl = document.getElementById('graph');
   if (!(graphEl instanceof HTMLElement)) throw new Error('Missing #graph element.');
 
   const model = new GraphModel(graphData);
   const { fieldOrder, domainOrder, edgeTypeOrder, defaultEdgeTypeIds } = model;
+  const customViewKnownIds: CustomViewKnownIds = {
+    nodeIds: model.knownNodeIds,
+    fieldIds: model.knownFieldIds,
+    domainIds: model.knownDomainIds,
+    edgeTypeIds: model.knownEdgeTypeIds
+  };
+  const authoredViewIds = new Set(viewsData.views.map((view) => view.id));
+  const viewsById = new Map(viewsData.views.map((view) => [view.id, view]));
+  const personalViewIds = new Set<string>();
+  const customViewTokens = new Map<string, string>();
+
+  function registerCustomView(view: AtlasView, personal: boolean, token = encodeCustomViewToken(view)): boolean {
+    if (authoredViewIds.has(view.id)) return false;
+    viewsById.set(view.id, view);
+    customViewTokens.set(view.id, token);
+    if (personal) personalViewIds.add(view.id);
+    return true;
+  }
+
+  try {
+    for (const view of loadLocalViews(window.localStorage, customViewKnownIds)) registerCustomView(view, true);
+  } catch {
+    // Local view storage is optional.
+  }
+
+  function registerSharedViewFromLocation(): void {
+    const url = new URL(window.location.href);
+    const token = url.searchParams.get('view');
+    if (!token) return;
+    try {
+      const view = decodeCustomViewToken(token, customViewKnownIds);
+      if (personalViewIds.has(view.id) && customViewTokens.get(view.id) !== token) {
+        throw new Error('Shared view id conflicts with a saved personal view.');
+      }
+      if (!registerCustomView(view, false, token) && !customViewTokens.has(view.id)) {
+        throw new Error('Shared view id conflicts with authored content.');
+      }
+    } catch {
+      url.searchParams.delete('view');
+      try { window.history.replaceState(window.history.state, '', url.href); } catch { /* ignore */ }
+    }
+  }
+
+  registerSharedViewFromLocation();
+
+  function personalViews(): AtlasView[] {
+    return [...personalViewIds].map((id) => viewsById.get(id)).filter((view): view is AtlasView => Boolean(view));
+  }
+
+  function persistPersonalViews(): void {
+    try { saveLocalViews(window.localStorage, personalViews()); } catch { /* storage is optional */ }
+  }
+
+  function allViews(): AtlasView[] {
+    const shared = [...customViewTokens.keys()]
+      .filter((id) => !personalViewIds.has(id))
+      .map((id) => viewsById.get(id))
+      .filter((view): view is AtlasView => Boolean(view));
+    return [...viewsData.views, ...personalViews(), ...shared];
+  }
   const staticAtlasSvgMode = new URL(window.location.href).searchParams.get('__staticAtlasSvg') === '1'
     || document.querySelector('meta[name="atlas:static-svg-build"][content="1"]') !== null;
   const nodeRecord = model.nodeRecord;
@@ -59,6 +120,7 @@ export async function startAtlasApp(): Promise<void> {
     model,
     getState: () => state,
     views: viewsById,
+    customViewTokens,
     fieldOrder,
     domainOrder,
     edgeTypeOrder,
@@ -128,6 +190,7 @@ export async function startAtlasApp(): Promise<void> {
   if (initialView) locationController.setActiveView(initialView.id);
 
   let viewsController: ViewsController | null = null;
+  let viewComposerController: ViewComposerController | null = null;
   let graphViewPreservesView = (_view: AtlasView): boolean => true;
   let syncFilterViewScope = (): void => {};
   let currentSelectionTarget = (): SelectionTarget | null => locationController.parseSelection();
@@ -341,7 +404,7 @@ export async function startAtlasApp(): Promise<void> {
     itemUrl: (itemId, itemKind) => locationController.itemUrl(itemId, itemKind),
     permalinkUrl: (itemId, itemKind) => locationController.itemUrl(itemId, itemKind),
     githubEditUrl: (itemId) => locationController.githubEditUrl(itemId),
-    views: viewsData.views,
+    views: allViews,
     viewNodeUrl: (viewId, nodeId) => locationController.viewNodeUrl(viewId, nodeId),
     activateNode: (id) => { activateNode(id, { center: true, zoomIn: true, historyMode: 'push' }); },
     activateEdge: (id) => { activateEdge(id, { center: true, zoomIn: true, historyMode: 'push' }); },
@@ -438,6 +501,7 @@ export async function startAtlasApp(): Promise<void> {
     setNeighborhoodHighlight(true, id, false);
     showNodeDetails(id);
     viewsController?.syncSelection({ kind: 'node', id });
+    viewComposerController?.syncSelection({ kind: 'node', id });
     syncDocumentMetadata({ kind: 'node', id });
     if (historyMode) writeLocationState({ kind: 'node', id }, historyMode);
 
@@ -465,6 +529,7 @@ export async function startAtlasApp(): Promise<void> {
     setNeighborhoodHighlight(true, id, false);
     showEdgeDetails(id);
     viewsController?.syncSelection({ kind: 'edge', id });
+    viewComposerController?.syncSelection({ kind: 'edge', id });
     syncDocumentMetadata({ kind: 'edge', id });
     if (historyMode) writeLocationState({ kind: 'edge', id }, historyMode);
     if (center) {
@@ -483,6 +548,7 @@ export async function startAtlasApp(): Promise<void> {
     setNeighborhoodHighlight(false, null, false);
     showEmptyDetails();
     viewsController?.syncSelection(null);
+    viewComposerController?.syncSelection(null);
     if (historyMode) writeLocationState(null, historyMode);
   }
 
@@ -600,7 +666,10 @@ export async function startAtlasApp(): Promise<void> {
   }
 
   function applyLocationState({ initial = false } = {}): void {
-    if (!initial) applyUiStateFromLocation();
+    if (!initial) {
+      registerSharedViewFromLocation();
+      applyUiStateFromLocation();
+    }
     const target = parseSelectionLocation({ includeTemplateSelection: initial });
     writeLocationState(target, 'replace');
     applySelectionFromLocation({ initial });
@@ -723,7 +792,8 @@ export async function startAtlasApp(): Promise<void> {
         </section>
         <section class="help-card">
           <h3>Stories and views</h3>
-          <p>A <strong>View</strong> applies a curated graph configuration. A <strong>Story</strong> also numbers an ordered node sequence and provides Previous and Next navigation. Filter or display changes remain attached through <code>filter=</code> and <code>disp=</code> URL overrides while every required sequence/core node remains visible. The top of Filters provides an explicit exit. For a core-node Story or View, the field/domain tree is replaced by its selected-node scope and a <strong>Use primary domains</strong> action.</p>
+          <p>A <strong>View</strong> applies a curated graph configuration. A <strong>Story</strong> also numbers an ordered node sequence, supports optional narration at each step, and provides Previous and Next navigation. Open <strong>Details → Compose</strong> or choose <strong>Create</strong> in Stories &amp; Views to construct one directly on the graph. You can use the current fields/domains or collect an explicit core-node set, append selected nodes manually or in recording mode, reorder steps, and add credit and rights records.</p>
+          <p>Personal drafts are stored only in this browser. A self-contained <code>view=</code> link carries the authored object independently of <code>filter=</code> and <code>disp=</code> overrides, and YAML export produces repository-ready source after publication fields are complete. Duplicating an authored or personal item retains all inherited attribution, copyright, license, and derivation metadata unchanged; additional credits may be appended.</p>
         </section>
       </div>
 
@@ -760,13 +830,80 @@ export async function startAtlasApp(): Promise<void> {
   const routedView = locationController.activeView();
   if (routedView && !graphView.preservesView(routedView)) locationController.deactivateView();
   filterControls.initialize();
+
+  function navigateWithinApp(href: string): void {
+    const url = new URL(href, window.location.href);
+    if (url.origin !== window.location.origin) {
+      window.location.assign(url.toString());
+      return;
+    }
+    try {
+      window.history.pushState({ selection: null, uiStateVersion: 1, viewId: null }, '', url.href);
+    } catch {
+      window.location.assign(url.toString());
+      return;
+    }
+    applyLocationState({ initial: false });
+  }
+
+  function savePersonalView(view: AtlasView): void {
+    registerCustomView(view, true, encodeCustomViewToken(view));
+    persistPersonalViews();
+  }
+
+  function deletePersonalView(viewId: string): void {
+    if (!personalViewIds.has(viewId)) return;
+    const active = locationController.activeView()?.id === viewId;
+    personalViewIds.delete(viewId);
+    viewsById.delete(viewId);
+    customViewTokens.delete(viewId);
+    persistPersonalViews();
+    if (active) navigateWithinApp(locationController.runtimeGlobalRootUrl);
+  }
+
+  function createPersonalViewId(title: string): string {
+    const stem = title.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 36) || 'view';
+    let id = '';
+    do {
+      id = `personal-${stem}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    } while (viewsById.has(id));
+    return id;
+  }
+
+  viewComposerController = new ViewComposerController({
+    state,
+    currentSelection: () => currentSelectionTarget(),
+    nodeLabel: (nodeId) => nodeRecord.get(nodeId)?.label ?? nodeId,
+    visibleDirectNodeIds: () => cy.nodes().not('.filter-hidden').not('.dependency-faded')
+      .filter((element) => nodeRecord.get(element.id())?.kind === 'structure')
+      .map((element) => element.id()),
+    createId: createPersonalViewId,
+    now: () => new Date().toISOString(),
+    openDetailsPanel,
+    savePersonalView,
+    sharedViewUrl: (view) => {
+      const url = new URL(locationController.runtimeGlobalRootUrl);
+      url.searchParams.set('view', encodeCustomViewToken(view));
+      return url.toString();
+    },
+    navigate: navigateWithinApp,
+    onLibraryChanged: () => viewsController?.syncActiveView()
+  });
+  viewComposerController.initialize();
+
   viewsController = new ViewsController({
-    views: viewsData.views,
+    views: allViews,
     activeView: () => locationController.activeView(),
     currentSelection: () => currentSelectionTarget(),
     activateNode: (nodeId) => activateNode(nodeId, { center: true, zoomIn: true, historyMode: 'push' }),
     nodeLabel: (nodeId) => nodeRecord.get(nodeId)?.label ?? nodeId,
     viewPageUrl: (viewId) => locationController.viewPageUrl(viewId),
+    navigate: navigateWithinApp,
+    isPersonalView: (viewId) => personalViewIds.has(viewId),
+    createView: () => viewComposerController?.startNew(),
+    duplicateView: (view) => viewComposerController?.startDuplicate(view),
+    editView: (view) => viewComposerController?.startEdit(view),
+    deleteView: deletePersonalView,
     isMobileLayout: () => panelController.isMobileLayout(),
     detailsOpen: () => state.detailsOpen,
     math: mathRenderer,

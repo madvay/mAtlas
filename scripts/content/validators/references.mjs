@@ -71,6 +71,7 @@ export function validate(context) {
     const path = `views.views[${index}]`;
     for (const nodeId of arrayOrEmpty(view?.coreNodes)) if (!nodeIds.has(nodeId)) errors.push(`${path}.coreNodes references unknown node: ${nodeId}`);
     for (const nodeId of arrayOrEmpty(view?.nodeSequence)) if (!nodeIds.has(nodeId)) errors.push(`${path}.nodeSequence references unknown node: ${nodeId}`);
+    for (const nodeId of Object.keys(view?.stepNarratives ?? {})) if (!nodeIds.has(nodeId)) errors.push(`${path}.stepNarratives references unknown node: ${nodeId}`);
     const settings = view?.settings ?? {};
     for (const fieldId of arrayOrEmpty(settings.fields)) if (!fieldIds.has(fieldId)) errors.push(`${path}.settings.fields references unknown field: ${fieldId}`);
     for (const domainId of arrayOrEmpty(settings.domains)) {

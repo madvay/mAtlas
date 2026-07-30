@@ -15,6 +15,7 @@ export interface LocationControllerOptions {
   model: GraphModel;
   getState: () => AppState;
   views: ReadonlyMap<string, AtlasView>;
+  customViewTokens?: ReadonlyMap<string, string>;
   fieldOrder: readonly string[];
   domainOrder: readonly string[];
   edgeTypeOrder: readonly string[];
@@ -141,6 +142,12 @@ export class LocationController {
   }
 
   resolveViewFromLocation({ includeTemplate = false }: { includeTemplate?: boolean } = {}): AtlasView | null {
+    const sharedToken = new URL(window.location.href).searchParams.get('view');
+    if (sharedToken) {
+      for (const [viewId, token] of this.options.customViewTokens ?? []) {
+        if (token === sharedToken) return this.options.views.get(viewId) ?? null;
+      }
+    }
     const ids = new Set(this.options.views.keys());
     const pathId = viewIdFromPath(window.location.pathname, ids);
     if (pathId) return this.options.views.get(pathId) ?? null;
@@ -190,6 +197,12 @@ export class LocationController {
   }
 
   viewPageUrl(viewId: string): string {
+    const token = this.options.customViewTokens?.get(viewId);
+    if (token) {
+      const url = new URL(this.runtimeGlobalRootUrl);
+      url.searchParams.set('view', token);
+      return url.toString();
+    }
     return new URL(viewPagePath(viewId), this.runtimeGlobalRootUrl).toString();
   }
 
@@ -420,7 +433,10 @@ export class LocationController {
 
   private selectionCanonicalUrl(target: SelectionTarget | null): string {
     const activeView = this.activeView();
-    if (activeView) return new URL(viewPagePath(activeView.id), this.canonicalRootUrl).toString();
+    if (activeView) {
+      if (this.options.customViewTokens?.has(activeView.id)) return this.viewPageUrl(activeView.id);
+      return new URL(viewPagePath(activeView.id), this.canonicalRootUrl).toString();
+    }
     const { model } = this.options;
     if (!target) {
       return this.scopeUrl(this.namedScopeForState(), this.canonicalRootUrl).toString();
@@ -526,8 +542,15 @@ export class LocationController {
       existing?.remove();
       return;
     }
-    const canonicalUrl = new URL(viewPagePath(view.id), this.canonicalRootUrl).toString();
+    const canonicalUrl = this.options.customViewTokens?.has(view.id)
+      ? this.viewPageUrl(view.id)
+      : new URL(viewPagePath(view.id), this.canonicalRootUrl).toString();
     const sequence = viewNodeSequence(view);
+    const creators = [...new Set(view.metadata.credits.flatMap((credit) => credit.creators))];
+    const license = view.metadata.credits.find((credit) => credit.licenseUrl)?.licenseUrl
+      ?? view.metadata.credits.find((credit) => credit.license)?.license;
+    const creditText = view.metadata.credits.map((credit) => credit.attribution).filter((value): value is string => Boolean(value)).join(' · ');
+    const copyrightNotice = view.metadata.credits.map((credit) => credit.copyright).filter((value): value is string => Boolean(value)).join(' · ');
     const payload = {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -537,6 +560,12 @@ export class LocationController {
       url: canonicalUrl,
       isPartOf: { '@type': 'WebSite', name: this.options.model.data.meta.title, url: this.canonicalRootUrl },
       about: view.tags,
+      ...(creators.length ? { creator: creators.map((name) => ({ '@type': 'Person', name })) } : {}),
+      ...(license ? { license } : {}),
+      ...(creditText ? { creditText } : {}),
+      ...(copyrightNotice ? { copyrightNotice } : {}),
+      ...(view.metadata.createdAt ? { dateCreated: view.metadata.createdAt } : {}),
+      ...(view.metadata.updatedAt ? { dateModified: view.metadata.updatedAt } : {}),
       ...(sequence.length ? {
         mainEntity: {
           '@type': 'ItemList',

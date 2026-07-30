@@ -17,7 +17,7 @@ interface DetailsControllerOptions {
   itemUrl: (itemId: string, itemKind: 'node' | 'edge') => string;
   permalinkUrl: (itemId: string, itemKind: 'node' | 'edge') => string;
   githubEditUrl: (itemId: string) => string;
-  views: readonly AtlasView[];
+  views: () => readonly AtlasView[];
   viewNodeUrl: (viewId: string, nodeId: string) => string;
   activateNode: (nodeId: string) => void;
   activateEdge: (edgeId: string) => void;
@@ -136,7 +136,7 @@ export class DetailsController {
   }
 
   private renderViewsSection(nodeId: string): string {
-    const matches = viewsContainingNode(this.options.views, nodeId);
+    const matches = viewsContainingNode(this.options.views(), nodeId);
     if (!matches.length) return '';
     return `<section class="detail-section"><h3>Stories</h3><div class="detail-view-list">${matches.map(({ view, sequenceIndex }) => `
       <a class="detail-view-link" href="${escapeHtml(this.options.viewNodeUrl(view.id, nodeId))}">
