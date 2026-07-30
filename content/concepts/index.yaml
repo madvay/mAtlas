@@ -181,7 +181,7 @@ domains:
     order: 106
     field: physics
   - id: experiments-observations
-    label: Experiments, observations & problems
+    label: Experiments & observations
     color: "#be123c"
     order: 109
     field: physics

@@ -428,7 +428,7 @@ input:focus-visible {
 .domain-list {
   display: grid;
   gap: 3px;
-  padding-left: 24px;
+  padding-left: 0px;
 }
 
 .section-actions {
