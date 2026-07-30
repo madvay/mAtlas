@@ -205,8 +205,10 @@ export async function startAtlasApp(): Promise<void> {
   function syncExperimentalToolbarButtons(): void {
     const showExperimental = preferences.experimentalFeatures;
     const connectionButton = document.getElementById('connectionButton');
+    const compareButton = document.getElementById('compareButton');
     const semanticMapButton = document.getElementById('semanticMapButton');
     if (connectionButton) connectionButton.hidden = !showExperimental;
+    if (compareButton) compareButton.hidden = !showExperimental;
     if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
   }
 

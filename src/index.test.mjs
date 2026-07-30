@@ -61,8 +61,9 @@ test('experimental features is an opt-in browser preference', () => {
   assert.doesNotMatch(html, /id="experimentalFeaturesToggle"[^>]*checked/);
 });
 
-test('Connect and Semantic Map toolbar buttons are hidden by default', () => {
+test('Connect, Compare, and Semantic Map toolbar buttons are hidden by default', () => {
   assert.match(html, /id="connectionButton"[^>]*hidden/);
+  assert.match(html, /id="compareButton"[^>]*hidden/);
   assert.match(html, /id="semanticMapButton"[^>]*hidden/);
 });
 
