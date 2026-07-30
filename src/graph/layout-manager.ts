@@ -1,7 +1,6 @@
 import type cytoscape from 'cytoscape';
 import type { AppState, GraphNode, LayoutName, Point } from '../types.js';
 import type { GraphModel } from '../model/graph-model.js';
-import { OrganicLayoutEngine } from './organic-layout.js';
 import { compactHierarchyPositions } from './compact-hierarchy-layout-core.js';
 
 interface LayoutManagerOptions {
@@ -25,11 +24,7 @@ interface AtlasBlock {
 }
 
 export class LayoutManager {
-  private readonly organic: OrganicLayoutEngine;
-
-  constructor(private readonly options: LayoutManagerOptions) {
-    this.organic = new OrganicLayoutEngine(options.model);
-  }
+  constructor(private readonly options: LayoutManagerOptions) {}
 
   run(name: LayoutName = this.options.state.layout, fitAfter = true): void {
     const { cy, state } = this.options;
@@ -44,13 +39,6 @@ export class LayoutManager {
       const positions = this.atlasPositions();
       cy.nodes().positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
       if (fitAfter) cy.fit(visible, 58);
-      this.options.onLayoutSettled();
-      return;
-    }
-
-    if (name === 'cose-bilkent') {
-      this.organic.run(visible);
-      if (fitAfter) cy.fit(visible.nodes(), 58);
       this.options.onLayoutSettled();
       return;
     }

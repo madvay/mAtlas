@@ -1,10 +1,11 @@
 {
-  "formatVersion": 2,
+  "formatVersion": 3,
   "schemaVersion": "1.1.0",
   "contentVersion": "1.5.3",
   "files": {
     "graph": "concepts/index.yaml",
     "schema": "schema.json",
-    "views": "views/index.yaml"
+    "views": "views/index.yaml",
+    "shareCodec": "share-codec.yaml"
   }
 }

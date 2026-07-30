@@ -1,8 +1,8 @@
-import { addUiStateToParams } from '../state/ui-state.js';
+import { addShareUiStateToParams } from '../state/ui-state.js';
 import { stateMatchesView, viewIdFromPath, viewIdFromTemplate, viewPagePath } from '../state/view-state.js';
 import { stripInlineMathText, summarizePlainText } from '../core/text.js';
 import type { GraphModel } from '../model/graph-model.js';
-import type { AppState, AtlasView, HistoryMode, SelectionTarget, UrlUiState } from '../types.js';
+import type { AppState, AtlasView, HistoryMode, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 
 export interface LocationControllerOptions {
   model: GraphModel;
@@ -11,6 +11,7 @@ export interface LocationControllerOptions {
   fieldOrder: readonly string[];
   domainOrder: readonly string[];
   edgeTypeOrder: readonly string[];
+  shareCodec: ShareCodecConfig;
 }
 
 export interface TaxonomyScope {
@@ -209,18 +210,8 @@ export class LocationController {
     );
   }
 
-  addUiState(url: URL, { taxonomyEncoded = false }: { taxonomyEncoded?: boolean } = {}): void {
-    addUiStateToParams(
-      url.searchParams,
-      this.options.getState(),
-      this.options.fieldOrder,
-      this.options.domainOrder,
-      this.options.edgeTypeOrder
-    );
-    if (taxonomyEncoded) {
-      url.searchParams.delete('fields');
-      url.searchParams.delete('domains');
-    }
+  addUiState(url: URL): void {
+    addShareUiStateToParams(url.searchParams, this.options.getState(), this.options.shareCodec);
   }
 
   githubEditUrl(itemId: string): string {
@@ -263,7 +254,7 @@ export class LocationController {
 
     const scope = this.scopeForSelection(this.namedScopeForState());
     const url = this.scopeUrl(scope, this.runtimeGlobalRootUrl);
-    this.addUiState(url, { taxonomyEncoded: scope.named });
+    this.addUiState(url);
     url.searchParams.set(itemKind, itemId);
     url.searchParams.delete(itemKind === 'node' ? 'edge' : 'node');
     url.hash = '';
@@ -286,7 +277,7 @@ export class LocationController {
       } else {
         const scope = target ? this.scopeForSelection(namedScope) : namedScope;
         url = this.scopeUrl(scope, this.runtimeGlobalRootUrl);
-        this.addUiState(url, { taxonomyEncoded: scope.named });
+        this.addUiState(url);
         url.searchParams.delete('node');
         url.searchParams.delete('edge');
         url.searchParams.delete('selection');

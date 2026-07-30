@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { LocationController, taxonomyScopeFromPath } from '../../.test-build/app/location-controller.js';
 import { selectionFromParams, selectionFromPath, selectionFromTemplate } from '../../.test-build/app/location-controller.js';
+import { decodeDisplayToken } from '../../.test-build/state/display-token.js';
+import { decodeFilterToken } from '../../.test-build/state/filter-token.js';
 
 test('selection location codecs accept only known graph identifiers', () => {
   const nodes = new Set(['set', 'group with space']);
@@ -13,6 +15,13 @@ test('selection location codecs accept only known graph identifiers', () => {
   assert.deepEqual(selectionFromParams(new URLSearchParams('edge=e1'), nodes, edges), { kind: 'edge', id: 'e1' });
   assert.equal(selectionFromTemplate('node:missing', nodes, edges), null);
 });
+
+const shareCodec = {
+  formatVersion: 1,
+  fields: [{ id: 'physics' }],
+  domains: [{ id: 'experiments' }],
+  edgeTypes: [{ id: 'motivated' }, { id: 'verified' }]
+};
 
 const view = {
   id: 'experimental-discovery',
@@ -38,12 +47,15 @@ function matchingState() {
     selectedFields: new Set(['physics']),
     selectedDomains: new Set(['experiments']),
     selectedEdgeTypes: new Set(['motivated', 'verified']),
+    excludedFields: new Set(),
+    excludedDomains: new Set(),
     crossFieldVisibility: 'hidden',
     showPrimaryOnly: false,
     hideIsolates: false,
     showEdgeLabels: true,
     showJunctions: false,
     edgeZoomActivation: false,
+    hidePrerequisites: false,
     neighborhoodActive: true,
     neighborhoodElementId: 'blackbody',
     layout: 'atlas',
@@ -116,7 +128,8 @@ function controllerFor(state) {
     views: new Map([[view.id, view]]),
     fieldOrder: ['physics'],
     domainOrder: ['experiments'],
-    edgeTypeOrder: ['motivated', 'verified']
+    edgeTypeOrder: ['motivated', 'verified'],
+    shareCodec
   });
 }
 
@@ -192,9 +205,15 @@ test('changing a filter exits the view route but keeps the selected concept rout
     const written = new URL(browser.writtenUrl());
     assert.equal(written.pathname, '/concepts/quantum/');
     assert.equal(written.searchParams.has('node'), false);
-    assert.equal(written.searchParams.get('fields'), 'physics');
-    assert.equal(written.searchParams.get('domains'), 'experiments');
-    assert.equal(written.searchParams.get('edges'), 'motivated');
+    assert.equal(written.searchParams.has('fields'), false);
+    assert.equal(written.searchParams.has('domains'), false);
+    assert.equal(written.searchParams.has('edges'), false);
+    assert.ok(written.searchParams.get('disp'));
+    assert.equal(decodeDisplayToken(written.searchParams.get('disp')).layout, 'atlas');
+    const decoded = decodeFilterToken(written.searchParams.get('filter'), shareCodec);
+    assert.deepEqual(decoded.fields, ['physics']);
+    assert.deepEqual(decoded.domains, ['experiments']);
+    assert.deepEqual(decoded.edgeTypes, ['motivated']);
     assert.equal(controller.activeView(), null);
   } finally {
     browser.restore();
@@ -211,8 +230,12 @@ test('an exclusive domain pathname appears only with no selected item or view', 
     const edgeUrl = new URL(browser.writtenUrl());
     assert.equal(edgeUrl.pathname, '/');
     assert.equal(edgeUrl.searchParams.get('edge'), 'e1');
-    assert.equal(edgeUrl.searchParams.get('fields'), 'physics');
-    assert.equal(edgeUrl.searchParams.get('domains'), 'experiments');
+    assert.equal(edgeUrl.searchParams.has('fields'), false);
+    assert.equal(edgeUrl.searchParams.has('domains'), false);
+    assert.ok(edgeUrl.searchParams.get('disp'));
+    const edgeState = decodeFilterToken(edgeUrl.searchParams.get('filter'), shareCodec);
+    assert.deepEqual(edgeState.fields, ['physics']);
+    assert.deepEqual(edgeState.domains, ['experiments']);
 
     controller.write(null, 'replace');
     const domainUrl = new URL(browser.writtenUrl());
@@ -221,6 +244,9 @@ test('an exclusive domain pathname appears only with no selected item or view', 
     assert.equal(domainUrl.searchParams.has('edge'), false);
     assert.equal(domainUrl.searchParams.has('fields'), false);
     assert.equal(domainUrl.searchParams.has('domains'), false);
+    assert.ok(domainUrl.searchParams.get('filter'));
+    assert.ok(domainUrl.searchParams.get('disp'));
+    assert.deepEqual(decodeFilterToken(domainUrl.searchParams.get('filter'), shareCodec).domains, ['experiments']);
   } finally {
     browser.restore();
   }

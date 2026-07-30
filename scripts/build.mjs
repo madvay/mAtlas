@@ -55,6 +55,7 @@ const digest = (contents) => createHash('sha256').update(contents).digest('hex')
 const graphBytes = await readFile(new URL('atlas.json', compiledContent));
 const schemaBytes = await readFile(new URL('schema.json', compiledContent));
 const viewsBytes = await readFile(new URL('views.json', compiledContent));
+const shareCodecBytes = await readFile(new URL('share-codec.json', compiledContent));
 const provenanceBytes = await readFile(new URL('provenance.json', compiledContent));
 const removedDomainsBytes = await readFile(new URL('removed-domains.json', compiledContent));
 const graphData = JSON.parse(graphBytes.toString('utf8'));
@@ -64,11 +65,13 @@ const removedDomains = JSON.parse(removedDomainsBytes.toString('utf8'));
 const graphFile = `atlas.${digest(graphBytes)}.json`;
 const schemaFile = `schema.${digest(schemaBytes)}.json`;
 const viewsFile = `views.${digest(viewsBytes)}.json`;
+const shareCodecFile = `share-codec.${digest(shareCodecBytes)}.json`;
 const provenanceFile = `provenance.${digest(provenanceBytes)}.json`;
 await Promise.all([
   writeFile(new URL(`content/${graphFile}`, dist), graphBytes),
   writeFile(new URL(`content/${schemaFile}`, dist), schemaBytes),
   writeFile(new URL(`content/${viewsFile}`, dist), viewsBytes),
+  writeFile(new URL(`content/${shareCodecFile}`, dist), shareCodecBytes),
   writeFile(new URL(`content/${provenanceFile}`, dist), provenanceBytes)
 ]);
 
@@ -91,7 +94,8 @@ const bundle = await build({
   legalComments: 'external',
   define: {
     __GRAPH_DATA_URL__: JSON.stringify(`./content/${graphFile}`),
-    __VIEWS_DATA_URL__: JSON.stringify(`./content/${viewsFile}`)
+    __VIEWS_DATA_URL__: JSON.stringify(`./content/${viewsFile}`),
+    __SHARE_CODEC_URL__: JSON.stringify(`./content/${shareCodecFile}`)
   },
   logLevel: 'info'
 });
@@ -113,6 +117,7 @@ const builtTemplate = sourceTemplate
   .replaceAll('__ATLAS_DATA_URL__', `./content/${graphFile}`)
   .replaceAll('__ATLAS_SCHEMA_URL__', `./content/${schemaFile}`)
   .replaceAll('__ATLAS_VIEWS_URL__', `./content/${viewsFile}`)
+  .replaceAll('__ATLAS_SHARE_CODEC_URL__', `./content/${shareCodecFile}`)
   .replaceAll('__ATLAS_PROVENANCE_URL__', `./content/${provenanceFile}`);
 await writeFile(new URL('index.html', dist), minifyHtml(builtTemplate));
 
@@ -174,6 +179,7 @@ const manifest = {
     graph: `content/${graphFile}`,
     schema: `content/${schemaFile}`,
     views: `content/${viewsFile}`,
+    shareCodec: `content/${shareCodecFile}`,
     provenance: `content/${provenanceFile}`,
     contentLicense: 'CONTENT_LICENSE',
     atlasSvg: 'static/atlas.svg',

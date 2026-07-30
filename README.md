@@ -50,16 +50,16 @@ npm run typecheck
 npm test
 ```
 
-`npm run content:build` validates editable source under `content/` and atomically writes the normalized renderer/publisher contract to `.build/content/`. The compiled contract contains `atlas.json`, `schema.json`, `views.json`, and `provenance.json`. Application code, page generators, and tests consume only this compiled boundary.
+`npm run content:build` validates editable source under `content/` and atomically writes the normalized renderer/publisher contract to `.build/content/`. The compiled contract contains `atlas.json`, `schema.json`, `views.json`, `share-codec.json`, and `provenance.json`. Application code, page generators, and tests consume only this compiled boundary.
 
 `npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export and `/directory/` semantic atlas directory. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
 
-Validation is split into schema/shape, reference, semantic, editorial, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, and every guided view's identifiers and settings.
+Validation is split into schema/shape, share-codec, reference, semantic, editorial, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, and every guided view's identifiers and settings.
 
 ## Additional scripts
 
 - `npm run clean` removes generated build artifacts such as `.build/`, `dist/`, and `.pages/`.
-- `npm run validate:content:<layer>` runs one validation layer (`schema`, `references`, `semantic`, `editorial`, or `renderer`).
+- `npm run validate:content:<layer>` runs one validation layer (`schema`, `share-codec`, `references`, `semantic`, `editorial`, or `renderer`).
 - `npm run test:content` compiles the content contract and verifies normalized output, versions, hashes, and license provenance.
 - `npm run preview` serves the contents of `dist/` locally for review after building.
 - `npm run math:mark` helps migrate legacy unmarked math to explicit `$...$` delimiters; its changes require editorial review.
@@ -70,6 +70,7 @@ Validation is split into schema/shape, reference, semantic, editorial, and rende
 content/
   concepts/                 split editable graph dataset (YAML)
   views/                    split guided-view definitions (YAML)
+  share-codec.yaml          append-only filter-token wire registry
   schema.json                published graph schema
   manifest.json              content and schema contract versions
   LICENSE                    content-specific CC BY-SA notice
@@ -94,7 +95,7 @@ scripts/
 .build/content/              generated, normalized build contract; never edited directly
 ```
 
-`content/concepts/index.yaml` (plus split parts under `content/concepts/`) is the canonical graph dataset. `content/views/index.yaml` (plus per-view files under `content/views/`) is a separate editorial/navigation layer: it references graph identifiers but does not duplicate or alter graph content. `content/manifest.json` declares `schemaVersion` and `contentVersion`; `scripts/content/contract.mjs` declares the schema versions supported by the software. The renderer and publishers read only `.build/content/`, so a later extraction of `content/` into a separately versioned repository does not require an application rewrite.
+`content/concepts/index.yaml` (plus split parts under `content/concepts/`) is the canonical graph dataset. `content/views/index.yaml` (plus per-view files under `content/views/`) is a separate editorial/navigation layer: it references graph identifiers but does not duplicate or alter graph content. `content/share-codec.yaml` is the append-only registry that assigns permanent `filter=` wire slots only to fields, domains, and edge types. Display flags and enums are deliberately software-owned and use a separate append-only registry in `src/state/display-token.ts`. `content/manifest.json` declares `schemaVersion` and `contentVersion`; `scripts/content/contract.mjs` declares the schema versions supported by the software. The renderer and publishers read only `.build/content/`, so a later extraction of `content/` into a separately versioned repository does not require an application rewrite.
 
 ### Taxonomy
 
@@ -134,16 +135,16 @@ Relations are not treated as one undifferentiated “built from” ordering. Thi
 
 ## User interface and URL state
 
-The left panel contains collapsible field/domain, edge, display, preferences, and data sections. The Display section contains the layout selector and a **Cross-field links** option:
+The left panel contains collapsible field/domain, edge, display, preferences, and data sections. The Display section contains the Layered/Compact layout selector and a **Cross-field links** option:
 
 - `contextual` — show designated overview bridges and reveal local bridges for the selected neighborhood
 - `all` — show all admitted cross-field relations
 - `hidden` — suppress cross-field relations and their external prerequisite context
 
-Fields, domains, edge types, cross-field visibility, display options, and layout are encoded in query parameters for bookmarkable views and browser history. Performance and rendering preferences (resolution, transitions, motion blur, graph formulae, and secondary-domain indicators) are instead restored from local storage and can be reset from the Preferences section; they are never added to URLs.
+Bookmarkable state is split between two independently versioned, unpadded Base64URL parameters. `filter=` contains fields, domains, edge types, and field/domain exclusions using the content-owned append-only registry. `disp=` contains cross-field visibility, display flags, and layout using the software-owned append-only registry. Neither token includes a checksum. Either token may appear alone; the missing half uses the applicable route, view, or application defaults. Legacy explicit query parameters remain readable when neither compact parameter is present and are replaced with both compact parameters on the next location sync. Performance and rendering preferences (resolution, transitions, motion blur, graph formulae, and secondary-domain indicators) are instead restored from local storage and can be reset from the Preferences section; they are never added to URLs.
 The defaults enable native-resolution rendering, transitions, and secondary-domain indicators while disabling motion blur and KaTeX graph overlays; lightweight Unicode math remains visible in graph labels and exported SVGs.
 
-Fields and domains can also be marked **excluded** without clearing the ordinary inclusion filters. Exclusions suppress concepts whose primary field/domain is excluded, including prerequisite-only context, while still allowing a multi-domain concept through when it has an explicitly included, non-excluded secondary domain. Excluded fields/domains and the Display section's **Hide prerequisites** option are view state and are therefore encoded in URLs (`excludeFields`, `excludeDomains`, and `hidePrereqs`) and supported by guided-view settings. Local preferences additionally control graph edge-label rendering, whether edges disappear during viewport gestures, and whether prerequisite context is dimmed; these preferences also apply to SVG exports where relevant.
+Fields and domains can also be marked **excluded** without clearing the ordinary inclusion filters. Exclusions suppress concepts whose primary field/domain is excluded, including prerequisite-only context, while still allowing a multi-domain concept through when it has an explicitly included, non-excluded secondary domain. Excluded fields/domains are encoded in `filter=`, while the Display section's **Hide prerequisites** option is encoded in `disp=`; both remain supported by guided-view settings. Local preferences additionally control graph edge-label rendering, whether edges disappear during viewport gestures, and whether prerequisite context is dimmed; these preferences also apply to SVG exports where relevant.
 
 The scoped routes initialize their corresponding field while using the same graph and codebase. Canonical concept URLs are field-independent so a multi-field concept has one durable identity.
 
@@ -156,7 +157,7 @@ The first sequence node is the view’s initial selection. Previous and Next con
 
 A `/views/<id>/` URL remains active while the effective settings exactly match its preset. Selecting concepts, highlighting neighborhoods, searching, and opening details do not leave the route. Changing any filter, display setting, or layout exits the named view and writes the resulting configuration through the ordinary atlas/concept URL scheme. Returning through browser history restores the preset.
 
-All concepts admitted by the selected taxonomy are shown, including concepts with no currently visible edges. There is no isolated-node suppression state or URL parameter.
+The optional **Hide isolates** display state removes nodes with no edge admitted by the current complete visibility policy; it is included in `disp=`.
 
 ## Inline mathematics
 

@@ -27,11 +27,11 @@
     "build:pages": "npm run build && node scripts/prepare-pages.mjs",
     "test:unit": "npm run content:build && node scripts/test-unit.mjs",
     "excise-node": "node scripts/excise-node.mjs",
-    "test:build-output": "node scripts/test-build-output.mjs"
+    "test:build-output": "node scripts/test-build-output.mjs",
+    "validate:content:share-codec": "node scripts/validate-content.mjs share-codec"
   },
   "dependencies": {
     "cytoscape": "^3.33.1",
-    "cytoscape-cose-bilkent": "^4.1.0",
     "katex": "^0.18.1"
   },
   "devDependencies": {

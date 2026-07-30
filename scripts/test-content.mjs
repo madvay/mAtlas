@@ -9,22 +9,25 @@ import { loadSourceContent } from './content/load.mjs';
 
 const digest = (contents) => createHash('sha256').update(contents).digest('hex');
 const source = await loadSourceContent();
-const [graphBytes, schemaBytes, viewsBytes, removedDomainsBytes, provenanceBytes] = await Promise.all([
+const [graphBytes, schemaBytes, viewsBytes, shareCodecBytes, removedDomainsBytes, provenanceBytes] = await Promise.all([
   readFile(new URL(COMPILED_CONTENT_FILES.graph, compiledContentDirectory)),
   readFile(new URL(COMPILED_CONTENT_FILES.schema, compiledContentDirectory)),
   readFile(new URL(COMPILED_CONTENT_FILES.views, compiledContentDirectory)),
+  readFile(new URL(COMPILED_CONTENT_FILES.shareCodec, compiledContentDirectory)),
   readFile(new URL(COMPILED_CONTENT_FILES.removedDomains, compiledContentDirectory)),
   readFile(new URL(COMPILED_CONTENT_FILES.provenance, compiledContentDirectory))
 ]);
 const graph = JSON.parse(graphBytes);
 const schema = JSON.parse(schemaBytes);
 const views = JSON.parse(viewsBytes);
+const shareCodec = JSON.parse(shareCodecBytes);
 const removedDomains = JSON.parse(removedDomainsBytes);
 const provenance = JSON.parse(provenanceBytes);
 
 assert.deepEqual(graph, source.graph, 'compiled graph must preserve source content');
 assert.deepEqual(schema, source.schema, 'compiled schema must preserve source content');
 assert.deepEqual(views, source.viewsData, 'compiled views must preserve source content');
+assert.deepEqual(shareCodec, source.shareCodec, 'compiled share codec must preserve source content');
 assert.deepEqual(removedDomains, source.removedDomains, 'compiled removed-domain redirects must preserve source content');
 assert.deepEqual(source.removedDomains, [{ id: 'foundation', path: 'math/foundation', redirectTo: '/math/' }]);
 assert.equal(source.graph.domains.foundation, undefined, 'Foundation must not remain an active domain.');
@@ -36,8 +39,16 @@ assert.ok(SUPPORTED_SCHEMA_VERSIONS.has(provenance.schemaVersion));
 assert.equal(provenance.compiled.graph.sha256, digest(graphBytes));
 assert.equal(provenance.compiled.schema.sha256, digest(schemaBytes));
 assert.equal(provenance.compiled.views.sha256, digest(viewsBytes));
+assert.equal(provenance.compiled.shareCodec.sha256, digest(shareCodecBytes));
 assert.equal(provenance.compiled.removedDomains.sha256, digest(removedDomainsBytes));
 assert.equal(provenance.license.identifier, 'CC-BY-SA-4.0');
+const shareCodecSource = await readFile(new URL('../content/share-codec.yaml', import.meta.url), 'utf8');
+assert.match(shareCodecSource, /APPEND-ONLY/);
+assert.match(shareCodecSource, /Never reorder slots/);
+assert.match(shareCodecSource, /replace `id: old-id` with `retired: old-id`/);
+assert.deepEqual(Object.keys(shareCodec).sort(), ['domains', 'edgeTypes', 'fields', 'formatVersion']);
+assert.equal('booleans' in shareCodec, false, 'display Boolean settings must not live in content/share-codec.yaml');
+assert.equal('enums' in shareCodec, false, 'display enum settings must not live in content/share-codec.yaml');
 console.log('Verified the compiled content boundary, versions, hashes, and license provenance.');
 
 const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));

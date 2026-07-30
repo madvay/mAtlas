@@ -1,10 +1,22 @@
 export type NodeKind = 'structure' | 'junction';
 export type LineStyle = 'solid' | 'dashed' | 'dotted';
 export type PrerequisiteTraversal = 'incoming' | 'outgoing' | 'both';
-export type LayoutName = 'atlas' | 'breadthfirst' | 'cose-bilkent';
+export type LayoutName = 'atlas' | 'breadthfirst';
 export type CrossFieldVisibility = 'contextual' | 'all' | 'hidden';
 export type HistoryMode = 'push' | 'replace' | null;
 export type MathText = string;
+
+
+export type ShareCodecSlot =
+  | { id: string; retired?: never }
+  | { id?: never; retired: string };
+
+export interface ShareCodecConfig {
+  formatVersion: number;
+  fields: ShareCodecSlot[];
+  domains: ShareCodecSlot[];
+  edgeTypes: ShareCodecSlot[];
+}
 
 export interface GraphMeta {
   title: string;
@@ -221,12 +233,6 @@ export interface SelectionTarget {
 export interface Point {
   x: number;
   y: number;
-}
-
-export interface OrganicTopology {
-  key: string;
-  nodeIds: string[];
-  edgePairs: Array<[string, string]>;
 }
 
 export interface RelationEntry {

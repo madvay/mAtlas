@@ -18,6 +18,16 @@ test('layout selection lives inside the collapsible Display section', () => {
   assert.equal(html.slice(displayStart, displayEnd).includes('id="layoutSelect"'), true);
 });
 
+test('layout selector exposes only Layered and Compact', () => {
+  const select = html.match(/<select id="layoutSelect"[^>]*>([\s\S]*?)<\/select>/)?.[1] ?? '';
+  const options = [...select.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)]
+    .map((match) => ({ value: match[1], label: match[2] }));
+  assert.deepEqual(options, [
+    { value: 'atlas', label: 'Layered' },
+    { value: 'breadthfirst', label: 'Compact' }
+  ]);
+});
+
 test('every filter subsection starts expanded and can be collapsed', () => {
   const toggles = [...html.matchAll(/<button[^>]*data-filter-section-toggle[^>]*>/g)].map((match) => match[0]);
   assert.equal(toggles.length, 5);

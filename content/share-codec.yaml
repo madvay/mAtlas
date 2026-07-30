@@ -1,0 +1,79 @@
+# mAtlas compact filter-token codec registry.
+#
+# CRITICAL COMPATIBILITY RULES — THIS FILE IS APPEND-ONLY:
+#   1. Never reorder slots. Their array indexes are permanent wire identifiers.
+#   2. Never delete a slot and never reuse a retired slot for another identifier.
+#   3. Add new fields, domains, and edge types only at the END of the
+#      corresponding sequence. Display settings are versioned in software.
+#   4. To retire an identifier, replace `id: old-id` with `retired: old-id` in
+#      the SAME slot. A retired slot remains forever so old links keep meaning
+#      the same thing. Do not move it to the end.
+#   5. Display order belongs in concepts/index.yaml, not here. This registry is
+#      serialization history, not presentation metadata.
+#
+# The binary format records the number of slots present when a link is made.
+# That lets later append-only versions decode old links exactly, while older
+# clients can safely ignore appended slots they do not understand.
+formatVersion: 1
+
+fields:
+  - id: mathematics
+  - id: physics
+
+domains:
+  - id: set-theory
+  - id: order
+  - id: logic
+  - id: computability-theory
+  - id: category-theory
+  - id: combinatorics
+  - id: universal-algebra
+  - id: algebra
+  - id: representation-theory
+  - id: number-theory
+  - id: algebraic-geometry
+  - id: topology
+  - id: algebraic-topology
+  - id: differential-geometry
+  - id: homological-algebra
+  - id: analysis
+  - id: probability
+  - id: measure
+  - id: physical-foundations
+  - id: classical-mechanics
+  - id: relativity
+  - id: cosmology
+  - id: electromagnetism
+  - id: quantum-mechanics
+  - id: quantum-field-theory
+  - id: particle-physics
+  - id: nuclear-physics
+  - id: atomic-molecular-physics
+  - id: experiments-observations
+
+edgeTypes:
+  - id: add-data
+  - id: impose-axiom
+  - id: induced-forgotten
+  - id: canonical-construction
+  - id: quotient-construction
+  - id: canonical-embedding
+  - id: combine-compatible
+  - id: representation-equivalence
+  - id: theorem-implication
+  - id: mathematical-formulation
+  - id: framework-specialization
+  - id: quantization
+  - id: theory-component
+  - id: describes-governs
+  - id: composition
+  - id: classification
+  - id: couples-interacts
+  - id: mathematical-limit
+  - id: effective-theory
+  - id: model-realization
+  - id: emergence
+  - id: state-description
+  - id: transformation-process
+  - id: historically-motivated
+  - id: experimentally-verified-by

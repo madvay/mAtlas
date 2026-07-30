@@ -1,9 +1,9 @@
 import type cytoscape from 'cytoscape';
 import { byId, escapeHtml, query as $, queryAll as $$ } from '../core/dom.js';
 import { GraphModel } from '../model/graph-model.js';
-import { createInitialState, parseUrlUiState, sameIdSet } from '../state/ui-state.js';
+import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
-import { stateMatchesView, viewSettingsAsUrlState } from '../state/view-state.js';
+import { stateMatchesView } from '../state/view-state.js';
 import { LabelSizer } from '../graph/label-sizer.js';
 import { applyRendererPreferences, createGraph } from '../graph/create-graph.js';
 import { LayoutManager } from '../graph/layout-manager.js';
@@ -19,7 +19,7 @@ import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
 import { LocationController } from './location-controller.js';
-import type { AppState, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, UrlUiState } from '../types.js';
+import type { AppState, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
 import { rankNodeMatches } from '../core/search.js';
 import { fetchAtlasJson } from './data-loader.js';
@@ -29,9 +29,11 @@ export async function startAtlasApp(): Promise<void> {
 
   const graphDataUrl = new URL(__GRAPH_DATA_URL__, document.baseURI).toString();
   const viewsDataUrl = new URL(__VIEWS_DATA_URL__, document.baseURI).toString();
-  const [graphData, viewsData] = await Promise.all([
+  const shareCodecUrl = new URL(__SHARE_CODEC_URL__, document.baseURI).toString();
+  const [graphData, viewsData, shareCodec] = await Promise.all([
     fetchAtlasJson<GraphData>(graphDataUrl, 'graph data'),
-    fetchAtlasJson<AtlasViewsData>(viewsDataUrl, 'views data')
+    fetchAtlasJson<AtlasViewsData>(viewsDataUrl, 'views data'),
+    fetchAtlasJson<ShareCodecConfig>(shareCodecUrl, 'share codec')
   ]);
   const viewsById = new Map(viewsData.views.map((view) => [view.id, view]));
   const graphEl = document.getElementById('graph');
@@ -57,7 +59,8 @@ export async function startAtlasApp(): Promise<void> {
     views: viewsById,
     fieldOrder,
     domainOrder,
-    edgeTypeOrder
+    edgeTypeOrder,
+    shareCodec
   });
   const scopedDefaultFieldIds = locationController.scopedDefaultFieldIds();
   const scopedDefaultDomainIds = locationController.scopedDefaultDomainIds();
@@ -71,10 +74,6 @@ export async function startAtlasApp(): Promise<void> {
     }
   }
 
-  function readUrlUiState() {
-    return parseUrlUiState(new URL(window.location.href).searchParams, knownStateIds);
-  }
-
   function writePreferences(): void {
     try {
       window.localStorage.setItem(PREFERENCES_STORAGE_KEY, JSON.stringify(preferences));
@@ -85,7 +84,7 @@ export async function startAtlasApp(): Promise<void> {
 
 
   let preferences = staticAtlasSvgMode ? { ...DEFAULT_PREFERENCES } : readPreferences();
-  const urlUiState: UrlUiState = staticAtlasSvgMode
+  const loadedUrlUiState: UrlUiState | null = staticAtlasSvgMode
     ? {
         fields: fieldOrder,
         domains: domainOrder,
@@ -101,7 +100,9 @@ export async function startAtlasApp(): Promise<void> {
         hidePrerequisites: false,
         layout: 'atlas'
       }
-    : readUrlUiState();
+    : readUrlUiStateFromLocation(window.location, knownStateIds, shareCodec);
+  if (loadedUrlUiState === null) return;
+  const urlUiState = loadedUrlUiState;
   const conceptPageDefaults = locationController.conceptPageDefaultTaxonomy();
   const viewDefaults = initialView?.settings;
 
@@ -418,61 +419,70 @@ export async function startAtlasApp(): Promise<void> {
   function applyUiStateFromLocation(): void {
     const routeView = locationController.resolveViewFromLocation();
     const routeTaxonomy = locationController.taxonomyDefaultsFromLocation();
-    const urlState = readUrlUiState();
-    const next = routeView
-      ? { ...viewSettingsAsUrlState(routeView.settings), ...urlState }
-      : { ...routeTaxonomy, ...urlState };
+    const routeConceptDefaults = locationController.conceptPageDefaultTaxonomy();
+    const urlState = readUrlUiStateFromLocation(window.location, knownStateIds, shareCodec);
+    if (urlState === null) return;
+    const viewDefaults = routeView?.settings;
+    const next = resolveUrlUiState(urlState, {
+      fields: viewDefaults?.fields ?? routeConceptDefaults?.fields ?? routeTaxonomy.fields ?? fieldOrder,
+      domains: viewDefaults?.domains ?? routeConceptDefaults?.domains ?? routeTaxonomy.domains ?? domainOrder,
+      edgeTypes: viewDefaults?.edgeTypes ?? defaultEdgeTypeIds,
+      excludedFields: viewDefaults?.excludedFields,
+      excludedDomains: viewDefaults?.excludedDomains,
+      crossFieldVisibility: viewDefaults?.crossFieldVisibility,
+      showPrimaryOnly: viewDefaults?.showPrimaryOnly,
+      hideIsolates: viewDefaults?.hideIsolates,
+      edgeLabels: viewDefaults?.edgeLabels,
+      junctions: viewDefaults?.junctions,
+      edgeZoomActivation: viewDefaults?.edgeZoomActivation,
+      hidePrerequisites: viewDefaults?.hidePrerequisites,
+      layout: viewDefaults?.layout
+    });
     locationController.setActiveView(routeView?.id ?? null);
-    const nextFields = next.fields ?? [...state.selectedFields];
-    const nextDomains = next.domains ?? [...state.selectedDomains];
-    const nextEdgeTypes = next.edgeTypes ?? [...state.selectedEdgeTypes];
-    const nextExcludedFields = next.excludedFields ?? [...state.excludedFields];
-    const nextExcludedDomains = next.excludedDomains ?? [...state.excludedDomains];
-    const nextCrossFieldVisibility = next.crossFieldVisibility ?? state.crossFieldVisibility;
-    const nextEdgeLabels = next.edgeLabels ?? state.showEdgeLabels;
-    const nextJunctions = next.junctions ?? state.showJunctions;
-    const nextEdgeZoomActivation = next.edgeZoomActivation ?? state.edgeZoomActivation;
-    const nextHidePrerequisites = next.hidePrerequisites ?? state.hidePrerequisites;
-    const nextLayout = next.layout ?? state.layout;
 
-    const fieldsChanged = !sameIdSet(state.selectedFields, nextFields);
-    const domainsChanged = !sameIdSet(state.selectedDomains, nextDomains);
-    const edgeTypesChanged = !sameIdSet(state.selectedEdgeTypes, nextEdgeTypes);
-    const excludedFieldsChanged = !sameIdSet(state.excludedFields, nextExcludedFields);
-    const excludedDomainsChanged = !sameIdSet(state.excludedDomains, nextExcludedDomains);
-    const crossFieldChanged = state.crossFieldVisibility !== nextCrossFieldVisibility;
-    const edgeLabelsChanged = state.showEdgeLabels !== nextEdgeLabels;
-    const junctionsChanged = state.showJunctions !== nextJunctions;
-    const edgeZoomChanged = state.edgeZoomActivation !== nextEdgeZoomActivation;
-    const hidePrerequisitesChanged = state.hidePrerequisites !== nextHidePrerequisites;
-    const layoutChanged = state.layout !== nextLayout;
+    const fieldsChanged = !sameIdSet(state.selectedFields, next.fields);
+    const domainsChanged = !sameIdSet(state.selectedDomains, next.domains);
+    const edgeTypesChanged = !sameIdSet(state.selectedEdgeTypes, next.edgeTypes);
+    const excludedFieldsChanged = !sameIdSet(state.excludedFields, next.excludedFields);
+    const excludedDomainsChanged = !sameIdSet(state.excludedDomains, next.excludedDomains);
+    const crossFieldChanged = state.crossFieldVisibility !== next.crossFieldVisibility;
+    const showPrimaryOnlyChanged = state.showPrimaryOnly !== next.showPrimaryOnly;
+    const hideIsolatesChanged = state.hideIsolates !== next.hideIsolates;
+    const edgeLabelsChanged = state.showEdgeLabels !== next.edgeLabels;
+    const junctionsChanged = state.showJunctions !== next.junctions;
+    const edgeZoomChanged = state.edgeZoomActivation !== next.edgeZoomActivation;
+    const hidePrerequisitesChanged = state.hidePrerequisites !== next.hidePrerequisites;
+    const layoutChanged = state.layout !== next.layout;
 
     if (!fieldsChanged && !domainsChanged && !edgeTypesChanged && !excludedFieldsChanged && !excludedDomainsChanged
-      && !crossFieldChanged && !edgeLabelsChanged && !junctionsChanged && !edgeZoomChanged
-      && !hidePrerequisitesChanged && !layoutChanged) {
+      && !crossFieldChanged && !showPrimaryOnlyChanged && !hideIsolatesChanged && !edgeLabelsChanged
+      && !junctionsChanged && !edgeZoomChanged && !hidePrerequisitesChanged && !layoutChanged) {
       if (routeView && !stateMatchesView(state, routeView)) locationController.deactivateView();
       viewsController?.syncActiveView();
       return;
     }
 
-    state.selectedFields = new Set(nextFields);
-    state.selectedDomains = new Set(nextDomains);
-    state.selectedEdgeTypes = new Set(nextEdgeTypes);
-    state.excludedFields = new Set(nextExcludedFields);
-    state.excludedDomains = new Set(nextExcludedDomains);
-    state.crossFieldVisibility = nextCrossFieldVisibility;
-    state.showEdgeLabels = nextEdgeLabels;
-    state.showJunctions = nextJunctions;
-    state.edgeZoomActivation = nextEdgeZoomActivation;
-    state.hidePrerequisites = nextHidePrerequisites;
-    state.layout = nextLayout;
+    state.selectedFields = new Set(next.fields);
+    state.selectedDomains = new Set(next.domains);
+    state.selectedEdgeTypes = new Set(next.edgeTypes);
+    state.excludedFields = new Set(next.excludedFields);
+    state.excludedDomains = new Set(next.excludedDomains);
+    state.crossFieldVisibility = next.crossFieldVisibility;
+    state.showPrimaryOnly = next.showPrimaryOnly;
+    state.hideIsolates = next.hideIsolates;
+    state.showEdgeLabels = next.edgeLabels;
+    state.showJunctions = next.junctions;
+    state.edgeZoomActivation = next.edgeZoomActivation;
+    state.hidePrerequisites = next.hidePrerequisites;
+    state.layout = next.layout;
 
     buildFilters();
     syncPreferenceControls();
     updateFieldNavActiveState();
     if (routeView && !stateMatchesView(state, routeView)) locationController.deactivateView();
     applyFilters({ relayout: fieldsChanged || domainsChanged || excludedFieldsChanged || excludedDomainsChanged
-      || junctionsChanged || edgeZoomChanged || hidePrerequisitesChanged || layoutChanged });
+      || showPrimaryOnlyChanged || hideIsolatesChanged || junctionsChanged || edgeZoomChanged
+      || hidePrerequisitesChanged || layoutChanged });
     viewsController?.syncActiveView();
   }
 

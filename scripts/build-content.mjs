@@ -20,6 +20,7 @@ if (failures.length) {
 const graphBytes = normalizeJson(content.graph);
 const schemaBytes = normalizeJson(content.schema);
 const viewsBytes = normalizeJson(content.viewsData);
+const shareCodecBytes = normalizeJson(content.shareCodec);
 const removedDomainsBytes = normalizeJson(content.removedDomains);
 const provenance = {
   formatVersion: CONTENT_BUILD_FORMAT_VERSION,
@@ -35,12 +36,14 @@ const provenance = {
     manifest: { path: 'content/manifest.json', sha256: digest(content.manifestBytes) },
     graph: { path: `content/${content.manifest.files.graph}`, sha256: digest(content.graphBytes) },
     schema: { path: `content/${content.manifest.files.schema}`, sha256: digest(content.schemaBytes) },
-    views: { path: `content/${content.manifest.files.views}`, sha256: digest(content.viewsBytes) }
+    views: { path: `content/${content.manifest.files.views}`, sha256: digest(content.viewsBytes) },
+    shareCodec: { path: `content/${content.manifest.files.shareCodec}`, sha256: digest(content.shareCodecBytes) }
   },
   compiled: {
     graph: { file: COMPILED_CONTENT_FILES.graph, sha256: digest(graphBytes) },
     schema: { file: COMPILED_CONTENT_FILES.schema, sha256: digest(schemaBytes) },
     views: { file: COMPILED_CONTENT_FILES.views, sha256: digest(viewsBytes) },
+    shareCodec: { file: COMPILED_CONTENT_FILES.shareCodec, sha256: digest(shareCodecBytes) },
     removedDomains: { file: COMPILED_CONTENT_FILES.removedDomains, sha256: digest(removedDomainsBytes) }
   }
 };
@@ -54,6 +57,7 @@ await Promise.all([
   writeFile(new URL(COMPILED_CONTENT_FILES.graph, `file://${temporaryPath}`), graphBytes),
   writeFile(new URL(COMPILED_CONTENT_FILES.schema, `file://${temporaryPath}`), schemaBytes),
   writeFile(new URL(COMPILED_CONTENT_FILES.views, `file://${temporaryPath}`), viewsBytes),
+  writeFile(new URL(COMPILED_CONTENT_FILES.shareCodec, `file://${temporaryPath}`), shareCodecBytes),
   writeFile(new URL(COMPILED_CONTENT_FILES.removedDomains, `file://${temporaryPath}`), removedDomainsBytes),
   writeFile(new URL(COMPILED_CONTENT_FILES.provenance, `file://${temporaryPath}`), provenanceBytes)
 ]);

@@ -5,6 +5,7 @@ const dist = new URL('../dist/', import.meta.url);
 const graphData = JSON.parse(await readFile(new URL('.build/content/atlas.json', root), 'utf8'));
 const viewsData = JSON.parse(await readFile(new URL('.build/content/views.json', root), 'utf8'));
 const compiledProvenance = JSON.parse(await readFile(new URL('.build/content/provenance.json', root), 'utf8'));
+const shareCodec = JSON.parse(await readFile(new URL('.build/content/share-codec.json', root), 'utf8'));
 const removedDomains = JSON.parse(await readFile(new URL('.build/content/removed-domains.json', root), 'utf8'));
 const manifest = JSON.parse(await readFile(new URL('asset-manifest.json', dist), 'utf8'));
 const sitemap = await readFile(new URL('sitemap.xml', dist), 'utf8');
@@ -59,9 +60,12 @@ if (!openSearch.includes('<OpenSearchDescription') || !openSearch.includes('?q={
 if (searchIndex.concepts?.length !== graphData.nodes.filter((node) => node.kind === 'structure').length) throw new Error('The public search index does not contain every concept.');
 if (searchIndex.concepts.some((concept) => !concept.id || !concept.label || !concept.url || !concept.summary)) throw new Error('The public search index contains incomplete concept records.');
 if (manifest.version !== 3) throw new Error('asset-manifest.json does not use the content-path-aware format.');
-for (const key of ['graph', 'schema', 'views', 'provenance', 'searchIndex']) {
+for (const key of ['graph', 'schema', 'views', 'shareCodec', 'provenance', 'searchIndex']) {
   if (!manifest.assets?.[key]?.startsWith('content/')) throw new Error(`asset-manifest.json does not publish ${key} under content/.`);
 }
+const publishedShareCodec = JSON.parse(await readFile(new URL(manifest.assets.shareCodec, dist), 'utf8'));
+if (JSON.stringify(publishedShareCodec) !== JSON.stringify(shareCodec)) throw new Error('The published share codec differs from compiled content.');
+if (!appIndex.includes(manifest.assets.shareCodec)) throw new Error('The application page does not link to the published share codec.');
 await assertMissing(new URL('data/', dist), 'The build still emits the retired /data/ directory.');
 await assertMissing(new URL('content/removed-domains.json', dist), 'Build-only removed-domain metadata was published at runtime.');
 if ('removedDomains' in (manifest.assets ?? {})) throw new Error('asset-manifest.json exposes build-only removed-domain metadata.');

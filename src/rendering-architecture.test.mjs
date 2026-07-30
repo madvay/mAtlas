@@ -27,10 +27,12 @@ test('UI HTML writes go through the retained renderer', async () => {
   assert.deepEqual(violations, []);
 });
 
-test('the retained renderer avoids framework runtime dependencies', async () => {
+test('the retained renderer avoids framework and removed-layout runtime dependencies', async () => {
   const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  const notices = await readFile(new URL('../THIRD_PARTY_NOTICES.txt', import.meta.url), 'utf8');
   const dependencies = Object.keys(packageJson.dependencies ?? {});
-  assert.deepEqual(dependencies.sort(), ['cytoscape', 'cytoscape-cose-bilkent', 'katex']);
+  assert.deepEqual(dependencies.sort(), ['cytoscape', 'katex']);
+  assert.doesNotMatch(notices, /cytoscape-cose-bilkent|cose-base|layout-base/i);
 });
 
 test('graph nodes avoid per-node encoded images and startup hides the unfit viewport', async () => {

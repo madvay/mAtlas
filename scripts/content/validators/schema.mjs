@@ -25,7 +25,7 @@ export function validate(context) {
   requireString(errors, manifest?.schemaVersion, 'manifest.schemaVersion');
   requireString(errors, manifest?.contentVersion, 'manifest.contentVersion');
   requireObject(errors, manifest?.files, 'manifest.files');
-  for (const key of ['graph', 'schema', 'views']) requireString(errors, manifest?.files?.[key], `manifest.files.${key}`);
+  for (const key of ['graph', 'schema', 'views', 'shareCodec']) requireString(errors, manifest?.files?.[key], `manifest.files.${key}`);
   if (typeof manifest?.schemaVersion === 'string' && !SUPPORTED_SCHEMA_VERSIONS.has(manifest.schemaVersion)) {
     errors.push(`manifest.schemaVersion ${manifest.schemaVersion} is not supported by this renderer.`);
   }

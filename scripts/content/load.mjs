@@ -301,6 +301,16 @@ async function loadViewsFromYaml(indexUrl) {
   return { meta: index.meta ?? {}, views };
 }
 
+async function loadShareCodecFromYaml(url) {
+  const bytes = await readFile(url);
+  const data = parseYamlBytes(bytes, contentRelativeLabel(url));
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new Error('content/share-codec.yaml must be a YAML object.');
+  }
+  const intermediate = await writeIntermediateJson('share-codec.json', data);
+  return { data, bytes: intermediate.bytes };
+}
+
 async function loadJsonOrYaml(url, label) {
   if (url.pathname.endsWith('.json')) {
     const bytes = await readFile(url);
@@ -322,10 +332,12 @@ export async function loadSourceContent() {
   const graphUrl = sourceFileUrl(manifest.files?.graph, 'graph', /\.(?:json|ya?ml)$/u);
   const schemaUrl = sourceFileUrl(manifest.files?.schema, 'schema', /\.json$/u);
   const viewsUrl = sourceFileUrl(manifest.files?.views, 'views', /\.(?:json|ya?ml)$/u);
-  const [graphResult, schemaBytes, viewsResult] = await Promise.all([
+  const shareCodecUrl = sourceFileUrl(manifest.files?.shareCodec, 'shareCodec', /\.ya?ml$/u);
+  const [graphResult, schemaBytes, viewsResult, shareCodecResult] = await Promise.all([
     loadJsonOrYaml(graphUrl, 'graph'),
     readFile(schemaUrl),
-    loadJsonOrYaml(viewsUrl, 'views')
+    loadJsonOrYaml(viewsUrl, 'views'),
+    loadShareCodecFromYaml(shareCodecUrl)
   ]);
   return {
     manifest,
@@ -336,7 +348,9 @@ export async function loadSourceContent() {
     schemaBytes,
     viewsData: viewsResult.data,
     viewsBytes: viewsResult.bytes,
+    shareCodec: shareCodecResult.data,
+    shareCodecBytes: shareCodecResult.bytes,
     removedDomains: graphResult.removedDomains ?? [],
-    urls: { graphUrl, schemaUrl, viewsUrl }
+    urls: { graphUrl, schemaUrl, viewsUrl, shareCodecUrl }
   };
 }
