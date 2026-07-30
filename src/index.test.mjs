@@ -84,3 +84,13 @@ test('modal dialogs are siblings rather than nested inside another closed dialog
     assert.doesNotMatch(body, /<dialog\b/, `${id} contains another dialog`);
   }
 });
+
+test('concept comparison has toolbar, details, and shareable dialog surfaces', () => {
+  assert.match(html, /id="compareButton"[^>]*aria-haspopup="dialog"/);
+  assert.match(html, /id="compareDialog"/);
+  assert.match(html, /id="compareLeftInput"[^>]*list="compareConceptNames"/);
+  assert.match(html, /id="compareRightInput"[^>]*list="compareConceptNames"/);
+  assert.match(html, /id="compareCopyButton"/);
+  assert.match(styles, /\.compare-columns\s*\{/);
+  assert.match(styles, /\.compare-neighbor-row\s*\{/);
+});

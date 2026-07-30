@@ -186,6 +186,9 @@
         <button id="connectionButton" class="button connection-button" hidden aria-haspopup="dialog" aria-pressed="false" title="Find and explain paths between two concepts">
           <span class="material-icons" aria-hidden="true">route</span><span class="connection-button-label">Connect</span>
         </button>
+        <button id="compareButton" class="button icon-button" aria-haspopup="dialog" aria-pressed="false" aria-label="Compare concepts" title="Compare two concepts">
+          <span class="material-icons" aria-hidden="true">compare_arrows</span>
+        </button>
         <div class="layout-toolbar-toggle" role="group" aria-label="Graph layout">
           <button id="layeredLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="atlas" aria-label="Use Layered layout" aria-pressed="true" title="Layered layout">
             <span class="material-icons" aria-hidden="true">account_tree</span>
@@ -416,6 +419,41 @@
       <div id="viewsContent" class="dialog-content views-content"></div>
       <div class="dialog-actions">
         <a class="small-link views-directory-link" href="/views/">Open the stories and views directory</a>
+        <button class="button primary" value="close">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="compareDialog" class="help-dialog compare-dialog">
+    <form method="dialog" class="dialog-card compare-dialog-card">
+      <div class="dialog-header">
+        <div>
+          <div class="kicker">Relationship-aware analysis</div>
+          <h2>Compare concepts</h2>
+        </div>
+        <button class="icon-button" value="close" aria-label="Close">×</button>
+      </div>
+      <div class="compare-controls">
+        <label class="compare-concept-input">
+          <span><strong>A</strong> First concept</span>
+          <input id="compareLeftInput" list="compareConceptNames" type="search" placeholder="Search concepts…" autocomplete="off">
+        </label>
+        <button id="compareSwapButton" type="button" class="button icon-button" aria-label="Swap concepts" title="Swap concepts">
+          <span class="material-icons" aria-hidden="true">swap_horiz</span>
+        </button>
+        <label class="compare-concept-input">
+          <span><strong>B</strong> Second concept</span>
+          <input id="compareRightInput" list="compareConceptNames" type="search" placeholder="Search concepts…" autocomplete="off">
+        </label>
+        <datalist id="compareConceptNames"></datalist>
+      </div>
+      <div id="compareStatus" class="compare-status" role="status" aria-live="polite">Choose two concepts to compare.</div>
+      <div id="compareContent" class="dialog-content compare-content"></div>
+      <div class="dialog-actions compare-dialog-actions">
+        <button id="compareClearButton" type="button" class="button">Clear</button>
+        <button id="compareCopyButton" type="button" class="button">
+          <span class="material-icons" aria-hidden="true">link</span> Copy comparison link
+        </button>
         <button class="button primary" value="close">Close</button>
       </div>
     </form>

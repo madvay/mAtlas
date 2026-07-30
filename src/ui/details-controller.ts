@@ -21,6 +21,7 @@ interface DetailsControllerOptions {
   viewNodeUrl: (viewId: string, nodeId: string) => string;
   activateNode: (nodeId: string) => void;
   activateEdge: (edgeId: string) => void;
+  compareNode: (nodeId: string) => void;
   openPanel: () => void;
   navigate: (href: string) => void;
 }
@@ -231,6 +232,9 @@ export class DetailsController {
 
   private renderHeaderActions(itemId: string, itemKind: 'node' | 'edge'): string {
     return `<div class="detail-header-actions" data-item-id="${escapeHtml(itemId)}" data-item-kind="${itemKind}">
+      ${itemKind === 'node' ? `<a href="#" class="detail-header-action" id="detailCompareButton" aria-label="Compare concept" title="Compare concept">
+        <span class="material-icons" aria-hidden="true">compare_arrows</span>
+      </a>` : ''}
       <a href="${escapeHtml(this.options.githubEditUrl(itemId))}" class="detail-header-action" id="detailEditButton" aria-label="Edit item" title="Edit item" target="_blank" rel="noopener">
         <span class="material-icons" aria-hidden="true">edit</span>
       </a>
@@ -246,6 +250,11 @@ export class DetailsController {
     const itemId = container.dataset.itemId;
     const itemKind = container.dataset.itemKind;
     if (!itemId || (itemKind !== 'node' && itemKind !== 'edge')) return;
+    const compareButton = document.getElementById('detailCompareButton');
+    compareButton?.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (itemKind === 'node') this.options.compareNode(itemId);
+    });
     const shareButton = document.getElementById('detailShareButton');
     if (!shareButton) return;
     shareButton.addEventListener('click', async (event) => {

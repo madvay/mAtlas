@@ -9,6 +9,7 @@ import {
 } from '../state/view-state.js';
 import { stripInlineMathText, summarizePlainText } from '../core/text.js';
 import { CONNECTION_FROM_PARAM, copyConnectionQueryState } from '../state/connection-state.js';
+import { setComparisonParam } from '../model/concept-comparison.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, AtlasView, HistoryMode, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 
@@ -20,6 +21,7 @@ export interface LocationControllerOptions {
   domainOrder: readonly string[];
   edgeTypeOrder: readonly string[];
   shareCodec: ShareCodecConfig;
+  getComparisonNodeIds?: () => readonly string[];
 }
 
 export interface TaxonomyScope {
@@ -245,6 +247,7 @@ export class LocationController {
 
   addUiState(url: URL): void {
     addShareUiStateToParams(url.searchParams, this.options.getState(), this.options.shareCodec);
+    setComparisonParam(url.searchParams, this.options.getComparisonNodeIds?.() ?? []);
   }
 
   githubEditUrl(itemId: string): string {
@@ -412,6 +415,7 @@ export class LocationController {
     } else if (!(target.kind === 'node' && target.id === sequence[0])) {
       url.searchParams.set(target.kind, target.id);
     }
+    setComparisonParam(url.searchParams, this.options.getComparisonNodeIds?.() ?? []);
     return url;
   }
 

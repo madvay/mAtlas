@@ -369,3 +369,30 @@ test('filter and display location writes preserve an active connection inquiry',
     browser.restore();
   }
 });
+  
+test('comparison workspace state survives selection and filter URL rewrites', () => {
+  const browser = installBrowser('https://atlas.madvay.com/concepts/blackbody/');
+  try {
+    const state = matchingState();
+    const model = modelFixture();
+    const controller = new LocationController({
+      model,
+      getState: () => state,
+      views: new Map([[view.id, view]]),
+      fieldOrder: ['physics'],
+      domainOrder: ['experiments'],
+      edgeTypeOrder: ['motivated', 'verified'],
+      shareCodec,
+      getComparisonNodeIds: () => ['blackbody', 'quantum']
+    });
+
+    controller.write({ kind: 'node', id: 'quantum' }, 'replace');
+    const written = new URL(browser.writtenUrl());
+    assert.equal(written.pathname, '/concepts/quantum/');
+    assert.equal(written.searchParams.get('compare'), 'blackbody,quantum');
+    assert.ok(written.searchParams.get('filter'));
+    assert.ok(written.searchParams.get('disp'));
+  } finally {
+    browser.restore();
+  }
+});
