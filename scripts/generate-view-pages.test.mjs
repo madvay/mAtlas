@@ -18,22 +18,27 @@ test('view page generator emits a directory and crawlable static routes', async 
     await generateViewPages({ graphData, viewsData, templateHtml, distUrl });
 
     const index = await readFile(new URL('views/index.html', distUrl), 'utf8');
-    assert.match(index, /Guided views/);
+    assert.match(index, /Stories &amp; Views/);
     assert.match(index, /Local arithmetic and the 𝑝-adic world/);
     assert.match(index, /dark components, and 𝛬CDM\./);
     assert.doesNotMatch(index, />Local arithmetic and the \$p\$-adic world<|dark components, and \$\\Lambda\$CDM\./);
     for (const view of viewsData.views) {
       const html = await readFile(new URL(`views/${encodeURIComponent(view.id)}/index.html`, distUrl), 'utf8');
       assert.match(html, new RegExp(`atlas:view\" content=\"${view.id}`));
-      assert.ok(html.includes(`<meta name="atlas:selection" content="node:${view.nodeSequence[0]}">`));
+      const sequence = view.nodeSequence ?? [];
+      if (sequence.length) {
+        assert.ok(html.includes(`<meta name="atlas:selection" content="node:${sequence[0]}">`));
+        assert.match(html, /"@type":\s*"ItemList"/);
+        assert.match(html, /data-view-prev/);
+        assert.match(html, /data-view-next/);
+        assert.ok(html.includes(`Step 1 of ${sequence.length}`));
+      } else {
+        assert.doesNotMatch(html, /atlas:selection|data-view-prev|data-view-next|"@type":\s*"ItemList"/);
+      }
       assert.ok(html.includes(view.title));
       assert.ok(html.includes(view.narrative));
       assert.match(html, /<base href="\.\.\/\.\.\/">/);
       assert.match(html, /<script id="view-page-jsonld" type="application\/ld\+json">/);
-      assert.match(html, /"@type":\s*"ItemList"/);
-      assert.match(html, /data-view-prev/);
-      assert.match(html, /data-view-next/);
-      assert.ok(html.includes(`Step 1 of ${view.nodeSequence.length}`));
     }
   } finally {
     await rm(directory, { recursive: true, force: true });
@@ -63,8 +68,30 @@ test('view page generator renders KaTeX in the view context heading title', asyn
     await generateViewPages({ graphData, viewsData, templateHtml, distUrl });
 
     const html = await readFile(new URL(`views/${encodeURIComponent(view.id)}/index.html`, distUrl), 'utf8');
-    assert.match(html, /<span class="view-context-heading"><span class="kicker">Guided view<\/span><strong>The <span class="katex">/);
+    assert.match(html, /<span class="view-context-heading"><span class="kicker">Story<\/span><strong>The <span class="katex">/);
     assert.ok(html.includes('<strong>The <span class="katex">p</span>-adic world</strong>') || html.includes('<strong>The <span class="katex">'));
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+
+test('view page generator omits story-only metadata and controls for a plain View', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'atlas-views-'));
+  try {
+    const graphData = { meta: { title: 'Atlas' }, nodes: [{ id: 'a', label: 'A' }] };
+    const view = {
+      id: 'plain-view', title: 'Plain view', summary: 'A configuration.', narrative: 'Inspect this graph.',
+      featured: false, tags: ['Test'], settings: {}
+    };
+    const templateHtml = '<html><head><title></title><meta name="description" content=""><meta property="og:title" content=""><meta property="og:description" content=""><meta property="og:url" content=""><link rel="canonical" href=""><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><section id="viewBanner" class="view-banner" aria-live="polite" hidden></section></body></html>';
+    const distUrl = pathToFileURL(`${directory}/`);
+    await generateViewPages({ graphData, viewsData: { views: [view] }, templateHtml, distUrl });
+    const html = await readFile(new URL('views/plain-view/index.html', distUrl), 'utf8');
+    assert.match(html, /<span class="kicker">View<\/span>/);
+    assert.doesNotMatch(html, /atlas:selection/);
+    assert.doesNotMatch(html, /data-view-prev|data-view-next|Step 1 of/);
+    assert.doesNotMatch(html, /"@type":\s*"ItemList"/);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

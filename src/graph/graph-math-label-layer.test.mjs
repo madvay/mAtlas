@@ -9,6 +9,8 @@ class FakeElement {
     this.hidden = false;
     this.className = '';
     this.innerHTML = '';
+    this.textContent = '';
+    this.removed = false;
   }
 
   appendChild(child) {
@@ -17,6 +19,7 @@ class FakeElement {
   }
 
   setAttribute() {}
+  remove() { this.removed = true; }
 }
 
 function installDom() {
@@ -60,6 +63,8 @@ function nodeFixture() {
     hasClass() { return false; },
     style(name) { return name === 'display' ? 'element' : name === 'opacity' ? '1' : ''; },
     selected() { return false; },
+    empty() { return false; },
+    boundingBox() { return { x1: position.x - 82, y2: position.y + 29 }; },
     moveTo(x, y) { position.x = x; position.y = y; }
   };
 }
@@ -73,6 +78,7 @@ function graphFixture(node) {
     },
     edges() { return { forEach() {} }; },
     nodes() { return { forEach(callback) { callback(node); } }; },
+    getElementById(id) { return id === 'node' ? node : { empty() { return true; } }; },
     pan() { return { ...viewport.pan }; },
     zoom() { return viewport.zoom; },
     setViewport(pan, zoom) { viewport.pan = pan; viewport.zoom = zoom; },
@@ -112,6 +118,35 @@ test('zoom updates one viewport transform without resizing every KaTeX label', (
     dom.flush();
     assert.equal(label.style.left, '55px');
     assert.equal(label.style.top, '70px');
+  } finally {
+    dom.restore();
+  }
+});
+
+
+test('Story sequence badges are numbered, positioned at node bottom-left, and cleared', () => {
+  const dom = installDom();
+  try {
+    const node = nodeFixture();
+    const cy = graphFixture(node);
+    const graphContainer = {
+      inserted: null,
+      insertAdjacentElement(_position, element) { this.inserted = element; }
+    };
+    const layer = new GraphMathLabelLayer(cy, graphContainer, { renderText: (value) => String(value) });
+    dom.flush();
+    layer.setNodeSequence(['node']);
+    dom.flush();
+
+    const viewport = graphContainer.inserted.children[0];
+    const badge = viewport.children.at(-1);
+    assert.equal(badge.className, 'graph-sequence-badge');
+    assert.equal(badge.textContent, '1');
+    assert.equal(badge.style.left, '-42px');
+    assert.equal(badge.style.top, '54px');
+
+    layer.setNodeSequence([]);
+    assert.equal(badge.removed, true);
   } finally {
     dom.restore();
   }

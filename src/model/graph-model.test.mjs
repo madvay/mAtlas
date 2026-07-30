@@ -65,6 +65,26 @@ test('GraphModel finds transitive prerequisites through selected edge types', ()
   assert.deepEqual([...model.requiredNodeIds(state, () => true)], ['group']);
 });
 
+test('GraphModel uses an explicit core-node set as prerequisite roots', () => {
+  const model = new GraphModel(fixture());
+  const state = {
+    selectedFields: new Set(['math']),
+    selectedDomains: new Set(['foundation']),
+    selectedEdgeTypes: new Set(['built-from']),
+    excludedFields: new Set(),
+    excludedDomains: new Set(),
+    showPrimaryOnly: false
+  };
+  assert.deepEqual(
+    [...model.requiredNodeIds(state, () => true, new Set(['space']))].sort(),
+    ['group', 'junction', 'set', 'space']
+  );
+  assert.deepEqual(
+    [...model.requiredNodeIds(state, () => true, new Set(['junction']))].sort(),
+    ['group', 'junction', 'set']
+  );
+});
+
 test('GraphModel returns the exact prerequisite edges, including collapsed construction representatives', () => {
   const model = new GraphModel(fixture());
   const closure = model.transitivePrerequisiteElementIds(['space'], () => true);

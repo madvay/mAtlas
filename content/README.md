@@ -9,7 +9,7 @@ tests.
 ## Source files
 
 - `concepts/index.yaml`, `concepts/sources.yaml`, and `concepts/<field-id>/<domain-id>.yaml` — split canonical graph, taxonomy, relations, citations, and source metadata. Each edge type declares `prerequisiteTraversal`: `incoming` follows an edge from target to source, `outgoing` follows it from source to target, and `both` follows it in either direction. `removedDomains` entries in the index preserve retired domain URLs as build-generated redirects without exposing them in runtime graph JSON.
-- `views/index.yaml` and `views/*.yaml` — split curated guided-view definitions and editorial narratives.
+- `views/index.yaml` and `views/*.yaml` — split curated Story/View object definitions and editorial narratives.
 - `share-codec.yaml` — append-only permanent wire-slot registry for the compact `filter=` token only. It contains fields, domains, and edge types; display flags and enums live in software. Never reorder, delete, or reuse its slots; retire identifiers in place.
 - `schema.json` — machine-readable graph schema published with the content.
 - `manifest.json` — content and schema contract versions plus source file mapping.

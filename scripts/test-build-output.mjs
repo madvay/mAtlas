@@ -109,7 +109,7 @@ if (!appJs.includes('prohibitedDomains') || !appJs.includes('data-suppression'))
 if (!appCss.includes('.mobile-view-context') || !appCss.includes('.view-banner-mobile')) throw new Error('The application stylesheet lacks the thin-screen guided-view surfaces.');
 if (!appCss.includes('.view-sequence-controls') || !appCss.includes('.filter-section-toggle')) throw new Error('The application stylesheet lacks guided-sequence or collapsible-filter controls.');
 if (!appCss.includes('.graph-math-label-layer') || !appCss.includes('.graph-math-edge-label')) throw new Error('The application stylesheet lacks the selective KaTeX graph-label layer.');
-if (!viewIndex.includes('Guided views')) throw new Error('The static view directory was not generated.');
+if (!viewIndex.includes('Stories &amp; Views')) throw new Error('The static stories and views directory was not generated.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/views/</loc>')) throw new Error('The sitemap omits the view directory.');
 if (!sitemap.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')) throw new Error('The sitemap lacks the image sitemap namespace.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/directory/</loc>')) throw new Error('The sitemap omits directory/.');
@@ -167,12 +167,19 @@ for (const view of viewsData.views) {
   const html = await readFile(new URL(`views/${encodedId}/index.html`, dist), 'utf8');
   assertCacheRecovery(html, `Static view page ${view.id}`);
   if (!html.includes(`<meta name="atlas:view" content="${view.id}">`)) throw new Error(`Static page for ${view.id} lacks its view metadata.`);
-  if (!html.includes(`<meta name="atlas:selection" content="node:${view.nodeSequence[0]}">`)) throw new Error(`Static page for ${view.id} does not start on its first sequence node.`);
   if (!html.includes('<base href="../../">')) throw new Error(`Static page for ${view.id} has the wrong base path.`);
   if (!html.includes('<script id="view-page-jsonld" type="application/ld+json">')) throw new Error(`Static page for ${view.id} lacks view JSON-LD.`);
-  if (!/"@type":\s*"ItemList"/.test(html)) throw new Error(`Static page for ${view.id} lacks sequence ItemList JSON-LD.`);
-  if (!html.includes('data-view-prev') || !html.includes('data-view-next')) throw new Error(`Static page for ${view.id} lacks sequence navigation controls.`);
-  if (!html.includes(`Step 1 of ${view.nodeSequence.length}`)) throw new Error(`Static page for ${view.id} has the wrong sequence length.`);
+  const sequence = view.nodeSequence ?? [];
+  if (sequence.length) {
+    if (!html.includes(`<meta name="atlas:selection" content="node:${sequence[0]}">`)) throw new Error(`Static Story page for ${view.id} does not start on its first sequence node.`);
+    if (!/"@type":\s*"ItemList"/.test(html)) throw new Error(`Static Story page for ${view.id} lacks sequence ItemList JSON-LD.`);
+    if (!html.includes('data-view-prev') || !html.includes('data-view-next')) throw new Error(`Static Story page for ${view.id} lacks sequence navigation controls.`);
+    if (!html.includes(`Step 1 of ${sequence.length}`)) throw new Error(`Static Story page for ${view.id} has the wrong sequence length.`);
+  } else {
+    if (html.includes('atlas:selection')) throw new Error(`Static View page for ${view.id} must not declare an implicit selection.`);
+    if (/"@type":\s*"ItemList"/.test(html)) throw new Error(`Static View page for ${view.id} must not emit Story ItemList JSON-LD.`);
+    if (html.includes('data-view-prev') || html.includes('data-view-next')) throw new Error(`Static View page for ${view.id} must not emit Story controls.`);
+  }
   if (!html.includes(view.title) || !html.includes(view.narrative)) throw new Error(`Static page for ${view.id} lacks crawlable view copy.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/views/${encodedId}/</loc>`)) throw new Error(`The sitemap omits ${view.id}.`);
 }

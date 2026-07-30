@@ -117,14 +117,20 @@ export class GraphModel {
   }
 
   requiredNodeIds(
-    state: Pick<AppState, 'selectedFields' | 'selectedDomains' | 'selectedEdgeTypes' | 'excludedFields' | 'excludedDomains' | 'prohibitedDomains' | 'showPrimaryOnly'>,
-    edgeAllowed: (edge: GraphEdge) => boolean
+state: Pick<AppState, 'selectedFields' | 'selectedDomains' | 'selectedEdgeTypes' | 'excludedFields' | 'excludedDomains' | 'prohibitedDomains' | 'showPrimaryOnly'>,
+    edgeAllowed: (edge: GraphEdge) => boolean,
+    coreNodeIds: ReadonlySet<string> | null = null
   ): Set<string> {
-    const roots = this.data.nodes
-      .filter((node) => node.kind === 'structure'
-        && this.nodeMatchesSelectedTaxonomy(node, state)
-        && !this.nodeExcludedByTaxonomy(node, state))
-      .map((node) => node.id);
+    const roots = coreNodeIds
+      ? [...coreNodeIds].filter((nodeId) => {
+          const node = this.nodeRecord.get(nodeId);
+          return Boolean(node && !this.nodeExcludedByTaxonomy(node, state));
+        })
+      : this.data.nodes
+          .filter((node) => node.kind === 'structure'
+            && this.nodeMatchesSelectedTaxonomy(node, state)
+            && !this.nodeExcludedByTaxonomy(node, state))
+          .map((node) => node.id);
     return this.transitivePrerequisiteNodeIds(
       roots,
       (edge) => state.selectedEdgeTypes.has(edge.type) && edgeAllowed(edge),

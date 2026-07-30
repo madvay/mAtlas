@@ -3,7 +3,7 @@ import { byId, escapeHtml, queryAll as $$ } from '../core/dom.js';
 import { GraphModel } from '../model/graph-model.js';
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
-import { stateMatchesView } from '../state/view-state.js';
+import { viewCoreNodes, viewNodeSequence } from '../state/view-state.js';
 import { LabelSizer } from '../graph/label-sizer.js';
 import { applyRendererPreferences, createGraph } from '../graph/create-graph.js';
 import { LayoutManager } from '../graph/layout-manager.js';
@@ -21,7 +21,7 @@ import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
 import { LocationController } from './location-controller.js';
-import type { AppState, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
+import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
 import { rankNodeMatches } from '../core/search.js';
 import { fetchAtlasJson } from './data-loader.js';
@@ -107,7 +107,7 @@ export async function startAtlasApp(): Promise<void> {
   if (loadedUrlUiState === null) return;
   const urlUiState = loadedUrlUiState;
   const conceptPageDefaults = locationController.conceptPageDefaultTaxonomy();
-  const viewDefaults = initialView?.settings;
+  const viewDefaults = initialView ? locationController.viewDefaults(initialView) : null;
 
   state = createInitialState(urlUiState, {
     fields: viewDefaults?.fields ?? conceptPageDefaults?.fields ?? scopedDefaultFieldIds,
@@ -125,19 +125,22 @@ export async function startAtlasApp(): Promise<void> {
     hidePrerequisites: viewDefaults?.hidePrerequisites,
     layout: viewDefaults?.layout
   });
-  if (initialView && stateMatchesView(state, initialView)) locationController.setActiveView(initialView.id);
+  if (initialView) locationController.setActiveView(initialView.id);
 
   let viewsController: ViewsController | null = null;
+  let graphViewPreservesView = (_view: AtlasView): boolean => true;
+  let syncFilterViewScope = (): void => {};
   let currentSelectionTarget = (): SelectionTarget | null => locationController.parseSelection();
 
   function persistUiState(): void {
     const activeView = locationController.activeView();
-    if (activeView && !stateMatchesView(state, activeView)) locationController.deactivateView();
+    if (activeView && !graphViewPreservesView(activeView)) locationController.deactivateView();
     const selection = currentSelectionTarget();
     locationController.write(selection, 'replace');
     locationController.syncDocumentMetadata(selection);
     viewsController?.syncActiveView();
     scheduleLayoutUiUpdate();
+    syncFilterViewScope();
   }
 
   const labelSizer = new LabelSizer();
@@ -251,8 +254,10 @@ export async function startAtlasApp(): Promise<void> {
     fitVisible: fitGraphElements,
     scheduleFieldBands,
     updateFiltersToggleCount,
-    preferences: () => preferences
+    preferences: () => preferences,
+    activeView: () => locationController.activeView()
   });
+  graphViewPreservesView = (view) => graphView.preservesView(view);
   const updateSemanticLabelSizes = (force = false): void => graphView.updateSemanticLabelSizes(force);
   const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
   const applyFilters = (options: { relayout?: boolean } = {}): void => {
@@ -266,6 +271,9 @@ export async function startAtlasApp(): Promise<void> {
     graphView.setNeighborhoodHighlight(active, elementId, fitAfter);
   const toggleNeighborhoodHighlight = (): void => graphView.toggleNeighborhoodHighlight();
 
+  let exitActiveView = (): void => {};
+  let exitActiveCoreNodeScope = (): void => {};
+
   const filterControls = new FilterControls({
     model,
     state,
@@ -275,6 +283,10 @@ export async function startAtlasApp(): Promise<void> {
     applyFilters,
     runLayout,
     scheduleEdgeZoomStyles,
+    activeView: () => locationController.activeView(),
+    exitView: () => exitActiveView(),
+    exitCoreNodeScope: () => exitActiveCoreNodeScope(),
+    renderMathText,
     preferences: () => preferences,
     setPreferences: (next) => {
       preferences = next;
@@ -287,6 +299,31 @@ export async function startAtlasApp(): Promise<void> {
   const buildFilters = (): void => filterControls.build();
   const syncPreferenceControls = (): void => filterControls.syncPreferences();
   const updateFieldNavActiveState = (): void => filterControls.updateFieldNavActiveState();
+  syncFilterViewScope = (): void => filterControls.syncViewScope();
+
+  function leaveActiveView(useCorePrimaryDomains: boolean): void {
+    const view = locationController.activeView();
+    if (!view) return;
+    if (useCorePrimaryDomains && viewCoreNodes(view).length > 0) {
+      const defaults = locationController.viewDefaults(view);
+      state.selectedFields = new Set(defaults.fields);
+      state.selectedDomains = new Set(defaults.domains);
+    }
+    locationController.deactivateView();
+    graphLabelLayer.setNodeSequence([]);
+    buildFilters();
+    syncPreferenceControls();
+    updateFieldNavActiveState();
+    syncFilterViewScope();
+    applyFilters({ relayout: useCorePrimaryDomains || viewCoreNodes(view).length > 0 });
+    const selection = currentSelectionTarget();
+    locationController.write(selection, 'replace');
+    locationController.syncDocumentMetadata(selection);
+    viewsController?.syncActiveView();
+  }
+
+  exitActiveView = (): void => leaveActiveView(false);
+  exitActiveCoreNodeScope = (): void => leaveActiveView(true);
 
   const parseSelectionLocation = (options: { includeTemplateSelection?: boolean } = {}): SelectionTarget | null =>
     locationController.parseSelection(options);
@@ -476,12 +513,13 @@ export async function startAtlasApp(): Promise<void> {
   }
 
   function applyUiStateFromLocation(): void {
+    const previousView = locationController.activeView();
     const routeView = locationController.resolveViewFromLocation();
     const routeTaxonomy = locationController.taxonomyDefaultsFromLocation();
     const routeConceptDefaults = locationController.conceptPageDefaultTaxonomy();
     const urlState = readUrlUiStateFromLocation(window.location, knownStateIds, shareCodec);
     if (urlState === null) return;
-    const viewDefaults = routeView?.settings;
+    const viewDefaults = routeView ? locationController.viewDefaults(routeView) : null;
     const next = resolveUrlUiState(urlState, {
       fields: viewDefaults?.fields ?? routeConceptDefaults?.fields ?? routeTaxonomy.fields ?? fieldOrder,
       domains: viewDefaults?.domains ?? routeConceptDefaults?.domains ?? routeTaxonomy.domains ?? domainOrder,
@@ -518,8 +556,15 @@ export async function startAtlasApp(): Promise<void> {
     if (!fieldsChanged && !domainsChanged && !edgeTypesChanged && !excludedFieldsChanged && !excludedDomainsChanged && !prohibitedDomainsChanged
       && !crossFieldChanged && !showPrimaryOnlyChanged && !hideIsolatesChanged && !edgeLabelsChanged
       && !junctionsChanged && !edgeZoomChanged && !hidePrerequisitesChanged && !layoutChanged) {
-      if (routeView && !stateMatchesView(state, routeView)) locationController.deactivateView();
+      if (routeView && !graphView.preservesView(routeView)) locationController.deactivateView();
+      const activeView = locationController.activeView();
+      const coreScopeChanged = !sameIdSet(
+        new Set(viewCoreNodes(previousView ?? {})),
+        viewCoreNodes(activeView ?? {})
+      );
+      if (coreScopeChanged) applyFilters({ relayout: true });
       viewsController?.syncActiveView();
+      syncFilterViewScope();
       return;
     }
 
@@ -541,11 +586,17 @@ export async function startAtlasApp(): Promise<void> {
     buildFilters();
     syncPreferenceControls();
     updateFieldNavActiveState();
-    if (routeView && !stateMatchesView(state, routeView)) locationController.deactivateView();
-    applyFilters({ relayout: fieldsChanged || domainsChanged || excludedFieldsChanged || excludedDomainsChanged || prohibitedDomainsChanged
+    if (routeView && !graphView.preservesView(routeView)) locationController.deactivateView();
+    const activeView = locationController.activeView();
+    const coreScopeChanged = !sameIdSet(
+      new Set(viewCoreNodes(previousView ?? {})),
+      viewCoreNodes(activeView ?? {})
+    );
+    applyFilters({ relayout: coreScopeChanged || fieldsChanged || domainsChanged || excludedFieldsChanged || excludedDomainsChanged || prohibitedDomainsChanged
       || showPrimaryOnlyChanged || hideIsolatesChanged || junctionsChanged || edgeZoomChanged
       || hidePrerequisitesChanged || layoutChanged });
     viewsController?.syncActiveView();
+    syncFilterViewScope();
   }
 
   function applyLocationState({ initial = false } = {}): void {
@@ -667,28 +718,35 @@ export async function startAtlasApp(): Promise<void> {
       <div class="help-grid">
         <section class="help-card">
           <h3>Details and sources</h3>
-          <p>Details gives the selected item’s summary, data, axioms, induced structures, notes, domain memberships, relations, guided views, and source links. In a relation such as “Builds toward,” the destination is shown first and the edge annotation follows as <em>via [annotation]</em>. Relation links can navigate to concepts currently hidden by filters without silently changing a prohibited-domain setting.</p>
+          <p>Details gives the selected item’s summary, data, axioms, induced structures, notes, domain memberships, relations, stories and views, and source links. In a relation such as “Builds toward,” the destination is shown first and the edge annotation follows as <em>via [annotation]</em>. Relation links can navigate to concepts currently hidden by filters without silently changing a prohibited-domain setting.</p>
           <p>The edit action opens the corresponding source file on GitHub. The share action copies a permalink containing the item selection and the current independently versioned <code>filter=</code> and <code>disp=</code> states.</p>
         </section>
         <section class="help-card">
-          <h3>Guided views</h3>
-          <p>Views apply a curated combination of fields, domains, relation types, display settings, and a concept sequence. Previous and Next follow that sequence. Selecting other graph items does not lose your place; changing a filter leaves the preset and continues with the resulting independent atlas state.</p>
+          <h3>Stories and views</h3>
+          <p>A <strong>View</strong> applies a curated graph configuration. A <strong>Story</strong> also numbers an ordered node sequence and provides Previous and Next navigation. Filter or display changes remain attached through <code>filter=</code> and <code>disp=</code> URL overrides while every required sequence/core node remains visible. The top of Filters provides an explicit exit. For a core-node Story or View, the field/domain tree is replaced by its selected-node scope and a <strong>Use primary domains</strong> action.</p>
         </section>
       </div>
 
       <section class="help-card">
         <h3>Panels, preferences, and export</h3>
         <p>Filters and Details slide over the graph rather than resizing or relaying it during their animation. The fullscreen button hides both and restores their previous open state. On narrow screens, Filters enters from the left and Details rises from the bottom.</p>
-        <p>Preferences affect rendering and interaction performance, formula display, domain markers, node movement, and prerequisite emphasis. They are stored only in this browser and are not included in shared URLs. SVG export writes the current visible graph as a standalone vector document with labels, annotations, domain markers, emphasis, metadata, and selection state.</p>
+        <p>Preferences affect rendering and interaction performance, formula display, domain markers, node movement, and prerequisite emphasis. They are stored only in this browser and are not included in shared URLs. SVG export writes the current visible graph as a standalone vector document with labels, annotations, domain markers, emphasis, metadata, selection state, and active Story sequence badges.</p>
       </section>
 
       <section class="help-card help-shortcuts">
         <h3>Keyboard</h3>
         <p><kbd>/</kbd> focus search · <kbd>F</kbd> fit the graph · <kbd>Escape</kbd> clear search and close open mobile panels.</p>
       </section>`);
+
   }
 
-  const svgExporter = new SvgExporter(cy, model, state, () => preferences);
+  const svgExporter = new SvgExporter(
+    cy, model, state, () => preferences,
+    () => {
+      const activeView = locationController.activeView();
+      return activeView ? viewNodeSequence(activeView) : [];
+    }
+  );
   const exportVisibleSvg = (): void => svgExporter.exportVisible();
   const publishStaticSvgExporter = (): void => {
     window.__atlasStaticSvgExporter = {
@@ -699,6 +757,8 @@ export async function startAtlasApp(): Promise<void> {
   };
 
   // Controls
+  const routedView = locationController.activeView();
+  if (routedView && !graphView.preservesView(routedView)) locationController.deactivateView();
   filterControls.initialize();
   viewsController = new ViewsController({
     views: viewsData.views,
@@ -709,7 +769,8 @@ export async function startAtlasApp(): Promise<void> {
     viewPageUrl: (viewId) => locationController.viewPageUrl(viewId),
     isMobileLayout: () => panelController.isMobileLayout(),
     detailsOpen: () => state.detailsOpen,
-    math: mathRenderer
+    math: mathRenderer,
+    setNodeSequenceBadges: (nodeIds) => graphLabelLayer.setNodeSequence(nodeIds)
   });
   viewsController.initialize();
   buildHelp();

@@ -4,6 +4,7 @@ import { resolveViewSurface } from './view-surface.js';
 import type { AtlasView, SelectionTarget } from '../types.js';
 import type { MathRenderer } from './math-renderer.js';
 import { renderHtml } from './render.js';
+import { publicViewKind, viewNodeSequence } from '../state/view-state.js';
 
 const WELCOME_STORAGE_KEY = 'human-knowledge-atlas:views-welcome-dismissed:v1';
 
@@ -17,6 +18,7 @@ export interface ViewsControllerOptions {
   isMobileLayout: () => boolean;
   detailsOpen: () => boolean;
   math: MathRenderer;
+  setNodeSequenceBadges: (nodeIds: readonly string[]) => void;
 }
 
 export class ViewsController {
@@ -39,22 +41,26 @@ export class ViewsController {
     if (!view) {
       this.activeViewId = null;
       this.sequenceIndex = 0;
+      this.options.setNodeSequenceBadges([]);
     } else {
+      const sequence = viewNodeSequence(view);
       const baseIndex = this.activeViewId === view.id ? this.sequenceIndex : 0;
       this.activeViewId = view.id;
       this.sequenceIndex = sequenceIndexForNode(
-        view.nodeSequence,
+        sequence,
         selection?.kind === 'node' ? selection.id : null,
         baseIndex
       );
+      this.options.setNodeSequenceBadges(sequence);
     }
 
     const button = byId<HTMLButtonElement>('viewsButton');
     const label = button.querySelector<HTMLElement>('.views-button-label');
     button.classList.toggle('active', Boolean(view));
-    button.setAttribute('aria-label', view ? `Current view: ${view.title}. Browse views` : 'Browse guided views');
-    button.title = view ? `Current view: ${view.title}` : 'Browse guided views';
-    if (label) label.textContent = view ? view.title : 'Views';
+    const kind = view ? publicViewKind(view) : null;
+    button.setAttribute('aria-label', view ? `Current ${kind?.toLowerCase()}: ${view.title}. Browse stories and views` : 'Browse stories and views');
+    button.title = view ? `Current ${kind?.toLowerCase()}: ${view.title}` : 'Browse stories and views';
+    if (label) label.textContent = view ? view.title : 'Stories & Views';
 
     const banner = byId<HTMLElement>('viewBanner');
     const detailsContext = byId<HTMLElement>('mobileViewContext');
@@ -75,7 +81,7 @@ export class ViewsController {
   syncSelection(target: SelectionTarget | null): void {
     const view = this.options.activeView();
     if (!view || target?.kind !== 'node') return;
-    const nextIndex = view.nodeSequence.indexOf(target.id);
+    const nextIndex = viewNodeSequence(view).indexOf(target.id);
     if (nextIndex < 0 || nextIndex === this.sequenceIndex) return;
     this.sequenceIndex = nextIndex;
     renderHtml(byId<HTMLElement>('viewBanner'), this.renderActiveBanner(view));
@@ -137,9 +143,10 @@ export class ViewsController {
   private navigateSequence(direction: -1 | 1): void {
     const view = this.options.activeView();
     if (!view) return;
-    const nextIndex = moveSequenceIndex(view.nodeSequence, this.sequenceIndex, direction);
+    const sequence = viewNodeSequence(view);
+    const nextIndex = moveSequenceIndex(sequence, this.sequenceIndex, direction);
     if (nextIndex === null) return;
-    const nodeId = view.nodeSequence[nextIndex];
+    const nodeId = sequence[nextIndex];
     if (!nodeId || !this.options.activateNode(nodeId)) return;
     this.sequenceIndex = nextIndex;
     this.syncSelection({ kind: 'node', id: nodeId });
@@ -150,9 +157,9 @@ export class ViewsController {
     const featured = this.options.views.filter((view) => view.featured);
     const other = this.options.views.filter((view) => !view.featured);
     renderHtml(byId('viewsContent'), `
-      <p class="views-intro">Each view is a curated sequence through a named set of filters, relation types, and display choices. Previous and Next follow the suggested path; you can still explore any other concept without losing your place.</p>
-      ${this.renderViewSection('Featured paths', featured, active)}
-      ${other.length ? this.renderViewSection('More views', other, active) : ''}`);
+      <p class="views-intro"><strong>Views</strong> apply a curated graph configuration. <strong>Stories</strong> add a numbered sequence that you can follow with Previous and Next while still exploring freely.</p>
+      ${this.renderViewSection('Featured stories and views', featured, active)}
+      ${other.length ? this.renderViewSection('More stories and views', other, active) : ''}`);
   }
 
   private renderViewSection(title: string, views: readonly AtlasView[], active: AtlasView | null): string {
@@ -160,6 +167,8 @@ export class ViewsController {
   }
 
   private renderCard(view: AtlasView, active: boolean): string {
+    const sequence = viewNodeSequence(view);
+    const kind = publicViewKind(view);
     const image = view.image
       ? `<img class="view-card-image" src="${escapeHtml(view.image.src)}" alt="${escapeHtml(view.image.alt)}" loading="lazy">`
       : '';
@@ -169,25 +178,26 @@ export class ViewsController {
         <div class="view-card-heading"><h4 class="math-rich">${this.options.math.renderText(view.title)}</h4>${active ? '<span class="current-view-badge">Current</span>' : ''}</div>
         <p class="math-rich">${this.options.math.renderText(view.summary)}</p>
         <div class="view-tags">${view.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join('')}</div>
-        <div class="view-card-meta">${view.nodeSequence.length} steps</div>
-        <a class="button view-open-button${active ? ' secondary' : ' primary'}" href="${escapeHtml(this.options.viewPageUrl(view.id))}">${active ? 'Restart view' : 'Open view'}</a>
+        <div class="view-card-meta">${kind}${sequence.length ? ` · ${sequence.length} steps` : ' · curated configuration'}</div>
+        <a class="button view-open-button${active ? ' secondary' : ' primary'}" href="${escapeHtml(this.options.viewPageUrl(view.id))}">${active ? (sequence.length ? 'Restart story' : 'Reset view') : `Open ${kind.toLowerCase()}`}</a>
       </div>
     </article>`;
   }
 
   private renderActiveBanner(view: AtlasView): string {
+    const kind = publicViewKind(view);
     const permalink = escapeHtml(this.options.viewPageUrl(view.id));
     return `<div class="view-banner-desktop view-banner-copy">
       <details class="view-context-details"${this.bannerDetailsOpen ? ' open' : ''}>
         <summary>
           <span class="material-icons view-context-icon" aria-hidden="true">explore</span>
-          <span class="view-context-heading"><span class="kicker">Guided view</span><strong>${this.options.math.renderText(view.title)}</strong></span>
+          <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${this.options.math.renderText(view.title)}</strong></span>
           <span class="material-icons view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
         <div class="view-context-body">
           <p class="math-rich">${this.options.math.renderText(view.narrative)}</p>
           ${this.renderSequenceControls(view)}
-          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse views</button><a href="${permalink}">Permalink</a></div>
+          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><a href="${permalink}">Permalink</a></div>
         </div>
       </details>
     </div>
@@ -199,16 +209,17 @@ export class ViewsController {
   }
 
   private renderCompactViewDetails(view: AtlasView, className: string): string {
+    const kind = publicViewKind(view);
     return `<div class="view-compact-context ${className}">
       <details class="view-context-details">
         <summary>
           <span class="material-icons view-context-icon" aria-hidden="true">explore</span>
-          <span class="view-context-heading"><span class="kicker">Guided view</span><strong>${this.options.math.renderText(view.title)}</strong></span>
+          <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${this.options.math.renderText(view.title)}</strong></span>
           <span class="material-icons view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
         <div class="view-context-body">
           <p class="math-rich">${this.options.math.renderText(view.narrative)}</p>
-          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse views</button><a href="${escapeHtml(this.options.viewPageUrl(view.id))}">Permalink</a></div>
+          <div class="view-banner-actions"><button type="button" class="text-button" data-open-views>Browse stories and views</button><a href="${escapeHtml(this.options.viewPageUrl(view.id))}">Permalink</a></div>
         </div>
       </details>
       ${this.renderSequenceControls(view, true)}
@@ -216,9 +227,11 @@ export class ViewsController {
   }
 
   private renderSequenceControls(view: AtlasView, compact = false): string {
-    const count = view.nodeSequence.length;
-    const safeIndex = sequenceIndexForNode(view.nodeSequence, null, this.sequenceIndex);
-    const nodeId = view.nodeSequence[safeIndex] ?? '';
+    const sequence = viewNodeSequence(view);
+    const count = sequence.length;
+    if (count === 0) return '';
+    const safeIndex = sequenceIndexForNode(sequence, null, this.sequenceIndex);
+    const nodeId = sequence[safeIndex] ?? '';
     const nodeLabel = this.options.nodeLabel(nodeId) || nodeId;
     const previousDisabled = safeIndex <= 0 ? ' disabled' : '';
     const nextDisabled = safeIndex >= count - 1 ? ' disabled' : '';

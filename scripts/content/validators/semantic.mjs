@@ -96,10 +96,14 @@ export function validate(context) {
 
   for (const [index, view] of views.entries()) {
     const settings = view?.settings ?? {};
+    const coreNodes = new Set(arrayOrEmpty(view?.coreNodes));
     for (const nodeId of arrayOrEmpty(view?.nodeSequence)) {
       const node = nodeById.get(nodeId);
       if (!node) continue;
-      if (node.kind !== 'structure') errors.push(`views.views[${index}].nodeSequence must reference structure nodes; ${nodeId} is ${String(node.kind)}.`);
+      if (coreNodes.size > 0) {
+        if (!coreNodes.has(nodeId)) errors.push(`views.views[${index}].nodeSequence node ${nodeId} must also appear in coreNodes.`);
+        continue;
+      }
       const nodeDomains = Array.isArray(node.domains) && node.domains.length ? node.domains : [node.primaryDomain];
       const nodeFields = Array.isArray(node.fields) && node.fields.length
         ? node.fields

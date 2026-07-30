@@ -31,7 +31,8 @@ export class SvgExporter {
     private readonly cy: cytoscape.Core,
     private readonly model: GraphModel,
     private readonly state: AppState,
-    private readonly preferences: () => Preferences
+    private readonly preferences: () => Preferences,
+    private readonly nodeSequence: () => readonly string[] = () => []
   ) {}
 
   serializeVisible(): SvgExportResult | null {
@@ -179,6 +180,7 @@ export class SvgExporter {
       parts.push('</g>');
     });
 
+    const sequenceIndex = new Map(this.nodeSequence().map((nodeId, index) => [nodeId, index + 1]));
     visibleNodes.forEach((element) => {
       const record = this.model.nodeRecord.get(element.id());
       if (!record) return;
@@ -228,6 +230,11 @@ export class SvgExporter {
         const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
         parts.push(`<text x="${position.x}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="600" fill="${textColor}" opacity="${opacity}">${escapeHtml(line)}</text>`);
       });
+      const stepNumber = sequenceIndex.get(record.id);
+      if (stepNumber !== undefined) {
+        parts.push(`<circle cx="${x}" cy="${y + nodeHeight}" r="10" fill="#ffffff" stroke="#0f172a" stroke-width="2" opacity="${opacity}"/>`);
+        parts.push(`<text x="${x}" y="${(y + nodeHeight + 3.5).toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="10" font-weight="800" fill="#0f172a" opacity="${opacity}">${stepNumber}</text>`);
+      }
       parts.push('</a>');
     });
 

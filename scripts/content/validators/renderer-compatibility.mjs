@@ -45,7 +45,6 @@ export function validate(context) {
       if (typeof settings[key] !== 'boolean') errors.push(`${path}.settings.${key} must be a boolean.`);
     }
     if (settings.hidePrerequisites !== undefined && typeof settings.hidePrerequisites !== 'boolean') errors.push(`${path}.settings.hidePrerequisites must be a boolean.`);
-    if (arrayOrEmpty(view?.nodeSequence).length < 2) errors.push(`${path}.nodeSequence must contain at least two concepts for guided navigation.`);
   }
 
   return errors;

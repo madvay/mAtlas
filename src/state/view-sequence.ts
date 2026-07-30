@@ -1,4 +1,5 @@
 import type { AtlasView } from '../types.js';
+import { viewNodeSequence } from './view-state.js';
 
 export function sequenceIndexForNode(
   nodeSequence: readonly string[],
@@ -30,7 +31,7 @@ export interface NodeViewMatch {
 export function viewsContainingNode(views: readonly AtlasView[], nodeId: string): NodeViewMatch[] {
   const matches: NodeViewMatch[] = [];
   for (const view of views) {
-    const sequenceIndex = view.nodeSequence.indexOf(nodeId);
+    const sequenceIndex = viewNodeSequence(view).indexOf(nodeId);
     if (sequenceIndex >= 0) matches.push({ view, sequenceIndex });
   }
   return matches;

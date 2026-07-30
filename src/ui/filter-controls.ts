@@ -9,9 +9,10 @@ import {
   type DomainSuppression
 } from '../state/taxonomy-selection.js';
 import type { GraphModel } from '../model/graph-model.js';
-import type { AppState, LayoutName, Preferences } from '../types.js';
+import type { AppState, AtlasView, LayoutName, Preferences } from '../types.js';
 import { DEFAULT_PREFERENCES } from '../state/preferences.js';
 import { renderHtml } from './render.js';
+import { publicViewKind, viewCoreNodes } from '../state/view-state.js';
 
 export interface FilterControlsOptions {
   model: GraphModel;
@@ -24,6 +25,10 @@ export interface FilterControlsOptions {
   scheduleEdgeZoomStyles: () => void;
   preferences: () => Preferences;
   setPreferences: (preferences: Preferences) => void;
+  activeView: () => AtlasView | null;
+  exitView: () => void;
+  exitCoreNodeScope: () => void;
+  renderMathText: (value: unknown) => string;
 }
 
 export class FilterControls {
@@ -35,8 +40,36 @@ export class FilterControls {
     this.updateFieldAllButtonLabel();
     this.updateEdgeAllButtonLabel();
     this.updateFieldNavActiveState();
+    this.syncViewScope();
     this.buildDatalist();
     this.bindEvents();
+  }
+
+  syncViewScope(): void {
+    const view = this.options.activeView();
+    const context = byId<HTMLElement>('activeViewFilterContext');
+    const taxonomy = byId<HTMLElement>('taxonomyFilterSection');
+    if (!view) {
+      context.hidden = true;
+      context.replaceChildren();
+      taxonomy.hidden = false;
+      return;
+    }
+
+    const kind = publicViewKind(view);
+    const coreNodeCount = viewCoreNodes(view).length;
+    taxonomy.hidden = coreNodeCount > 0;
+    context.hidden = false;
+    renderHtml(context, `
+      <div class="kicker">Current ${kind.toLowerCase()}</div>
+      <strong class="math-rich">${this.options.renderMathText(view.title)}</strong>
+      <p>${coreNodeCount > 0
+        ? `This ${kind.toLowerCase()} directly selects ${coreNodeCount} node${coreNodeCount === 1 ? '' : 's'} instead of domains.`
+        : `Filter and display changes remain attached to this ${kind.toLowerCase()} while its required nodes stay visible.`}</p>
+      <div class="active-view-filter-actions">
+        ${coreNodeCount > 0 ? '<button type="button" class="button secondary" data-exit-core-node-scope>Use primary domains</button>' : ''}
+        <button type="button" class="button secondary" data-exit-view>Exit ${kind.toLowerCase()}</button>
+      </div>`);
   }
 
   build(): void {
@@ -172,6 +205,12 @@ export class FilterControls {
     }
 
     byId('filtersPanel').addEventListener('click', (event) => this.handleSectionToggle(event));
+    byId('activeViewFilterContext').addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (target.closest('[data-exit-core-node-scope]')) this.options.exitCoreNodeScope();
+      else if (target.closest('[data-exit-view]')) this.options.exitView();
+    });
 
     byId<HTMLSelectElement>('crossFieldSelect').addEventListener('change', (event) => {
       const value = (event.currentTarget as HTMLSelectElement).value;

@@ -7,6 +7,7 @@ import type {
 } from '../types.js';
 import { decodeDisplayToken, encodeDisplayToken } from './display-token.js';
 import { decodeFilterToken, encodeFilterToken } from './filter-token.js';
+import { stateMatchesViewDisplay, stateMatchesViewFilter } from './view-state.js';
 
 export const VALID_LAYOUTS: ReadonlySet<LayoutName> = new Set(['atlas', 'breadthfirst']);
 export const SHARE_FILTER_STATE_PARAM = 'filter';
@@ -263,6 +264,21 @@ export function addShareUiStateToParams(
 ): void {
   params.set(SHARE_FILTER_STATE_PARAM, encodeFilterToken(state, codec));
   params.set(SHARE_DISPLAY_STATE_PARAM, encodeDisplayToken(state));
+  for (const name of LEGACY_UI_STATE_PARAMS) params.delete(name);
+}
+
+export function addViewUiStateOverridesToParams(
+  params: URLSearchParams,
+  state: AppState,
+  defaults: ResolvedUrlUiState,
+  codec: ShareCodecConfig
+): void {
+  if (stateMatchesViewFilter(state, defaults)) params.delete(SHARE_FILTER_STATE_PARAM);
+  else params.set(SHARE_FILTER_STATE_PARAM, encodeFilterToken(state, codec));
+
+  if (stateMatchesViewDisplay(state, defaults)) params.delete(SHARE_DISPLAY_STATE_PARAM);
+  else params.set(SHARE_DISPLAY_STATE_PARAM, encodeDisplayToken(state));
+
   for (const name of LEGACY_UI_STATE_PARAMS) params.delete(name);
 }
 

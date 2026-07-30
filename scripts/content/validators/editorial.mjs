@@ -96,7 +96,7 @@ export function validate(context) {
       }
     }
   }
-  if (featuredViewCount === 0) errors.push('At least one guided view must be featured.');
+  if (featuredViewCount === 0) errors.push('At least one story or view must be featured.');
 
   for (const [id, legend] of entriesOrEmpty(graph?.citationLegend)) {
     if (typeof legend !== 'string' || legend.length === 0) errors.push(`graph.citationLegend.${id} must be a non-empty string.`);

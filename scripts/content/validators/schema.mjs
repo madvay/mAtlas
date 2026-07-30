@@ -140,7 +140,8 @@ export function validate(context) {
     requireObject(errors, view, path);
     for (const key of ['id', 'title', 'summary', 'narrative']) requireString(errors, view?.[key], `${path}.${key}`);
     requireStringArray(errors, view?.tags, `${path}.tags`, { nonEmpty: true, unique: true });
-    requireStringArray(errors, view?.nodeSequence, `${path}.nodeSequence`, { nonEmpty: true, unique: true });
+    if (view?.coreNodes !== undefined) requireStringArray(errors, view.coreNodes, `${path}.coreNodes`, { nonEmpty: true, unique: true });
+    if (view?.nodeSequence !== undefined) requireStringArray(errors, view.nodeSequence, `${path}.nodeSequence`, { unique: true });
     if (view?.featured !== undefined) requireBoolean(errors, view.featured, `${path}.featured`);
     if (view?.image !== undefined) {
       requireObject(errors, view.image, `${path}.image`);
@@ -148,7 +149,14 @@ export function validate(context) {
       requireString(errors, view.image?.alt, `${path}.image.alt`);
     }
     requireObject(errors, view?.settings, `${path}.settings`);
-    for (const key of ['fields', 'domains', 'edgeTypes']) requireStringArray(errors, view?.settings?.[key], `${path}.settings.${key}`, { nonEmpty: true, unique: true });
+requireStringArray(errors, view?.settings?.edgeTypes, `${path}.settings.edgeTypes`, { nonEmpty: true, unique: true });
+    if (view?.settings?.fields !== undefined) requireStringArray(errors, view.settings.fields, `${path}.settings.fields`, { nonEmpty: true, unique: true });
+    if (view?.settings?.domains !== undefined) requireStringArray(errors, view.settings.domains, `${path}.settings.domains`, { nonEmpty: true, unique: true });
+    const hasDomains = Array.isArray(view?.settings?.domains) && view.settings.domains.length > 0;
+    const hasCoreNodes = Array.isArray(view?.coreNodes) && view.coreNodes.length > 0;
+    if (hasDomains === hasCoreNodes) errors.push(`${path} must define exactly one of settings.domains or coreNodes.`);
+    if (hasDomains && !Array.isArray(view?.settings?.fields)) errors.push(`${path}.settings.fields is required when settings.domains is used.`);
+    if (hasCoreNodes && view?.settings?.fields !== undefined) errors.push(`${path}.settings.fields must be omitted when coreNodes is used.`);
     for (const key of ['excludedFields', 'excludedDomains', 'prohibitedDomains']) if (view?.settings?.[key] !== undefined) requireStringArray(errors, view.settings[key], `${path}.settings.${key}`, { unique: true });
     for (const key of ['crossFieldVisibility', 'layout']) requireString(errors, view?.settings?.[key], `${path}.settings.${key}`);
     for (const key of ['edgeLabels', 'junctions', 'edgeZoomActivation', 'showPrimaryOnly', 'hideIsolates']) {

@@ -1,5 +1,12 @@
-import { addShareUiStateToParams } from '../state/ui-state.js';
-import { stateMatchesView, viewIdFromPath, viewIdFromTemplate, viewPagePath } from '../state/view-state.js';
+import { addShareUiStateToParams, addViewUiStateOverridesToParams, resolveUrlUiState, type ResolvedUrlUiState } from '../state/ui-state.js';
+import {
+  viewIdFromPath,
+  viewIdFromTemplate,
+  viewNodeSequence,
+  viewPagePath,
+  viewSettingsAsUrlState,
+  viewTaxonomyDefaults
+} from '../state/view-state.js';
 import { stripInlineMathText, summarizePlainText } from '../core/text.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, AtlasView, HistoryMode, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
@@ -157,6 +164,31 @@ export class LocationController {
     return this.activeViewId ? this.options.views.get(this.activeViewId) ?? null : null;
   }
 
+  viewDefaults(view: AtlasView): ResolvedUrlUiState {
+    const taxonomy = viewTaxonomyDefaults(
+      view,
+      this.options.model.nodeRecord,
+      (domainId) => this.options.model.fieldForDomain(domainId)
+    );
+    const defaults = viewSettingsAsUrlState(view.settings, taxonomy);
+    return resolveUrlUiState({}, {
+      fields: defaults.fields ?? [],
+      domains: defaults.domains ?? [],
+      edgeTypes: defaults.edgeTypes ?? [],
+      excludedFields: defaults.excludedFields,
+      excludedDomains: defaults.excludedDomains,
+      prohibitedDomains: defaults.prohibitedDomains,
+      crossFieldVisibility: defaults.crossFieldVisibility,
+      showPrimaryOnly: defaults.showPrimaryOnly,
+      hideIsolates: defaults.hideIsolates,
+      edgeLabels: defaults.edgeLabels,
+      junctions: defaults.junctions,
+      edgeZoomActivation: defaults.edgeZoomActivation,
+      hidePrerequisites: defaults.hidePrerequisites,
+      layout: defaults.layout
+    });
+  }
+
   viewPageUrl(viewId: string): string {
     return new URL(viewPagePath(viewId), this.runtimeGlobalRootUrl).toString();
   }
@@ -169,7 +201,7 @@ export class LocationController {
 
   scopedDefaultViewSelection(): SelectionTarget | null {
     const view = this.activeView();
-    const firstNodeId = view?.nodeSequence[0];
+    const firstNodeId = view ? viewNodeSequence(view)[0] : undefined;
     return firstNodeId ? { kind: 'node', id: firstNodeId } : null;
   }
 
@@ -241,7 +273,7 @@ export class LocationController {
 
   itemUrl(itemId: string, itemKind: SelectionTarget['kind']): string {
     const view = this.activeView();
-    if (view && stateMatchesView(this.options.getState(), view)) {
+    if (view) {
       return this.urlForActiveViewSelection({ kind: itemKind, id: itemId }).toString();
     }
 
@@ -264,10 +296,9 @@ export class LocationController {
   write(target: SelectionTarget | null, mode: Exclude<HistoryMode, null> = 'replace'): void {
     const activeView = this.activeView();
     let url: URL;
-    if (activeView && stateMatchesView(this.options.getState(), activeView)) {
+    if (activeView) {
       url = this.urlForActiveViewSelection(target);
     } else {
-      if (activeView) this.deactivateView();
       const { model } = this.options;
       const namedScope = this.namedScopeForState();
       const conceptSelected = target?.kind === 'node' && model.nodeRecord.get(target.id)?.kind === 'structure';
@@ -358,9 +389,16 @@ export class LocationController {
     const view = this.activeView();
     if (!view) return this.scopeUrl(this.namedScopeForState(), this.runtimeGlobalRootUrl);
     const url = new URL(this.viewPageUrl(view.id));
+    addViewUiStateOverridesToParams(
+      url.searchParams,
+      this.options.getState(),
+      this.viewDefaults(view),
+      this.options.shareCodec
+    );
+    const sequence = viewNodeSequence(view);
     if (!target) {
-      url.searchParams.set('selection', 'none');
-    } else if (!(target.kind === 'node' && target.id === view.nodeSequence[0])) {
+      if (sequence.length > 0) url.searchParams.set('selection', 'none');
+    } else if (!(target.kind === 'node' && target.id === sequence[0])) {
       url.searchParams.set(target.kind, target.id);
     }
     return url;
@@ -489,6 +527,7 @@ export class LocationController {
       return;
     }
     const canonicalUrl = new URL(viewPagePath(view.id), this.canonicalRootUrl).toString();
+    const sequence = viewNodeSequence(view);
     const payload = {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -498,17 +537,19 @@ export class LocationController {
       url: canonicalUrl,
       isPartOf: { '@type': 'WebSite', name: this.options.model.data.meta.title, url: this.canonicalRootUrl },
       about: view.tags,
-      mainEntity: {
-        '@type': 'ItemList',
-        itemListElement: view.nodeSequence.map((nodeId, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          item: {
-            '@type': 'DefinedTerm',
-            '@id': new URL(`concepts/${encodeURIComponent(nodeId)}/`, this.canonicalRootUrl).toString()
-          }
-        }))
-      }
+      ...(sequence.length ? {
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: sequence.map((nodeId, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            item: {
+              '@type': 'DefinedTerm',
+              '@id': new URL(`concepts/${encodeURIComponent(nodeId)}/`, this.canonicalRootUrl).toString()
+            }
+          }))
+        }
+      } : {})
     };
     const script = existing ?? document.createElement('script');
     script.id = scriptId;

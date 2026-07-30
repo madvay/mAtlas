@@ -138,10 +138,10 @@ export class DetailsController {
   private renderViewsSection(nodeId: string): string {
     const matches = viewsContainingNode(this.options.views, nodeId);
     if (!matches.length) return '';
-    return `<section class="detail-section"><h3>Views</h3><div class="detail-view-list">${matches.map(({ view, sequenceIndex }) => `
+    return `<section class="detail-section"><h3>Stories</h3><div class="detail-view-list">${matches.map(({ view, sequenceIndex }) => `
       <a class="detail-view-link" href="${escapeHtml(this.options.viewNodeUrl(view.id, nodeId))}">
         <span class="material-icons" aria-hidden="true">explore</span>
-        <span class="detail-view-copy"><strong>${this.options.math.renderText(view.title)}</strong><span>Start at step ${sequenceIndex + 1} of ${view.nodeSequence.length}</span></span>
+        <span class="detail-view-copy"><strong>${this.options.math.renderText(view.title)}</strong><span>Start at step ${sequenceIndex + 1} of ${view.nodeSequence?.length ?? 0}</span></span>
       </a>`).join('')}</div></section>`;
   }
 

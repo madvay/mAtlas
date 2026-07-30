@@ -203,8 +203,8 @@
         <button id="exportSvgButton" class="button icon-button" aria-label="Export SVG" title="Download the current visible graph as SVG">
           <span class="material-icons" aria-hidden="true">download</span>
         </button>
-        <button id="viewsButton" class="button views-button" aria-haspopup="dialog" aria-label="Browse guided views" title="Browse guided views">
-          <span class="material-icons" aria-hidden="true">explore</span><span class="views-button-label">Views</span>
+        <button id="viewsButton" class="button views-button" aria-haspopup="dialog" aria-label="Browse stories and views" title="Browse stories and views">
+          <span class="material-icons" aria-hidden="true">explore</span><span class="views-button-label">Stories &amp; Views</span>
         </button>
         <button id="helpButton" class="button icon-button" aria-haspopup="dialog" aria-label="Open key" title="Open key">
           <span class="material-icons" aria-hidden="true">help_outline</span>
@@ -214,7 +214,9 @@
 
     <div id="workspace" class="workspace filters-collapsed details-collapsed">
       <aside id="filtersPanel" class="sidebar filters-panel" aria-label="Filters" aria-hidden="true">
-        <section class="filter-section">
+        <section id="activeViewFilterContext" class="active-view-filter-context" hidden></section>
+
+        <section id="taxonomyFilterSection" class="filter-section">
           <div class="section-heading">
             <button type="button" class="filter-section-toggle" aria-expanded="true" aria-controls="fieldFilterSection" data-filter-section-toggle>
               <span>Fields / Domains</span><span class="material-icons" aria-hidden="true">expand_more</span>
@@ -289,7 +291,7 @@
           <div id="dataFilterSection" class="filter-section-body">
             <a class="small-link" href="__ATLAS_DATA_URL__" target="_blank" rel="noopener">View graph data</a>
             <a class="small-link" href="__ATLAS_SCHEMA_URL__" target="_blank" rel="noopener">View data schema</a>
-            <a class="small-link" href="__ATLAS_VIEWS_URL__" target="_blank" rel="noopener">View guided-view data</a>
+            <a class="small-link" href="__ATLAS_VIEWS_URL__" target="_blank" rel="noopener">View story/view data</a>
             <a class="small-link" href="__ATLAS_SHARE_CODEC_URL__" target="_blank" rel="noopener">View share-link codec</a>
             <a class="small-link" href="__ATLAS_PROVENANCE_URL__" target="_blank" rel="noopener">View content provenance</a>
             <a class="small-link" href="/CONTENT_LICENSE" target="_blank" rel="noopener">View content license</a>
@@ -305,11 +307,11 @@
         <div id="fieldBands" class="field-bands" aria-hidden="true"></div>
         <section id="viewBanner" class="view-banner" aria-live="polite" hidden></section>
         <aside id="viewsWelcome" class="views-welcome" hidden>
-          <button type="button" class="icon-button views-welcome-close" data-welcome-dismiss aria-label="Dismiss guided views introduction">×</button>
+          <button type="button" class="icon-button views-welcome-close" data-welcome-dismiss aria-label="Dismiss stories and views introduction">×</button>
           <div class="kicker">New to the atlas?</div>
-          <h2>Start with a guided view</h2>
-          <p>Explore a curated path through the graph, then change any filter to continue on your own.</p>
-          <button type="button" class="button primary" data-welcome-explore>Explore views</button>
+          <h2>Start with a story or view</h2>
+          <p>Open a curated configuration, or follow a numbered story through the graph.</p>
+          <button type="button" class="button primary" data-welcome-explore>Explore stories and views</button>
         </aside>
         <div id="graphLoader" class="graph-loader" role="status" aria-live="polite">Preparing the atlas…</div>
         <div id="graph" role="application" aria-label="Interactive graph of connected concepts across mathematics and physics"></div>
@@ -320,7 +322,7 @@
       </main>
 
       <article id="detailsPanel" class="sidebar details-panel" aria-label="Details" aria-hidden="true">
-        <section id="mobileViewContext" class="mobile-view-context" aria-label="Current guided view" hidden></section>
+        <section id="mobileViewContext" class="mobile-view-context" aria-label="Current story or view" hidden></section>
         <div class="details-header">
           <div>
             <h2 id="detailTitle">Select a concept</h2>
@@ -341,13 +343,13 @@
       <div class="dialog-header">
         <div>
           <div class="kicker">Curated starting points</div>
-          <h2>Views</h2>
+          <h2>Stories &amp; Views</h2>
         </div>
         <button class="icon-button" value="close" aria-label="Close">×</button>
       </div>
       <div id="viewsContent" class="dialog-content views-content"></div>
       <div class="dialog-actions">
-        <a class="small-link views-directory-link" href="/views/">Open the view directory</a>
+        <a class="small-link views-directory-link" href="/views/">Open the stories and views directory</a>
         <button class="button primary" value="close">Close</button>
       </div>
     </form>

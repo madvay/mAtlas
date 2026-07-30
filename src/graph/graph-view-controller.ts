@@ -1,10 +1,11 @@
 import type cytoscape from 'cytoscape';
 import { byId } from '../core/dom.js';
 import type { GraphModel } from '../model/graph-model.js';
-import type { AppState, GraphEdge, LayoutName, Preferences } from '../types.js';
+import type { AppState, AtlasView, GraphEdge, LayoutName, Preferences } from '../types.js';
 import type { LabelSizer } from './label-sizer.js';
 import { isCrossFieldEdgeAllowed, resolveFilterVisibility } from './visibility-policy.js';
 import { renderHtml } from '../ui/render.js';
+import { viewCoreNodes, viewRequiredNodeIds } from '../state/view-state.js';
 
 const EDGE_ZOOM_ACTIVATION_THRESHOLD = 0.65;
 const EDGE_OPACITY_HIDDEN = 0;
@@ -33,6 +34,7 @@ export interface GraphViewControllerOptions {
   scheduleFieldBands: () => void;
   updateFiltersToggleCount: () => void;
   preferences: () => Preferences;
+  activeView: () => AtlasView | null;
 }
 
 export class GraphViewController {
@@ -67,24 +69,15 @@ export class GraphViewController {
 
   applyFilters({ relayout = false }: { relayout?: boolean } = {}): void {
     const { cy, model, state } = this.options;
+    const activeCoreNodeIds = this.activeCoreNodeIds();
     const required = state.hidePrerequisites
       ? new Set<string>()
-      : model.requiredNodeIds(state, (edge) => !model.isCrossFieldEdge(edge) || this.crossFieldEdgeAllowed(edge));
-    const visibility = resolveFilterVisibility(
-      model.data.nodes.map((record) => ({
-        id: record.id,
-        kind: record.kind,
-        taxonomyVisible: model.nodeMatchesSelectedTaxonomy(record, state)
-          && !model.nodeExcludedByTaxonomy(record, state),
-        dependencyVisible: required.has(record.id)
-      })),
-      model.allEdges,
-      {
-        showJunctions: state.showJunctions,
-        hideIsolates: state.hideIsolates,
-        edgeAllowed: (edge) => state.selectedEdgeTypes.has(edge.type) && this.crossFieldEdgeAllowed(edge)
-      }
-    );
+      : model.requiredNodeIds(
+          state,
+          (edge) => !model.isCrossFieldEdge(edge) || this.crossFieldEdgeAllowed(edge),
+          activeCoreNodeIds
+        );
+    const visibility = this.resolveVisibility(required, activeCoreNodeIds);
     const visibleNodeIds = new Set<string>();
     for (const [nodeId, nodeVisibility] of visibility.nodeVisibility) {
       if (nodeVisibility !== 'hidden') visibleNodeIds.add(nodeId);
@@ -137,6 +130,18 @@ export class GraphViewController {
     if (relayout || (state.layout === 'breadthfirst' && compactVisibilityChanged)) {
       this.options.runLayout(state.layout, true);
     }
+  }
+
+  preservesView(view: AtlasView): boolean {
+    const requiredNodeIds = viewRequiredNodeIds(view);
+    if (requiredNodeIds.size === 0) return true;
+    const coreIds = viewCoreNodes(view);
+    const coreNodeIds = coreIds.length > 0 ? new Set(coreIds) : null;
+    const visibility = this.resolveVisibility(new Set(), coreNodeIds);
+    for (const nodeId of requiredNodeIds) {
+      if ((visibility.nodeVisibility.get(nodeId) ?? 'hidden') === 'hidden') return false;
+    }
+    return true;
   }
 
   visibleElements(): cytoscape.CollectionReturnValue {
@@ -330,5 +335,32 @@ export class GraphViewController {
 
   private crossFieldEdgeAllowed(record: GraphEdge): boolean {
     return isCrossFieldEdgeAllowed(record, this.options.model.isCrossFieldEdge(record), this.options.state);
+  }
+
+  private activeCoreNodeIds(): ReadonlySet<string> | null {
+    const coreIds = viewCoreNodes(this.options.activeView() ?? {});
+    return coreIds.length > 0 ? new Set(coreIds) : null;
+  }
+
+  private resolveVisibility(
+    dependencyNodeIds: ReadonlySet<string>,
+    coreNodeIds: ReadonlySet<string> | null
+  ) {
+    const { model, state } = this.options;
+    return resolveFilterVisibility(
+      model.data.nodes.map((record) => ({
+        id: record.id,
+        kind: record.kind,
+        taxonomyVisible: (coreNodeIds ? coreNodeIds.has(record.id) : model.nodeMatchesSelectedTaxonomy(record, state))
+          && !model.nodeExcludedByTaxonomy(record, state),
+        dependencyVisible: dependencyNodeIds.has(record.id)
+      })),
+      model.allEdges,
+      {
+        showJunctions: state.showJunctions,
+        hideIsolates: state.hideIsolates,
+        edgeAllowed: (edge) => state.selectedEdgeTypes.has(edge.type) && this.crossFieldEdgeAllowed(edge)
+      }
+    );
   }
 }

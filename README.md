@@ -13,11 +13,11 @@ The atlas is one graph rather than a collection of isolated applications. Fields
 - `/physics/` — physics scope
 - `/concepts/<id>/` — canonical concept pages
 - `/concepts/` — HTML/JavaScript compatibility redirect to `/directory/`
-- `/views/` — static directory of curated guided views
-- `/views/<id>/` — a static, crawlable guided-view route that opens the interactive atlas with the preset applied
+- `/views/` — static directory of curated stories and views
+- `/views/<id>/` — a static, crawlable Story/View route that opens the interactive atlas with the preset applied
 - `/content/atlas.<hash>.json` — immutable canonical graph export (the exact URL is linked from each generated page)
 - `/content/schema.<hash>.json` — published graph JSON Schema
-- `/content/views.<hash>.json` — immutable guided-view definitions
+- `/content/views.<hash>.json` — immutable Story/View definitions
 - `/content/provenance.<hash>.json` — content/schema versions, source paths, SHA-256 hashes, license, and attribution
 - `/CONTENT_LICENSE` — content-specific CC BY-SA 4.0 notice
 - `/directory/` — static semantic atlas directory with the exact all-in SVG transcluded, crawlable concept links, relation definitions, structured data, and atlas context
@@ -54,7 +54,7 @@ npm test
 
 `npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export and `/directory/` semantic atlas directory. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
 
-Validation is split into schema/shape, share-codec, reference, semantic, editorial, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, and every guided view's identifiers and settings.
+Validation is split into schema/shape, share-codec, reference, semantic, editorial, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, and every view object's identifiers and settings.
 
 ## Additional scripts
 
@@ -69,7 +69,7 @@ Validation is split into schema/shape, share-codec, reference, semantic, editori
 ```text
 content/
   concepts/                 split editable graph dataset (YAML)
-  views/                    split guided-view definitions (YAML)
+  views/                    split Story/View object definitions (YAML)
   share-codec.yaml          append-only filter-token wire registry
   schema.json                published graph schema
   manifest.json              content and schema contract versions
@@ -144,18 +144,18 @@ The left panel contains collapsible field/domain, edge, display, preferences, an
 Bookmarkable state is split between two independently versioned, unpadded Base64URL parameters. `filter=` contains fields, domains, edge types, field/domain exclusions, and prohibited domains using the content-owned append-only registry. Prohibited domains are stored in a length-delimited extension record, so older format-1 decoders can skip the record and newer decoders can retain the permanent domain-slot meanings. `disp=` contains cross-field visibility, display flags, and layout using the software-owned append-only registry. Neither token includes a checksum. Either token may appear alone; the missing half uses the applicable route, view, or application defaults. Legacy explicit query parameters remain readable when neither compact parameter is present and are replaced with both compact parameters on the next location sync. Performance and rendering preferences (resolution, transitions, motion blur, graph formulae, and secondary-domain indicators) are instead restored from local storage and can be reset from the Preferences section; they are never added to URLs.
 The defaults enable native-resolution rendering, transitions, and secondary-domain indicators while disabling motion blur and KaTeX graph overlays; lightweight Unicode math remains visible in graph labels and exported SVGs.
 
-Fields and domains can also be marked **excluded** without clearing the ordinary inclusion filters. Exclusions suppress concepts whose primary field/domain is excluded, including prerequisite-only context, while still allowing a multi-domain concept through when it has an explicitly included, non-excluded secondary domain. Domain suppression is tri-state: allowed, excluded, and **prohibited**. Prohibition always hides concepts whose primary domain is prohibited, including through secondary memberships and prerequisite closure. Exclusions and prohibitions are encoded in `filter=`, while the Display section's **Hide prerequisites** option is encoded in `disp=`; all remain supported by guided-view settings. Local preferences additionally control graph edge-label rendering, whether edges disappear during viewport gestures, and whether prerequisite context is dimmed; these preferences also apply to SVG exports where relevant.
+Fields and domains can also be marked **excluded** without clearing the ordinary inclusion filters. Exclusions suppress concepts whose primary field/domain is excluded, including prerequisite-only context, while still allowing a multi-domain concept through when it has an explicitly included, non-excluded secondary domain. Domain suppression is tri-state: allowed, excluded, and **prohibited**. Prohibition always hides concepts whose primary domain is prohibited, including through secondary memberships and prerequisite closure. Exclusions and prohibitions are encoded in `filter=`, while the Display section's **Hide prerequisites** option is encoded in `disp=`; all remain supported by Story/View settings. Local preferences additionally control graph edge-label rendering, whether edges disappear during viewport gestures, and whether prerequisite context is dimmed; these preferences also apply to SVG exports where relevant.
 
 The scoped routes initialize their corresponding field while using the same graph and codebase. Canonical concept URLs are field-independent so a multi-field concept has one durable identity.
 
 
-### Guided views
+### Stories and views
 
-A view is a named preset in `content/views/index.yaml`, with one YAML file per view under `content/views/`. It contains editorial copy (`title`, `summary`, `narrative`, and `tags`), an optional image, an ordered `nodeSequence`, and a complete settings object for fields, domains, edge types, cross-field visibility, display controls, and layout.
+A view object is a named preset in `content/views/index.yaml`, with one YAML file per object under `content/views/`. Publicly, an object without `nodeSequence` is a **View**; one with a nonempty `nodeSequence` is a **Story**. Each object contains editorial copy (`title`, `summary`, `narrative`, and `tags`), an optional image, an edge-type set and display settings, plus exactly one graph scope: either `settings.fields`/`settings.domains` or a `coreNodes` set. For a core-node Story, `nodeSequence` must be a subset of `coreNodes`.
 
-The first sequence node is the view’s initial selection. Previous and Next controls advance through the ordered concepts on desktop and mobile; selecting anything else leaves the sequence position unchanged. The build emits a static directory page and one crawlable application page per view. View routes are included in `sitemap.xml` and represented as `CollectionPage` JSON-LD. In the application, the **Views** toolbar control opens the same data-driven catalog, while a dismissible first-visit prompt makes the feature discoverable without permanently occupying graph space.
+For a Story, the first sequence node is the initial selection. Previous and Next controls advance through the ordered concepts on desktop and mobile; selecting anything else leaves the sequence position unchanged. Sequence nodes receive numbered graph badges, including in SVG exports. A Story or View remains active when its filter/display state changes, with differences encoded as `filter=` and `disp=` URL overrides; it exits only when its required sequence/core nodes would no longer be visible, or when the user explicitly exits it. Core-node objects replace the taxonomy tree with controls for leaving the object directly or converting its scope to the union of the core nodes’ primary domains. The build emits a static directory page and one crawlable application page per object. Routes are included in `sitemap.xml` and represented as `CollectionPage` JSON-LD. In the application, the **Stories & Views** toolbar control opens the same data-driven catalog, while a dismissible first-visit prompt makes the feature discoverable without permanently occupying graph space.
 
-A `/views/<id>/` URL remains active while the effective settings exactly match its preset. Selecting concepts, highlighting neighborhoods, searching, and opening details do not leave the route. Changing any filter, display setting, or layout exits the named view and writes the resulting configuration through the ordinary atlas/concept URL scheme. Returning through browser history restores the preset.
+A `/views/<id>/` URL remains active while every required sequence/core node survives the non-prerequisite visibility policy. Selecting concepts, highlighting neighborhoods, searching, and opening details do not leave the route. Filter and display differences are written as independent `filter=` and `disp=` overrides on that route. Browser history restores both the object and its overrides.
 
 The optional **Hide isolates** display state removes nodes with no edge admitted by the current complete visibility policy; it is included in `disp=`.
 

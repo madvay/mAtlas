@@ -16,6 +16,11 @@ interface DomainMarkerEntry {
   marker: HTMLDivElement;
 }
 
+interface SequenceBadgeEntry {
+  element: cytoscape.NodeSingular;
+  badge: HTMLDivElement;
+}
+
 const VIEWPORT_DIRTY = 1;
 const GEOMETRY_DIRTY = 2;
 const STATE_DIRTY = 4;
@@ -31,6 +36,7 @@ export class GraphMathLabelLayer {
   private readonly viewport = document.createElement('div');
   private readonly entries: MathLabelEntry[] = [];
   private readonly domainMarkers: DomainMarkerEntry[] = [];
+  private readonly sequenceBadges: SequenceBadgeEntry[] = [];
   private frame = 0;
   private dirty = 0;
   private preferences: Preferences;
@@ -66,6 +72,21 @@ export class GraphMathLabelLayer {
     for (const { element } of this.entries) {
       element.data('canvasLabel', preferences.formulaeInGraph ? '' : element.data('displayLabel'));
     }
+    this.schedule(GEOMETRY_DIRTY | STATE_DIRTY);
+  }
+
+  setNodeSequence(nodeIds: readonly string[]): void {
+    for (const { badge } of this.sequenceBadges) badge.remove();
+    this.sequenceBadges.length = 0;
+    nodeIds.forEach((nodeId, index) => {
+      const element = this.cy.getElementById(nodeId);
+      if (!element || element.empty() || !element.isNode()) return;
+      const badge = document.createElement('div');
+      badge.className = 'graph-sequence-badge';
+      badge.textContent = String(index + 1);
+      this.viewport.appendChild(badge);
+      this.sequenceBadges.push({ element: element as cytoscape.NodeSingular, badge });
+    });
     this.schedule(GEOMETRY_DIRTY | STATE_DIRTY);
   }
 
@@ -154,6 +175,12 @@ export class GraphMathLabelLayer {
       marker.style.left = `${position.x + 76}px`;
       marker.style.top = `${position.y + 25}px`;
     }
+    for (const { element, badge } of this.sequenceBadges) {
+      if (element.hasClass('filter-hidden') || element.style('display') === 'none') continue;
+      const bounds = element.boundingBox({ includeLabels: false, includeOverlays: false });
+      badge.style.left = `${bounds.x1}px`;
+      badge.style.top = `${bounds.y2}px`;
+    }
   }
 
   private syncState(): void {
@@ -181,6 +208,11 @@ export class GraphMathLabelLayer {
       const hidden = !this.preferences.indicateOtherDomains || element.hasClass('filter-hidden') || element.style('display') === 'none';
       marker.hidden = hidden;
       if (!hidden) marker.style.opacity = String(numericOpacity(element, 1));
+    }
+    for (const { element, badge } of this.sequenceBadges) {
+      const hidden = element.hasClass('filter-hidden') || element.style('display') === 'none';
+      badge.hidden = hidden;
+      if (!hidden) badge.style.opacity = String(numericOpacity(element, 1));
     }
   }
 

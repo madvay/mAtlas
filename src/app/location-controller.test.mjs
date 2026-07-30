@@ -112,8 +112,8 @@ function modelFixture() {
     knownNodeIds: new Set(['blackbody', 'quantum']),
     knownEdgeIds: new Set(['e1']),
     nodeRecord: new Map([
-      ['blackbody', { id: 'blackbody', kind: 'structure', label: 'Blackbody' }],
-      ['quantum', { id: 'quantum', kind: 'structure', label: 'Quantum' }]
+      ['blackbody', { id: 'blackbody', kind: 'structure', label: 'Blackbody', primaryDomain: 'experiments', domains: ['experiments'] }],
+      ['quantum', { id: 'quantum', kind: 'structure', label: 'Quantum', primaryDomain: 'experiments', domains: ['experiments'] }]
     ]),
     edgeRecord: new Map(),
     fieldForDomain() { return 'physics'; }
@@ -132,6 +132,36 @@ function controllerFor(state) {
     shareCodec
   });
 }
+
+
+test('view defaults preserve prohibited-domain settings', () => {
+  const browser = installBrowser('https://atlas.madvay.com/views/experimental-discovery/');
+  try {
+    const state = matchingState();
+    const model = modelFixture();
+    model.data.domains.geometry = { field: 'physics', label: 'Geometry' };
+    model.knownDomainIds.add('geometry');
+    const prohibitedView = {
+      ...view,
+      settings: { ...view.settings, prohibitedDomains: ['geometry'] }
+    };
+    const controller = new LocationController({
+      model,
+      getState: () => state,
+      views: new Map([[prohibitedView.id, prohibitedView]]),
+      fieldOrder: ['physics'],
+      domainOrder: ['experiments', 'geometry'],
+      edgeTypeOrder: ['motivated', 'verified'],
+      shareCodec: {
+        ...shareCodec,
+        domains: [{ id: 'experiments' }, { id: 'geometry' }]
+      }
+    });
+    assert.deepEqual(controller.viewDefaults(prohibitedView).prohibitedDomains, ['geometry']);
+  } finally {
+    browser.restore();
+  }
+});
 
 test('static view metadata is used only during initial route resolution', () => {
   const browser = installBrowser('https://atlas.madvay.com/concepts/quantum/', view.id);
@@ -193,7 +223,7 @@ test('an exact view configuration keeps the static view route during exploration
   }
 });
 
-test('changing a filter exits the view route but keeps the selected concept route', () => {
+test('changing a filter keeps the view route and adds only a filter override', () => {
   const browser = installBrowser('https://atlas.madvay.com/views/experimental-discovery/?node=quantum');
   try {
     const state = matchingState();
@@ -203,18 +233,57 @@ test('changing a filter exits the view route but keeps the selected concept rout
 
     controller.write({ kind: 'node', id: 'quantum' }, 'replace');
     const written = new URL(browser.writtenUrl());
-    assert.equal(written.pathname, '/concepts/quantum/');
-    assert.equal(written.searchParams.has('node'), false);
-    assert.equal(written.searchParams.has('fields'), false);
-    assert.equal(written.searchParams.has('domains'), false);
-    assert.equal(written.searchParams.has('edges'), false);
-    assert.ok(written.searchParams.get('disp'));
-    assert.equal(decodeDisplayToken(written.searchParams.get('disp')).layout, 'atlas');
+    assert.equal(written.pathname, '/views/experimental-discovery/');
+    assert.equal(written.searchParams.get('node'), 'quantum');
+    assert.equal(written.searchParams.has('disp'), false);
     const decoded = decodeFilterToken(written.searchParams.get('filter'), shareCodec);
     assert.deepEqual(decoded.fields, ['physics']);
     assert.deepEqual(decoded.domains, ['experiments']);
     assert.deepEqual(decoded.edgeTypes, ['motivated']);
-    assert.equal(controller.activeView(), null);
+    assert.equal(controller.activeView()?.id, view.id);
+  } finally {
+    browser.restore();
+  }
+});
+
+test('changing display settings keeps the view route and adds only a display override', () => {
+  const browser = installBrowser('https://atlas.madvay.com/views/experimental-discovery/');
+  try {
+    const state = matchingState();
+    state.layout = 'breadthfirst';
+    const controller = controllerFor(state);
+    controller.setActiveView(view.id);
+
+    controller.write({ kind: 'node', id: 'blackbody' }, 'replace');
+    const written = new URL(browser.writtenUrl());
+    assert.equal(written.pathname, '/views/experimental-discovery/');
+    assert.equal(written.searchParams.has('node'), false);
+    assert.equal(written.searchParams.has('filter'), false);
+    assert.equal(decodeDisplayToken(written.searchParams.get('disp')).layout, 'breadthfirst');
+  } finally {
+    browser.restore();
+  }
+});
+
+test('a plain View has no implicit node selection and keeps a clean bare URL', () => {
+  const browser = installBrowser('https://atlas.madvay.com/views/plain-view/');
+  try {
+    const state = matchingState();
+    const plainView = { ...view, id: 'plain-view', nodeSequence: undefined };
+    const model = modelFixture();
+    const controller = new LocationController({
+      model,
+      getState: () => state,
+      views: new Map([[plainView.id, plainView]]),
+      fieldOrder: ['physics'],
+      domainOrder: ['experiments'],
+      edgeTypeOrder: ['motivated', 'verified'],
+      shareCodec
+    });
+    controller.setActiveView(plainView.id);
+    assert.equal(controller.scopedDefaultViewSelection(), null);
+    controller.write(null, 'replace');
+    assert.equal(browser.writtenUrl(), null);
   } finally {
     browser.restore();
   }

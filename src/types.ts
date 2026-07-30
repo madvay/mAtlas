@@ -187,8 +187,8 @@ export interface AtlasViewImage {
 }
 
 export interface AtlasViewSettings {
-  fields: string[];
-  domains: string[];
+  fields?: string[];
+  domains?: string[];
   edgeTypes: string[];
   excludedFields?: string[];
   excludedDomains?: string[];
@@ -210,7 +210,8 @@ export interface AtlasView {
   narrative: string;
   tags: string[];
   featured?: boolean;
-  nodeSequence: string[];
+  coreNodes?: string[];
+  nodeSequence?: string[];
   image?: AtlasViewImage;
   settings: AtlasViewSettings;
 }

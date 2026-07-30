@@ -12,20 +12,21 @@ const model = new GraphModel(graphData);
 function visibleGraph(view) {
   const settings = view.settings;
   const state = {
-    selectedFields: new Set(settings.fields),
-    selectedDomains: new Set(settings.domains),
+    selectedFields: new Set(settings.fields ?? []),
+    selectedDomains: new Set(settings.domains ?? []),
     selectedEdgeTypes: new Set(settings.edgeTypes),
     crossFieldVisibility: settings.crossFieldVisibility,
     neighborhoodElementId: null
   };
   const crossFieldAllowed = (edge) => isCrossFieldEdgeAllowed(edge, model.isCrossFieldEdge(edge), state);
-  const required = model.requiredNodeIds(state, (edge) => !model.isCrossFieldEdge(edge) || crossFieldAllowed(edge));
+  const coreNodeIds = view.coreNodes?.length ? new Set(view.coreNodes) : null;
+  const required = model.requiredNodeIds(state, (edge) => !model.isCrossFieldEdge(edge) || crossFieldAllowed(edge), coreNodeIds);
   const nodes = new Set();
 
   for (const node of graphData.nodes) {
     const visibility = classifyNodeVisibility(
       node.kind,
-      model.nodeMatchesSelectedTaxonomy(node, state),
+      coreNodeIds ? coreNodeIds.has(node.id) : model.nodeMatchesSelectedTaxonomy(node, state),
       required.has(node.id),
       settings.junctions
     );
@@ -52,8 +53,9 @@ test('every curated view opens a non-empty graph and every sequence node is visi
     const visible = visibleGraph(view);
     assert.ok(visible.nodes.size >= 2, `${view.id} should expose at least two concepts`);
     assert.ok(visible.edges.length >= 1, `${view.id} should expose at least one relation`);
-    assert.ok(view.nodeSequence.length >= 2, `${view.id} should contain a useful multi-step sequence`);
-    for (const nodeId of view.nodeSequence) {
+    const sequence = view.nodeSequence ?? [];
+    if (sequence.length) assert.ok(sequence.length >= 2, `${view.id} should contain a useful multi-step sequence`);
+    for (const nodeId of sequence) {
       assert.ok(visible.nodes.has(nodeId), `${view.id} sequence node ${nodeId} should be visible`);
       assert.equal(model.nodeRecord.get(nodeId)?.kind, 'structure', `${view.id} sequence node ${nodeId} should be a structure`);
     }
