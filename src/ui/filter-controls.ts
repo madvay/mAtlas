@@ -45,6 +45,18 @@ export class FilterControls {
     this.bindEvents();
   }
 
+  focusField(fieldId: string): void {
+    if (!this.options.model.knownFieldIds.has(fieldId)) return;
+    if (this.options.activeView()) this.options.exitView();
+    this.selectOnlyField(fieldId);
+  }
+
+  focusDomain(domainId: string): void {
+    if (!this.options.model.knownDomainIds.has(domainId)) return;
+    if (this.options.activeView()) this.options.exitView();
+    this.selectOnlyDomain(domainId);
+  }
+
   syncViewScope(): void {
     const view = this.options.activeView();
     const context = byId<HTMLElement>('activeViewFilterContext');

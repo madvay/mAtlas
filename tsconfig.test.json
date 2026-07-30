@@ -24,6 +24,7 @@
     "src/state/view-state.ts",
     "src/state/view-sequence.ts",
     "src/graph/compact-hierarchy-layout-core.ts",
+    "src/graph/semantic-map-core.ts",
     "src/graph/layout-suggestion.ts",
     "src/graph/viewport-fit-core.ts",
     "src/graph/graph-viewport-controller.ts",

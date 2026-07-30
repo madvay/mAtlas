@@ -66,3 +66,11 @@ test('connection explorer exposes endpoint search and direction-preserving trave
   assert.match(traversal, /value="forward">Follow authored arrows only/);
   assert.match(html, /id="connectionError"[^>]*role="alert"[^>]*aria-live="polite"/);
 });
+
+test('modal dialogs are siblings rather than nested inside another closed dialog', () => {
+  const dialogs = [...html.matchAll(/<dialog\b[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/dialog>/g)];
+  assert.ok(dialogs.length >= 4);
+  for (const [, id, body] of dialogs) {
+    assert.doesNotMatch(body, /<dialog\b/, `${id} contains another dialog`);
+  }
+});

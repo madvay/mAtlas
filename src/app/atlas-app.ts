@@ -22,6 +22,7 @@ import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
 import { ConnectionController } from '../ui/connection-controller.js';
+import { SemanticMapController } from '../ui/semantic-map-controller.js';
 import { LocationController } from './location-controller.js';
 import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
@@ -704,6 +705,7 @@ export async function startAtlasApp(): Promise<void> {
             <li><strong>Connect</strong> finds up to three short paths between two concepts using the currently visible relation graph, while preserving whether each step follows or opposes the authored arrow.</li>
             <li><strong>Layered / Compact</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
             <li><strong>Fit</strong> fits all currently visible nodes, labels, field boundaries, and field titles into the unobscured viewport.</li>
+            <li><strong>Structure map</strong> compresses the current graph into field- or domain-scale nodes, weighted directed connections, and ranked bridge concepts. Double-click a field to descend to its domains or a domain to open its concepts.</li>
             <li>The panel, fullscreen, SVG, Views, and Help buttons control the surrounding workspace.</li>
           </ul>
         </section>
@@ -794,6 +796,15 @@ export async function startAtlasApp(): Promise<void> {
   const routedView = locationController.activeView();
   if (routedView && !graphView.preservesView(routedView)) locationController.deactivateView();
   filterControls.initialize();
+  const semanticMapController = new SemanticMapController({
+    model,
+    state,
+    sourceCy: cy,
+    focusField: (fieldId) => filterControls.focusField(fieldId),
+    focusDomain: (domainId) => filterControls.focusDomain(domainId),
+    renderMathText
+  });
+  semanticMapController.initialize();
   viewsController = new ViewsController({
     views: viewsData.views,
     activeView: () => locationController.activeView(),

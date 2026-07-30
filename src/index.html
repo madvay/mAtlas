@@ -197,6 +197,9 @@
         <button id="fitButton" class="button icon-button" aria-label="Fit graph" title="Fit all concepts currently allowed by the filters into the viewport (F)">
           <span class="material-icons" aria-hidden="true">fit_screen</span>
         </button>
+        <button id="semanticMapButton" class="button icon-button" aria-haspopup="dialog" aria-label="Open structure map" title="Open a field- and domain-scale map of the visible atlas">
+          <span class="material-icons" aria-hidden="true">hub</span>
+        </button>
         <button id="detailsToggle" class="button icon-button panel-button" aria-label="Toggle details" aria-pressed="false" title="Show or hide details">
           <span class="material-icons" aria-hidden="true">density_medium</span>
         </button>
@@ -368,6 +371,36 @@
         <button type="submit" class="button primary">Find connections</button>
       </div>
     </form>
+  </dialog>
+
+  <dialog id="semanticMapDialog" class="help-dialog semantic-map-dialog">
+    <div class="dialog-card">
+      <div class="dialog-header semantic-map-header">
+        <div>
+          <div class="kicker">Structure map</div>
+          <h2>Semantic zoom</h2>
+        </div>
+        <div class="semantic-map-header-actions">
+          <div class="semantic-map-scale" role="group" aria-label="Map scale">
+            <button id="semanticMapFields" type="button" class="button secondary" aria-pressed="true">Fields</button>
+            <button id="semanticMapDomains" type="button" class="button secondary" aria-pressed="false">Domains</button>
+          </div>
+          <button type="button" class="icon-button" data-semantic-map-close aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="semantic-map-toolbar">
+        <button id="semanticMapBack" type="button" class="text-button" hidden><span class="material-icons" aria-hidden="true">arrow_back</span> All fields</button>
+        <span id="semanticMapScope">Field scale</span>
+        <span class="semantic-map-toolbar-note">Uses the current concept and edge filters</span>
+      </div>
+      <div class="semantic-map-content">
+        <div id="semanticMapGraph" class="semantic-map-graph" role="application" aria-label="Aggregated map of atlas fields and domains"></div>
+        <aside id="semanticMapDetails" class="semantic-map-details" aria-live="polite"></aside>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="button primary" data-semantic-map-close>Close</button>
+      </div>
+    </div>
   </dialog>
 
   <dialog id="viewsDialog" class="help-dialog views-dialog">
