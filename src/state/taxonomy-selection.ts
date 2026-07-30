@@ -9,6 +9,37 @@ export interface TaxonomySelectionContext {
   fieldForDomain: (domainId: string) => string;
 }
 
+export type DomainSuppression = 'included' | 'excluded' | 'prohibited';
+
+export function domainSuppression(
+  domainId: string,
+  excludedDomains: ReadonlySet<string>,
+  prohibitedDomains: ReadonlySet<string>
+): DomainSuppression {
+  if (prohibitedDomains.has(domainId)) return 'prohibited';
+  if (excludedDomains.has(domainId)) return 'excluded';
+  return 'included';
+}
+
+export function cycleDomainSuppression(
+  domainId: string,
+  excludedDomains: Set<string>,
+  prohibitedDomains: Set<string>
+): DomainSuppression {
+  const current = domainSuppression(domainId, excludedDomains, prohibitedDomains);
+  excludedDomains.delete(domainId);
+  prohibitedDomains.delete(domainId);
+  if (current === 'included') {
+    excludedDomains.add(domainId);
+    return 'excluded';
+  }
+  if (current === 'excluded') {
+    prohibitedDomains.add(domainId);
+    return 'prohibited';
+  }
+  return 'included';
+}
+
 export function selectExclusiveField(
   currentFields: ReadonlySet<string>,
   currentDomains: ReadonlySet<string>,

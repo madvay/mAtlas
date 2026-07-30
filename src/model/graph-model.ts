@@ -73,8 +73,9 @@ export class GraphModel {
 
   nodeExcludedByTaxonomy(
     node: GraphNode,
-    state: Pick<AppState, 'selectedDomains' | 'excludedFields' | 'excludedDomains'>
+    state: Pick<AppState, 'selectedDomains' | 'excludedFields' | 'excludedDomains' | 'prohibitedDomains'>
   ): boolean {
+    if (state.prohibitedDomains?.has(node.primaryDomain)) return true;
     const primaryField = this.nodePrimaryField(node);
     const excludedFields = state.excludedFields ?? new Set<string>();
     const excludedDomains = state.excludedDomains ?? new Set<string>();
@@ -116,7 +117,7 @@ export class GraphModel {
   }
 
   requiredNodeIds(
-    state: Pick<AppState, 'selectedFields' | 'selectedDomains' | 'selectedEdgeTypes' | 'excludedFields' | 'excludedDomains' | 'showPrimaryOnly'>,
+    state: Pick<AppState, 'selectedFields' | 'selectedDomains' | 'selectedEdgeTypes' | 'excludedFields' | 'excludedDomains' | 'prohibitedDomains' | 'showPrimaryOnly'>,
     edgeAllowed: (edge: GraphEdge) => boolean
   ): Set<string> {
     const roots = this.data.nodes

@@ -80,6 +80,7 @@ export function validate(context) {
     for (const edgeTypeId of arrayOrEmpty(settings.edgeTypes)) if (!activeEdgeTypeIds.has(edgeTypeId)) errors.push(`${path}.settings.edgeTypes references inactive or unknown edge type: ${edgeTypeId}`);
     for (const fieldId of arrayOrEmpty(settings.excludedFields)) if (!fieldIds.has(fieldId)) errors.push(`${path}.settings.excludedFields references unknown field: ${fieldId}`);
     for (const domainId of arrayOrEmpty(settings.excludedDomains)) if (!domainIds.has(domainId)) errors.push(`${path}.settings.excludedDomains references unknown domain: ${domainId}`);
+    for (const domainId of arrayOrEmpty(settings.prohibitedDomains)) if (!domainIds.has(domainId)) errors.push(`${path}.settings.prohibitedDomains references unknown domain: ${domainId}`);
   }
 
   for (const [id] of sources) {

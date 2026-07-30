@@ -21,6 +21,7 @@ const view = {
     edgeTypes: ['motivated', 'verified'],
     excludedFields: ['mathematics'],
     excludedDomains: ['algebra'],
+    prohibitedDomains: ['geometry'],
     crossFieldVisibility: 'hidden',
     edgeLabels: true,
     junctions: false,
@@ -37,6 +38,7 @@ function appState() {
     selectedEdgeTypes: new Set(['motivated', 'verified']),
     excludedFields: new Set(['mathematics']),
     excludedDomains: new Set(['algebra']),
+    prohibitedDomains: new Set(['geometry']),
     crossFieldVisibility: 'hidden',
     showPrimaryOnly: false,
     hideIsolates: false,
@@ -68,6 +70,7 @@ test('view settings become URL-state defaults without mutation', () => {
   const state = viewSettingsAsUrlState(view.settings);
   assert.deepEqual(state.fields, ['physics']);
   assert.deepEqual(state.excludedFields, ['mathematics']);
+  assert.deepEqual(state.prohibitedDomains, ['geometry']);
   assert.equal(state.hidePrerequisites, true);
   state.fields.push('mathematics');
   assert.deepEqual(view.settings.fields, ['physics']);

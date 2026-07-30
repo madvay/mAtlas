@@ -43,8 +43,8 @@ function compactParams() {
   return params;
 }
 
-test('URL state parser accepts canonical values, exclusions, prerequisite mode, and maps Organic layouts to Compact', () => {
-  const parsed = parseUrlUiState(new URLSearchParams('fields=math&domains=algebra&edges=built-from&excludeFields=physics&excludeDomains=mechanics&hidePrereqs=1&showPrimaryOnly=1&hideIsolates=true&layout=cose&edgeLabels=0&junctions=true'), known);
+test('URL state parser accepts canonical values, suppression states, prerequisite mode, and maps Organic layouts to Compact', () => {
+  const parsed = parseUrlUiState(new URLSearchParams('fields=math&domains=algebra&edges=built-from&excludeFields=physics&excludeDomains=mechanics&prohibitDomains=algebra&hidePrereqs=1&showPrimaryOnly=1&hideIsolates=true&layout=cose&edgeLabels=0&junctions=true'), known);
   assert.deepEqual(parsed.fields, ['math']);
   assert.deepEqual(parsed.domains, ['algebra']);
   assert.equal(parsed.layout, 'breadthfirst');
@@ -54,6 +54,7 @@ test('URL state parser accepts canonical values, exclusions, prerequisite mode, 
   assert.equal(parsed.hideIsolates, true);
   assert.deepEqual(parsed.excludedFields, ['physics']);
   assert.deepEqual(parsed.excludedDomains, ['mechanics']);
+  assert.deepEqual(parsed.prohibitedDomains, ['algebra']);
   assert.equal(parsed.hidePrerequisites, true);
 });
 
@@ -74,6 +75,7 @@ test('state serialization and legacy URL writing preserve canonical order', () =
   state.showEdgeLabels = false;
   state.excludedFields.add('physics');
   state.excludedDomains.add('mechanics');
+  state.prohibitedDomains.add('algebra');
   state.hidePrerequisites = true;
   const params = new URLSearchParams();
   addUiStateToParams(params, state, ['math', 'physics'], ['algebra', 'mechanics'], ['built-from']);
@@ -81,7 +83,18 @@ test('state serialization and legacy URL writing preserve canonical order', () =
   assert.equal(params.get('edgeLabels'), '0');
   assert.equal(params.get('excludeFields'), 'physics');
   assert.equal(params.get('excludeDomains'), 'mechanics');
+  assert.equal(params.get('prohibitDomains'), 'algebra');
   assert.equal(params.get('hidePrereqs'), '1');
+});
+
+test('prohibition wins when a domain is also encoded as excluded', () => {
+  const resolved = resolveUrlUiState({ excludedDomains: ['mechanics'], prohibitedDomains: ['mechanics'] }, {
+    fields: ['physics'],
+    domains: ['mechanics'],
+    edgeTypes: ['built-from']
+  });
+  assert.deepEqual(resolved.excludedDomains, []);
+  assert.deepEqual(resolved.prohibitedDomains, ['mechanics']);
 });
 
 test('sameIdSet ignores ordering but not membership', () => {

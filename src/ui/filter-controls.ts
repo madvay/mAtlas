@@ -1,6 +1,13 @@
 import { byId, escapeHtml, queryAll } from '../core/dom.js';
 import { isCrossFieldVisibility, isLayoutName } from '../state/ui-state.js';
-import { selectExclusiveDomain, selectExclusiveEdgeType, selectExclusiveField } from '../state/taxonomy-selection.js';
+import {
+  cycleDomainSuppression,
+  domainSuppression,
+  selectExclusiveDomain,
+  selectExclusiveEdgeType,
+  selectExclusiveField,
+  type DomainSuppression
+} from '../state/taxonomy-selection.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, LayoutName, Preferences } from '../types.js';
 import { DEFAULT_PREFERENCES } from '../state/preferences.js';
@@ -66,12 +73,13 @@ export class FilterControls {
           node.kind === 'structure' && model.nodeDomainIds(node).includes(domainId)).length;
         const primaryCount = model.data.nodes.filter((node) =>
           node.kind === 'structure' && node.primaryDomain === domainId).length;
+        const suppression = domainSuppression(domainId, state.excludedDomains, state.prohibitedDomains);
         const label = document.createElement('label');
         label.className = 'filter-item domain-filter-item';
         label.title = `${domainMemberCount} concepts belong to this domain; ${primaryCount} use it as their primary layout domain.`;
         renderHtml(label, `
           <input type="checkbox" data-domain="${escapeHtml(domainId)}" ${state.selectedDomains.has(domainId) ? 'checked' : ''}>
-          <button type="button" class="exclude-toggle" data-exclude-domain="${escapeHtml(domainId)}" aria-pressed="${state.excludedDomains.has(domainId)}" title="Exclude concepts whose primary domain is ${escapeHtml(domain.label)}" aria-label="Exclude concepts whose primary domain is ${escapeHtml(domain.label)}"><span class="material-icons" aria-hidden="true">visibility_off</span></button>
+          ${this.domainSuppressionButton(domainId, domain.label, suppression)}
           <span class="swatch" style="background:${escapeHtml(domain.color)}"></span>
           <span><a href="${escapeHtml(this.options.domainPageUrl(domainId))}" class="filter-link filter-domain-link" data-domain-link="${escapeHtml(domainId)}">${escapeHtml(domain.label)}</a> <span class="filter-count">${domainMemberCount}</span></span>`);
         domainList.appendChild(label);
@@ -251,11 +259,20 @@ export class FilterControls {
       event.stopPropagation();
       const fieldId = exclude.dataset.excludeField;
       const domainId = exclude.dataset.excludeDomain;
-      const set = fieldId ? this.options.state.excludedFields : this.options.state.excludedDomains;
-      const id = fieldId ?? domainId;
-      if (!id) return;
-      this.setMembership(set, id, !set.has(id));
-      exclude.setAttribute('aria-pressed', String(set.has(id)));
+      if (fieldId) {
+        const set = this.options.state.excludedFields;
+        this.setMembership(set, fieldId, !set.has(fieldId));
+        exclude.setAttribute('aria-pressed', String(set.has(fieldId)));
+      } else if (domainId) {
+        const suppression = cycleDomainSuppression(
+          domainId,
+          this.options.state.excludedDomains,
+          this.options.state.prohibitedDomains
+        );
+        this.syncDomainSuppressionButton(exclude, domainId, suppression);
+      } else {
+        return;
+      }
       this.commit(true);
       return;
     }
@@ -402,6 +419,25 @@ export class FilterControls {
       .sort((left, right) => left.label.localeCompare(right.label))
       .map((node) => `<option value="${escapeHtml(node.label)}"></option>`)
       .join(''));
+  }
+
+  private domainSuppressionButton(domainId: string, domainLabel: string, suppression: DomainSuppression): string {
+    const ariaPressed = suppression === 'included' ? 'false' : suppression === 'excluded' ? 'mixed' : 'true';
+    const icon = suppression === 'included' ? 'visibility' : suppression === 'excluded' ? 'visibility_off' : 'block';
+    const action = suppression === 'included'
+      ? `Tap to exclude prerequisite concepts whose primary domain is ${domainLabel}`
+      : suppression === 'excluded'
+        ? `${domainLabel} is excluded from prerequisite context; tap again to prohibit it completely`
+        : `${domainLabel} is prohibited completely; tap again to allow it`;
+    return `<button type="button" class="exclude-toggle domain-suppression-toggle" data-exclude-domain="${escapeHtml(domainId)}" data-suppression="${suppression}" aria-pressed="${ariaPressed}" title="${escapeHtml(action)}" aria-label="${escapeHtml(action)}"><span class="material-icons" aria-hidden="true">${icon}</span></button>`;
+  }
+
+  private syncDomainSuppressionButton(button: HTMLButtonElement, domainId: string, suppression: DomainSuppression): void {
+    const domainLabel = this.options.model.data.domains[domainId]?.label ?? domainId;
+    const replacement = document.createElement('span');
+    renderHtml(replacement, this.domainSuppressionButton(domainId, domainLabel, suppression));
+    const next = replacement.firstElementChild;
+    if (next instanceof HTMLButtonElement) button.replaceWith(next);
   }
 
   private setMembership(set: Set<string>, id: string, enabled: boolean): void {

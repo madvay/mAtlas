@@ -29,6 +29,7 @@ export interface GraphViewControllerOptions {
   state: AppState;
   labelSizer: LabelSizer;
   runLayout: (name: LayoutName, fitAfter: boolean) => void;
+  fitVisible: (elements: cytoscape.CollectionReturnValue, padding?: number) => void;
   scheduleFieldBands: () => void;
   updateFiltersToggleCount: () => void;
   preferences: () => Preferences;
@@ -144,7 +145,7 @@ export class GraphViewController {
 
   fitVisible(): void {
     const visible = this.visibleElements();
-    if (!visible.empty()) this.options.cy.fit(visible, 58);
+    if (!visible.empty()) this.options.fitVisible(visible);
   }
 
   neighborhoodFor(element: cytoscape.SingularElementReturnValue): cytoscape.CollectionReturnValue {
@@ -190,7 +191,7 @@ export class GraphViewController {
     this.visibleElements().not(neighborhood).addClass('neighborhood-dim');
     neighborhood.addClass('neighborhood-emphasis');
     cy.nodes('.search-match').removeClass('neighborhood-dim');
-    if (fitAfter) cy.fit(neighborhood, 90);
+    if (fitAfter) this.options.fitVisible(neighborhood, 90);
     this.syncNeighborhoodButton();
     this.updateStatus();
   }
@@ -203,7 +204,7 @@ export class GraphViewController {
       this.applyFilters({ relayout: false });
       if (fitAfter && state.neighborhoodElementId) {
         const selected = cy.getElementById(state.neighborhoodElementId);
-        if (selected && !selected.empty()) cy.fit(this.neighborhoodFor(selected).not('.filter-hidden'), 90);
+        if (selected && !selected.empty()) this.options.fitVisible(this.neighborhoodFor(selected).not('.filter-hidden'), 90);
       }
     } else {
       this.applyNeighborhoodHighlight(fitAfter);

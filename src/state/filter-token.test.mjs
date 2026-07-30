@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { base64UrlToBytes } from '../../.test-build/state/binary-token.js';
+import { base64UrlToBytes, bitsetByteLength, ByteReader } from '../../.test-build/state/binary-token.js';
 import { decodeFilterToken, encodeFilterToken, FilterTokenError } from '../../.test-build/state/filter-token.js';
 
 const slot = (id) => ({ id });
@@ -18,6 +18,7 @@ function state(overrides = {}) {
     selectedEdgeTypes: new Set(['add-data', 'impose-axiom']),
     excludedFields: new Set(['physics']),
     excludedDomains: new Set(['mechanics']),
+    prohibitedDomains: new Set(),
     crossFieldVisibility: 'all',
     showPrimaryOnly: false,
     hideIsolates: true,
@@ -47,6 +48,29 @@ test('filter tokens round-trip only catalog-backed selection state', () => {
     excludedDomains: ['mechanics']
   });
   assert.equal(base64UrlToBytes(token).length, 10, 'the filter fixture contains no checksum bytes');
+});
+
+test('prohibited domains use the skippable format-1 extension block', () => {
+  const token = encodeFilterToken(state({
+    excludedDomains: new Set(),
+    prohibitedDomains: new Set(['mechanics'])
+  }), codec);
+  assert.deepEqual(decodeFilterToken(token, codec).prohibitedDomains, ['mechanics']);
+
+  const reader = new ByteReader(base64UrlToBytes(token));
+  assert.equal(reader.readByte('version'), 1);
+  const fieldCount = reader.readVarUint('fields');
+  const domainCount = reader.readVarUint('domains');
+  const edgeTypeCount = reader.readVarUint('edges');
+  reader.readBytes(bitsetByteLength(fieldCount), 'selected fields');
+  reader.readBytes(bitsetByteLength(domainCount), 'selected domains');
+  reader.readBytes(bitsetByteLength(edgeTypeCount), 'selected edges');
+  reader.readBytes(bitsetByteLength(fieldCount), 'excluded fields');
+  reader.readBytes(bitsetByteLength(domainCount), 'excluded domains');
+  const extensionLength = reader.readVarUint('extension length');
+  assert.ok(extensionLength > 0);
+  reader.readBytes(extensionLength, 'extension');
+  assert.equal(reader.remaining, 0, 'an older format-1 decoder can skip the extension wholesale');
 });
 
 test('filter encoding is deterministic and follows codec order rather than Set insertion order', () => {

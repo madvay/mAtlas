@@ -94,12 +94,20 @@ test('the canvas renderer parks its perpetual frame loop while idle', async () =
   assert.match(controller, /this\.cy\.animated\(\) \|\| this\.renderer\.requestedFrame/);
 });
 
-test('view cards render inline math and the desktop filter panel slides at a fixed width', async () => {
+test('view cards render inline math and desktop side panels slide over a stable graph viewport', async () => {
   const viewsController = await readFile(new URL('../src/ui/views-controller.ts', import.meta.url), 'utf8');
   const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
 
   assert.match(viewsController, /<h4 class="math-rich">\$\{this\.options\.math\.renderText\(view\.title\)\}<\/h4>/);
   assert.match(viewsController, /<p class="math-rich">\$\{this\.options\.math\.renderText\(view\.summary\)\}<\/p>/);
-  assert.match(styles, /@media \(min-width: 901px\) \{\s*\.filters-panel \{\s*width: var\(--sidebar-left\);\s*min-width: var\(--sidebar-left\);/s);
+  assert.match(styles, /@media \(min-width: 901px\) \{[\s\S]*?\.workspace\.filters-collapsed\.details-collapsed \{\s*grid-template-columns: minmax\(0, 1fr\);/);
+  assert.match(styles, /@media \(min-width: 901px\) \{[\s\S]*?\.filters-panel \{\s*left: 0;\s*width: var\(--sidebar-left\);\s*min-width: var\(--sidebar-left\);/);
+  assert.match(styles, /@media \(min-width: 901px\) \{[\s\S]*?\.details-panel \{\s*right: 0;\s*width: var\(--sidebar-right\);\s*min-width: var\(--sidebar-right\);/);
   assert.match(styles, /\.workspace\.filters-collapsed \.filters-panel \{[^}]*transform: translateX\(-100%\);/s);
+  assert.match(styles, /\.workspace\.details-collapsed \.details-panel \{[^}]*transform: translateX\(100%\);/s);
+});
+
+test('outgoing detail relations put the destination before the edge qualifier', async () => {
+  const detailsController = await readFile(new URL('../src/ui/details-controller.ts', import.meta.url), 'utf8');
+  assert.match(detailsController, /\$\{this\.relationLink\(relation\.nodeId\)\} <span class="relation-via">via<\/span> \$\{edgeLabel\}/);
 });

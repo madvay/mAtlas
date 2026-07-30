@@ -1,12 +1,11 @@
-import type cytoscape from 'cytoscape';
 import { byId } from '../core/dom.js';
+import type { ViewportInsets } from '../graph/viewport-fit-core.js';
 import type { AppState } from '../types.js';
 import { renderHtml } from './render.js';
 
 export type PanelName = 'filters' | 'details';
 
 export interface PanelControllerOptions {
-  cy: cytoscape.Core;
   state: AppState;
   domainCount: number;
   mobileMediaQuery?: string;
@@ -15,7 +14,6 @@ export interface PanelControllerOptions {
 
 export class PanelController {
   private restoreState = { filtersOpen: true, detailsOpen: true };
-  private graphResizeTimer = 0;
   private readonly mobileMediaQuery: string;
 
   constructor(private readonly options: PanelControllerOptions) {
@@ -30,6 +28,22 @@ export class PanelController {
     if (!this.isMobileLayout() || !this.options.state.detailsOpen) return 0;
     const detailsPanel = document.getElementById('detailsPanel');
     return detailsPanel instanceof HTMLElement ? detailsPanel.getBoundingClientRect().height / 2 : 0;
+  }
+
+  viewportInsets(): ViewportInsets {
+    const { state } = this.options;
+    const filtersPanel = document.getElementById('filtersPanel');
+    const detailsPanel = document.getElementById('detailsPanel');
+    const filtersWidth = state.filtersOpen && filtersPanel instanceof HTMLElement
+      ? filtersPanel.getBoundingClientRect().width
+      : 0;
+    const detailsRect = state.detailsOpen && detailsPanel instanceof HTMLElement
+      ? detailsPanel.getBoundingClientRect()
+      : null;
+    if (this.isMobileLayout()) {
+      return { top: 0, right: 0, bottom: detailsRect?.height ?? 0, left: filtersWidth };
+    }
+    return { top: 0, right: detailsRect?.width ?? 0, bottom: 0, left: filtersWidth };
   }
 
   sync(): void {
@@ -64,7 +78,6 @@ export class PanelController {
     rightRail.textContent = state.detailsOpen ? '›' : '‹';
     leftRail.setAttribute('aria-expanded', String(state.filtersOpen));
     rightRail.setAttribute('aria-expanded', String(state.detailsOpen));
-    this.scheduleGraphResize();
     this.options.onPanelStateChange?.();
   }
 
@@ -109,13 +122,5 @@ export class PanelController {
     filtersToggle.setAttribute('data-count', displayCount);
     const badge = filtersToggle.querySelector<HTMLSpanElement>('.panel-count');
     if (badge) badge.textContent = displayCount === '0' ? '' : displayCount;
-  }
-
-  private scheduleGraphResize(): void {
-    window.clearTimeout(this.graphResizeTimer);
-    this.options.cy.resize();
-    this.graphResizeTimer = window.setTimeout(() => {
-      this.options.cy.resize();
-    }, 270);
   }
 }

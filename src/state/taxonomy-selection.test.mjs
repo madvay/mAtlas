@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  cycleDomainSuppression,
+  domainSuppression,
   selectExclusiveDomain,
   selectExclusiveEdgeType,
   selectExclusiveField
@@ -41,4 +43,17 @@ test('exclusive edge type selection isolates an edge type and toggles to its com
 
   const complement = selectExclusiveEdgeType(isolated, 'b', active);
   assert.deepEqual(sorted(complement), ['a', 'c']);
+});
+
+test('domain suppression cycles allowed, excluded, prohibited, then allowed', () => {
+  const excluded = new Set();
+  const prohibited = new Set();
+  assert.equal(domainSuppression('algebra', excluded, prohibited), 'included');
+  assert.equal(cycleDomainSuppression('algebra', excluded, prohibited), 'excluded');
+  assert.deepEqual([...excluded], ['algebra']);
+  assert.equal(cycleDomainSuppression('algebra', excluded, prohibited), 'prohibited');
+  assert.deepEqual([...excluded], []);
+  assert.deepEqual([...prohibited], ['algebra']);
+  assert.equal(cycleDomainSuppression('algebra', excluded, prohibited), 'included');
+  assert.deepEqual([...prohibited], []);
 });

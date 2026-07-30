@@ -9,6 +9,7 @@ interface LayoutManagerOptions {
   state: AppState;
   onStateChange: () => void;
   onLayoutSettled: () => void;
+  fitVisible: (elements: cytoscape.CollectionReturnValue, padding?: number) => void;
 }
 
 interface AtlasBlock {
@@ -38,7 +39,7 @@ export class LayoutManager {
     if (name === 'atlas') {
       const positions = this.atlasPositions();
       cy.nodes().positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
-      if (fitAfter) cy.fit(visible, 58);
+      if (fitAfter) this.options.fitVisible(visible);
       this.options.onLayoutSettled();
       return;
     }
@@ -54,7 +55,7 @@ export class LayoutManager {
       this.options.model.domainOrder
     );
     visible.nodes().positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
-    if (fitAfter) cy.fit(visible, 58);
+    if (fitAfter) this.options.fitVisible(visible);
     this.options.onLayoutSettled();
   }
 

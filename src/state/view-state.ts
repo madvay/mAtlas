@@ -24,6 +24,7 @@ export function viewSettingsAsUrlState(settings: AtlasViewSettings): UrlUiState 
     edgeTypes: [...settings.edgeTypes],
     excludedFields: [...(settings.excludedFields ?? [])],
     excludedDomains: [...(settings.excludedDomains ?? [])],
+    prohibitedDomains: [...(settings.prohibitedDomains ?? [])],
     crossFieldVisibility: settings.crossFieldVisibility,
     showPrimaryOnly: settings.showPrimaryOnly ?? false,
     hideIsolates: settings.hideIsolates ?? false,
@@ -46,6 +47,7 @@ export function stateMatchesView(state: AppState, view: AtlasView): boolean {
     && sameIds(state.selectedEdgeTypes, settings.edgeTypes)
     && sameIds(state.excludedFields ?? new Set(), settings.excludedFields ?? [])
     && sameIds(state.excludedDomains ?? new Set(), settings.excludedDomains ?? [])
+    && sameIds(state.prohibitedDomains ?? new Set(), settings.prohibitedDomains ?? [])
     && state.crossFieldVisibility === settings.crossFieldVisibility
     && state.showPrimaryOnly === (settings.showPrimaryOnly ?? false)
     && state.hideIsolates === (settings.hideIsolates ?? false)

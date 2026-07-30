@@ -47,6 +47,40 @@ function readBitset(reader: ByteReader, slotCount: number, label: string): Uint8
   return reader.readBytes(bitsetByteLength(slotCount), label);
 }
 
+const FILTER_EXTENSION_PROHIBITED_DOMAINS = 1;
+
+function encodeFilterExtensions(state: AppState, codec: ShareCodecConfig): Uint8Array {
+  const prohibitedDomains = state.prohibitedDomains ?? new Set<string>();
+  if (prohibitedDomains.size === 0) return new Uint8Array();
+  const payload = new ByteWriter();
+  payload.writeVarUint(codec.domains.length);
+  payload.writeBytes(encodeBitset(codec.domains, prohibitedDomains));
+  const payloadBytes = payload.toUint8Array();
+
+  const extensions = new ByteWriter();
+  extensions.writeVarUint(FILTER_EXTENSION_PROHIBITED_DOMAINS);
+  extensions.writeVarUint(payloadBytes.length);
+  extensions.writeBytes(payloadBytes);
+  return extensions.toUint8Array();
+}
+
+function decodeFilterExtensions(bytes: Uint8Array, codec: ShareCodecConfig): Pick<UrlUiState, 'prohibitedDomains'> {
+  const reader = new ByteReader(bytes);
+  let prohibitedDomains: string[] | undefined;
+  while (reader.remaining > 0) {
+    const tag = reader.readVarUint('filter extension tag');
+    const length = reader.readVarUint(`filter extension ${tag} length`);
+    const payloadBytes = reader.readBytes(length, `filter extension ${tag}`);
+    if (tag !== FILTER_EXTENSION_PROHIBITED_DOMAINS) continue;
+    const payload = new ByteReader(payloadBytes);
+    const domainCount = payload.readVarUint('prohibited-domain slot count');
+    const domainBits = readBitset(payload, domainCount, 'prohibited domains');
+    if (payload.remaining !== 0) throw new UrlTokenError('Prohibited-domain filter extension contains trailing data.');
+    prohibitedDomains = decodeBitset(domainBits, domainCount, codec.domains);
+  }
+  return prohibitedDomains === undefined ? {} : { prohibitedDomains };
+}
+
 export function encodeFilterToken(state: AppState, codec: ShareCodecConfig): string {
   const writer = new ByteWriter();
   writer.writeByte(codec.formatVersion);
@@ -59,9 +93,12 @@ export function encodeFilterToken(state: AppState, codec: ShareCodecConfig): str
   writer.writeBytes(encodeBitset(codec.fields, state.excludedFields));
   writer.writeBytes(encodeBitset(codec.domains, state.excludedDomains));
 
-  // Reserved length-delimited extension block. A future format-1 encoder may
-  // append records here while current decoders safely skip the whole block.
-  writer.writeVarUint(0);
+  // Length-delimited TLV extension block. Older format-1 decoders safely skip
+  // it; newer decoders can append independently tagged records without moving
+  // any of the permanent field/domain/edge bitset slots above.
+  const extensions = encodeFilterExtensions(state, codec);
+  writer.writeVarUint(extensions.length);
+  writer.writeBytes(extensions);
   return bytesToBase64Url(writer.toUint8Array());
 }
 
@@ -82,7 +119,7 @@ export function decodeFilterToken(token: string, codec: ShareCodecConfig): UrlUi
   const excludedDomains = readBitset(reader, domainCount, 'excluded domains');
 
   const extensionLength = reader.readVarUint('filter extension block length');
-  reader.readBytes(extensionLength, 'filter extension block');
+  const extensions = decodeFilterExtensions(reader.readBytes(extensionLength, 'filter extension block'), codec);
   if (reader.remaining !== 0) throw new UrlTokenError('Filter token contains trailing data.');
 
   return {
@@ -90,6 +127,7 @@ export function decodeFilterToken(token: string, codec: ShareCodecConfig): UrlUi
     domains: decodeBitset(selectedDomains, domainCount, codec.domains),
     edgeTypes: decodeBitset(selectedEdgeTypes, edgeTypeCount, codec.edgeTypes),
     excludedFields: decodeBitset(excludedFields, fieldCount, codec.fields),
-    excludedDomains: decodeBitset(excludedDomains, domainCount, codec.domains)
+    excludedDomains: decodeBitset(excludedDomains, domainCount, codec.domains),
+    ...extensions
   };
 }

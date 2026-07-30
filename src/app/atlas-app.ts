@@ -1,5 +1,5 @@
 import type cytoscape from 'cytoscape';
-import { byId, escapeHtml, query as $, queryAll as $$ } from '../core/dom.js';
+import { byId, escapeHtml, queryAll as $$ } from '../core/dom.js';
 import { GraphModel } from '../model/graph-model.js';
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
@@ -8,6 +8,8 @@ import { LabelSizer } from '../graph/label-sizer.js';
 import { applyRendererPreferences, createGraph } from '../graph/create-graph.js';
 import { LayoutManager } from '../graph/layout-manager.js';
 import { GraphViewController } from '../graph/graph-view-controller.js';
+import { GraphViewportController } from '../graph/graph-viewport-controller.js';
+import { compactLayoutWouldHelp } from '../graph/layout-suggestion.js';
 import { GraphMathLabelLayer } from '../graph/graph-math-label-layer.js';
 import { IdleRenderController } from '../graph/idle-render-controller.js';
 import { MathRenderer } from '../ui/math-renderer.js';
@@ -91,6 +93,7 @@ export async function startAtlasApp(): Promise<void> {
         edgeTypes: defaultEdgeTypeIds,
         excludedFields: [],
         excludedDomains: [],
+        prohibitedDomains: [],
         crossFieldVisibility: 'all',
         showPrimaryOnly: false,
         hideIsolates: false,
@@ -112,6 +115,7 @@ export async function startAtlasApp(): Promise<void> {
     edgeTypes: viewDefaults?.edgeTypes ?? defaultEdgeTypeIds,
     excludedFields: viewDefaults?.excludedFields,
     excludedDomains: viewDefaults?.excludedDomains,
+    prohibitedDomains: viewDefaults?.prohibitedDomains,
     crossFieldVisibility: viewDefaults?.crossFieldVisibility,
     showPrimaryOnly: viewDefaults?.showPrimaryOnly,
     hideIsolates: viewDefaults?.hideIsolates,
@@ -133,6 +137,7 @@ export async function startAtlasApp(): Promise<void> {
     locationController.write(selection, 'replace');
     locationController.syncDocumentMetadata(selection);
     viewsController?.syncActiveView();
+    scheduleLayoutUiUpdate();
   }
 
   const labelSizer = new LabelSizer();
@@ -151,7 +156,6 @@ export async function startAtlasApp(): Promise<void> {
 
 
   const panelController = new PanelController({
-    cy,
     state,
     domainCount: domainOrder.length,
     onPanelStateChange: () => viewsController?.syncPresentation()
@@ -170,13 +174,68 @@ export async function startAtlasApp(): Promise<void> {
   const toggleMaximizedGraph = (): void => panelController.toggleMaximized();
   const openDetailsPanel = (): void => panelController.openDetails();
   const updateFiltersToggleCount = (): void => panelController.updateFiltersToggleCount();
+  const viewportController = new GraphViewportController({
+    cy,
+    state,
+    viewportInsets: () => panelController.viewportInsets()
+  });
+  const fitGraphElements = (elements: cytoscape.CollectionReturnValue, padding?: number): void => viewportController.fit(elements, padding);
+
+  let layoutUiFrame = 0;
+  function syncLayoutToolbar(): void {
+    $$<HTMLButtonElement>('[data-toolbar-layout]').forEach((button) => {
+      const active = button.dataset.toolbarLayout === state.layout;
+      button.setAttribute('aria-pressed', String(active));
+    });
+    byId<HTMLSelectElement>('layoutSelect').value = state.layout;
+  }
+
+  function updateCompactLayoutSuggestion(): void {
+    const compactButton = byId<HTMLButtonElement>('compactLayoutButton');
+    let helpful = false;
+    if (state.layout === 'atlas' && !locationController.activeView() && !panelController.isMobileLayout()) {
+      const visibleNodes = cy.nodes().not('.filter-hidden').filter((element) =>
+        model.nodeRecord.get(element.id())?.kind === 'structure');
+      if (!visibleNodes.empty()) {
+        const levelCounts = new Map<number, number>();
+        visibleNodes.forEach((element) => {
+          const level = model.nodeRecord.get(element.id())?.level;
+          if (level !== undefined) levelCounts.set(level, (levelCounts.get(level) ?? 0) + 1);
+        });
+        const box = visibleNodes.boundingBox({ includeLabels: true, includeOverlays: false, includeUnderlays: false });
+        helpful = compactLayoutWouldHelp({
+          width: box.w,
+          height: box.h,
+          nodeCount: visibleNodes.length,
+          levelCounts: [...levelCounts.values()]
+        });
+      }
+    }
+    compactButton.classList.toggle('compact-layout-suggested', helpful);
+    compactButton.title = helpful
+      ? 'Compact layout may use this wide, sparse space more efficiently'
+      : 'Compact layout';
+  }
+
+  function scheduleLayoutUiUpdate(): void {
+    if (layoutUiFrame) return;
+    layoutUiFrame = window.requestAnimationFrame(() => {
+      layoutUiFrame = 0;
+      syncLayoutToolbar();
+      updateCompactLayoutSuggestion();
+    });
+  }
 
   const layoutManager = new LayoutManager({
     cy,
     model,
     state,
     onStateChange: persistUiState,
-    onLayoutSettled: scheduleFieldBands
+    onLayoutSettled: () => {
+      scheduleFieldBands();
+      scheduleLayoutUiUpdate();
+    },
+    fitVisible: fitGraphElements
   });
 
   function runLayout(name: LayoutName = state.layout, fitAfter = true): void {
@@ -189,13 +248,17 @@ export async function startAtlasApp(): Promise<void> {
     state,
     labelSizer,
     runLayout,
+    fitVisible: fitGraphElements,
     scheduleFieldBands,
     updateFiltersToggleCount,
     preferences: () => preferences
   });
   const updateSemanticLabelSizes = (force = false): void => graphView.updateSemanticLabelSizes(force);
   const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
-  const applyFilters = (options: { relayout?: boolean } = {}): void => graphView.applyFilters(options);
+  const applyFilters = (options: { relayout?: boolean } = {}): void => {
+    graphView.applyFilters(options);
+    scheduleLayoutUiUpdate();
+  };
   const visibleGraphElements = (): cytoscape.CollectionReturnValue => graphView.visibleElements();
   const fitVisibleGraph = (): void => graphView.fitVisible();
   const syncNeighborhoodButton = (): void => graphView.syncNeighborhoodButton();
@@ -284,11 +347,7 @@ export async function startAtlasApp(): Promise<void> {
     state.selectedDomains.add(record.primaryDomain);
     state.excludedFields.delete(model.nodePrimaryField(record));
     state.excludedDomains.delete(record.primaryDomain);
-    $<HTMLButtonElement>(`[data-exclude-field="${CSS.escape(model.nodePrimaryField(record))}"]`)?.setAttribute('aria-pressed', 'false');
-    $<HTMLButtonElement>(`[data-exclude-domain="${CSS.escape(record.primaryDomain)}"]`)?.setAttribute('aria-pressed', 'false');
-    $$<HTMLInputElement>('[data-field]').forEach((input) => { input.checked = state.selectedFields.has(input.dataset.field ?? ''); });
-    const checkbox = $<HTMLInputElement>(`[data-domain="${CSS.escape(record.primaryDomain)}"]`);
-    if (checkbox) checkbox.checked = true;
+    buildFilters();
     if (record.kind === 'junction') {
       state.showJunctions = true;
       byId<HTMLInputElement>('junctionsToggle').checked = true;
@@ -429,6 +488,7 @@ export async function startAtlasApp(): Promise<void> {
       edgeTypes: viewDefaults?.edgeTypes ?? defaultEdgeTypeIds,
       excludedFields: viewDefaults?.excludedFields,
       excludedDomains: viewDefaults?.excludedDomains,
+      prohibitedDomains: viewDefaults?.prohibitedDomains,
       crossFieldVisibility: viewDefaults?.crossFieldVisibility,
       showPrimaryOnly: viewDefaults?.showPrimaryOnly,
       hideIsolates: viewDefaults?.hideIsolates,
@@ -445,6 +505,7 @@ export async function startAtlasApp(): Promise<void> {
     const edgeTypesChanged = !sameIdSet(state.selectedEdgeTypes, next.edgeTypes);
     const excludedFieldsChanged = !sameIdSet(state.excludedFields, next.excludedFields);
     const excludedDomainsChanged = !sameIdSet(state.excludedDomains, next.excludedDomains);
+    const prohibitedDomainsChanged = !sameIdSet(state.prohibitedDomains, next.prohibitedDomains);
     const crossFieldChanged = state.crossFieldVisibility !== next.crossFieldVisibility;
     const showPrimaryOnlyChanged = state.showPrimaryOnly !== next.showPrimaryOnly;
     const hideIsolatesChanged = state.hideIsolates !== next.hideIsolates;
@@ -454,7 +515,7 @@ export async function startAtlasApp(): Promise<void> {
     const hidePrerequisitesChanged = state.hidePrerequisites !== next.hidePrerequisites;
     const layoutChanged = state.layout !== next.layout;
 
-    if (!fieldsChanged && !domainsChanged && !edgeTypesChanged && !excludedFieldsChanged && !excludedDomainsChanged
+    if (!fieldsChanged && !domainsChanged && !edgeTypesChanged && !excludedFieldsChanged && !excludedDomainsChanged && !prohibitedDomainsChanged
       && !crossFieldChanged && !showPrimaryOnlyChanged && !hideIsolatesChanged && !edgeLabelsChanged
       && !junctionsChanged && !edgeZoomChanged && !hidePrerequisitesChanged && !layoutChanged) {
       if (routeView && !stateMatchesView(state, routeView)) locationController.deactivateView();
@@ -467,6 +528,7 @@ export async function startAtlasApp(): Promise<void> {
     state.selectedEdgeTypes = new Set(next.edgeTypes);
     state.excludedFields = new Set(next.excludedFields);
     state.excludedDomains = new Set(next.excludedDomains);
+    state.prohibitedDomains = new Set(next.prohibitedDomains);
     state.crossFieldVisibility = next.crossFieldVisibility;
     state.showPrimaryOnly = next.showPrimaryOnly;
     state.hideIsolates = next.hideIsolates;
@@ -480,7 +542,7 @@ export async function startAtlasApp(): Promise<void> {
     syncPreferenceControls();
     updateFieldNavActiveState();
     if (routeView && !stateMatchesView(state, routeView)) locationController.deactivateView();
-    applyFilters({ relayout: fieldsChanged || domainsChanged || excludedFieldsChanged || excludedDomainsChanged
+    applyFilters({ relayout: fieldsChanged || domainsChanged || excludedFieldsChanged || excludedDomainsChanged || prohibitedDomainsChanged
       || showPrimaryOnlyChanged || hideIsolatesChanged || junctionsChanged || edgeZoomChanged
       || hidePrerequisitesChanged || layoutChanged });
     viewsController?.syncActiveView();
@@ -534,29 +596,96 @@ export async function startAtlasApp(): Promise<void> {
   function buildHelp(): void {
     const activeTypes = edgeTypeOrder.filter((id) => graphData.edgeTypes[id]?.activeInDataset !== false);
     renderHtml(byId('helpContent'), `
-      <p><strong>Vertical direction is meaningful:</strong> the graph begins with minimally structured carriers, especially <em>Set</em>, and generally moves downward as data or axioms are added. Horizontal placement only groups fields.</p>
-      <p>Drag to pan · wheel/pinch to zoom · click an item to highlight its neighbors · click blank space to clear</p>
-      <div class="edge-explainer">
-        ${activeTypes.map((id) => {
-          const type = graphData.edgeTypes[id];
-          if (!type) return '';
-          return `<div><span class="line-swatch ${escapeHtml(type.lineStyle || 'solid')}" style="display:inline-block;border-color:${escapeHtml(type.color)}"></span> <strong>${escapeHtml(type.label)}</strong></div><div>${escapeHtml(type.description)}</div>`;
-        }).join('')}
+      <section class="help-intro">
+        <h3>What the atlas shows</h3>
+        <p>Each solid node is one concept, even when it belongs to several domains. In <strong>Layered</strong> layout, authored vertical levels generally move from less structure to more structure: carriers and primitive objects appear above concepts obtained by adding data, axioms, limits, approximations, or physical assumptions. Horizontal position groups primary domains; field boundaries and titles identify the large mathematics and physics regions. Horizontal distance is organizational, not a quantitative measure.</p>
+        <p>A node’s fill and lane use its <strong>primary domain</strong>. Small colored markers show additional domains. The Details panel lists every field and domain membership.</p>
+      </section>
+
+      <div class="help-grid">
+        <section class="help-card">
+          <h3>Move and select</h3>
+          <ul>
+            <li>Drag the graph to pan; use a wheel, trackpad gesture, or pinch to zoom.</li>
+            <li>Tap or click a node or edge to select it, open Details, and emphasize its immediate neighborhood.</li>
+            <li>Double-tap or double-click an item to select and center it.</li>
+            <li>Tap or click blank graph space to clear the selection, search marks, neighborhood emphasis, and Details.</li>
+          </ul>
+        </section>
+        <section class="help-card">
+          <h3>Toolbar</h3>
+          <ul>
+            <li><strong>Search</strong> marks all matches and selects the best match without filtering the graph.</li>
+            <li><strong>Neighborhood</strong> toggles immediate-neighbor emphasis for the selected item.</li>
+            <li><strong>Layered / Compact</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
+            <li><strong>Fit</strong> fits all currently visible nodes, labels, field boundaries, and field titles into the unobscured viewport.</li>
+            <li>The panel, fullscreen, SVG, Views, and Help buttons control the surrounding workspace.</li>
+          </ul>
+        </section>
       </div>
-      <h3>Domain filtering</h3>
-      <p>A structure may belong to several domains without being duplicated. Its full fill color and horizontal lane use its primary domain; colored dots at the bottom right mark its additional domains, with the complete list in its tooltip and details. A node remains fully visible when any of its domains is enabled. Turning off all of its domains hides it unless it is transitively required by another visible structure, in which case it remains as 50% faded context.</p>
-      <h3>Construction diamonds</h3>
-      <p>A diamond means the result is not obtained by merely adding one axiom to one existing object. Several structures must coexist and satisfy compatibility laws. When diamonds are hidden, each construction is contracted into dashed direct edges from its inputs to its output. Labels beginning with <strong>jointly</strong> mean all of those incoming edges are required together—an AND, not a choice.</p>
-      <h3>Search, fit, and neighborhood highlighting</h3>
-      <p><strong>Search</strong> marks every matching structure and selects the best match without removing anything from the graph. <strong>Fit</strong> changes only the viewport so every structure allowed by the current filters fits on screen. Selecting a node or edge highlights its immediate neighborhood; <strong>Clear highlight</strong>, or a click on blank graph space, removes that emphasis. Neighborhood highlighting never hides graph elements. The optional <strong>Highlight selected-node prerequisites</strong> preference marks the selected node’s filtered prerequisite closure in light blue using the currently enabled relation types.</p>
-      <h3>Panels and maximized graph</h3>
-      <p>The atlas starts with both sidebars hidden. Use the filter icon and details icon, or the slim tabs at the graph edges, to animate either sidebar in or out. Selecting a node or edge reopens Details. The fullscreen icon hides both sidebars and remembers their prior state.</p>
-      <h3>SVG export</h3>
-      <p><strong>SVG</strong> downloads the current filtered graph as a standalone vector document, including curved edges, annotations, multi-domain markers, neighborhood emphasis, and the current selection. It can be opened in a browser or vector editor and printed without rasterizing the graph.</p>
-      <h3>Citations</h3>
-      <p>Source abbreviations on nodes are off initially to reduce clutter. Enable them under Display, or click any node or edge for citation links and source titles.</p>
-      <h3>Keyboard</h3>
-      <p><strong>/</strong> focuses search, <strong>F</strong> fits the filtered graph, and <strong>Escape</strong> clears search or closes mobile panels.</p>`);
+
+      <section class="help-card">
+        <h3>Fields, domains, and suppression states</h3>
+        <p>Field and domain checkboxes choose the concepts of direct interest. A multi-domain concept matches when any enabled membership matches, unless <strong>Show only primary domain matches</strong> is enabled.</p>
+        <div class="help-state-key">
+          <div><span class="suppression-sample allowed"><span class="material-icons">visibility</span></span><strong>Allowed</strong> — ordinary filtering and prerequisite context.</div>
+          <div><span class="suppression-sample excluded"><span class="material-icons">visibility_off</span></span><strong>Excluded</strong> — a primary-domain node is not admitted merely as prerequisite context, but an enabled, non-excluded secondary membership may still select it directly.</div>
+          <div><span class="suppression-sample prohibited"><span class="material-icons">block</span></span><strong>Prohibited</strong> — a node with that primary domain is always hidden, including through secondary memberships and prerequisite closure.</div>
+        </div>
+        <p>Domain visibility buttons cycle gray → yellow → red → gray. Field exclusion remains a two-state gray/red control. Required prerequisite nodes that survive these rules are normally shown as faded context; <strong>Hide prerequisites</strong> removes that closure entirely.</p>
+      </section>
+
+      <div class="help-grid">
+        <section class="help-card">
+          <h3>Relations and isolates</h3>
+          <p>Edge checkboxes determine which relation types are drawn and which relation types participate in prerequisite closure. <strong>Hide isolates</strong> removes every node with no incident edge remaining under the current edge-type and visibility filters. <strong>Cross-field links</strong> may show all such edges, hide them, or show only overview and selected-neighborhood context.</p>
+          <p>When <strong>Edge interaction only when zoomed in</strong> is active, zoomed-out edges remain visible but do not capture taps or clicks. Edge labels and construction junctions can be toggled independently.</p>
+        </section>
+        <section class="help-card">
+          <h3>Layouts</h3>
+          <p><strong>Layered</strong> uses the authored global levels and primary-domain lanes. It preserves the atlas’s editorial hierarchy and displays field boundaries.</p>
+          <p><strong>Compact</strong> uses only the nodes currently visible. Empty authored levels consume no rows, and each row is ordered deterministically by primary-domain order and then canonical node order. Changing filters recomputes the same layout for the same visible set.</p>
+        </section>
+      </div>
+
+      <section class="help-card">
+        <h3>Construction diamonds</h3>
+        <p>A diamond represents a genuinely multi-input construction: several structures must coexist and satisfy the stated compatibility condition. It is an <strong>AND</strong>, not a choice among incoming branches. When construction junctions are hidden, the atlas contracts each diamond into dashed direct branches. Labels beginning with <strong>jointly</strong> still mean that every associated branch is required.</p>
+      </section>
+
+      <section class="help-card">
+        <h3>Edge meanings</h3>
+        <div class="edge-explainer">
+          ${activeTypes.map((id) => {
+            const type = graphData.edgeTypes[id];
+            if (!type) return '';
+            return `<div class="edge-explainer-name"><span class="line-swatch ${escapeHtml(type.lineStyle || 'solid')}" style="border-color:${escapeHtml(type.color)}"></span><strong>${escapeHtml(type.label)}</strong></div><div>${escapeHtml(type.description)}</div>`;
+          }).join('')}
+        </div>
+      </section>
+
+      <div class="help-grid">
+        <section class="help-card">
+          <h3>Details and sources</h3>
+          <p>Details gives the selected item’s summary, data, axioms, induced structures, notes, domain memberships, relations, guided views, and source links. In a relation such as “Builds toward,” the destination is shown first and the edge annotation follows as <em>via [annotation]</em>. Relation links can navigate to concepts currently hidden by filters without silently changing a prohibited-domain setting.</p>
+          <p>The edit action opens the corresponding source file on GitHub. The share action copies a permalink containing the item selection and the current independently versioned <code>filter=</code> and <code>disp=</code> states.</p>
+        </section>
+        <section class="help-card">
+          <h3>Guided views</h3>
+          <p>Views apply a curated combination of fields, domains, relation types, display settings, and a concept sequence. Previous and Next follow that sequence. Selecting other graph items does not lose your place; changing a filter leaves the preset and continues with the resulting independent atlas state.</p>
+        </section>
+      </div>
+
+      <section class="help-card">
+        <h3>Panels, preferences, and export</h3>
+        <p>Filters and Details slide over the graph rather than resizing or relaying it during their animation. The fullscreen button hides both and restores their previous open state. On narrow screens, Filters enters from the left and Details rises from the bottom.</p>
+        <p>Preferences affect rendering and interaction performance, formula display, domain markers, node movement, and prerequisite emphasis. They are stored only in this browser and are not included in shared URLs. SVG export writes the current visible graph as a standalone vector document with labels, annotations, domain markers, emphasis, metadata, and selection state.</p>
+      </section>
+
+      <section class="help-card help-shortcuts">
+        <h3>Keyboard</h3>
+        <p><kbd>/</kbd> focus search · <kbd>F</kbd> fit the graph · <kbd>Escape</kbd> clear search and close open mobile panels.</p>
+      </section>`);
   }
 
   const svgExporter = new SvgExporter(cy, model, state, () => preferences);
@@ -586,6 +715,12 @@ export async function startAtlasApp(): Promise<void> {
   buildHelp();
 
   byId('fitButton').addEventListener('click', fitVisibleGraph);
+  $$<HTMLButtonElement>('[data-toolbar-layout]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const layout = button.dataset.toolbarLayout;
+      if (layout === 'atlas' || layout === 'breadthfirst') runLayout(layout, true);
+    });
+  });
   byId('focusButton').addEventListener('click', toggleNeighborhoodHighlight);
   byId('searchButton').addEventListener('click', performSearch);
   byId<HTMLInputElement>('searchInput').addEventListener('keydown', (event) => {
@@ -692,18 +827,24 @@ export async function startAtlasApp(): Promise<void> {
   }
   window.addEventListener('hashchange', scheduleLocationStateSync);
   window.addEventListener('popstate', scheduleLocationStateSync);
-  window.addEventListener('resize', () => { syncPanelUi(); scheduleFieldBands(); });
+  window.addEventListener('resize', () => {
+    syncPanelUi();
+    cy.resize();
+    scheduleFieldBands();
+    scheduleLayoutUiUpdate();
+  });
 
   const initialSearchQuery = new URL(window.location.href).searchParams.get('q')?.trim() ?? '';
   if (initialSearchQuery) byId<HTMLInputElement>('searchInput').value = initialSearchQuery;
 
   // Initial view
   syncPanelUi();
+  syncLayoutToolbar();
   applyFilters({ relayout: false });
   runLayout(state.layout, false);
   window.requestAnimationFrame(() => {
     const visible = visibleGraphElements();
-    if (!visible.empty()) cy.fit(visible, 58);
+    if (!visible.empty()) fitGraphElements(visible);
     updateSemanticLabelSizes(true);
     if (staticAtlasSvgMode) {
       window.requestAnimationFrame(publishStaticSvgExporter);

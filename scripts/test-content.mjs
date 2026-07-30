@@ -32,7 +32,7 @@ assert.deepEqual(removedDomains, source.removedDomains, 'compiled removed-domain
 assert.deepEqual(source.removedDomains, [{ id: 'foundation', path: 'math/foundation', redirectTo: '/math/' }]);
 assert.equal(source.graph.domains.foundation, undefined, 'Foundation must not remain an active domain.');
 assert.ok(source.graph.nodes.every((node) => node.primaryDomain !== 'foundation' && !node.domains.includes('foundation')), 'No node may retain the removed Foundation domain.');
-assert.ok(source.viewsData.views.every((view) => !view.settings.domains.includes('foundation') && !(view.settings.excludedDomains ?? []).includes('foundation')), 'No view may retain the removed Foundation domain.');
+assert.ok(source.viewsData.views.every((view) => !view.settings.domains.includes('foundation') && !(view.settings.excludedDomains ?? []).includes('foundation') && !(view.settings.prohibitedDomains ?? []).includes('foundation')), 'No view may retain the removed Foundation domain.');
 assert.equal(provenance.schemaVersion, source.manifest.schemaVersion);
 assert.equal(provenance.contentVersion, source.manifest.contentVersion);
 assert.ok(SUPPORTED_SCHEMA_VERSIONS.has(provenance.schemaVersion));

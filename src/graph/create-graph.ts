@@ -3,6 +3,7 @@ import type { GraphModel } from '../model/graph-model.js';
 import { stableStringHash } from '../core/hash.js';
 import { hasInlineMathText, stripInlineMathText } from '../core/text.js';
 import type { LabelSizer } from './label-sizer.js';
+import { DEFAULT_INTERACTIVE_MIN_ZOOM } from './viewport-fit-core.js';
 import type { Preferences } from '../types.js';
 
 function edgeCurveDistance(edgeId: string): number {
@@ -153,7 +154,7 @@ export function createGraph(container: HTMLElement, model: GraphModel, labels: L
     container,
     elements: createGraphElements(model, labels),
     layout: { name: 'preset' },
-    minZoom: 0.08,
+    minZoom: DEFAULT_INTERACTIVE_MIN_ZOOM,
     maxZoom: 3,
     wheelSensitivity: 0.18,
     // High-density mobile displays otherwise render several times as many canvas

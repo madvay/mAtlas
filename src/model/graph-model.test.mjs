@@ -96,11 +96,16 @@ test('primary taxonomy exclusions allow explicitly included secondary domains', 
   const state = {
     selectedDomains: new Set(['algebra']),
     excludedFields: new Set(),
-    excludedDomains: new Set(['algebra'])
+    excludedDomains: new Set(['algebra']),
+    prohibitedDomains: new Set()
   };
   assert.equal(model.nodeExcludedByTaxonomy(data.nodes[1], state), true);
   state.selectedDomains.add('mechanics');
   assert.equal(model.nodeExcludedByTaxonomy(data.nodes[1], state), false);
   state.excludedFields.add('physics');
   assert.equal(model.nodeExcludedByTaxonomy(data.nodes[1], state), true);
+  state.excludedFields.clear();
+  state.excludedDomains.clear();
+  state.prohibitedDomains.add('algebra');
+  assert.equal(model.nodeExcludedByTaxonomy(data.nodes[1], state), true, 'primary-domain prohibition overrides selected secondary domains');
 });

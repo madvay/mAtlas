@@ -66,7 +66,7 @@ export class DetailsController {
             const edgeLabel = `<a class="relation-label relation-link" data-edge-id="${escapeHtml(relation.edgeId)}" href="${escapeHtml(this.options.itemUrl(relation.edgeId, 'edge'))}">[${this.options.math.renderText(relation.edgeLabel)}]</a>`;
             return relation.direction === 'source'
               ? `${this.relationLink(relation.nodeId)} ${edgeLabel}`
-              : `${edgeLabel} ${this.relationLink(relation.nodeId)}`;
+              : `${this.relationLink(relation.nodeId)} <span class="relation-via">via</span> ${edgeLabel}`;
           });
           html += items.length === 1
             ? `<p><span class="muted">${escapeHtml(group.label)}:</span> ${items[0]}</p>`

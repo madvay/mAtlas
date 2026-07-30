@@ -34,6 +34,7 @@ export interface InitialStateDefaults {
   edgeTypes: string[];
   excludedFields?: string[] | undefined;
   excludedDomains?: string[] | undefined;
+  prohibitedDomains?: string[] | undefined;
   crossFieldVisibility?: CrossFieldVisibility | undefined;
   showPrimaryOnly?: boolean | undefined;
   hideIsolates?: boolean | undefined;
@@ -137,6 +138,7 @@ export function parseUrlUiState(params: URLSearchParams, known: UiStateKnowledge
   const edgeTypes = readUrlIdList(params, 'edges', known.edgeTypeIds);
   const excludedFields = readUrlIdList(params, 'excludeFields', known.fieldIds);
   const excludedDomains = readUrlIdList(params, 'excludeDomains', known.domainIds);
+  const prohibitedDomains = readUrlIdList(params, 'prohibitDomains', known.domainIds);
   const crossFieldValue = params.get('crossField');
   const edgeLabels = readUrlBoolean(params, 'edgeLabels');
   const junctions = readUrlBoolean(params, 'junctions');
@@ -154,6 +156,7 @@ export function parseUrlUiState(params: URLSearchParams, known: UiStateKnowledge
   if (edgeTypes !== undefined) result.edgeTypes = edgeTypes;
   if (excludedFields !== undefined) result.excludedFields = excludedFields;
   if (excludedDomains !== undefined) result.excludedDomains = excludedDomains;
+  if (prohibitedDomains !== undefined) result.prohibitedDomains = prohibitedDomains;
   if (isCrossFieldVisibility(crossFieldValue)) result.crossFieldVisibility = crossFieldValue;
   if (edgeLabels !== undefined) result.edgeLabels = edgeLabels;
   if (junctions !== undefined) result.junctions = junctions;
@@ -171,6 +174,7 @@ export interface ResolvedUrlUiState {
   edgeTypes: string[];
   excludedFields: string[];
   excludedDomains: string[];
+  prohibitedDomains: string[];
   crossFieldVisibility: CrossFieldVisibility;
   showPrimaryOnly: boolean;
   hideIsolates: boolean;
@@ -185,12 +189,16 @@ export function resolveUrlUiState(
   url: UrlUiState,
   defaults: InitialStateDefaults
 ): ResolvedUrlUiState {
+  const prohibitedDomains = url.prohibitedDomains ?? defaults.prohibitedDomains ?? [];
+  const prohibitedDomainSet = new Set(prohibitedDomains);
   return {
     fields: url.fields ?? defaults.fields,
     domains: url.domains ?? defaults.domains,
     edgeTypes: url.edgeTypes ?? defaults.edgeTypes,
     excludedFields: url.excludedFields ?? defaults.excludedFields ?? [],
-    excludedDomains: url.excludedDomains ?? defaults.excludedDomains ?? [],
+    excludedDomains: (url.excludedDomains ?? defaults.excludedDomains ?? [])
+      .filter((domainId) => !prohibitedDomainSet.has(domainId)),
+    prohibitedDomains,
     crossFieldVisibility: url.crossFieldVisibility ?? defaults.crossFieldVisibility ?? 'all',
     showPrimaryOnly: url.showPrimaryOnly ?? defaults.showPrimaryOnly ?? false,
     hideIsolates: url.hideIsolates ?? defaults.hideIsolates ?? false,
@@ -213,6 +221,7 @@ export function createInitialState(
     selectedEdgeTypes: new Set(resolved.edgeTypes),
     excludedFields: new Set(resolved.excludedFields),
     excludedDomains: new Set(resolved.excludedDomains),
+    prohibitedDomains: new Set(resolved.prohibitedDomains),
     crossFieldVisibility: resolved.crossFieldVisibility,
     showPrimaryOnly: resolved.showPrimaryOnly,
     hideIsolates: resolved.hideIsolates,
@@ -236,6 +245,7 @@ const LEGACY_UI_STATE_PARAMS = Object.freeze([
   'edges',
   'excludeFields',
   'excludeDomains',
+  'prohibitDomains',
   'crossField',
   'showPrimaryOnly',
   'hideIsolates',
@@ -271,6 +281,7 @@ export function addUiStateToParams(
   writeIds('edges', edgeTypeOrder, state.selectedEdgeTypes);
   writeIds('excludeFields', fieldOrder, state.excludedFields ?? new Set());
   writeIds('excludeDomains', domainOrder, state.excludedDomains ?? new Set());
+  writeIds('prohibitDomains', domainOrder, state.prohibitedDomains ?? new Set());
   params.set('crossField', state.crossFieldVisibility);
   params.set('showPrimaryOnly', state.showPrimaryOnly ? '1' : '0');
   params.set('hideIsolates', state.hideIsolates ? '1' : '0');

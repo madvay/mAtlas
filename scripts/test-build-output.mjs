@@ -102,6 +102,10 @@ if ((appIndex.match(/data-filter-section-toggle/g) ?? []).length !== 5) throw ne
 const displaySectionStart = appIndex.indexOf('id="displayFilterSection"');
 const displaySectionEnd = appIndex.indexOf('</section>', displaySectionStart);
 if (displaySectionStart < 0 || !appIndex.slice(displaySectionStart, displaySectionEnd).includes('id="layoutSelect"')) throw new Error('The layout selector is not inside the Display filter subsection.');
+for (const id of ['layeredLayoutButton', 'compactLayoutButton']) {
+  if (!appIndex.includes(`id="${id}"`) || !appIndex.includes(`data-toolbar-layout`)) throw new Error(`The application toolbar lacks ${id}.`);
+}
+if (!appJs.includes('prohibitedDomains') || !appJs.includes('data-suppression')) throw new Error('The application bundle lacks prohibited-domain state or its tri-state control.');
 if (!appCss.includes('.mobile-view-context') || !appCss.includes('.view-banner-mobile')) throw new Error('The application stylesheet lacks the thin-screen guided-view surfaces.');
 if (!appCss.includes('.view-sequence-controls') || !appCss.includes('.filter-section-toggle')) throw new Error('The application stylesheet lacks guided-sequence or collapsible-filter controls.');
 if (!appCss.includes('.graph-math-label-layer') || !appCss.includes('.graph-math-edge-label')) throw new Error('The application stylesheet lacks the selective KaTeX graph-label layer.');

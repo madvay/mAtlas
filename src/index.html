@@ -183,6 +183,14 @@
         <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
           <span class="material-icons" aria-hidden="true">highlight_alt</span>
         </button>
+        <div class="layout-toolbar-toggle" role="group" aria-label="Graph layout">
+          <button id="layeredLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="atlas" aria-label="Use Layered layout" aria-pressed="true" title="Layered layout">
+            <span class="material-icons" aria-hidden="true">account_tree</span>
+          </button>
+          <button id="compactLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="breadthfirst" aria-label="Use Compact layout" aria-pressed="false" title="Compact layout">
+            <span class="material-icons" aria-hidden="true">view_stream</span>
+          </button>
+        </div>
         <button id="fitButton" class="button icon-button" aria-label="Fit graph" title="Fit all concepts currently allowed by the filters into the viewport (F)">
           <span class="material-icons" aria-hidden="true">fit_screen</span>
         </button>
@@ -217,7 +225,7 @@
           </div>
           <div id="fieldFilterSection" class="filter-section-body">
             <div id="fieldFilters" class="filter-list"></div>
-            <p class="filter-note">Multi-domain and future multi-field concepts remain visible when any membership is enabled. Required prerequisites remain at 50% opacity.</p>
+            <p class="filter-note">Domain visibility buttons cycle gray → yellow → red: allowed, excluded from prerequisite context, then prohibited completely. Multi-domain concepts still match enabled secondary domains unless their primary domain is prohibited.</p>
           </div>
         </section>
 
@@ -267,7 +275,7 @@
             <label class="toggle-row"><input id="hideEdgesWhileMovingToggle" type="checkbox" checked> Hide edges while moving</label>
             <label class="toggle-row"><input id="allowNodeMovementToggle" type="checkbox"> Allow node movement</label>
             <label class="toggle-row"><input id="dimPrerequisitesToggle" type="checkbox" checked> Dim prerequisites</label>
-            <label class="toggle-row"><input id="highlightPrerequisitesToggle" type="checkbox"> Highlight selected-node prerequisites</label>
+            <label class="toggle-row"><input id="highlightPrerequisitesToggle" type="checkbox"> Highlight prerequisite path</label>
             <p class="filter-note">Saved only in this browser and never included in shared URLs.</p>
           </div>
         </section>
