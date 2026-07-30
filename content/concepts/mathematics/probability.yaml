@@ -97,6 +97,7 @@ nodes:
     notes: The probability space and value-space $\sigma$-algebra are part of the data. Traditionally the codomain is $\mathbb R$ or $\mathbb R^n$; for a general measurable codomain, “random element” is also common.
     citations:
       - wp-random-variable
+      - nlab-random-variable
       - durrett-probability
     primaryField: mathematics
     fields:
@@ -120,6 +121,7 @@ nodes:
     notes: ''
     citations:
       - wp-filtered-probability
+      - nlab-filtered-probability-space
       - durrett-probability
     primaryField: mathematics
     fields:
@@ -220,6 +222,7 @@ nodes:
     notes: All component random variables share a probability-space domain; state spaces may be common or indexed depending on convention.
     citations:
       - wp-stochastic-process
+      - nlab-stochastic-process
       - durrett-probability
     primaryField: mathematics
     fields:
@@ -243,6 +246,213 @@ nodes:
     notes: ''
     citations:
       - wp-markov-chain
+      - nlab-markov-chain
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: probability_distribution
+    label: Probability distribution
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+    level: 5
+    kind: structure
+    summary: A probability measure on a measurable value space, including the pushforward law of a random variable.
+    carriers:
+      - measurable space $(S,\Sigma)$
+    data:
+      - probability measure $\mu$ on $(S,\Sigma)$
+    axioms:
+      - $\mu(S)=1$
+    induces:
+      - probabilities of measurable value sets
+    notes: A distribution need not possess a density; discrete, continuous, singular, and mixed probability laws are all included.
+    citations:
+      - wp-probability-distribution
+      - nlab-probability-distribution
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: expectation
+    label: Expected value
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+      - analysis
+    level: 6
+    kind: structure
+    summary: The integral of an integrable real-valued random variable, equivalently its first moment with respect to its distribution.
+    carriers:
+      - probability space $(\Omega,\mathcal F,\mathbb P)$
+      - integrable random variable $X$
+    data:
+      - integral $\mathbb E[X]=\int_\Omega X\,d\mathbb P$
+    axioms:
+      - $\int_\Omega |X|\,d\mathbb P<\infty$
+    induces:
+      - first moment of the probability distribution
+    notes: Extended expectations can be defined for nonnegative random variables; the finite real-valued expectation here requires integrability.
+    citations:
+      - wp-expected-value
+      - nlab-physics-expectation-value
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: independent_random_variables
+    label: Independent random variables
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+    level: 6
+    kind: structure
+    summary: A family of random variables whose finite subfamilies have joint probabilities that factor into their marginal probabilities.
+    carriers:
+      - common probability space
+      - indexed family $(X_i)_{i\in I}$ of random variables
+    data: []
+    axioms:
+      - for every finite $J\subseteq I$, $\mathbb P(\bigcap_{j\in J}\{X_j\in A_j\})=\prod_{j\in J}\mathbb P(X_j\in A_j)$ for measurable $A_j$
+    induces:
+      - product finite-dimensional distributions
+    notes: Pairwise independence is weaker than mutual independence and is not substituted here.
+    citations:
+      - wp-independent-random-variables
+      - nlab-iid-random-variables
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: conditional_probability
+    label: Conditional probability
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+    level: 6
+    kind: structure
+    summary: For events $A$ and $B$ with $\mathbb P(B)>0$, the normalized probability $\mathbb P(A\mid B)=\mathbb P(A\cap B)/\mathbb P(B)$.
+    carriers:
+      - probability space $(\Omega,\mathcal F,\mathbb P)$
+      - events $A,B\in\mathcal F$
+    data:
+      - conditioned probability $\mathbb P(A\mid B)$
+    axioms:
+      - $\mathbb P(B)>0$
+    induces:
+      - a probability measure $A\mapsto\mathbb P(A\mid B)$ for fixed $B$
+    notes: Conditioning on sigma-algebras or null events requires conditional expectation or regular conditional probabilities; the elementary event formula does not cover those cases.
+    citations:
+      - wp-conditional-probability
+      - nlab-probability-theory
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: normal_distribution
+    label: Normal distribution
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+      - analysis
+    level: 7
+    kind: structure
+    summary: A Gaussian probability law on the real line, specified by a mean $\mu$ and variance $\sigma^2\ge0$.
+    carriers:
+      - real measurable space
+    data:
+      - parameters $\mu\in\mathbb R$ and $\sigma^2\ge0$
+    axioms:
+      - characteristic function $\exp(i\mu t-\sigma^2t^2/2)$
+    induces:
+      - Gaussian density when $\sigma^2>0$
+    notes: Allowing $\sigma^2=0$ includes the degenerate point mass at $\mu$; some conventions reserve “normal distribution” for positive variance.
+    citations:
+      - wp-normal-distribution
+      - nlab-gaussian-distribution
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: convergence_in_probability
+    label: Convergence in probability
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+      - analysis
+    level: 7
+    kind: structure
+    summary: A sequence $X_n$ converges in probability to $X$ when $\mathbb P(d(X_n,X)>\varepsilon)\to0$ for every $\varepsilon>0$.
+    carriers:
+      - random variables $X_n,X$ with values in a metric space
+    data:
+      - sequence $(X_n)$ and candidate limit $X$
+    axioms:
+      - $\mathbb P(d(X_n,X)>\varepsilon)\to0$ for every $\varepsilon>0$
+    induces: []
+    notes: Convergence in probability is weaker than almost-sure convergence and stronger than convergence in distribution.
+    citations:
+      - wp-convergence-random-variables
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: law_of_large_numbers
+    label: Law of large numbers
+    primaryDomain: probability
+    domains:
+      - probability
+      - analysis
+    level: 8
+    kind: structure
+    conceptType: Theorem family
+    summary: Under standard independence and moment hypotheses, sample averages converge to the common expectation, in probability for the weak law and almost surely for the strong law.
+    carriers:
+      - sequence of random variables
+    data:
+      - normalized partial averages
+    axioms:
+      - hypotheses vary by theorem; the iid integrable case is canonical
+    induces:
+      - convergence of empirical averages
+    notes: Independence alone is insufficient; the precise weak or strong law and its integrability or variance hypotheses must be stated.
+    citations:
+      - wp-law-large-numbers
+      - nlab-law-large-numbers
+      - durrett-probability
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: central_limit_theorem
+    label: Central limit theorem
+    primaryDomain: probability
+    domains:
+      - probability
+      - analysis
+    level: 9
+    kind: structure
+    conceptType: Limit theorem
+    summary: For iid real random variables with finite nonzero variance, centered and variance-normalized sums converge in distribution to the standard normal law.
+    carriers:
+      - iid sequence $(X_n)$ of real random variables
+    data:
+      - centered normalized sums
+    axioms:
+      - finite mean
+      - finite nonzero variance
+    induces:
+      - asymptotic Gaussian distribution
+    notes: This is the classical Lindeberg–Lévy form; triangular-array and dependent-variable central limit theorems require different hypotheses.
+    citations:
+      - wp-central-limit-theorem
+      - nlab-central-limit-theorem
       - durrett-probability
     primaryField: mathematics
     fields:
@@ -311,4 +521,95 @@ edges:
     detail: Require discrete time (typically index set $\mathbb{N}$) and the Markov conditional-independence property.
     citations:
       - wp-markov-chain
+      - durrett-probability
+  - id: random_variable_to_distribution
+    source: random_variable
+    target: probability_distribution
+    type: canonical-construction
+    label: push forward the probability measure
+    detail: The law of $X$ is the pushforward measure $\mathbb P\circ X^{-1}$ on its measurable value space.
+    citations:
+      - wp-probability-distribution
+      - nlab-probability-distribution
+      - durrett-probability
+  - id: random_variable_to_expectation
+    source: random_variable
+    target: expectation
+    type: canonical-construction
+    label: integrate when integrable
+    detail: A real-valued random variable with finite absolute first moment has expectation $\int X\,d\mathbb P$.
+    citations:
+      - wp-expected-value
+      - nlab-physics-expectation-value
+      - durrett-probability
+  - id: random_variable_to_independent_family
+    source: stochastic_process
+    target: independent_random_variables
+    type: impose-axiom
+    label: + mutual independence
+    detail: Require every finite subfamily of the indexed random variables to have joint probabilities that factor into their marginals.
+    citations:
+      - wp-independent-random-variables
+      - nlab-iid-random-variables
+      - durrett-probability
+  - id: distribution_to_expectation
+    source: probability_distribution
+    target: expectation
+    type: canonical-construction
+    label: take the first moment
+    detail: A real probability distribution with finite absolute first moment determines its mean by integrating the identity function.
+    citations:
+      - wp-expected-value
+      - wp-probability-distribution
+      - durrett-probability
+  - id: distribution_to_normal
+    source: probability_distribution
+    target: normal_distribution
+    type: classification
+    label: Gaussian law
+    detail: Normal distributions form the Gaussian location-scale subclass of probability distributions on the real line.
+    citations:
+      - wp-normal-distribution
+      - nlab-gaussian-distribution
+      - durrett-probability
+  - id: independent_family_to_law_large_numbers
+    source: independent_random_variables
+    target: law_of_large_numbers
+    type: theorem-implication
+    label: sample-average convergence under stated hypotheses
+    detail: In the iid integrable case, the strong law gives almost-sure convergence of sample averages to the common mean; weaker variants use their own explicit assumptions.
+    citations:
+      - wp-law-large-numbers
+      - nlab-law-large-numbers
+      - durrett-probability
+  - id: independent_family_to_central_limit
+    source: independent_random_variables
+    target: central_limit_theorem
+    type: theorem-implication
+    label: Gaussian limit under iid finite-variance hypotheses
+    detail: For iid real variables with finite nonzero variance, centered and normalized sums converge in distribution to a standard normal random variable.
+    citations:
+      - wp-central-limit-theorem
+      - nlab-central-limit-theorem
+      - durrett-probability
+  - id: law_large_numbers_to_probability_convergence
+    source: law_of_large_numbers
+    target: convergence_in_probability
+    type: theorem-implication
+    label: weak-law convergence
+    detail: The weak law asserts convergence in probability of sample averages to the relevant expectation under its stated hypotheses.
+    citations:
+      - wp-law-large-numbers
+      - wp-convergence-random-variables
+      - durrett-probability
+  - id: central_limit_to_normal_distribution
+    source: central_limit_theorem
+    target: normal_distribution
+    type: theorem-implication
+    label: standard-normal limiting law
+    detail: The classical normalized sums converge in distribution to the standard normal law, not generally in probability on their original probability space.
+    citations:
+      - wp-central-limit-theorem
+      - wp-normal-distribution
+      - nlab-central-limit-theorem
       - durrett-probability

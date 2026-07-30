@@ -17,6 +17,7 @@ nodes:
     notes: ''
     citations:
       - wp-finite-set
+      - nlab-finite-set
       - openlogic-set-theory
     primaryField: mathematics
     fields:
@@ -38,6 +39,7 @@ nodes:
     notes: 'Convention: “countable” means finite or countably infinite (at most countable). Some authors reserve “countable” for countably infinite sets.'
     citations:
       - wp-countable-set
+      - nlab-countable-set
       - openlogic-set-theory
     primaryField: mathematics
     fields:
@@ -81,6 +83,7 @@ nodes:
     notes: ''
     citations:
       - wp-transitive-set
+      - nlab-transitive-set
       - openlogic-set-theory
     primaryField: mathematics
     fields:
@@ -182,6 +185,7 @@ nodes:
     notes: The empty set is used as the von Neumann realization of zero, but that identification is a chosen encoding rather than an intrinsic meaning of zero.
     citations:
       - wp-empty-set
+      - nlab-empty-set
       - openlogic-set-theory
   - kind: structure
     primaryField: mathematics
@@ -205,6 +209,7 @@ nodes:
     notes: In ZF, the power-set axiom guarantees that $\mathcal P(X)$ is a set.
     citations:
       - wp-power-set
+      - nlab-power-set
       - openlogic-set-theory
   - kind: structure
     primaryField: mathematics
@@ -230,6 +235,7 @@ nodes:
     notes: The theorem rules out a greatest cardinal and does not depend on the continuum hypothesis.
     citations:
       - wp-cantor-theorem
+      - nlab-cantors-theorem
       - openlogic-set-theory
   - kind: structure
     primaryField: mathematics
@@ -378,6 +384,7 @@ nodes:
     notes: There is no greatest infinite cardinal, by Cantor’s theorem.
     citations:
       - wp-cardinal
+      - nlab-infinite-cardinal
       - openlogic-set-theory
   - kind: structure
     primaryField: mathematics
@@ -402,6 +409,7 @@ nodes:
     notes: The collection of all countable ordinals is itself uncountable and forms $\omega_1$.
     citations:
       - wp-first-uncountable-ordinal
+      - nlab-countable-ordinal
       - openlogic-set-theory
   - kind: structure
     primaryField: mathematics
@@ -453,6 +461,7 @@ nodes:
     notes: Ordinal addition and multiplication are associative but generally not commutative.
     citations:
       - wp-ordinal-arithmetic
+      - nlab-ordinal-arithmetic
       - openlogic-set-theory
   - kind: structure
     primaryField: mathematics
@@ -696,6 +705,7 @@ nodes:
     notes: Gödel and Cohen showed that CH can neither be disproved nor proved from ZFC, assuming ZFC is consistent.
     citations:
       - wp-continuum-hypothesis
+      - nlab-continuum-hypothesis
       - sep-set-theory
   - kind: structure
     primaryField: mathematics
@@ -742,6 +752,7 @@ nodes:
     notes: ZFC does not prove that inaccessible, measurable, or supercompact cardinals exist, assuming the usual consistency hypotheses; their existence is adopted through additional axioms.
     citations:
       - wp-large-cardinal
+      - nlab-large-cardinal
       - sep-large-cardinals
   - kind: structure
     primaryField: mathematics
@@ -767,6 +778,7 @@ nodes:
     notes: The existence of an inaccessible cardinal is not provable in ZFC if ZFC is consistent.
     citations:
       - wp-inaccessible-cardinal
+      - nlab-inaccessible-cardinal
       - sep-large-cardinals
   - kind: structure
     primaryField: mathematics
@@ -792,6 +804,7 @@ nodes:
     notes: Every measurable cardinal is strongly inaccessible in ZFC.
     citations:
       - wp-measurable-cardinal
+      - nlab-measurable-cardinal
       - sep-large-cardinals
   - kind: structure
     primaryField: mathematics
@@ -816,6 +829,7 @@ nodes:
     notes: Every supercompact cardinal is measurable. Measurability alone does not imply supercompactness.
     citations:
       - wp-supercompact-cardinal
+      - nlab-supercompact-cardinal
       - sep-large-cardinals
   - id: set
     label: Set
@@ -830,6 +844,7 @@ nodes:
     notes: ''
     citations:
       - wp-set
+      - nlab-set
       - openlogic-set-theory
     primaryDomain: set-theory
     domains:
@@ -852,6 +867,7 @@ nodes:
     notes: ''
     citations:
       - wp-pointed
+      - nlab-pointed-set
       - openlogic-set-theory
     primaryDomain: set-theory
     domains:
@@ -908,6 +924,7 @@ nodes:
     notes: Equivalent presentations may trade some axioms for theorems; the defining editorial distinction here is that ZF omits Choice.
     citations:
       - wp-zf
+      - nlab-zf
       - openlogic-set-theory
       - sep-set-theory
   - kind: structure
@@ -933,6 +950,7 @@ nodes:
     notes: AC is independent of ZF, assuming ZF is consistent. Its standard equivalents are equivalent over ZF, not in arbitrary weak background theories.
     citations:
       - wp-axiom-choice
+      - nlab-axiom-of-choice
       - sep-axiom-choice
       - openlogic-set-theory
   - kind: structure
@@ -957,6 +975,8 @@ nodes:
       - a cardinal representative for every set
     notes: Over ZF, the well-ordering theorem is equivalent to the axiom of choice.
     citations:
+      - wp-well-ordering-theorem
+      - nlab-well-ordering-theorem
       - sep-axiom-choice
       - openlogic-set-theory
   - kind: structure
@@ -984,6 +1004,7 @@ nodes:
     citations:
       - wp-zf
       - wp-axiom-choice
+      - nlab-zfc
       - sep-set-theory
       - sep-large-cardinals
   - kind: structure
@@ -1933,3 +1954,22 @@ edges:
       - wp-axiom-choice
       - wp-beth-number
       - sep-axiom-choice
+  - id: function_to_continuous_map_junction
+    source: function
+    target: j_continuous_map
+    type: combine-compatible
+    label: underlying function
+    detail: Supply the function whose domain and codomain are equipped with the two topologies.
+    citations:
+      - wp-continuous-function
+      - nlab-continuous-map
+      - topology-without-tears
+  - id: function_to_differentiable_function_junction
+    source: function
+    target: j_differentiable_function
+    type: combine-compatible
+    label: underlying function
+    detail: Supply the function whose domain and codomain receive the normed-vector-space structures used for differentiation.
+    citations:
+      - wp-differentiable-function
+      - nlab-differentiable-map

@@ -29,7 +29,7 @@ nodes:
     summary: The Hamiltonian describing nuclear and electronic kinetic energy plus electromagnetic interactions, with relativistic, finite-size, recoil, and QED refinements as required.
     citations:
       - wp-physics-atomic_hamiltonian
-      - nlab-physics-atomic_hamiltonian
+      - nlab-physics-hamiltonian
       - nist-atomic-spectroscopy
       - nist-atomic-wavefunctions
   - id: electromagnetic_binding
@@ -219,6 +219,7 @@ nodes:
     summary: The class of atoms and ions with the same proton number $Z$.
     citations:
       - wp-physics-chemical_element
+      - nlab-chemical-element
       - iupac-atom
       - iupac-nuclide
   - id: nuclear_recoil
@@ -301,6 +302,7 @@ nodes:
     summary: A radiative correction in which charged-field loops modify the photon propagator and therefore the effective electromagnetic response, producing effects such as the Uehling potential.
     citations:
       - wp-physics-vacuum_polarization
+      - nlab-vacuum-polarization
       - nist-hydrogen
       - nobel-qed
   - id: darwin_term
@@ -457,6 +459,7 @@ nodes:
     summary: Coupling between an electron’s spin and orbital motion in the electric field, contributing to fine structure.
     citations:
       - wp-physics-spin_orbit_coupling
+      - nlab-spin-orbit-coupling
       - nist-atomic-spectroscopy
   - id: atomic_orbital
     label: Atomic orbital
@@ -472,7 +475,6 @@ nodes:
     summary: A one-electron wavefunction or basis function used in exact one-electron atoms and approximate many-electron descriptions; it is not a classical electron trajectory.
     citations:
       - wp-physics-atomic_orbital
-      - nlab-physics-atomic_orbital
       - iupac-atomic-orbital
       - nist-atomic-states
     sections:
@@ -491,7 +493,7 @@ nodes:
     conceptType: Quantum state
     summary: A stationary, metastable, resonance, or continuum state of the full atom, labeled by total angular momentum, parity, configuration, and other quantum numbers.
     citations:
-      - wp-physics-atomic_state
+      - wp-physics-atomic_term_symbol
       - nist-asd-levels
       - nist-atomic-states
   - id: central_field_approximation
@@ -570,7 +572,7 @@ nodes:
     conceptType: Mean-field approximation
     summary: An approximation representing a many-electron state using independently occupied one-electron orbitals in an effective field, with antisymmetry imposed for fermions.
     citations:
-      - wp-physics-independent_particle_model
+      - wp-physics-atomic_orbital
       - nist-atomic-wavefunctions
       - nist-atomic-spectroscopy
   - id: magnetic_quantum_number
@@ -664,6 +666,7 @@ nodes:
     summary: An exact ground-state density formulation in the Hohenberg–Kohn sense, implemented in practice through Kohn–Sham orbitals and approximate exchange–correlation functionals.
     citations:
       - wp-physics-density_functional_theory
+      - nlab-density-functional-theory
       - nist-atomic-wavefunctions
       - aps-hohenberg-kohn
       - aps-kohn-sham
@@ -681,7 +684,6 @@ nodes:
     summary: An occupation pattern over atomic orbitals or subshells used to organize many-electron basis states; the exact state can be a superposition of configurations.
     citations:
       - wp-physics-electron_configuration
-      - nlab-physics-electron_configuration
       - nist-atomic-states
       - nist-atomic-spectroscopy
   - id: electron_correlation
@@ -819,7 +821,6 @@ nodes:
     summary: Splittings from relativistic kinematics, spin–orbit coupling, and related relativistic electromagnetic terms, scaling roughly as powers of $Z\alpha$.
     citations:
       - wp-physics-fine_structure
-      - nlab-physics-fine_structure
       - nist-atomic-spectroscopy
       - nist-asd-levels
   - id: selection_rule
@@ -897,7 +898,6 @@ nodes:
     summary: Splittings from interactions of electronic fields and angular momentum with nuclear magnetic dipole and electric quadrupole moments.
     citations:
       - wp-physics-hyperfine_structure
-      - nlab-physics-hyperfine_structure
       - nist-atomic-spectroscopy
       - nist-asd-levels
   - id: ionization_process
@@ -930,6 +930,7 @@ nodes:
     summary: Discrete and continuum electromagnetic absorption or emission frequencies determined by atomic energy differences and transition amplitudes.
     citations:
       - wp-physics-atomic_spectrum
+      - nlab-atomic-spectrum
       - nist-atomic-spectroscopy
       - nist-atomic-spectra
   - id: atomic_transition
@@ -1088,6 +1089,23 @@ nodes:
     citations:
       - wp-physics-zeeman_effect
       - nist-atomic-spectroscopy
+  - id: chemical_bond
+    label: Chemical bond
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: atomic-molecular-physics
+    domains:
+      - atomic-molecular-physics
+    level: 34
+    kind: structure
+    conceptType: Interatomic binding relation
+    summary: A stabilizing interaction between atoms or groups of atoms that supports formation of a molecular entity, arising from quantum states of electrons and nuclei coupled electromagnetically.
+    citations:
+      - wp-physics-chemical-bond
+      - iupac-chemical-bond
+      - nist-quantum-theory
+    notes: Covalent, ionic, metallic, and other bonding descriptions emphasize different regimes; a chemical bond is not a separate fundamental force.
   - id: anion
     label: Anion
     primaryField: physics
@@ -1132,6 +1150,7 @@ nodes:
     summary: An electrically neutral entity consisting of more than one atom; its bound structure and spectra arise from quantum states of electrons and nuclei.
     citations:
       - wp-physics-molecule
+      - nlab-molecule
       - iupac-molecule
     scale: Molecular
   - id: ionization_energy
@@ -1260,6 +1279,17 @@ nodes:
       - nist-codata-2022
     status: Observed / performed
 edges:
+  - id: chemical_bond_to_molecule
+    source: chemical_bond
+    target: molecule
+    type: couples-interacts
+    label: stabilizes molecular structure
+    detail: Interatomic binding can produce a stable molecular entity; the electronic and nuclear quantum state determines its geometry, dissociation channels, and spectra.
+    citations:
+      - wp-physics-chemical-bond
+      - iupac-chemical-bond
+      - iupac-molecule
+      - nist-quantum-theory
   - id: angular_to_jjcoupling
     source: many_electron_atom
     target: jj_coupling
@@ -1297,7 +1327,7 @@ edges:
     label: atomic quantum states
     detail: The atom has a spectrum of bound, resonant, and continuum states.
     citations:
-      - wp-physics-atomic_state
+      - wp-physics-atomic_term_symbol
       - nist-asd-levels
       - wp-physics-atom
       - nlab-physics-atom
@@ -1358,7 +1388,6 @@ edges:
       - iupac-atom
       - nist-atomic-spectroscopy
       - wp-physics-nuclide
-      - nlab-physics-nuclide
       - iupac-nuclide
       - iaea-livechart
   - id: atom_to_rutherford
@@ -1391,7 +1420,7 @@ edges:
     detail: An atomic Hamiltonian describes the internal dynamics and energy spectrum of an atom within its stated effective and approximation regime.
     citations:
       - wp-physics-atomic_hamiltonian
-      - nlab-physics-atomic_hamiltonian
+      - nlab-physics-hamiltonian
       - wp-physics-atom
       - nlab-physics-atom
   - id: atomic_h_to_infinite_mass
@@ -1404,7 +1433,7 @@ edges:
       - wp-physics-infinite_nuclear_mass_approximation
       - nist-atomic-spectroscopy
       - wp-physics-atomic_hamiltonian
-      - nlab-physics-atomic_hamiltonian
+      - nlab-physics-hamiltonian
   - id: atomic_h_to_coulomb_h
     source: atomic_hamiltonian
     target: nonrelativistic_coulomb_hamiltonian
@@ -1433,7 +1462,7 @@ edges:
       - wp-physics-relativistic_atomic_structure
       - nist-atomic-spectroscopy
       - wp-physics-atomic_hamiltonian
-      - nlab-physics-atomic_hamiltonian
+      - nlab-physics-hamiltonian
   - id: orbital_to_configuration
     source: atomic_orbital
     target: electron_configuration
@@ -1442,7 +1471,6 @@ edges:
     detail: Electron configurations record occupations of a chosen orbital or subshell basis; they are state descriptions, not material assemblies of orbitals.
     citations:
       - wp-physics-electron_configuration
-      - nlab-physics-electron_configuration
   - id: orbital_to_shell
     source: atomic_orbital
     target: electron_shell
@@ -1492,7 +1520,7 @@ edges:
     citations:
       - wp-physics-atomic_energy_level
       - iupac-energy-level
-      - wp-physics-atomic_state
+      - wp-physics-atomic_term_symbol
       - nist-asd-levels
   - id: state_to_term
     source: atomic_state
@@ -1503,7 +1531,6 @@ edges:
     citations:
       - wp-physics-atomic_term_symbol
       - nist-atomic-states
-      - wp-physics-atomic_state
       - nist-asd-levels
   - id: state_to_transition
     source: atomic_state
@@ -1514,7 +1541,7 @@ edges:
     citations:
       - wp-physics-atomic_energy_level
       - nist-atomic-spectroscopy
-      - wp-physics-atomic_state
+      - wp-physics-atomic_term_symbol
       - nist-asd-levels
   - id: transition_to_absorption
     source: atomic_transition
@@ -1588,7 +1615,7 @@ edges:
       - wp-physics-configuration_state_function
       - nist-atomic-spectroscopy
       - nist-atomic-states
-      - wp-physics-atomic_state
+      - wp-physics-atomic_term_symbol
       - nist-asd-levels
   - id: binding_to_atom
     source: electromagnetic_binding
@@ -1608,10 +1635,9 @@ edges:
     label: configuration basis components
     detail: An atomic state can be described by its electron-configuration content, but an exact many-electron eigenstate may superpose multiple configurations, so a single configuration is generally only a label or approximation.
     citations:
-      - wp-physics-atomic_state
+      - wp-physics-atomic_term_symbol
       - nist-asd-levels
       - wp-physics-electron_configuration
-      - nlab-physics-electron_configuration
   - id: ee_to_manyelectron
     source: electron_electron_coulomb_interaction
     target: many_electron_atom
@@ -1756,7 +1782,6 @@ edges:
     detail: In many-electron atoms, orbitals are basis or mean-field functions used to construct antisymmetric states; they are not separately exact electron states in general.
     citations:
       - wp-physics-atomic_orbital
-      - nlab-physics-atomic_orbital
       - wp-physics-atomic_hamiltonian
       - nist-atomic-spectroscopy
   - id: manyatom_to_central
@@ -1811,7 +1836,7 @@ edges:
     label: effective one-electron states
     detail: Independent-particle models neglect explicit correlated motion beyond an average field, while enforcing fermion antisymmetry as appropriate.
     citations:
-      - wp-physics-independent_particle_model
+      - wp-physics-atomic_orbital
       - nist-atomic-wavefunctions
       - wp-physics-atomic_hamiltonian
       - nist-atomic-spectroscopy
@@ -1856,7 +1881,6 @@ edges:
     detail: For one-electron atoms, stationary wavefunctions are exact atomic orbitals within the chosen Hamiltonian.
     citations:
       - wp-physics-atomic_orbital
-      - nlab-physics-atomic_orbital
       - wp-physics-one_electron_atom
       - nist-hydrogen
   - id: oneelectron_to_hydrogen
@@ -1921,7 +1945,6 @@ edges:
     detail: Fine structure arises from the relativistic atomic Hamiltonian and its low-energy expansion.
     citations:
       - wp-physics-fine_structure
-      - nlab-physics-fine_structure
       - wp-physics-relativistic_atomic_structure
       - nist-atomic-spectroscopy
   - id: rutherford_to_bohr

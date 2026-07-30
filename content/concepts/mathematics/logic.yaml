@@ -39,6 +39,7 @@ nodes:
     notes: A theory need not be deductively closed unless that convention is stated explicitly.
     citations:
       - wp-model-theory
+      - nlab-first-order-theory
       - openlogic-model-theory
     primaryField: mathematics
     fields:
@@ -169,7 +170,7 @@ nodes:
     primaryDomain: logic
     domains:
       - logic
-    level: 4
+    level: 5
     kind: structure
     summary: A first-order structure satisfying every sentence of a specified theory.
     carriers:
@@ -182,6 +183,7 @@ nodes:
     notes: The theory and structure are independent inputs that must use the same signature.
     citations:
       - wp-model-theory
+      - nlab-model-of-theory
       - openlogic-model-theory
     primaryField: mathematics
     fields:
@@ -231,6 +233,7 @@ nodes:
       - A theorem set
     notes: ''
     citations:
+      - wp-formal-proof-system
       - openlogic-incompleteness
     primaryField: mathematics
     fields:
@@ -253,6 +256,7 @@ nodes:
       - Nontrivial deductive consequence
     notes: ''
     citations:
+      - wp-consistent-theory
       - openlogic-incompleteness
     primaryField: mathematics
     fields:
@@ -275,6 +279,7 @@ nodes:
       - No undecided sentence in the language
     notes: ''
     citations:
+      - wp-syntactically-complete-theory
       - openlogic-incompleteness
     primaryField: mathematics
     fields:
@@ -295,6 +300,7 @@ nodes:
     induces: []
     notes: Consistency, effective axiomatization, sufficient arithmetic strength, and arithmetized syntax must concern the same theory.
     citations:
+      - wp-j-first-incompleteness
       - openlogic-incompleteness
       - godel-incompleteness-paper
     combination:
@@ -326,6 +332,7 @@ nodes:
       - An undecidable sentence for the theory
     notes: ''
     citations:
+      - wp-j-first-incompleteness
       - godel-incompleteness-paper
       - openlogic-incompleteness
     primaryField: mathematics
@@ -347,6 +354,7 @@ nodes:
     induces: []
     notes: The consistency statement and provability predicate must be the standard internal formalizations for the same sufficiently strong theory.
     citations:
+      - wp-j-first-incompleteness
       - openlogic-incompleteness
       - godel-incompleteness-paper
     combination:
@@ -378,6 +386,7 @@ nodes:
       - Unprovability of the internal consistency statement
     notes: ''
     citations:
+      - wp-j-first-incompleteness
       - godel-incompleteness-paper
       - openlogic-incompleteness
     primaryField: mathematics
@@ -401,7 +410,111 @@ nodes:
       - Consistency and completeness goals
     notes: The incompleteness theorems constrain the original program; they do not eliminate formal axiomatic or proof-theoretic research.
     citations:
+      - wp-hilbert-program
+      - nlab-hilbert-program
       - openlogic-incompleteness
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: semantic_consequence
+    label: Semantic consequence
+    primaryDomain: logic
+    domains:
+      - logic
+    level: 4
+    kind: structure
+    conceptType: Semantic relation
+    summary: A sentence $\varphi$ is a semantic consequence of a theory $T$ when every structure satisfying $T$ also satisfies $\varphi$.
+    carriers:
+      - first-order language
+      - theory $T$ and sentence $\varphi$
+    data:
+      - satisfaction relation over structures
+    axioms:
+      - $T\models\varphi$ iff every model of $T$ is a model of $\varphi$
+    induces:
+      - semantic closure of a theory
+    notes: Semantic consequence is distinct from syntactic derivability until a soundness or completeness theorem relates them for a specified proof calculus.
+    citations:
+      - wp-logical-consequence
+      - nlab-sequent
+      - openlogic-model-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: first_order_completeness_theorem
+    label: Gödel completeness theorem
+    primaryDomain: logic
+    domains:
+      - logic
+    level: 6
+    kind: structure
+    conceptType: Metatheorem
+    summary: For standard first-order logic, every semantically valid consequence is derivable in a sound and complete proof calculus.
+    carriers:
+      - first-order theory $T$
+      - sentence $\varphi$
+    data: []
+    axioms:
+      - standard first-order semantics and a specified complete proof calculus
+    induces:
+      - $T\models\varphi$ iff $T\vdash\varphi$
+      - every syntactically consistent first-order theory has a model
+    notes: This is Gödel’s completeness theorem for first-order logic, not either of Gödel’s incompleteness theorems and not semantic completeness of a particular theory.
+    citations:
+      - wp-godel-completeness-theorem
+      - nlab-completeness-theorem
+      - openlogic-model-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: compactness_theorem
+    label: Compactness theorem
+    primaryDomain: logic
+    domains:
+      - logic
+    level: 7
+    kind: structure
+    conceptType: Metatheorem
+    summary: A set of first-order sentences has a model whenever every finite subset has a model.
+    carriers:
+      - set $T$ of first-order sentences
+    data: []
+    axioms:
+      - every finite subset of $T$ is satisfiable
+    induces:
+      - satisfiability of $T$
+    notes: The statement is specific to first-order compactness; stronger logics can fail compactness.
+    citations:
+      - wp-compactness-theorem
+      - nlab-compactness-theorem
+      - openlogic-model-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: j_consistent_first_order_theory
+    label: consistent first-order theory
+    primaryDomain: logic
+    domains:
+      - logic
+    level: 5
+    kind: junction
+    summary: Identify a first-order theory with a syntactically consistent formal proof system so that Gödel’s completeness theorem applies.
+    carriers: []
+    data: []
+    axioms: []
+    induces: []
+    notes: Consistency and first-order syntax must refer to the same theory and to a sound standard proof calculus.
+    citations:
+      - wp-godel-completeness-theorem
+      - nlab-completeness-theorem
+      - openlogic-model-theory
+    combination:
+      inputs:
+        - first_order_theory
+        - consistent_theory
+      compatibility: Use one first-order theory with its specified proof calculus and require that no contradiction is derivable.
+      output: model_of_theory
     primaryField: mathematics
     fields:
       - mathematics
@@ -601,3 +714,53 @@ edges:
     detail: Hilbert’s program motivated precise formal systems and metamathematical consistency proofs.
     citations:
       - openlogic-incompleteness
+  - id: first_order_theory_to_semantic_consequence
+    source: first_order_theory
+    target: semantic_consequence
+    type: canonical-construction
+    label: take semantic closure
+    detail: Relative to the fixed language and its standard structures, a theory determines the sentences true in all of its models.
+    citations:
+      - wp-logical-consequence
+      - nlab-sequent
+      - openlogic-model-theory
+  - id: first_order_theory_to_consistent_theory_junction
+    source: first_order_theory
+    target: j_consistent_first_order_theory
+    type: combine-compatible
+    label: first-order syntax and semantics
+    detail: Supply the first-order theory whose consistency and model existence are being considered.
+    citations:
+      - wp-godel-completeness-theorem
+      - nlab-completeness-theorem
+      - openlogic-model-theory
+  - id: consistent_theory_to_first_order_theory_junction
+    source: consistent_theory
+    target: j_consistent_first_order_theory
+    type: combine-compatible
+    label: syntactic consistency
+    detail: Require syntactic consistency of the same first-order theory under its specified proof calculus.
+    citations:
+      - wp-godel-completeness-theorem
+      - nlab-completeness-theorem
+      - openlogic-model-theory
+  - id: consistent_first_order_theory_junction_to_model
+    source: j_consistent_first_order_theory
+    target: model_of_theory
+    type: combine-compatible
+    label: apply Gödel completeness
+    detail: Gödel’s completeness theorem guarantees a model for the consistent first-order theory represented by the junction.
+    citations:
+      - wp-godel-completeness-theorem
+      - nlab-completeness-theorem
+      - openlogic-model-theory
+  - id: completeness_theorem_to_compactness
+    source: first_order_completeness_theorem
+    target: compactness_theorem
+    type: theorem-implication
+    label: finite proofs yield compactness
+    detail: If an unsatisfiable theory entailed a contradiction, completeness would give a finite formal proof using only finitely many premises; contraposition yields compactness.
+    citations:
+      - wp-compactness-theorem
+      - nlab-compactness-theorem
+      - openlogic-model-theory

@@ -13,6 +13,7 @@ nodes:
     summary: The dimensionless electromagnetic coupling $\alpha=e^2/(4\pi\varepsilon_0\hbar c)$ in SI conventions, whose renormalized value runs with energy.
     citations:
       - wp-physics-fine_structure_constant
+      - nlab-fine-structure-constant
       - nist-codata
       - pdg-rpp
   - id: classical_electromagnetism
@@ -93,6 +94,7 @@ nodes:
     summary: The force-per-unit-charge field and time–space part of the electromagnetic field relative to an observer.
     citations:
       - wp-physics-electric_field
+      - nlab-electric-field
       - tong-em
   - id: magnetic_field
     label: Magnetic field
@@ -108,6 +110,7 @@ nodes:
     summary: The spatial rotational part of the electromagnetic field relative to an observer, coupling to moving charges and magnetic moments.
     citations:
       - wp-physics-magnetic_field
+      - nlab-magnetic-field
       - tong-em
   - id: maxwell_equations
     label: Maxwell equations
@@ -169,7 +172,6 @@ nodes:
     summary: The inverse-square electrostatic force or potential between ideal point charges in vacuum.
     citations:
       - wp-physics-coulomb_law
-      - nlab-physics-coulomb_law
       - tong-em
       - nist-codata
   - id: coulomb_potential
@@ -344,7 +346,6 @@ edges:
       - wp-physics-coulomb_potential
       - tong-em
       - wp-physics-coulomb_law
-      - nlab-physics-coulomb_law
   - id: coulomb_to_diraccoulomb
     source: coulomb_potential
     target: dirac_coulomb_hamiltonian
@@ -458,7 +459,6 @@ edges:
     detail: Coulomb’s law is the vacuum point-charge solution of electrostatics.
     citations:
       - wp-physics-coulomb_law
-      - nlab-physics-coulomb_law
       - wp-physics-electrostatics
       - tong-em
   - id: finealpha_to_qed

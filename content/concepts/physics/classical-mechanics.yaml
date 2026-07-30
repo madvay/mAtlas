@@ -139,6 +139,7 @@ nodes:
     summary: The momentum $p_i=\partial L/\partial\dot q_i$ conjugate to a generalized coordinate.
     citations:
       - wp-physics-canonical_momentum
+      - nlab-canonical-momentum
       - cambridge-classical-dynamics
   - id: hamiltonian_mechanics
     label: Hamiltonian mechanics
@@ -323,6 +324,7 @@ nodes:
     summary: The inertial, dynamical, and action–reaction laws of Newtonian particle mechanics, valid in inertial frames within its nonrelativistic classical regime.
     citations:
       - wp-physics-newton_laws
+      - nlab-newton-laws
       - cambridge-classical-dynamics
       - tong-relativity
     sections:
@@ -479,7 +481,7 @@ edges:
     detail: A self-adjoint Hamiltonian generates unitary time evolution.
     citations:
       - wp-physics-unitary_time_evolution
-      - nlab-physics-unitary_time_evolution
+      - nlab-physics-quantum_mechanics
       - wp-physics-hamiltonian_mechanics
       - nlab-physics-hamiltonian
   - id: lagrangian_to_action

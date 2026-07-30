@@ -40,6 +40,7 @@ nodes:
     notes: ''
     citations:
       - wp-compact
+      - nlab-compact-space
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -109,6 +110,7 @@ nodes:
     notes: ''
     citations:
       - wp-second-countable
+      - nlab-second-countable-space
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -202,6 +204,7 @@ nodes:
     notes: ''
     citations:
       - wp-first-countable
+      - nlab-first-countable-space
       - topology-without-tears
     primaryField: mathematics
     fields:
@@ -313,6 +316,7 @@ nodes:
     notes: ''
     citations:
       - wp-separation
+      - nlab-hausdorff-space
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -383,6 +387,7 @@ nodes:
     notes: ''
     citations:
       - wp-separable
+      - nlab-separable-metric-space
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -407,6 +412,7 @@ nodes:
     notes: ''
     citations:
       - wp-totally-disconnected
+      - nlab-totally-disconnected-space
       - topology-without-tears
     primaryField: mathematics
     fields:
@@ -680,6 +686,7 @@ nodes:
     citations:
       - wp-compact
       - wp-separation
+      - nlab-compact-hausdorff-space
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -769,6 +776,7 @@ nodes:
     notes: A Polish space is a topological space; a particular compatible complete metric is generally not part of the specified data.
     citations:
       - wp-polish
+      - nlab-polish-space
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -820,6 +828,7 @@ nodes:
     notes: The manifold condition asserts existence of local Euclidean charts; a particular topological atlas is not additional structure. This atlas adopts the Hausdorff, second-countable convention.
     citations:
       - wp-manifold
+      - nlab-topological-manifold
       - topology-without-tears
     primaryDomain: topology
     domains:
@@ -898,6 +907,7 @@ nodes:
     notes: ''
     citations:
       - wp-tychonoff
+      - nlab-tychonoff-space
       - topology-without-tears
     primaryField: mathematics
     fields:
@@ -940,6 +950,7 @@ nodes:
     induces: []
     notes: 'Construction junction: it is a visual device, not a separate standard mathematical structure.'
     citations:
+      - wp-j-top-ring
       - stacks-top-ring
       - topology-without-tears
     combination:
@@ -971,6 +982,8 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-j-top-ring
+      - nlab-topological-ring
       - stacks-top-ring
       - topology-without-tears
     primaryDomain: topology
@@ -1049,12 +1062,90 @@ nodes:
     notes: ''
     citations:
       - wp-top-field
+      - nlab-topological-field
       - topology-without-tears
     primaryDomain: topology
     domains:
       - topology
       - algebra
       - number-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: j_continuous_map
+    label: function + domain/codomain topologies
+    primaryDomain: topology
+    domains:
+      - topology
+      - set-theory
+    level: 2
+    kind: junction
+    summary: Combine a function with topologies on its domain and codomain, then impose continuity.
+    carriers: []
+    data: []
+    axioms: []
+    induces: []
+    notes: 'Construction junction: the two topological-space inputs may be the same space, but need not be.'
+    citations:
+      - wp-continuous-function
+      - nlab-continuous-map
+      - topology-without-tears
+    combination:
+      inputs:
+        - function
+        - topological_space
+      compatibility: Equip the function domain and codomain with topologies and require the inverse image of every codomain-open set to be domain-open.
+      output: continuous_map
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: continuous_map
+    label: Continuous map
+    primaryDomain: topology
+    domains:
+      - topology
+      - set-theory
+    level: 2
+    kind: structure
+    summary: A function between topological spaces whose inverse image of every open set is open.
+    carriers:
+      - topological spaces $X$ and $Y$
+    data:
+      - function $f\colon X\to Y$
+    axioms:
+      - $f^{-1}(V)$ is open in $X$ for every open $V\subseteq Y$
+    induces: []
+    notes: The inverse-image definition covers arbitrary topological spaces and is equivalent to the neighborhood formulation.
+    citations:
+      - wp-continuous-function
+      - nlab-continuous-map
+      - topology-without-tears
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: homeomorphism
+    label: Homeomorphism
+    primaryDomain: topology
+    domains:
+      - topology
+      - set-theory
+    level: 3
+    kind: structure
+    summary: A bijective continuous map whose inverse is continuous, hence an isomorphism of topological spaces.
+    carriers:
+      - topological spaces $X$ and $Y$
+    data:
+      - bijection $f\colon X\to Y$
+    axioms:
+      - $f$ is continuous
+      - $f^{-1}$ is continuous
+    induces:
+      - equality of topological invariants
+    notes: A continuous bijection need not be a homeomorphism unless continuity of the inverse follows from additional hypotheses.
+    citations:
+      - wp-homeomorphism
+      - nlab-homeomorphism
+      - topology-without-tears
     primaryField: mathematics
     fields:
       - mathematics
@@ -1803,3 +1894,33 @@ edges:
     detail: Continuous simplices and alternating face maps form the singular chain complex.
     citations:
       - hatcher-algebraic-topology
+  - id: topological_space_to_continuous_map_junction
+    source: topological_space
+    target: j_continuous_map
+    type: combine-compatible
+    label: domain and codomain topologies
+    detail: Supply topological-space structures on the function domain and codomain.
+    citations:
+      - wp-continuous-function
+      - nlab-continuous-map
+      - topology-without-tears
+  - id: continuous_map_junction_to_continuous_map
+    source: j_continuous_map
+    target: continuous_map
+    type: combine-compatible
+    label: impose inverse-image continuity
+    detail: Require inverse images of codomain-open sets to be open in the domain.
+    citations:
+      - wp-continuous-function
+      - nlab-continuous-map
+      - topology-without-tears
+  - id: continuous_map_to_homeomorphism
+    source: continuous_map
+    target: homeomorphism
+    type: impose-axiom
+    label: + continuous inverse
+    detail: Require the continuous map to be bijective and its inverse map to be continuous.
+    citations:
+      - wp-homeomorphism
+      - nlab-homeomorphism
+      - topology-without-tears

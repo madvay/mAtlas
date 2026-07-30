@@ -48,6 +48,8 @@ nodes:
     induces: []
     notes: This node means a sheaf of sets on a site. Sheaves valued in groups, rings, modules, or other categories are modeled by the corresponding algebraic-object nodes.
     citations:
+      - wp-sheaf-rings
+      - nlab-sheaf
       - stacks-sheaf
     primaryField: mathematics
     fields:
@@ -120,6 +122,8 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-ringed-space
+      - nlab-ringed-space
       - stacks-ringed-space
     primaryField: mathematics
     fields:
@@ -197,6 +201,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-ringed-space
       - stacks-locally-ringed
     primaryField: mathematics
     fields:
@@ -244,8 +249,9 @@ nodes:
       - Noetherian ring
     notes: ''
     citations:
-      - stacks-artinian-ring
       - wp-artinian-ring
+      - nlab-artinian-ring
+      - stacks-artinian-ring
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -344,9 +350,10 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-regular-local-ring
+      - nlab-regular-local-ring
       - stacks-regular-local-definition
       - stacks-dvr-regular
-      - wp-regular-local-ring
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -371,6 +378,8 @@ nodes:
     induces: []
     notes: The existence of an étale cover is a property; no atlas is selected as part of the algebraic-space structure. Equivalent étale-site formulations are standard.
     citations:
+      - wp-algebraic-space
+      - nlab-algebraic-space
       - stacks-algebraic-space
     primaryField: mathematics
     fields:
@@ -394,7 +403,7 @@ nodes:
     notes: ''
     citations:
       - wp-complete-ring
-      - nlab-complete-local-ring
+      - nlab-completion-ring
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -417,8 +426,9 @@ nodes:
     induces: []
     notes: ''
     citations:
-      - stacks-noetherian-scheme
       - wp-noetherian-scheme
+      - nlab-noetherian-scheme
+      - stacks-noetherian-scheme
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -491,6 +501,7 @@ nodes:
     induces: []
     notes: For an $S$-scheme $X\to S$, relative separatedness uses $\Delta_{X/S}\colon X\to X\times_S X$.
     citations:
+      - wp-separated-scheme
       - stacks-separated-scheme
     primaryField: mathematics
     fields:
@@ -564,8 +575,9 @@ nodes:
     induces: []
     notes: Regularity is local Noetherianity plus regularity of every local ring. It does not imply quasi-compactness, so a regular scheme need not be a Noetherian scheme.
     citations:
-      - stacks-regular-scheme
       - wp-regular-scheme
+      - nlab-regular-scheme
+      - stacks-regular-scheme
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -588,6 +600,7 @@ nodes:
     induces: []
     notes: This is the object-level notion of an $S$-scheme.
     citations:
+      - wp-scheme
       - stacks-scheme
       - stacks-projective-morphisms
       - stacks-schemes-text
@@ -639,6 +652,8 @@ nodes:
       - Local rings $R_{\mathfrak p}$ and basic open coordinate rings
     notes: ''
     citations:
+      - wp-ring-localization
+      - nlab-ring-localization
       - stacks-algebra-text
     primaryField: mathematics
     fields:
@@ -664,6 +679,7 @@ nodes:
       - An affine scheme
     notes: ''
     citations:
+      - wp-prime-spectrum
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -688,6 +704,7 @@ nodes:
       - A local object $\mathcal F_x$
     notes: ''
     citations:
+      - wp-sheaf-stalk
       - stacks-schemes-text
     primaryField: mathematics
     fields:
@@ -715,6 +732,7 @@ nodes:
       - A rational-point problem equivalent to isotropy of $q$
     notes: The dimension and nondegeneracy conditions avoid reducible or nonintegral low-dimensional zero loci. Over number fields the characteristic condition is automatic.
     citations:
+      - wp-smooth-projective-quadric
       - poonen-rational-points-varieties
       - milne-algebraic-number-theory
       - stacks-varieties
@@ -739,6 +757,8 @@ nodes:
       - An arithmetic solution
     notes: ''
     citations:
+      - wp-rational-point
+      - nlab-rational-point
       - milne-algebraic-number-theory
       - stacks-schemes-text
       - poonen-rational-points-varieties
@@ -811,7 +831,7 @@ edges:
     detail: Require the canonical map $R\to \varprojlim R/m^{n}$ to be an isomorphism.
     citations:
       - wp-complete-ring
-      - nlab-complete-local-ring
+      - nlab-completion-ring
       - stacks-schemes-text
   - id: j_regular_local__local_ring
     source: local_ring

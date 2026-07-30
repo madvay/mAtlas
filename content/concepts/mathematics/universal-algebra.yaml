@@ -118,6 +118,7 @@ nodes:
     notes: A two-sided identity in a quasigroup, if it exists, is unique.
     citations:
       - wp-loop
+      - nlab-loop
       - burris-universal-algebra
     primaryField: mathematics
     fields:

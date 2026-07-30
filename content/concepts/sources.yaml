@@ -368,11 +368,6 @@ sources:
     title: Algebraically closed field
     url: https://ncatlab.org/nlab/show/algebraically+closed+field
     kind: reference
-  nlab-antisymmetric_fock_space:
-    label: nLab — fermionic Fock space
-    title: fermionic Fock space
-    url: https://ncatlab.org/nlab/show/fermionic+Fock+space
-    kind: mathematical reference
   nlab-associative-algebra:
     label: nLab — Associative algebra
     title: Associative algebra
@@ -458,16 +453,16 @@ sources:
     title: Compactly generated space
     url: https://ncatlab.org/nlab/show/compactly+generated+space
     kind: reference
-  nlab-complete-local-ring:
-    label: nLab — Complete local ring
-    title: Complete local ring
-    url: https://ncatlab.org/nlab/show/complete+local+ring
-    kind: reference
-  nlab-complete-valued:
-    label: nLab — Complete valued field
-    title: Complete valued field
-    url: https://ncatlab.org/nlab/show/complete+valued+field
-    kind: reference
+  nlab-completion-ring:
+    label: nLab — completion of a ring
+    title: completion of a ring
+    url: https://ncatlab.org/nlab/show/completion+of+a+ring
+    kind: mathematical reference
+  nlab-complete-field:
+    label: nLab — complete field
+    title: complete field
+    url: https://ncatlab.org/nlab/show/complete+field
+    kind: mathematical reference
   nlab-complex_vector_space:
     label: nLab — complex vector space
     title: complex vector space
@@ -653,11 +648,6 @@ sources:
     title: G-set
     url: https://ncatlab.org/nlab/show/G-set
     kind: reference
-  nlab-gamma_matrices:
-    label: nLab — gamma matrix
-    title: gamma matrix
-    url: https://ncatlab.org/nlab/show/gamma+matrix
-    kind: mathematical reference
   nlab-geodesic:
     label: nLab — geodesic
     title: geodesic
@@ -913,11 +903,6 @@ sources:
     title: Path-connected space
     url: https://ncatlab.org/nlab/show/path-connected+space
     kind: reference
-  nlab-physics-abelian_gauge_theory:
-    label: nLab — abelian gauge theory
-    title: abelian gauge theory
-    url: https://ncatlab.org/nlab/show/abelian+gauge+theory
-    kind: mathematical physics reference
   nlab-physics-action_functional:
     label: nLab — action functional
     title: action functional
@@ -927,11 +912,6 @@ sources:
     label: nLab — angular momentum
     title: angular momentum
     url: https://ncatlab.org/nlab/show/angular+momentum
-    kind: mathematical physics reference
-  nlab-physics-annihilation_operator:
-    label: nLab — annihilation operator
-    title: annihilation operator
-    url: https://ncatlab.org/nlab/show/annihilation+operator
     kind: mathematical physics reference
   nlab-physics-antiparticle:
     label: nLab — antiparticle
@@ -948,31 +928,21 @@ sources:
     title: atom
     url: https://ncatlab.org/nlab/show/atom
     kind: mathematical physics reference
-  nlab-physics-atomic_hamiltonian:
-    label: nLab — atomic Hamiltonian
-    title: atomic Hamiltonian
-    url: https://ncatlab.org/nlab/show/atomic+Hamiltonian
-    kind: mathematical physics reference
   nlab-physics-atomic_nucleus:
     label: nLab — atomic nucleus
     title: atomic nucleus
     url: https://ncatlab.org/nlab/show/atomic+nucleus
-    kind: mathematical physics reference
-  nlab-physics-atomic_orbital:
-    label: nLab — atomic orbital
-    title: atomic orbital
-    url: https://ncatlab.org/nlab/show/atomic+orbital
     kind: mathematical physics reference
   nlab-physics-born_rule:
     label: nLab — Born rule
     title: Born rule
     url: https://ncatlab.org/nlab/show/Born+rule
     kind: mathematical physics reference
-  nlab-physics-bose_einstein_statistics:
-    label: nLab — Bose-Einstein statistics
-    title: Bose-Einstein statistics
-    url: https://ncatlab.org/nlab/show/Bose-Einstein+statistics
-    kind: mathematical physics reference
+  nlab-physics-particle_statistics:
+    label: nLab — particle statistics
+    title: particle statistics
+    url: https://ncatlab.org/nlab/show/particle+statistics
+    kind: physics reference
   nlab-physics-boson:
     label: nLab — boson
     title: boson
@@ -1008,21 +978,21 @@ sources:
     title: causal structure
     url: https://ncatlab.org/nlab/show/causal+structure
     kind: mathematical physics reference
-  nlab-physics-charge_conjugation:
-    label: nLab — charge conjugation
-    title: charge conjugation
-    url: https://ncatlab.org/nlab/show/charge+conjugation
-    kind: mathematical physics reference
+  nlab-physics-charge_conjugation_matrix:
+    label: nLab — charge conjugation matrix
+    title: charge conjugation matrix
+    url: https://ncatlab.org/nlab/show/charge+conjugation+matrix
+    kind: physics reference
   nlab-physics-chiral_perturbation_theory:
     label: nLab — chiral perturbation theory
     title: chiral perturbation theory
     url: https://ncatlab.org/nlab/show/chiral+perturbation+theory
     kind: mathematical physics reference
-  nlab-physics-chirality:
-    label: nLab — chirality
-    title: chirality
-    url: https://ncatlab.org/nlab/show/chirality
-    kind: mathematical physics reference
+  nlab-physics-weyl_spinor:
+    label: nLab — Weyl spinor
+    title: Weyl spinor
+    url: https://ncatlab.org/nlab/show/Weyl+spinor
+    kind: physics reference
   nlab-physics-ckm_matrix:
     label: nLab — CKM matrix
     title: CKM matrix
@@ -1043,11 +1013,11 @@ sources:
     title: classical mechanics
     url: https://ncatlab.org/nlab/show/classical+mechanics
     kind: mathematical physics reference
-  nlab-physics-color_confinement:
-    label: nLab — quark confinement
-    title: quark confinement
-    url: https://ncatlab.org/nlab/show/quark+confinement
-    kind: mathematical physics reference
+  nlab-physics-confinement:
+    label: nLab — confinement
+    title: confinement
+    url: https://ncatlab.org/nlab/show/confinement
+    kind: physics reference
   nlab-physics-configuration_space:
     label: nLab — configuration space
     title: configuration space
@@ -1068,30 +1038,15 @@ sources:
     title: constituent quark model
     url: https://ncatlab.org/nlab/show/constituent+quark+model
     kind: mathematical physics reference
-  nlab-physics-continuity_equation:
-    label: nLab — Continuity equation
-    title: Continuity equation
-    url: https://ncatlab.org/nlab/show/continuity+equation
-    kind: mathematical physics reference
   nlab-physics-correlation_function:
     label: nLab — correlation function
     title: correlation function
     url: https://ncatlab.org/nlab/show/correlation+function
     kind: mathematical physics reference
-  nlab-physics-coulomb_law:
-    label: nLab — Coulomb law
-    title: Coulomb law
-    url: https://ncatlab.org/nlab/show/Coulomb+law
-    kind: mathematical physics reference
   nlab-physics-cpt_theorem:
     label: nLab — CPT theorem
     title: CPT theorem
     url: https://ncatlab.org/nlab/show/CPT+theorem
-    kind: mathematical physics reference
-  nlab-physics-creation_operator:
-    label: nLab — creation operator
-    title: creation operator
-    url: https://ncatlab.org/nlab/show/creation+operator
     kind: mathematical physics reference
   nlab-physics-density_operator:
     label: nLab — density matrix
@@ -1138,11 +1093,6 @@ sources:
     title: electron
     url: https://ncatlab.org/nlab/show/electron
     kind: mathematical physics reference
-  nlab-physics-electron_configuration:
-    label: nLab — electron configuration
-    title: electron configuration
-    url: https://ncatlab.org/nlab/show/electron+configuration
-    kind: mathematical physics reference
   nlab-physics-electroweak_symmetry_breaking:
     label: nLab — electroweak symmetry breaking
     title: electroweak symmetry breaking
@@ -1178,21 +1128,16 @@ sources:
     title: expectation value
     url: https://ncatlab.org/nlab/show/expectation+value
     kind: mathematical reference
-  nlab-physics-faddeev_popov_ghost:
-    label: nLab — Faddeev-Popov ghost
-    title: Faddeev-Popov ghost
-    url: https://ncatlab.org/nlab/show/Faddeev-Popov+ghost
-    kind: mathematical physics reference
-  nlab-physics-fermi_dirac_statistics:
-    label: nLab — Fermi-Dirac statistics
-    title: Fermi-Dirac statistics
-    url: https://ncatlab.org/nlab/show/Fermi-Dirac+statistics
-    kind: mathematical physics reference
-  nlab-physics-fermi_theory:
-    label: nLab — Fermi theory of weak interaction
-    title: Fermi theory of weak interaction
-    url: https://ncatlab.org/nlab/show/Fermi+theory+of+weak+interaction
-    kind: mathematical physics reference
+  nlab-physics-ghost_field:
+    label: nLab — ghost field
+    title: ghost field
+    url: https://ncatlab.org/nlab/show/ghost+field
+    kind: physics reference
+  nlab-physics-fermi_beta_decay:
+    label: nLab — Fermi theory of beta decay
+    title: Fermi theory of beta decay
+    url: https://ncatlab.org/nlab/show/Fermi+theory+of+beta+decay
+    kind: physics reference
   nlab-physics-fermion:
     label: nLab — fermion
     title: fermion
@@ -1208,31 +1153,16 @@ sources:
     title: Feynman diagram
     url: https://ncatlab.org/nlab/show/Feynman+diagram
     kind: mathematical physics reference
-  nlab-physics-fine_structure:
-    label: nLab — fine structure
-    title: fine structure
-    url: https://ncatlab.org/nlab/show/fine+structure
-    kind: mathematical physics reference
   nlab-physics-force:
     label: nLab — force
     title: force
     url: https://ncatlab.org/nlab/show/force
     kind: mathematical physics reference
-  nlab-physics-four_fermion_interaction:
-    label: nLab — four-fermion interaction
-    title: four-fermion interaction
-    url: https://ncatlab.org/nlab/show/four-fermion+interaction
-    kind: mathematical physics reference
-  nlab-physics-four_vector:
-    label: nLab — 4-vector
-    title: 4-vector
-    url: https://ncatlab.org/nlab/show/4-vector
-    kind: mathematical physics reference
-  nlab-physics-four_velocity:
-    label: nLab — 4-velocity
-    title: 4-velocity
-    url: https://ncatlab.org/nlab/show/4-velocity
-    kind: mathematical physics reference
+  nlab-physics-velocity:
+    label: nLab — velocity
+    title: velocity
+    url: https://ncatlab.org/nlab/show/velocity
+    kind: physics reference
   nlab-physics-free_quantum_field:
     label: nLab — free quantum field
     title: free quantum field
@@ -1248,21 +1178,21 @@ sources:
     title: gauge boson
     url: https://ncatlab.org/nlab/show/gauge+boson
     kind: mathematical physics reference
-  nlab-physics-gauge_covariant_derivative:
-    label: nLab — Gauge-covariant derivative
-    title: Gauge-covariant derivative
-    url: https://ncatlab.org/nlab/show/gauge+covariant+derivative
+  nlab-physics-covariant_derivative:
+    label: nLab — covariant derivative
+    title: covariant derivative
+    url: https://ncatlab.org/nlab/show/covariant+derivative
     kind: mathematical physics reference
   nlab-physics-gauge_field:
     label: nLab — gauge field
     title: gauge field
     url: https://ncatlab.org/nlab/show/gauge+field
     kind: mathematical physics reference
-  nlab-physics-gauge_field_strength:
-    label: nLab — Gauge field strength
-    title: Gauge field strength
-    url: https://ncatlab.org/nlab/show/curvature+of+a+connection
-    kind: mathematical physics reference
+  nlab-physics-field_strength:
+    label: nLab — field strength
+    title: field strength
+    url: https://ncatlab.org/nlab/show/field+strength
+    kind: physics reference
   nlab-physics-gauge_field_theory:
     label: nLab — gauge theory
     title: gauge theory
@@ -1293,11 +1223,6 @@ sources:
     title: gluon
     url: https://ncatlab.org/nlab/show/gluon
     kind: mathematical physics reference
-  nlab-physics-goldstone_theorem:
-    label: nLab — Goldstone theorem
-    title: Goldstone theorem
-    url: https://ncatlab.org/nlab/show/Goldstone+theorem
-    kind: mathematical physics reference
   nlab-physics-ground_state:
     label: nLab — Ground state
     title: Ground state
@@ -1307,11 +1232,6 @@ sources:
     label: nLab — hadron
     title: hadron
     url: https://ncatlab.org/nlab/show/hadron
-    kind: mathematical physics reference
-  nlab-physics-hadronization:
-    label: nLab — hadronization
-    title: hadronization
-    url: https://ncatlab.org/nlab/show/hadronization
     kind: mathematical physics reference
   nlab-physics-hamiltonian:
     label: nLab — Hamiltonian
@@ -1337,16 +1257,6 @@ sources:
     label: nLab — hydrogen atom
     title: hydrogen atom
     url: https://ncatlab.org/nlab/show/hydrogen+atom
-    kind: mathematical physics reference
-  nlab-physics-hyperfine_structure:
-    label: nLab — hyperfine structure
-    title: hyperfine structure
-    url: https://ncatlab.org/nlab/show/hyperfine+structure
-    kind: mathematical physics reference
-  nlab-physics-identical_particles:
-    label: nLab — identical particle
-    title: identical particle
-    url: https://ncatlab.org/nlab/show/identical+particle
     kind: mathematical physics reference
   nlab-physics-interacting_quantum_field:
     label: nLab — interacting quantum field theory
@@ -1408,20 +1318,10 @@ sources:
     title: locality
     url: https://ncatlab.org/nlab/show/locality
     kind: mathematical physics reference
-  nlab-physics-lorentz_symmetry:
-    label: nLab — Lorentz symmetry
-    title: Lorentz symmetry
-    url: https://ncatlab.org/nlab/show/Lorentz+symmetry
-    kind: mathematical physics reference
   nlab-physics-many_body_quantum_mechanics:
     label: nLab — quantum many-body system
     title: quantum many-body system
     url: https://ncatlab.org/nlab/show/quantum+many-body+system
-    kind: mathematical physics reference
-  nlab-physics-mass_energy_equivalence:
-    label: nLab — Mass–energy equivalence
-    title: Mass–energy equivalence
-    url: https://ncatlab.org/nlab/show/mass-energy+equivalence
     kind: mathematical physics reference
   nlab-physics-matter_field:
     label: nLab — matter field
@@ -1448,11 +1348,6 @@ sources:
     title: mixed state
     url: https://ncatlab.org/nlab/show/mixed+state
     kind: mathematical physics reference
-  nlab-physics-multiparticle_state:
-    label: nLab — multi-particle state
-    title: multi-particle state
-    url: https://ncatlab.org/nlab/show/multi-particle+state
-    kind: mathematical physics reference
   nlab-physics-nambu_goldstone_mode:
     label: nLab — Nambu–Goldstone mode
     title: Nambu–Goldstone mode
@@ -1473,70 +1368,35 @@ sources:
     title: Noether theorem
     url: https://ncatlab.org/nlab/show/Noether+theorem
     kind: mathematical physics reference
-  nlab-physics-nonabelian_gauge_theory:
-    label: nLab — nonabelian gauge theory
-    title: nonabelian gauge theory
-    url: https://ncatlab.org/nlab/show/nonabelian+gauge+theory
-    kind: mathematical physics reference
-  nlab-physics-nonrelativistic_quantum_mechanics:
-    label: nLab — non-relativistic quantum mechanics
-    title: non-relativistic quantum mechanics
-    url: https://ncatlab.org/nlab/show/non-relativistic+quantum+mechanics
-    kind: mathematical physics reference
-  nlab-physics-nuclear_effective_field_theory:
-    label: nLab — effective field theory of nuclear physics
-    title: effective field theory of nuclear physics
-    url: https://ncatlab.org/nlab/show/effective+field+theory+of+nuclear+physics
-    kind: mathematical physics reference
+  nlab-physics-nuclear-eft:
+    label: nLab — effective field theories of nuclear physics
+    title: effective field theories of nuclear physics — contents
+    url: https://ncatlab.org/nlab/show/effective+field+theories+of+nuclear+physics+--+contents
+    kind: physics reference
   nlab-physics-nucleon:
     label: nLab — nucleon
     title: nucleon
     url: https://ncatlab.org/nlab/show/nucleon
-    kind: mathematical physics reference
-  nlab-physics-nuclide:
-    label: nLab — nuclide
-    title: nuclide
-    url: https://ncatlab.org/nlab/show/nuclide
     kind: mathematical physics reference
   nlab-physics-observable:
     label: nLab — observable
     title: observable
     url: https://ncatlab.org/nlab/show/observable
     kind: mathematical physics reference
-  nlab-physics-occupation_number_state:
-    label: nLab — occupation number basis
-    title: occupation number basis
-    url: https://ncatlab.org/nlab/show/occupation+number+basis
-    kind: mathematical physics reference
-  nlab-physics-one_particle_state:
-    label: nLab — one-particle state
-    title: one-particle state
-    url: https://ncatlab.org/nlab/show/one-particle+state
-    kind: mathematical physics reference
-  nlab-physics-one_pion_exchange:
-    label: nLab — one-pion exchange
-    title: one-pion exchange
-    url: https://ncatlab.org/nlab/show/one-pion+exchange
-    kind: mathematical physics reference
   nlab-physics-operator_valued_distribution:
     label: nLab — operator-valued distribution
     title: operator-valued distribution
     url: https://ncatlab.org/nlab/show/operator-valued+distribution
     kind: mathematical physics reference
-  nlab-physics-parity_quantum_number:
-    label: nLab — Parity
-    title: Parity
-    url: https://ncatlab.org/nlab/show/parity+symmetry
-    kind: mathematical physics reference
+  nlab-physics-parity:
+    label: nLab — parity
+    title: parity
+    url: https://ncatlab.org/nlab/show/parity
+    kind: physics reference
   nlab-physics-path_integral_quantization:
     label: nLab — path integral
     title: path integral
     url: https://ncatlab.org/nlab/show/path+integral
-    kind: mathematical physics reference
-  nlab-physics-pauli_equation:
-    label: nLab — Pauli equation
-    title: Pauli equation
-    url: https://ncatlab.org/nlab/show/Pauli+equation
     kind: mathematical physics reference
   nlab-physics-pauli_exclusion_principle:
     label: nLab — Pauli exclusion principle
@@ -1558,20 +1418,15 @@ sources:
     title: photon
     url: https://ncatlab.org/nlab/show/photon
     kind: mathematical physics reference
-  nlab-physics-physical_event:
-    label: nLab — event in relativity
-    title: event in relativity
-    url: https://ncatlab.org/nlab/show/event+in+relativity
-    kind: mathematical physics reference
-  nlab-physics-physical_state:
-    label: nLab — state in physics
-    title: state in physics
-    url: https://ncatlab.org/nlab/show/state+in+physics
-    kind: mathematical physics reference
-  nlab-physics-physical_symmetry:
-    label: nLab — symmetry in physics
-    title: symmetry in physics
-    url: https://ncatlab.org/nlab/show/symmetry+in+physics
+  nlab-physics-state:
+    label: nLab — state
+    title: state
+    url: https://ncatlab.org/nlab/show/state
+    kind: physics reference
+  nlab-physics-symmetry:
+    label: nLab — symmetry
+    title: symmetry
+    url: https://ncatlab.org/nlab/show/symmetry
     kind: mathematical physics reference
   nlab-physics-physical_system:
     label: nLab — physical system
@@ -1587,11 +1442,6 @@ sources:
     label: nLab — pion
     title: pion
     url: https://ncatlab.org/nlab/show/pion
-    kind: mathematical physics reference
-  nlab-physics-pmns_matrix:
-    label: nLab — PMNS matrix
-    title: PMNS matrix
-    url: https://ncatlab.org/nlab/show/PMNS+matrix
     kind: mathematical physics reference
   nlab-physics-poincare_symmetry:
     label: nLab — Poincare symmetry
@@ -1612,11 +1462,6 @@ sources:
     label: nLab — proper time
     title: proper time
     url: https://ncatlab.org/nlab/show/proper+time
-    kind: mathematical physics reference
-  nlab-physics-pseudo_nambu_goldstone_mode:
-    label: nLab — Pseudo-Nambu–Goldstone mode
-    title: Pseudo-Nambu–Goldstone mode
-    url: https://ncatlab.org/nlab/show/pseudo-Goldstone+boson
     kind: mathematical physics reference
   nlab-physics-pure_quantum_state:
     label: nLab — pure state
@@ -1713,20 +1558,15 @@ sources:
     title: quark
     url: https://ncatlab.org/nlab/show/quark
     kind: mathematical physics reference
-  nlab-physics-quark_condensate:
-    label: nLab — Quark condensate
-    title: Quark condensate
-    url: https://ncatlab.org/nlab/show/quark+condensate
-    kind: mathematical physics reference
+  nlab-physics-condensate:
+    label: nLab — condensate
+    title: condensate
+    url: https://ncatlab.org/nlab/show/condensate
+    kind: physics reference
   nlab-physics-regularization:
     label: nLab — regularization
     title: regularization
     url: https://ncatlab.org/nlab/show/regularization
-    kind: mathematical physics reference
-  nlab-physics-relativistic_quantum_mechanics:
-    label: nLab — relativistic quantum mechanics
-    title: relativistic quantum mechanics
-    url: https://ncatlab.org/nlab/show/relativistic+quantum+mechanics
     kind: mathematical physics reference
   nlab-physics-renormalization:
     label: nLab — renormalization
@@ -1764,10 +1604,10 @@ sources:
     url: https://ncatlab.org/nlab/show/scattering+amplitude
     kind: mathematical physics reference
   nlab-physics-schrodinger_equation:
-    label: nLab — Schrodinger equation
-    title: Schrodinger equation
-    url: https://ncatlab.org/nlab/show/Schrodinger+equation
-    kind: mathematical physics reference
+    label: nLab — Schrödinger equation
+    title: Schrödinger equation
+    url: https://ncatlab.org/nlab/show/Schr%C3%B6dinger+equation
+    kind: physics reference
   nlab-physics-second_quantization:
     label: nLab — second quantization
     title: second quantization
@@ -1787,11 +1627,6 @@ sources:
     label: nLab — spin
     title: spin
     url: https://ncatlab.org/nlab/show/spin
-    kind: mathematical physics reference
-  nlab-physics-spin_half:
-    label: nLab — spin one-half
-    title: spin one-half
-    url: https://ncatlab.org/nlab/show/spin+one-half
     kind: mathematical physics reference
   nlab-physics-spin_statistics_theorem:
     label: nLab — spin-statistics theorem
@@ -1813,16 +1648,6 @@ sources:
     title: standard model of particle physics
     url: https://ncatlab.org/nlab/show/standard+model+of+particle+physics
     kind: mathematical physics reference
-  nlab-physics-standard_model_gauge_group:
-    label: nLab — standard model gauge group
-    title: standard model gauge group
-    url: https://ncatlab.org/nlab/show/standard+model+gauge+group
-    kind: mathematical physics reference
-  nlab-physics-standard_model_lagrangian:
-    label: nLab — standard model Lagrangian
-    title: standard model Lagrangian
-    url: https://ncatlab.org/nlab/show/standard+model+Lagrangian
-    kind: mathematical physics reference
   nlab-physics-stationary_action_principle:
     label: nLab — principle of least action
     title: principle of least action
@@ -1837,11 +1662,6 @@ sources:
     label: nLab — uncertainty principle
     title: uncertainty principle
     url: https://ncatlab.org/nlab/show/uncertainty+principle
-    kind: mathematical physics reference
-  nlab-physics-unitary_time_evolution:
-    label: nLab — unitary time evolution
-    title: unitary time evolution
-    url: https://ncatlab.org/nlab/show/unitary+time+evolution
     kind: mathematical physics reference
   nlab-physics-vacuum_state:
     label: nLab — vacuum state
@@ -1899,9 +1719,9 @@ sources:
     url: https://ncatlab.org/nlab/show/positive+operator
     kind: mathematical reference
   nlab-positive_operator_valued_measure:
-    label: nLab — positive operator-valued measure
-    title: positive operator-valued measure
-    url: https://ncatlab.org/nlab/show/positive+operator-valued+measure
+    label: nLab — positive-operator-valued measure
+    title: positive-operator-valued measure
+    url: https://ncatlab.org/nlab/show/positive-operator-valued+measure
     kind: mathematical reference
   nlab-presheaf:
     label: nLab — Presheaf
@@ -1928,11 +1748,6 @@ sources:
     title: Projective scheme
     url: https://ncatlab.org/nlab/show/projective+scheme
     kind: reference
-  nlab-projective_hilbert_space:
-    label: nLab — projective Hilbert space
-    title: projective Hilbert space
-    url: https://ncatlab.org/nlab/show/projective+Hilbert+space
-    kind: mathematical reference
   nlab-quandle:
     label: nLab — Quandle
     title: Quandle
@@ -2083,11 +1898,6 @@ sources:
     title: spectral theorem
     url: https://ncatlab.org/nlab/show/spectral+theorem
     kind: mathematical reference
-  nlab-spherical_harmonic:
-    label: nLab — spherical harmonics
-    title: spherical harmonics
-    url: https://ncatlab.org/nlab/show/spherical+harmonics
-    kind: mathematical reference
   nlab-spin_group:
     label: nLab — spin group
     title: spin group
@@ -2108,16 +1918,6 @@ sources:
     title: '*-algebra'
     url: https://ncatlab.org/nlab/show/star-algebra
     kind: reference
-  nlab-stone_theorem:
-    label: nLab — Stone's theorem on one-parameter unitary groups
-    title: Stone's theorem on one-parameter unitary groups
-    url: https://ncatlab.org/nlab/show/Stone%27s+theorem+on+one-parameter+unitary+groups
-    kind: mathematical reference
-  nlab-symmetric_fock_space:
-    label: nLab — bosonic Fock space
-    title: bosonic Fock space
-    url: https://ncatlab.org/nlab/show/bosonic+Fock+space
-    kind: mathematical reference
   nlab-symplectic:
     label: nLab — Symplectic manifold
     title: Symplectic manifold
@@ -2137,11 +1937,6 @@ sources:
     label: nLab — tangent vector
     title: tangent vector
     url: https://ncatlab.org/nlab/show/tangent+vector
-    kind: mathematical reference
-  nlab-tensor_bundle:
-    label: nLab — tensor bundle
-    title: tensor bundle
-    url: https://ncatlab.org/nlab/show/tensor+bundle
     kind: mathematical reference
   nlab-tensor_field:
     label: nLab — tensor field
@@ -2249,9 +2044,9 @@ sources:
     url: https://www.nobelprize.org/prizes/physics/2004/advanced-information/
     kind: Nobel Foundation scientific reference
   nobel-qed:
-    label: 'Nobel Prize — The Nobel Prize in Physics 1965: Advanced Information'
-    title: 'The Nobel Prize in Physics 1965: Advanced Information'
-    url: https://www.nobelprize.org/prizes/physics/1965/advanced-information/
+    label: 'Nobel Prize — The Nobel Prize in Physics 1965'
+    title: The Nobel Prize in Physics 1965
+    url: https://www.nobelprize.org/prizes/physics/1965/summary/
     kind: Nobel Foundation historical and scientific reference
   nuclear-data-bnl:
     label: NNDC — National Nuclear Data Center
@@ -2719,9 +2514,9 @@ sources:
     url: https://en.wikipedia.org/wiki/Cardinal_number
     kind: expository
   wp-cartesian-category:
-    label: Wikipedia — Cartesian category
-    title: Cartesian category
-    url: https://en.wikipedia.org/wiki/Cartesian_category
+    label: Wikipedia — product (category theory)
+    title: Product (category theory)
+    url: https://en.wikipedia.org/wiki/Product_(category_theory)
     kind: expository
   wp-category:
     label: Wikipedia — Category (mathematics)
@@ -2897,11 +2692,6 @@ sources:
     label: Wikipedia — Dagger category
     title: Dagger category
     url: https://en.wikipedia.org/wiki/Dagger_category
-    kind: expository
-  wp-dcpo:
-    label: Wikipedia — Directed-complete partial order
-    title: Directed-complete partial order
-    url: https://en.wikipedia.org/wiki/Directed-complete_partial_order
     kind: expository
   wp-de_rham_complex:
     label: Wikipedia — De Rham complex
@@ -3553,11 +3343,6 @@ sources:
     title: Atomic spectroscopy
     url: https://en.wikipedia.org/wiki/Atomic_spectroscopy
     kind: encyclopedic reference
-  wp-physics-atomic_state:
-    label: Wikipedia — Atomic term symbol
-    title: Atomic term symbol
-    url: https://en.wikipedia.org/wiki/Atomic_term_symbol
-    kind: encyclopedic reference
   wp-physics-atomic_term_symbol:
     label: Wikipedia — Term symbol
     title: Term symbol
@@ -3938,11 +3723,6 @@ sources:
     title: Electrostatics
     url: https://en.wikipedia.org/wiki/Electrostatics
     kind: encyclopedic reference
-  wp-physics-electroweak_gauge_self_interaction:
-    label: Wikipedia — Triple gauge coupling
-    title: Triple gauge coupling
-    url: https://en.wikipedia.org/wiki/Triple_gauge_coupling
-    kind: encyclopedic reference
   wp-physics-electroweak_mixing:
     label: Wikipedia — Weinberg angle
     title: Weinberg angle
@@ -4184,9 +3964,9 @@ sources:
     url: https://en.wikipedia.org/wiki/Hartree%E2%80%93Fock_method
     kind: encyclopedic reference
   wp-physics-hartree_method:
-    label: Wikipedia — Hartree method
-    title: Hartree method
-    url: https://en.wikipedia.org/wiki/Hartree_method
+    label: Wikipedia — Hartree equations
+    title: Hartree equations
+    url: https://en.wikipedia.org/wiki/Hartree_equations
     kind: encyclopedic reference
   wp-physics-helicity:
     label: Wikipedia — Helicity (particle physics)
@@ -4228,11 +4008,6 @@ sources:
     title: Identical particles
     url: https://en.wikipedia.org/wiki/Identical_particles
     kind: encyclopedic reference
-  wp-physics-independent_particle_model:
-    label: Wikipedia — Independent-particle model
-    title: Independent-particle model
-    url: https://en.wikipedia.org/wiki/Independent-particle_model
-    kind: encyclopedic reference
   wp-physics-inertial_frame:
     label: Wikipedia — Inertial frame of reference
     title: Inertial frame of reference
@@ -4242,11 +4017,6 @@ sources:
     label: Wikipedia — Born–Oppenheimer approximation
     title: Born–Oppenheimer approximation
     url: https://en.wikipedia.org/wiki/Born%E2%80%93Oppenheimer_approximation
-    kind: encyclopedic reference
-  wp-physics-interacting_quantum_field:
-    label: Wikipedia — Interacting quantum field theory
-    title: Interacting quantum field theory
-    url: https://en.wikipedia.org/wiki/Interacting_quantum_field_theory
     kind: encyclopedic reference
   wp-physics-ion:
     label: Wikipedia — Ion
@@ -4399,9 +4169,9 @@ sources:
     url: https://en.wikipedia.org/wiki/Meson
     kind: encyclopedic reference
   wp-physics-microcausality:
-    label: Wikipedia — Microcausality
-    title: Microcausality
-    url: https://en.wikipedia.org/wiki/Microcausality
+    label: Wikipedia — Cluster decomposition (microcausality discussion)
+    title: Cluster decomposition
+    url: https://en.wikipedia.org/wiki/Cluster_decomposition
     kind: encyclopedic reference
   wp-physics-minkowski_spacetime:
     label: Wikipedia — Minkowski space
@@ -4493,11 +4263,6 @@ sources:
     title: Nuclear binding energy
     url: https://en.wikipedia.org/wiki/Nuclear_binding_energy
     kind: encyclopedic reference
-  wp-physics-nuclear_effective_field_theory:
-    label: Wikipedia — Nuclear effective field theory
-    title: Nuclear effective field theory
-    url: https://en.wikipedia.org/wiki/Nuclear_effective_field_theory
-    kind: encyclopedic reference
   wp-physics-nuclear_isomer:
     label: Wikipedia — Nuclear isomer
     title: Nuclear isomer
@@ -4557,11 +4322,6 @@ sources:
     label: Wikipedia — Particle
     title: Particle
     url: https://en.wikipedia.org/wiki/Particle
-    kind: encyclopedic reference
-  wp-physics-one_pion_exchange:
-    label: Wikipedia — One-pion exchange potential
-    title: One-pion exchange potential
-    url: https://en.wikipedia.org/wiki/One-pion_exchange_potential
     kind: encyclopedic reference
   wp-physics-operator_valued_distribution:
     label: Wikipedia — Operator-valued distribution
@@ -4973,11 +4733,6 @@ sources:
     title: Mathematical formulation of the Standard Model
     url: https://en.wikipedia.org/wiki/Mathematical_formulation_of_the_Standard_Model
     kind: encyclopedic reference
-  wp-physics-standard_model_effective_field_theory:
-    label: Wikipedia — Standard Model Effective Field Theory
-    title: Standard Model Effective Field Theory
-    url: https://en.wikipedia.org/wiki/Standard_Model_Effective_Field_Theory
-    kind: encyclopedic reference
   wp-physics-standard_model_gauge_group:
     label: Wikipedia — Standard Model (mathematical formulation)
     title: Standard Model (mathematical formulation)
@@ -5249,9 +5004,9 @@ sources:
     url: https://en.wikipedia.org/wiki/Quasigroup
     kind: expository
   wp-rack:
-    label: Wikipedia — Rack (mathematics)
-    title: Rack (mathematics)
-    url: https://en.wikipedia.org/wiki/Rack_(mathematics)
+    label: Wikipedia — Racks and quandles
+    title: Racks and quandles
+    url: https://en.wikipedia.org/wiki/Racks_and_quandles
     kind: expository
   wp-radon:
     label: Wikipedia — Radon measure
@@ -5579,10 +5334,10 @@ sources:
     url: https://en.wikipedia.org/wiki/Topological_vector_space
     kind: expository
   wp-topological-pair:
-    label: Wikipedia — Pair (algebraic topology)
-    title: Pair (algebraic topology)
-    url: https://en.wikipedia.org/wiki/Pair_(algebraic_topology)
-    kind: expository
+    label: Wikipedia — Topological pair
+    title: Topological pair
+    url: https://en.wikipedia.org/wiki/Topological_pair
+    kind: encyclopedic reference
   wp-topological-semigroup:
     label: Wikipedia — Topological semigroup
     title: Topological semigroup
@@ -6243,11 +5998,6 @@ sources:
     title: SNO solar-neutrino flavor-change measurement
     url: https://en.wikipedia.org/wiki/Sudbury_Neutrino_Observatory
     kind: encyclopedic reference
-  wp-physics-rutherford_proton_transmutation:
-    label: Wikipedia — Rutherford proton-transmutation experiment
-    title: Rutherford proton-transmutation experiment
-    url: https://en.wikipedia.org/wiki/Discovery_of_the_proton
-    kind: encyclopedic reference
   nlab-natural-number:
     label: nLab — natural number
     title: natural number
@@ -6548,3 +6298,1568 @@ sources:
     title: Rational Points on Varieties
     url: https://math.mit.edu/~poonen/papers/Qpoints.pdf
     kind: monograph
+  nlab-abelian-group:
+    label: nLab — Abelian group
+    title: Abelian group
+    url: https://ncatlab.org/nlab/show/Abelian+group
+    kind: mathematical reference
+  nlab-additive-category:
+    label: nLab — Additive category
+    title: Additive category
+    url: https://ncatlab.org/nlab/show/Additive+category
+    kind: mathematical reference
+  nlab-adjunction:
+    label: nLab — Adjunction
+    title: Adjunction
+    url: https://ncatlab.org/nlab/show/Adjunction
+    kind: mathematical reference
+  nlab-algebraic-space:
+    label: nLab — Algebraic space
+    title: Algebraic space
+    url: https://ncatlab.org/nlab/show/Algebraic+space
+    kind: mathematical reference
+  nlab-algorithm:
+    label: nLab — Algorithm
+    title: Algorithm
+    url: https://ncatlab.org/nlab/show/Algorithm
+    kind: mathematical reference
+  nlab-alpha-particle:
+    label: nLab — Alpha particle
+    title: Alpha particle
+    url: https://ncatlab.org/nlab/show/Alpha+particle
+    kind: physics reference
+  nlab-artinian-ring:
+    label: nLab — Artinian ring
+    title: Artinian ring
+    url: https://ncatlab.org/nlab/show/Artinian+ring
+    kind: mathematical reference
+  nlab-atomic-spectrum:
+    label: nLab — Atomic spectrum
+    title: Atomic spectrum
+    url: https://ncatlab.org/nlab/show/Atomic+spectrum
+    kind: physics reference
+  nlab-banach-algebra:
+    label: nLab — Banach algebra
+    title: Banach algebra
+    url: https://ncatlab.org/nlab/show/Banach+algebra
+    kind: mathematical reference
+  nlab-baryon:
+    label: nLab — Baryon
+    title: Baryon
+    url: https://ncatlab.org/nlab/show/Baryon
+    kind: physics reference
+  nlab-baryon-number:
+    label: nLab — Baryon number
+    title: Baryon number
+    url: https://ncatlab.org/nlab/show/Baryon+number
+    kind: physics reference
+  nlab-beta-decay:
+    label: nLab — Beta decay
+    title: Beta decay
+    url: https://ncatlab.org/nlab/show/Beta+decay
+    kind: physics reference
+  nlab-bigraded-object:
+    label: nLab — Bigraded object
+    title: Bigraded object
+    url: https://ncatlab.org/nlab/show/Bigraded+object
+    kind: mathematical reference
+  nlab-binding-energy:
+    label: nLab — Binding energy
+    title: Binding energy
+    url: https://ncatlab.org/nlab/show/Binding+energy
+    kind: physics reference
+  nlab-bipartite-graph:
+    label: nLab — Bipartite graph
+    title: Bipartite graph
+    url: https://ncatlab.org/nlab/show/Bipartite+graph
+    kind: mathematical reference
+  nlab-black-hole:
+    label: nLab — Black hole
+    title: Black hole
+    url: https://ncatlab.org/nlab/show/Black+hole
+    kind: physics reference
+  nlab-boolean-algebra:
+    label: nLab — Boolean algebra
+    title: Boolean algebra
+    url: https://ncatlab.org/nlab/show/Boolean+algebra
+    kind: mathematical reference
+  nlab-bottom-quark:
+    label: nLab — Bottom quark
+    title: Bottom quark
+    url: https://ncatlab.org/nlab/show/Bottom+quark
+    kind: physics reference
+  nlab-braided-monoidal-category:
+    label: nLab — Braided monoidal category
+    title: Braided monoidal category
+    url: https://ncatlab.org/nlab/show/Braided+monoidal+category
+    kind: mathematical reference
+  nlab-canonical-momentum:
+    label: nLab — Canonical momentum
+    title: Canonical momentum
+    url: https://ncatlab.org/nlab/show/Canonical+momentum
+    kind: physics reference
+  nlab-cantors-theorem:
+    label: nLab — Cantor's theorem
+    title: Cantor's theorem
+    url: https://ncatlab.org/nlab/show/Cantor%27s+theorem
+    kind: mathematical reference
+  nlab-cartesian-category:
+    label: nLab — Cartesian category
+    title: Cartesian category
+    url: https://ncatlab.org/nlab/show/Cartesian+category
+    kind: mathematical reference
+  nlab-cartesian-closed-category:
+    label: nLab — Cartesian closed category
+    title: Cartesian closed category
+    url: https://ncatlab.org/nlab/show/Cartesian+closed+category
+    kind: mathematical reference
+  nlab-charm-quark:
+    label: nLab — Charm quark
+    title: Charm quark
+    url: https://ncatlab.org/nlab/show/Charm+quark
+    kind: physics reference
+  nlab-chemical-element:
+    label: nLab — Chemical element
+    title: Chemical element
+    url: https://ncatlab.org/nlab/show/Chemical+element
+    kind: physics reference
+  nlab-church-turing-thesis:
+    label: nLab — Church–Turing thesis
+    title: Church–Turing thesis
+    url: https://ncatlab.org/nlab/show/Church-Turing+thesis
+    kind: mathematical reference
+  nlab-cochain-complex:
+    label: nLab — Cochain complex
+    title: Cochain complex
+    url: https://ncatlab.org/nlab/show/Cochain+complex
+    kind: mathematical reference
+  nlab-cohomology-group:
+    label: nLab — Cohomology group
+    title: Cohomology group
+    url: https://ncatlab.org/nlab/show/Cohomology+group
+    kind: mathematical reference
+  nlab-cohomology-ring:
+    label: nLab — Cohomology ring
+    title: Cohomology ring
+    url: https://ncatlab.org/nlab/show/Cohomology+ring
+    kind: mathematical reference
+  nlab-color-charge:
+    label: nLab — Color charge
+    title: Color charge
+    url: https://ncatlab.org/nlab/show/Color+charge
+    kind: physics reference
+  nlab-commutative-monoid:
+    label: nLab — Commutative monoid
+    title: Commutative monoid
+    url: https://ncatlab.org/nlab/show/Commutative+monoid
+    kind: mathematical reference
+  nlab-compact-hausdorff-space:
+    label: nLab — Compact Hausdorff space
+    title: Compact Hausdorff space
+    url: https://ncatlab.org/nlab/show/Compact+Hausdorff+space
+    kind: mathematical reference
+  nlab-compact-space:
+    label: nLab — Compact space
+    title: Compact space
+    url: https://ncatlab.org/nlab/show/Compact+space
+    kind: mathematical reference
+  nlab-complete-boolean-algebra:
+    label: nLab — Complete Boolean algebra
+    title: Complete Boolean algebra
+    url: https://ncatlab.org/nlab/show/Complete+Boolean+algebra
+    kind: mathematical reference
+  nlab-complete-lattice:
+    label: nLab — Complete lattice
+    title: Complete lattice
+    url: https://ncatlab.org/nlab/show/Complete+lattice
+    kind: mathematical reference
+  nlab-complex-manifold:
+    label: nLab — Complex manifold
+    title: Complex manifold
+    url: https://ncatlab.org/nlab/show/Complex+manifold
+    kind: mathematical reference
+  nlab-computable-function:
+    label: nLab — Computable function
+    title: Computable function
+    url: https://ncatlab.org/nlab/show/Computable+function
+    kind: mathematical reference
+  nlab-continuum-hypothesis:
+    label: nLab — Continuum hypothesis
+    title: Continuum hypothesis
+    url: https://ncatlab.org/nlab/show/Continuum+hypothesis
+    kind: mathematical reference
+  nlab-countable-ordinal:
+    label: nLab — Countable ordinal
+    title: Countable ordinal
+    url: https://ncatlab.org/nlab/show/Countable+ordinal
+    kind: mathematical reference
+  nlab-countable-set:
+    label: nLab — Countable set
+    title: Countable set
+    url: https://ncatlab.org/nlab/show/Countable+set
+    kind: mathematical reference
+  nlab-coupling-constant:
+    label: nLab — Coupling constant
+    title: Coupling constant
+    url: https://ncatlab.org/nlab/show/Coupling+constant
+    kind: physics reference
+  nlab-dark-matter:
+    label: nLab — Dark matter
+    title: Dark matter
+    url: https://ncatlab.org/nlab/show/Dark+matter
+    kind: physics reference
+  nlab-degree-of-freedom:
+    label: nLab — Degree of freedom
+    title: Degree of freedom
+    url: https://ncatlab.org/nlab/show/Degree+of+freedom
+    kind: physics reference
+  nlab-density-functional-theory:
+    label: nLab — density functional theory
+    title: density functional theory
+    url: https://ncatlab.org/nlab/show/density+functional+theory
+    kind: physics reference
+  nlab-differential-graded-algebra:
+    label: nLab — Differential graded algebra
+    title: Differential graded algebra
+    url: https://ncatlab.org/nlab/show/Differential+graded+algebra
+    kind: mathematical reference
+  nlab-discrete-valuation-ring:
+    label: nLab — Discrete valuation ring
+    title: Discrete valuation ring
+    url: https://ncatlab.org/nlab/show/Discrete+valuation+ring
+    kind: mathematical reference
+  nlab-distributive-lattice:
+    label: nLab — Distributive lattice
+    title: Distributive lattice
+    url: https://ncatlab.org/nlab/show/Distributive+lattice
+    kind: mathematical reference
+  nlab-double-complex:
+    label: nLab — Double complex
+    title: Double complex
+    url: https://ncatlab.org/nlab/show/Double+complex
+    kind: mathematical reference
+  nlab-down-quark:
+    label: nLab — Down quark
+    title: Down quark
+    url: https://ncatlab.org/nlab/show/Down+quark
+    kind: physics reference
+  nlab-electric-charge:
+    label: nLab — Electric charge
+    title: Electric charge
+    url: https://ncatlab.org/nlab/show/Electric+charge
+    kind: physics reference
+  nlab-electric-field:
+    label: nLab — Electric field
+    title: Electric field
+    url: https://ncatlab.org/nlab/show/Electric+field
+    kind: physics reference
+  nlab-empty-set:
+    label: nLab — Empty set
+    title: Empty set
+    url: https://ncatlab.org/nlab/show/Empty+set
+    kind: mathematical reference
+  nlab-equivalence-relation:
+    label: nLab — Equivalence relation
+    title: Equivalence relation
+    url: https://ncatlab.org/nlab/show/Equivalence+relation
+    kind: mathematical reference
+  nlab-event-horizon:
+    label: nLab — Event horizon
+    title: Event horizon
+    url: https://ncatlab.org/nlab/show/Event+horizon
+    kind: physics reference
+  nlab-exact-sequence:
+    label: nLab — Exact sequence
+    title: Exact sequence
+    url: https://ncatlab.org/nlab/show/Exact+sequence
+    kind: mathematical reference
+  nlab-field-extension:
+    label: nLab — Field extension
+    title: Field extension
+    url: https://ncatlab.org/nlab/show/Field+extension
+    kind: mathematical reference
+  nlab-filtered-probability-space:
+    label: nLab — Filtered probability space
+    title: Filtered probability space
+    url: https://ncatlab.org/nlab/show/Filtered+probability+space
+    kind: mathematical reference
+  nlab-fine-structure-constant:
+    label: nLab — fine structure constant
+    title: fine structure constant
+    url: https://ncatlab.org/nlab/show/fine+structure+constant
+    kind: physics reference
+  nlab-finite-field:
+    label: nLab — Finite field
+    title: Finite field
+    url: https://ncatlab.org/nlab/show/Finite+field
+    kind: mathematical reference
+  nlab-finite-set:
+    label: nLab — Finite set
+    title: Finite set
+    url: https://ncatlab.org/nlab/show/Finite+set
+    kind: mathematical reference
+  nlab-first-countable-space:
+    label: nLab — First-countable space
+    title: First-countable space
+    url: https://ncatlab.org/nlab/show/First-countable+space
+    kind: mathematical reference
+  nlab-first-order-theory:
+    label: nLab — First-order theory
+    title: First-order theory
+    url: https://ncatlab.org/nlab/show/First-order+theory
+    kind: mathematical reference
+  nlab-frechet-space:
+    label: nLab — Fréchet space
+    title: Fréchet space
+    url: https://ncatlab.org/nlab/show/Fr%C3%A9chet+space
+    kind: mathematical reference
+  nlab-functor:
+    label: nLab — Functor
+    title: Functor
+    url: https://ncatlab.org/nlab/show/Functor
+    kind: mathematical reference
+  nlab-fundamental-theorem-galois-theory:
+    label: nLab — the fundamental theorem of Galois theory
+    title: the fundamental theorem of Galois theory
+    url: https://ncatlab.org/nlab/show/the+fundamental+theorem+of+Galois+theory
+    kind: mathematical reference
+  nlab-galois-extension:
+    label: nLab — Galois extension
+    title: Galois extension
+    url: https://ncatlab.org/nlab/show/Galois+extension
+    kind: mathematical reference
+  nlab-galois-group:
+    label: nLab — Galois group
+    title: Galois group
+    url: https://ncatlab.org/nlab/show/Galois+group
+    kind: mathematical reference
+  nlab-gcd-domain:
+    label: nLab — GCD domain
+    title: GCD domain
+    url: https://ncatlab.org/nlab/show/GCD+domain
+    kind: mathematical reference
+  nlab-godel-numbering:
+    label: nLab — Gödel numbering
+    title: Gödel numbering
+    url: https://ncatlab.org/nlab/show/G%C3%B6del+numbering
+    kind: mathematical reference
+  nlab-gravitation:
+    label: nLab — Gravitation
+    title: Gravitation
+    url: https://ncatlab.org/nlab/show/Gravitation
+    kind: physics reference
+  nlab-groupoid:
+    label: nLab — Groupoid
+    title: Groupoid
+    url: https://ncatlab.org/nlab/show/Groupoid
+    kind: mathematical reference
+  nlab-hausdorff-space:
+    label: nLab — Hausdorff space
+    title: Hausdorff space
+    url: https://ncatlab.org/nlab/show/Hausdorff+space
+    kind: mathematical reference
+  nlab-hawking-radiation:
+    label: nLab — Hawking radiation
+    title: Hawking radiation
+    url: https://ncatlab.org/nlab/show/Hawking+radiation
+    kind: physics reference
+  nlab-helicity:
+    label: nLab — Helicity
+    title: Helicity
+    url: https://ncatlab.org/nlab/show/Helicity
+    kind: physics reference
+  nlab-heyting-algebra:
+    label: nLab — Heyting algebra
+    title: Heyting algebra
+    url: https://ncatlab.org/nlab/show/Heyting+algebra
+    kind: mathematical reference
+  nlab-higgs-boson:
+    label: nLab — Higgs boson
+    title: Higgs boson
+    url: https://ncatlab.org/nlab/show/Higgs+boson
+    kind: physics reference
+  nlab-hilbert-program:
+    label: nLab — Hilbert's program
+    title: Hilbert's program
+    url: https://ncatlab.org/nlab/show/Hilbert%27s+program
+    kind: mathematical reference
+  nlab-homotopy:
+    label: nLab — Homotopy
+    title: Homotopy
+    url: https://ncatlab.org/nlab/show/Homotopy
+    kind: mathematical reference
+  nlab-homotopy-equivalence:
+    label: nLab — Homotopy equivalence
+    title: Homotopy equivalence
+    url: https://ncatlab.org/nlab/show/Homotopy+equivalence
+    kind: mathematical reference
+  nlab-infinite-cardinal:
+    label: nLab — Infinite cardinal
+    title: Infinite cardinal
+    url: https://ncatlab.org/nlab/show/Infinite+cardinal
+    kind: mathematical reference
+  nlab-integral-domain:
+    label: nLab — Integral domain
+    title: Integral domain
+    url: https://ncatlab.org/nlab/show/Integral+domain
+    kind: mathematical reference
+  nlab-kerr-spacetime:
+    label: nLab — Kerr spacetime
+    title: Kerr spacetime
+    url: https://ncatlab.org/nlab/show/Kerr+spacetime
+    kind: physics reference
+  nlab-large-cardinal:
+    label: nLab — Large cardinal
+    title: Large cardinal
+    url: https://ncatlab.org/nlab/show/Large+cardinal
+    kind: mathematical reference
+  nlab-lattice-ordered-group:
+    label: nLab — Lattice-ordered group
+    title: Lattice-ordered group
+    url: https://ncatlab.org/nlab/show/Lattice-ordered+group
+    kind: mathematical reference
+  nlab-lepton:
+    label: nLab — Lepton
+    title: Lepton
+    url: https://ncatlab.org/nlab/show/Lepton
+    kind: physics reference
+  nlab-lie-algebra:
+    label: nLab — Lie algebra
+    title: Lie algebra
+    url: https://ncatlab.org/nlab/show/Lie+algebra
+    kind: mathematical reference
+  nlab-local-global-principle:
+    label: nLab — local-global principle
+    title: local-global principle
+    url: https://ncatlab.org/nlab/show/local-global+principle
+    kind: mathematical reference
+  nlab-loop:
+    label: nLab — Loop
+    title: Loop
+    url: https://ncatlab.org/nlab/show/Loop
+    kind: mathematical reference
+  nlab-magma:
+    label: nLab — Magma
+    title: Magma
+    url: https://ncatlab.org/nlab/show/Magma
+    kind: mathematical reference
+  nlab-magnetic-field:
+    label: nLab — Magnetic field
+    title: Magnetic field
+    url: https://ncatlab.org/nlab/show/Magnetic+field
+    kind: physics reference
+  nlab-markov-chain:
+    label: nLab — Markov chain
+    title: Markov chain
+    url: https://ncatlab.org/nlab/show/Markov+chain
+    kind: mathematical reference
+  nlab-measurable-cardinal:
+    label: nLab — Measurable cardinal
+    title: Measurable cardinal
+    url: https://ncatlab.org/nlab/show/Measurable+cardinal
+    kind: mathematical reference
+  nlab-measurable-function:
+    label: nLab — Measurable function
+    title: Measurable function
+    url: https://ncatlab.org/nlab/show/Measurable+function
+    kind: mathematical reference
+  nlab-measurable-space:
+    label: nLab — Measurable space
+    title: Measurable space
+    url: https://ncatlab.org/nlab/show/Measurable+space
+    kind: mathematical reference
+  nlab-measure-space:
+    label: nLab — Measure space
+    title: Measure space
+    url: https://ncatlab.org/nlab/show/Measure+space
+    kind: mathematical reference
+  nlab-meson:
+    label: nLab — meson
+    title: meson
+    url: https://ncatlab.org/nlab/show/meson
+    kind: physics reference
+  nlab-michelson-morley-experiment:
+    label: nLab — Michelson–Morley experiment
+    title: Michelson–Morley experiment
+    url: https://ncatlab.org/nlab/show/Michelson-Morley+experiment
+    kind: physics reference
+  nlab-model-of-theory:
+    label: nLab — model theory
+    title: model theory
+    url: https://ncatlab.org/nlab/show/model+theory
+    kind: mathematical reference
+  nlab-molecule:
+    label: nLab — Molecule
+    title: Molecule
+    url: https://ncatlab.org/nlab/show/Molecule
+    kind: physics reference
+  nlab-muon:
+    label: nLab — Muon
+    title: Muon
+    url: https://ncatlab.org/nlab/show/Muon
+    kind: physics reference
+  nlab-natural-transformation:
+    label: nLab — Natural transformation
+    title: Natural transformation
+    url: https://ncatlab.org/nlab/show/Natural+transformation
+    kind: mathematical reference
+  nlab-neutron:
+    label: nLab — Neutron
+    title: Neutron
+    url: https://ncatlab.org/nlab/show/Neutron
+    kind: physics reference
+  nlab-newton-laws:
+    label: nLab — Newton's laws of motion
+    title: Newton's laws of motion
+    url: https://ncatlab.org/nlab/show/Newton%27s+laws+of+motion
+    kind: physics reference
+  nlab-noetherian-scheme:
+    label: nLab — Noetherian scheme
+    title: Noetherian scheme
+    url: https://ncatlab.org/nlab/show/Noetherian+scheme
+    kind: mathematical reference
+  nlab-normal-extension:
+    label: nLab — Normal field extension
+    title: Normal field extension
+    url: https://ncatlab.org/nlab/show/Normal+field+extension
+    kind: mathematical reference
+  nlab-ordered-field:
+    label: nLab — Ordered field
+    title: Ordered field
+    url: https://ncatlab.org/nlab/show/Ordered+field
+    kind: mathematical reference
+  nlab-ordered-ring:
+    label: nLab — Ordered ring
+    title: Ordered ring
+    url: https://ncatlab.org/nlab/show/Ordered+ring
+    kind: mathematical reference
+  nlab-ordinal-arithmetic:
+    label: nLab — Ordinal arithmetic
+    title: Ordinal arithmetic
+    url: https://ncatlab.org/nlab/show/Ordinal+arithmetic
+    kind: mathematical reference
+  nlab-oriented-matroid:
+    label: nLab — Oriented matroid
+    title: Oriented matroid
+    url: https://ncatlab.org/nlab/show/Oriented+matroid
+    kind: mathematical reference
+  nlab-perfect-field:
+    label: nLab — Perfect field
+    title: Perfect field
+    url: https://ncatlab.org/nlab/show/Perfect+field
+    kind: mathematical reference
+  nlab-physical-law:
+    label: nLab — Physical law
+    title: Physical law
+    url: https://ncatlab.org/nlab/show/Physical+law
+    kind: physics reference
+  nlab-planar-graph:
+    label: nLab — Planar graph
+    title: Planar graph
+    url: https://ncatlab.org/nlab/show/Planar+graph
+    kind: mathematical reference
+  nlab-pointed-set:
+    label: nLab — Pointed set
+    title: Pointed set
+    url: https://ncatlab.org/nlab/show/Pointed+set
+    kind: mathematical reference
+  nlab-poisson-manifold:
+    label: nLab — Poisson manifold
+    title: Poisson manifold
+    url: https://ncatlab.org/nlab/show/Poisson+manifold
+    kind: mathematical reference
+  nlab-polish-space:
+    label: nLab — Polish space
+    title: Polish space
+    url: https://ncatlab.org/nlab/show/Polish+space
+    kind: mathematical reference
+  nlab-positron:
+    label: nLab — Positron
+    title: Positron
+    url: https://ncatlab.org/nlab/show/Positron
+    kind: physics reference
+  nlab-power-set:
+    label: nLab — Power set
+    title: Power set
+    url: https://ncatlab.org/nlab/show/Power+set
+    kind: mathematical reference
+  nlab-preorder:
+    label: nLab — Preorder
+    title: Preorder
+    url: https://ncatlab.org/nlab/show/Preorder
+    kind: mathematical reference
+  nlab-principal-ideal-domain:
+    label: nLab — Principal ideal domain
+    title: Principal ideal domain
+    url: https://ncatlab.org/nlab/show/Principal+ideal+domain
+    kind: mathematical reference
+  nlab-probability-space:
+    label: nLab — Probability space
+    title: Probability space
+    url: https://ncatlab.org/nlab/show/Probability+space
+    kind: mathematical reference
+  nlab-proton:
+    label: nLab — Proton
+    title: Proton
+    url: https://ncatlab.org/nlab/show/Proton
+    kind: physics reference
+  nlab-pseudo-riemannian-manifold:
+    label: nLab — pseudo-Riemannian manifold
+    title: pseudo-Riemannian manifold
+    url: https://ncatlab.org/nlab/show/pseudo-Riemannian+manifold
+    kind: mathematical reference
+  nlab-quadratic-form:
+    label: nLab — Quadratic form
+    title: Quadratic form
+    url: https://ncatlab.org/nlab/show/Quadratic+form
+    kind: mathematical reference
+  nlab-random-variable:
+    label: nLab — Random variable
+    title: Random variable
+    url: https://ncatlab.org/nlab/show/Random+variable
+    kind: mathematical reference
+  nlab-rational-point:
+    label: nLab — Rational point
+    title: Rational point
+    url: https://ncatlab.org/nlab/show/Rational+point
+    kind: mathematical reference
+  nlab-regular-local-ring:
+    label: nLab — Regular local ring
+    title: Regular local ring
+    url: https://ncatlab.org/nlab/show/Regular+local+ring
+    kind: mathematical reference
+  nlab-regular-scheme:
+    label: nLab — Regular scheme
+    title: Regular scheme
+    url: https://ncatlab.org/nlab/show/Regular+scheme
+    kind: mathematical reference
+  nlab-residuated-lattice:
+    label: nLab — Residuated lattice
+    title: Residuated lattice
+    url: https://ncatlab.org/nlab/show/Residuated+lattice
+    kind: mathematical reference
+  nlab-residue-field:
+    label: nLab — Residue field
+    title: Residue field
+    url: https://ncatlab.org/nlab/show/Residue+field
+    kind: mathematical reference
+  nlab-riemannian-manifold:
+    label: nLab — Riemannian manifold
+    title: Riemannian manifold
+    url: https://ncatlab.org/nlab/show/Riemannian+manifold
+    kind: mathematical reference
+  nlab-ring-localization:
+    label: nLab — Localization of a commutative ring
+    title: Localization of a commutative ring
+    url: https://ncatlab.org/nlab/show/Localization+of+a+commutative+ring
+    kind: mathematical reference
+  nlab-schwarzschild-spacetime:
+    label: nLab — Schwarzschild spacetime
+    title: Schwarzschild spacetime
+    url: https://ncatlab.org/nlab/show/Schwarzschild+spacetime
+    kind: physics reference
+  nlab-second-countable-space:
+    label: nLab — Second-countable space
+    title: Second-countable space
+    url: https://ncatlab.org/nlab/show/Second-countable+space
+    kind: mathematical reference
+  nlab-separable-extension:
+    label: nLab — Separable field extension
+    title: Separable field extension
+    url: https://ncatlab.org/nlab/show/Separable+field+extension
+    kind: mathematical reference
+  nlab-separable-metric-space:
+    label: nLab — Separable metric space
+    title: Separable metric space
+    url: https://ncatlab.org/nlab/show/Separable+metric+space
+    kind: mathematical reference
+  nlab-set:
+    label: nLab — Set
+    title: Set
+    url: https://ncatlab.org/nlab/show/Set
+    kind: mathematical reference
+  nlab-solvable-group:
+    label: nLab — Solvable group
+    title: Solvable group
+    url: https://ncatlab.org/nlab/show/Solvable+group
+    kind: mathematical reference
+  nlab-spin-orbit-coupling:
+    label: nLab — spin-orbit coupling
+    title: spin-orbit coupling
+    url: https://ncatlab.org/nlab/show/spin-orbit+coupling
+    kind: physics reference
+  nlab-splitting-field:
+    label: nLab — Splitting field
+    title: Splitting field
+    url: https://ncatlab.org/nlab/show/Splitting+field
+    kind: mathematical reference
+  nlab-stern-gerlach-experiment:
+    label: nLab — Stern–Gerlach experiment
+    title: Stern–Gerlach experiment
+    url: https://ncatlab.org/nlab/show/Stern%E2%80%93Gerlach+experiment
+    kind: physics reference
+  nlab-stochastic-process:
+    label: nLab — Stochastic process
+    title: Stochastic process
+    url: https://ncatlab.org/nlab/show/Stochastic+process
+    kind: mathematical reference
+  nlab-strange-quark:
+    label: nLab — Strange quark
+    title: Strange quark
+    url: https://ncatlab.org/nlab/show/Strange+quark
+    kind: physics reference
+  nlab-supercompact-cardinal:
+    label: nLab — Supercompact cardinal
+    title: Supercompact cardinal
+    url: https://ncatlab.org/nlab/show/Supercompact+cardinal
+    kind: mathematical reference
+  nlab-symmetric-monoidal-category:
+    label: nLab — Symmetric monoidal category
+    title: Symmetric monoidal category
+    url: https://ncatlab.org/nlab/show/Symmetric+monoidal+category
+    kind: mathematical reference
+  nlab-thin-category:
+    label: nLab — Thin category
+    title: Thin category
+    url: https://ncatlab.org/nlab/show/Thin+category
+    kind: mathematical reference
+  nlab-top-quark:
+    label: nLab — Top quark
+    title: Top quark
+    url: https://ncatlab.org/nlab/show/Top+quark
+    kind: physics reference
+  nlab-topological-field:
+    label: nLab — Topological field
+    title: Topological field
+    url: https://ncatlab.org/nlab/show/Topological+field
+    kind: mathematical reference
+  nlab-topological-manifold:
+    label: nLab — Topological manifold
+    title: Topological manifold
+    url: https://ncatlab.org/nlab/show/Topological+manifold
+    kind: mathematical reference
+  nlab-topological-ring:
+    label: nLab — Topological ring
+    title: Topological ring
+    url: https://ncatlab.org/nlab/show/Topological+ring
+    kind: mathematical reference
+  nlab-total-order:
+    label: nLab — Total order
+    title: Total order
+    url: https://ncatlab.org/nlab/show/Total+order
+    kind: mathematical reference
+  nlab-totally-disconnected-space:
+    label: nLab — Totally disconnected space
+    title: Totally disconnected space
+    url: https://ncatlab.org/nlab/show/Totally+disconnected+space
+    kind: mathematical reference
+  nlab-transitive-set:
+    label: nLab — Transitive set
+    title: Transitive set
+    url: https://ncatlab.org/nlab/show/Transitive+set
+    kind: mathematical reference
+  nlab-tree:
+    label: nLab — Tree
+    title: Tree
+    url: https://ncatlab.org/nlab/show/Tree
+    kind: mathematical reference
+  nlab-turing-machine:
+    label: nLab — Turing machine
+    title: Turing machine
+    url: https://ncatlab.org/nlab/show/Turing+machine
+    kind: mathematical reference
+  nlab-tychonoff-space:
+    label: nLab — Tychonoff space
+    title: Tychonoff space
+    url: https://ncatlab.org/nlab/show/Tychonoff+space
+    kind: mathematical reference
+  nlab-unique-factorization-domain:
+    label: nLab — Unique factorization domain
+    title: Unique factorization domain
+    url: https://ncatlab.org/nlab/show/Unique+factorization+domain
+    kind: mathematical reference
+  nlab-up-quark:
+    label: nLab — Up quark
+    title: Up quark
+    url: https://ncatlab.org/nlab/show/Up+quark
+    kind: physics reference
+  nlab-vacuum-polarization:
+    label: nLab — Vacuum polarization
+    title: Vacuum polarization
+    url: https://ncatlab.org/nlab/show/Vacuum+polarization
+    kind: physics reference
+  nlab-valuation:
+    label: nLab — Valuation
+    title: Valuation
+    url: https://ncatlab.org/nlab/show/Valuation
+    kind: mathematical reference
+  nlab-w-boson:
+    label: nLab — W-boson
+    title: W-boson
+    url: https://ncatlab.org/nlab/show/W-boson
+    kind: physics reference
+  nlab-weighted-graph:
+    label: nLab — Weighted graph
+    title: Weighted graph
+    url: https://ncatlab.org/nlab/show/Weighted+graph
+    kind: mathematical reference
+  nlab-well-order:
+    label: nLab — Well-order
+    title: Well-order
+    url: https://ncatlab.org/nlab/show/Well-order
+    kind: mathematical reference
+  nlab-well-ordering-theorem:
+    label: nLab — Well-ordering theorem
+    title: Well-ordering theorem
+    url: https://ncatlab.org/nlab/show/Well-ordering+theorem
+    kind: mathematical reference
+  wp-abelian-category:
+    label: Wikipedia — Abelian category
+    title: Abelian category
+    url: https://en.wikipedia.org/wiki/Abelian_category
+    kind: encyclopedic reference
+  wp-adele-ring:
+    label: Wikipedia — Adele ring
+    title: Adele ring
+    url: https://en.wikipedia.org/wiki/Adele_ring
+    kind: encyclopedic reference
+  wp-adjunction:
+    label: Wikipedia — Adjoint functors
+    title: Adjoint functors
+    url: https://en.wikipedia.org/wiki/Adjoint_functors
+    kind: encyclopedic reference
+  wp-algebraic-extension:
+    label: Wikipedia — Algebraic extension
+    title: Algebraic extension
+    url: https://en.wikipedia.org/wiki/Algebraic_extension
+    kind: encyclopedic reference
+  wp-algebraic-space:
+    label: Wikipedia — Algebraic space
+    title: Algebraic space
+    url: https://en.wikipedia.org/wiki/Algebraic_space
+    kind: encyclopedic reference
+  wp-algorithm:
+    label: Wikipedia — Algorithm
+    title: Algorithm
+    url: https://en.wikipedia.org/wiki/Algorithm
+    kind: encyclopedic reference
+  wp-church-turing-thesis:
+    label: Wikipedia — Church–Turing thesis
+    title: Church–Turing thesis
+    url: https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis
+    kind: encyclopedic reference
+  wp-cohomology-group:
+    label: Wikipedia — Cohomology
+    title: Cohomology
+    url: https://en.wikipedia.org/wiki/Cohomology
+    kind: encyclopedic reference
+  wp-cohomology-ring:
+    label: Wikipedia — Cohomology ring
+    title: Cohomology ring
+    url: https://en.wikipedia.org/wiki/Cohomology_ring
+    kind: encyclopedic reference
+  wp-completion-at-valuation:
+    label: Wikipedia — Completion (algebra)
+    title: Completion (algebra)
+    url: https://en.wikipedia.org/wiki/Completion_(algebra)
+    kind: encyclopedic reference
+  wp-computable-function:
+    label: Wikipedia — Computable function
+    title: Computable function
+    url: https://en.wikipedia.org/wiki/Computable_function
+    kind: encyclopedic reference
+  wp-consistent-theory:
+    label: Wikipedia — Consistency
+    title: Consistency
+    url: https://en.wikipedia.org/wiki/Consistency
+    kind: encyclopedic reference
+  wp-decidable-problem:
+    label: Wikipedia — Decidability (logic)
+    title: Decidability (logic)
+    url: https://en.wikipedia.org/wiki/Decidability_(logic)
+    kind: encyclopedic reference
+  wp-decision-problem:
+    label: Wikipedia — Decision problem
+    title: Decision problem
+    url: https://en.wikipedia.org/wiki/Decision_problem
+    kind: encyclopedic reference
+  wp-dedekind-domain:
+    label: Wikipedia — Dedekind domain
+    title: Dedekind domain
+    url: https://en.wikipedia.org/wiki/Dedekind_domain
+    kind: encyclopedic reference
+  wp-differential-graded-algebra:
+    label: Wikipedia — Differential graded algebra
+    title: Differential graded algebra
+    url: https://en.wikipedia.org/wiki/Differential_graded_algebra
+    kind: encyclopedic reference
+  wp-euclidean-domain:
+    label: Wikipedia — Euclidean domain
+    title: Euclidean domain
+    url: https://en.wikipedia.org/wiki/Euclidean_domain
+    kind: encyclopedic reference
+  wp-exact-sequence:
+    label: Wikipedia — Exact sequence
+    title: Exact sequence
+    url: https://en.wikipedia.org/wiki/Exact_sequence
+    kind: encyclopedic reference
+  wp-field-automorphism:
+    label: Wikipedia — Field automorphism
+    title: Field automorphism
+    url: https://en.wikipedia.org/wiki/Field_automorphism
+    kind: encyclopedic reference
+  wp-field-extension:
+    label: Wikipedia — Field extension
+    title: Field extension
+    url: https://en.wikipedia.org/wiki/Field_extension
+    kind: encyclopedic reference
+  wp-finitely-complete-category:
+    label: Wikipedia — Limit (category theory)
+    title: Limit (category theory)
+    url: https://en.wikipedia.org/wiki/Limit_(category_theory)
+    kind: encyclopedic reference
+  wp-fixed-field:
+    label: Wikipedia — Fixed field
+    title: Fixed field
+    url: https://en.wikipedia.org/wiki/Fixed_field
+    kind: encyclopedic reference
+  wp-formal-proof-system:
+    label: Wikipedia — Formal system
+    title: Formal system
+    url: https://en.wikipedia.org/wiki/Formal_system
+    kind: encyclopedic reference
+  wp-frechet-space:
+    label: Wikipedia — Fréchet space
+    title: Fréchet space
+    url: https://en.wikipedia.org/wiki/Fr%C3%A9chet_space
+    kind: encyclopedic reference
+  wp-functor:
+    label: Wikipedia — Functor (category theory)
+    title: Functor (category theory)
+    url: https://en.wikipedia.org/wiki/Functor_(category_theory)
+    kind: encyclopedic reference
+  wp-fundamental-group:
+    label: Wikipedia — Fundamental group
+    title: Fundamental group
+    url: https://en.wikipedia.org/wiki/Fundamental_group
+    kind: encyclopedic reference
+  wp-fundamental-theorem-galois-theory:
+    label: Wikipedia — Fundamental theorem of Galois theory
+    title: Fundamental theorem of Galois theory
+    url: https://en.wikipedia.org/wiki/Fundamental_theorem_of_Galois_theory
+    kind: encyclopedic reference
+  wp-galois-extension:
+    label: Wikipedia — Galois extension
+    title: Galois extension
+    url: https://en.wikipedia.org/wiki/Galois_extension
+    kind: encyclopedic reference
+  wp-galois-group:
+    label: Wikipedia — Galois group
+    title: Galois group
+    url: https://en.wikipedia.org/wiki/Galois_group
+    kind: encyclopedic reference
+  wp-godel-numbering:
+    label: Wikipedia — Gödel numbering
+    title: Gödel numbering
+    url: https://en.wikipedia.org/wiki/G%C3%B6del_numbering
+    kind: encyclopedic reference
+  wp-halting-problem:
+    label: Wikipedia — Halting problem
+    title: Halting problem
+    url: https://en.wikipedia.org/wiki/Halting_problem
+    kind: encyclopedic reference
+  wp-hasse-minkowski-theorem:
+    label: Wikipedia — Hasse–Minkowski theorem
+    title: Hasse–Minkowski theorem
+    url: https://en.wikipedia.org/wiki/Hasse%E2%80%93Minkowski_theorem
+    kind: encyclopedic reference
+  wp-higher-homotopy-group:
+    label: Wikipedia — Homotopy group
+    title: Homotopy group
+    url: https://en.wikipedia.org/wiki/Homotopy_group
+    kind: encyclopedic reference
+  wp-hilbert-program:
+    label: Wikipedia — Hilbert's program
+    title: Hilbert's program
+    url: https://en.wikipedia.org/wiki/Hilbert's_program
+    kind: encyclopedic reference
+  wp-homology-group:
+    label: Wikipedia — Homology
+    title: Homology
+    url: https://en.wikipedia.org/wiki/Homology
+    kind: encyclopedic reference
+  wp-homotopy:
+    label: Wikipedia — Homotopy
+    title: Homotopy
+    url: https://en.wikipedia.org/wiki/Homotopy
+    kind: encyclopedic reference
+  wp-homotopy-equivalence:
+    label: Wikipedia — Homotopy equivalence
+    title: Homotopy equivalence
+    url: https://en.wikipedia.org/wiki/Homotopy_equivalence
+    kind: encyclopedic reference
+  wp-j-banach-algebra:
+    label: Wikipedia — Banach algebra
+    title: Banach algebra
+    url: https://en.wikipedia.org/wiki/Banach_algebra
+    kind: encyclopedic reference
+  wp-j-first-incompleteness:
+    label: Wikipedia — Gödel's incompleteness theorems
+    title: Gödel's incompleteness theorems
+    url: https://en.wikipedia.org/wiki/G%C3%B6del's_incompleteness_theorems
+    kind: encyclopedic reference
+  wp-j-lattice:
+    label: Wikipedia — Lattice (order)
+    title: Lattice (order)
+    url: https://en.wikipedia.org/wiki/Lattice_(order)
+    kind: encyclopedic reference
+  wp-j-lie-group:
+    label: Wikipedia — Lie group
+    title: Lie group
+    url: https://en.wikipedia.org/wiki/Lie_group
+    kind: encyclopedic reference
+  wp-j-lie-rep:
+    label: Wikipedia — Lie algebra representation
+    title: Lie algebra representation
+    url: https://en.wikipedia.org/wiki/Lie_algebra_representation
+    kind: encyclopedic reference
+  wp-j-radical-solvability:
+    label: Wikipedia — Solvability by radicals
+    title: Solvability by radicals
+    url: https://en.wikipedia.org/wiki/Solvability_by_radicals
+    kind: encyclopedic reference
+  wp-j-top-ring:
+    label: Wikipedia — Topological ring
+    title: Topological ring
+    url: https://en.wikipedia.org/wiki/Topological_ring
+    kind: encyclopedic reference
+  wp-local-field:
+    label: Wikipedia — Local field
+    title: Local field
+    url: https://en.wikipedia.org/wiki/Local_field
+    kind: encyclopedic reference
+  wp-local-global-principle:
+    label: Wikipedia — Local–global principle
+    title: Local–global principle
+    url: https://en.wikipedia.org/wiki/Local%E2%80%93global_principle
+    kind: encyclopedic reference
+  wp-local-point:
+    label: Wikipedia — Hasse principle
+    title: Hasse principle
+    url: https://en.wikipedia.org/wiki/Hasse_principle
+    kind: encyclopedic reference
+  wp-locally-convex-space:
+    label: Wikipedia — Locally convex topological vector space
+    title: Locally convex topological vector space
+    url: https://en.wikipedia.org/wiki/Locally_convex_topological_vector_space
+    kind: encyclopedic reference
+  wp-loop-space:
+    label: Wikipedia — Loop space
+    title: Loop space
+    url: https://en.wikipedia.org/wiki/Loop_space
+    kind: encyclopedic reference
+  wp-monoidal-category:
+    label: Wikipedia — Monoidal category
+    title: Monoidal category
+    url: https://en.wikipedia.org/wiki/Monoidal_category
+    kind: encyclopedic reference
+  wp-natural-transformation:
+    label: Wikipedia — Natural transformation
+    title: Natural transformation
+    url: https://en.wikipedia.org/wiki/Natural_transformation
+    kind: encyclopedic reference
+  wp-normal-extension:
+    label: Wikipedia — Normal extension
+    title: Normal extension
+    url: https://en.wikipedia.org/wiki/Normal_extension
+    kind: encyclopedic reference
+  wp-number-field:
+    label: Wikipedia — Number field
+    title: Number field
+    url: https://en.wikipedia.org/wiki/Number_field
+    kind: encyclopedic reference
+  wp-place-of-number-field:
+    label: Wikipedia — Place (mathematics)
+    title: Place (mathematics)
+    url: https://en.wikipedia.org/wiki/Place_(mathematics)
+    kind: encyclopedic reference
+  wp-polynomial-ring:
+    label: Wikipedia — Polynomial ring
+    title: Polynomial ring
+    url: https://en.wikipedia.org/wiki/Polynomial_ring
+    kind: encyclopedic reference
+  wp-prime-spectrum:
+    label: Wikipedia — Spectrum of a ring
+    title: Spectrum of a ring
+    url: https://en.wikipedia.org/wiki/Spectrum_of_a_ring
+    kind: encyclopedic reference
+  wp-quadratic-form:
+    label: Wikipedia — Quadratic form
+    title: Quadratic form
+    url: https://en.wikipedia.org/wiki/Quadratic_form
+    kind: encyclopedic reference
+  wp-rational-point:
+    label: Wikipedia — Rational point
+    title: Rational point
+    url: https://en.wikipedia.org/wiki/Rational_point
+    kind: encyclopedic reference
+  wp-recursively-enumerable-set:
+    label: Wikipedia — Recursively enumerable set
+    title: Recursively enumerable set
+    url: https://en.wikipedia.org/wiki/Recursively_enumerable_set
+    kind: encyclopedic reference
+  wp-residue-field:
+    label: Wikipedia — Residue field
+    title: Residue field
+    url: https://en.wikipedia.org/wiki/Residue_field
+    kind: encyclopedic reference
+  wp-ring-localization:
+    label: Wikipedia — Localization (commutative algebra)
+    title: Localization (commutative algebra)
+    url: https://en.wikipedia.org/wiki/Localization_(commutative_algebra)
+    kind: encyclopedic reference
+  wp-seminormed-vector-space:
+    label: Wikipedia — Seminorm
+    title: Seminorm
+    url: https://en.wikipedia.org/wiki/Seminorm
+    kind: encyclopedic reference
+  wp-separable-extension:
+    label: Wikipedia — Separable extension
+    title: Separable extension
+    url: https://en.wikipedia.org/wiki/Separable_extension
+    kind: encyclopedic reference
+  wp-separated-scheme:
+    label: Wikipedia — Separated morphism
+    title: Separated morphism
+    url: https://en.wikipedia.org/wiki/Separated_morphism
+    kind: encyclopedic reference
+  wp-sheaf-stalk:
+    label: Wikipedia — Stalk (sheaf)
+    title: Stalk (sheaf)
+    url: https://en.wikipedia.org/wiki/Stalk_(sheaf)
+    kind: encyclopedic reference
+  wp-singular-chain-complex:
+    label: Wikipedia — Singular homology
+    title: Singular homology
+    url: https://en.wikipedia.org/wiki/Singular_homology
+    kind: encyclopedic reference
+  wp-singular-cochain-complex:
+    label: Wikipedia — Singular cohomology
+    title: Singular cohomology
+    url: https://en.wikipedia.org/wiki/Singular_cohomology
+    kind: encyclopedic reference
+  wp-smooth-manifold:
+    label: Wikipedia — Differentiable manifold
+    title: Differentiable manifold
+    url: https://en.wikipedia.org/wiki/Differentiable_manifold
+    kind: encyclopedic reference
+  wp-smooth-projective-quadric:
+    label: Wikipedia — Quadric (algebraic geometry)
+    title: Quadric (algebraic geometry)
+    url: https://en.wikipedia.org/wiki/Quadric_(algebraic_geometry)
+    kind: encyclopedic reference
+  wp-solvable-group:
+    label: Wikipedia — Solvable group
+    title: Solvable group
+    url: https://en.wikipedia.org/wiki/Solvable_group
+    kind: encyclopedic reference
+  wp-splitting-field:
+    label: Wikipedia — Splitting field
+    title: Splitting field
+    url: https://en.wikipedia.org/wiki/Splitting_field
+    kind: encyclopedic reference
+  wp-symplectic-manifold:
+    label: Wikipedia — Symplectic manifold
+    title: Symplectic manifold
+    url: https://en.wikipedia.org/wiki/Symplectic_manifold
+    kind: encyclopedic reference
+  wp-syntactically-complete-theory:
+    label: Wikipedia — Complete theory
+    title: Complete theory
+    url: https://en.wikipedia.org/wiki/Complete_theory
+    kind: encyclopedic reference
+  wp-turing-machine:
+    label: Wikipedia — Turing machine
+    title: Turing machine
+    url: https://en.wikipedia.org/wiki/Turing_machine
+    kind: encyclopedic reference
+  wp-undecidable-problem:
+    label: Wikipedia — Undecidable problem
+    title: Undecidable problem
+    url: https://en.wikipedia.org/wiki/Undecidable_problem
+    kind: encyclopedic reference
+  wp-universal-turing-machine:
+    label: Wikipedia — Universal Turing machine
+    title: Universal Turing machine
+    url: https://en.wikipedia.org/wiki/Universal_Turing_machine
+    kind: encyclopedic reference
+  wp-valuation:
+    label: Wikipedia — Valuation (algebra)
+    title: Valuation (algebra)
+    url: https://en.wikipedia.org/wiki/Valuation_(algebra)
+    kind: encyclopedic reference
+  wp-well-ordering-theorem:
+    label: Wikipedia — Well-ordering theorem
+    title: Well-ordering theorem
+    url: https://en.wikipedia.org/wiki/Well-ordering_theorem
+    kind: encyclopedic reference
+  wp-continuous-function:
+    label: Wikipedia — Continuous function
+    title: Continuous function
+    url: https://en.wikipedia.org/wiki/Continuous_function
+    kind: encyclopedic reference
+  nlab-continuous-map:
+    label: nLab — continuous map
+    title: continuous map
+    url: https://ncatlab.org/nlab/show/continuous+map
+    kind: mathematical reference
+  wp-homeomorphism:
+    label: Wikipedia — Homeomorphism
+    title: Homeomorphism
+    url: https://en.wikipedia.org/wiki/Homeomorphism
+    kind: encyclopedic reference
+  nlab-homeomorphism:
+    label: nLab — homeomorphism
+    title: homeomorphism
+    url: https://ncatlab.org/nlab/show/homeomorphism
+    kind: mathematical reference
+  wp-differentiable-function:
+    label: Wikipedia — Differentiable function
+    title: Differentiable function
+    url: https://en.wikipedia.org/wiki/Differentiable_function
+    kind: encyclopedic reference
+  nlab-differentiable-map:
+    label: nLab — differentiable map
+    title: differentiable map
+    url: https://ncatlab.org/nlab/show/differentiable+map
+    kind: mathematical reference
+  wp-derivative:
+    label: Wikipedia — Derivative
+    title: Derivative
+    url: https://en.wikipedia.org/wiki/Derivative
+    kind: encyclopedic reference
+  nlab-derivative:
+    label: nLab — derivative
+    title: derivative
+    url: https://ncatlab.org/nlab/show/derivative
+    kind: mathematical reference
+  wp-probability-distribution:
+    label: Wikipedia — Probability distribution
+    title: Probability distribution
+    url: https://en.wikipedia.org/wiki/Probability_distribution
+    kind: encyclopedic reference
+  nlab-probability-distribution:
+    label: nLab — probability distribution
+    title: probability distribution
+    url: https://ncatlab.org/nlab/show/probability+distribution
+    kind: mathematical reference
+  wp-expected-value:
+    label: Wikipedia — Expected value
+    title: Expected value
+    url: https://en.wikipedia.org/wiki/Expected_value
+    kind: encyclopedic reference
+  wp-independent-random-variables:
+    label: Wikipedia — Independence (probability theory)
+    title: Independence (probability theory)
+    url: https://en.wikipedia.org/wiki/Independence_(probability_theory)
+    kind: encyclopedic reference
+  nlab-iid-random-variables:
+    label: nLab — iid random variables
+    title: iid random variables
+    url: https://ncatlab.org/nlab/show/iid+random+variables
+    kind: mathematical reference
+  wp-conditional-probability:
+    label: Wikipedia — Conditional probability
+    title: Conditional probability
+    url: https://en.wikipedia.org/wiki/Conditional_probability
+    kind: encyclopedic reference
+  nlab-probability-theory:
+    label: nLab — probability theory
+    title: probability theory
+    url: https://ncatlab.org/nlab/show/probability+theory
+    kind: mathematical reference
+  wp-normal-distribution:
+    label: Wikipedia — Normal distribution
+    title: Normal distribution
+    url: https://en.wikipedia.org/wiki/Normal_distribution
+    kind: encyclopedic reference
+  nlab-gaussian-distribution:
+    label: nLab — Gaussian probability distribution
+    title: Gaussian probability distribution
+    url: https://ncatlab.org/nlab/show/Gaussian+probability+distribution
+    kind: mathematical reference
+  wp-convergence-random-variables:
+    label: Wikipedia — Convergence of random variables
+    title: Convergence of random variables
+    url: https://en.wikipedia.org/wiki/Convergence_of_random_variables
+    kind: encyclopedic reference
+  wp-law-large-numbers:
+    label: Wikipedia — Law of large numbers
+    title: Law of large numbers
+    url: https://en.wikipedia.org/wiki/Law_of_large_numbers
+    kind: encyclopedic reference
+  nlab-law-large-numbers:
+    label: nLab — law of large numbers
+    title: law of large numbers
+    url: https://ncatlab.org/nlab/show/law+of+large+numbers
+    kind: mathematical reference
+  wp-central-limit-theorem:
+    label: Wikipedia — Central limit theorem
+    title: Central limit theorem
+    url: https://en.wikipedia.org/wiki/Central_limit_theorem
+    kind: encyclopedic reference
+  nlab-central-limit-theorem:
+    label: nLab — central limit theorem
+    title: central limit theorem
+    url: https://ncatlab.org/nlab/show/central+limit+theorem
+    kind: mathematical reference
+  wp-logical-consequence:
+    label: Wikipedia — Logical consequence
+    title: Logical consequence
+    url: https://en.wikipedia.org/wiki/Logical_consequence
+    kind: encyclopedic reference
+  nlab-sequent:
+    label: nLab — sequent
+    title: sequent
+    url: https://ncatlab.org/nlab/show/sequent
+    kind: mathematical reference
+  wp-godel-completeness-theorem:
+    label: Wikipedia — Gödel's completeness theorem
+    title: Gödel's completeness theorem
+    url: https://en.wikipedia.org/wiki/G%C3%B6del%27s_completeness_theorem
+    kind: encyclopedic reference
+  nlab-completeness-theorem:
+    label: nLab — completeness theorem
+    title: completeness theorem
+    url: https://ncatlab.org/nlab/show/completeness+theorem
+    kind: mathematical reference
+  wp-compactness-theorem:
+    label: Wikipedia — Compactness theorem
+    title: Compactness theorem
+    url: https://en.wikipedia.org/wiki/Compactness_theorem
+    kind: encyclopedic reference
+  nlab-compactness-theorem:
+    label: nLab — compactness theorem
+    title: compactness theorem
+    url: https://ncatlab.org/nlab/show/compactness+theorem
+    kind: mathematical reference
+  wp-chain-map:
+    label: Wikipedia — Chain map
+    title: Chain map
+    url: https://en.wikipedia.org/wiki/Chain_map
+    kind: encyclopedic reference
+  nlab-chain-map:
+    label: nLab — chain map
+    title: chain map
+    url: https://ncatlab.org/nlab/show/chain+map
+    kind: mathematical reference
+  wp-quasi-isomorphism:
+    label: Wikipedia — Quasi-isomorphism
+    title: Quasi-isomorphism
+    url: https://en.wikipedia.org/wiki/Quasi-isomorphism
+    kind: encyclopedic reference
+  nlab-quasi-isomorphism:
+    label: nLab — quasi-isomorphism
+    title: quasi-isomorphism
+    url: https://ncatlab.org/nlab/show/quasi-isomorphism
+    kind: mathematical reference
+  stacks-quasi-isomorphism:
+    label: Stacks Project — Quasi-isomorphisms
+    title: Quasi-isomorphisms
+    url: https://stacks.math.columbia.edu/tag/010Z
+    kind: mathematical reference
+  wp-projective-module:
+    label: Wikipedia — Projective module
+    title: Projective module
+    url: https://en.wikipedia.org/wiki/Projective_module
+    kind: encyclopedic reference
+  nlab-projective-module:
+    label: nLab — projective module
+    title: projective module
+    url: https://ncatlab.org/nlab/show/projective+module
+    kind: mathematical reference
+  stacks-projective-module:
+    label: Stacks Project — Projective modules
+    title: Projective modules
+    url: https://stacks.math.columbia.edu/tag/05CD
+    kind: mathematical reference
+  wp-injective-module:
+    label: Wikipedia — Injective module
+    title: Injective module
+    url: https://en.wikipedia.org/wiki/Injective_module
+    kind: encyclopedic reference
+  nlab-injective-module:
+    label: nLab — injective module
+    title: injective module
+    url: https://ncatlab.org/nlab/show/injective+module
+    kind: mathematical reference
+  stacks-injective-module:
+    label: Stacks Project — Injective modules
+    title: Injective modules
+    url: https://stacks.math.columbia.edu/tag/01D8
+    kind: mathematical reference
+  wp-ext-functor:
+    label: Wikipedia — Ext functor
+    title: Ext functor
+    url: https://en.wikipedia.org/wiki/Ext_functor
+    kind: encyclopedic reference
+  nlab-ext-functor:
+    label: nLab — Ext
+    title: Ext
+    url: https://ncatlab.org/nlab/show/Ext
+    kind: mathematical reference
+  stacks-ext-groups:
+    label: Stacks Project — Ext groups
+    title: Ext groups
+    url: https://stacks.math.columbia.edu/tag/06XP
+    kind: mathematical reference
+  wp-tor-functor:
+    label: Wikipedia — Tor functor
+    title: Tor functor
+    url: https://en.wikipedia.org/wiki/Tor_functor
+    kind: encyclopedic reference
+  nlab-tor-functor:
+    label: nLab — Tor
+    title: Tor
+    url: https://ncatlab.org/nlab/show/Tor
+    kind: mathematical reference
+  stacks-tor-groups:
+    label: Stacks Project — Tor groups and flatness
+    title: Tor groups and flatness
+    url: https://stacks.math.columbia.edu/tag/00LY
+    kind: mathematical reference
+  wp-connected-graph:
+    label: Wikipedia — Connectivity (graph theory)
+    title: Connectivity (graph theory)
+    url: https://en.wikipedia.org/wiki/Connectivity_(graph_theory)
+    kind: encyclopedic reference
+  nlab-connected-graph:
+    label: nLab — connected graph
+    title: connected graph
+    url: https://ncatlab.org/nlab/show/connected+graph
+    kind: mathematical reference
+  wp-complete-graph:
+    label: Wikipedia — Complete graph
+    title: Complete graph
+    url: https://en.wikipedia.org/wiki/Complete_graph
+    kind: encyclopedic reference
+  nlab-complete-graph:
+    label: nLab — complete graph
+    title: complete graph
+    url: https://ncatlab.org/nlab/show/complete+graph
+    kind: mathematical reference
+  wp-graph-coloring:
+    label: Wikipedia — Graph coloring
+    title: Graph coloring
+    url: https://en.wikipedia.org/wiki/Graph_coloring
+    kind: encyclopedic reference
+  nlab-vertex-coloring:
+    label: nLab — vertex coloring
+    title: vertex coloring
+    url: https://ncatlab.org/nlab/show/vertex+coloring
+    kind: mathematical reference
+  wp-physics-gravitational-wave:
+    label: Wikipedia — Gravitational wave
+    title: Gravitational wave
+    url: https://en.wikipedia.org/wiki/Gravitational_wave
+    kind: encyclopedic reference
+  nlab-gravitational-wave:
+    label: nLab — gravitational wave
+    title: gravitational wave
+    url: https://ncatlab.org/nlab/show/gravitational+wave
+    kind: physics reference
+  wp-physics-cosmological-redshift:
+    label: Wikipedia — Cosmological redshift
+    title: Cosmological redshift
+    url: https://en.wikipedia.org/wiki/Cosmological_redshift
+    kind: encyclopedic reference
+  nasa-hubble-cosmological-redshift:
+    label: NASA — Hubble cosmological redshift
+    title: Hubble Cosmological Redshift
+    url: https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-cosmological-redshift/
+    kind: NASA scientific reference
+  wp-physics-hubble-law:
+    label: Wikipedia — Hubble's law
+    title: Hubble's law
+    url: https://en.wikipedia.org/wiki/Hubble%27s_law
+    kind: encyclopedic reference
+  nasa-hubble-constant:
+    label: NASA — Hubble constant and tension
+    title: Hubble Constant and Tension
+    url: https://science.nasa.gov/mission/hubble/science/science-behind-the-discoveries/hubble-constant-and-tension/
+    kind: NASA scientific reference
+  wp-physics-nuclear-fission:
+    label: Wikipedia — Nuclear fission
+    title: Nuclear fission
+    url: https://en.wikipedia.org/wiki/Nuclear_fission
+    kind: encyclopedic reference
+  doe-nuclear-fission:
+    label: 'U.S. DOE — DOE Explains: Nuclear Fission'
+    title: 'DOE Explains: Nuclear Fission'
+    url: https://www.energy.gov/science/doe-explainsnuclear-fission
+    kind: U.S. Department of Energy reference
+  wp-physics-nuclear-fusion:
+    label: Wikipedia — Nuclear fusion
+    title: Nuclear fusion
+    url: https://en.wikipedia.org/wiki/Nuclear_fusion
+    kind: encyclopedic reference
+  doe-fusion-reactions:
+    label: 'U.S. DOE — DOE Explains: Fusion Reactions'
+    title: 'DOE Explains: Fusion Reactions'
+    url: https://www.energy.gov/science/doe-explainsfusion-reactions
+    kind: U.S. Department of Energy reference
+  wp-physics-chemical-bond:
+    label: Wikipedia — Chemical bond
+    title: Chemical bond
+    url: https://en.wikipedia.org/wiki/Chemical_bond
+    kind: encyclopedic reference
+  iupac-chemical-bond:
+    label: IUPAC Gold Book — chemical bond
+    title: chemical bond
+    url: https://goldbook.iupac.org/terms/view/CT07009
+    kind: IUPAC definition
+  nlab-inaccessible-cardinal:
+    label: nLab — inaccessible cardinal
+    title: inaccessible cardinal
+    url: https://ncatlab.org/nlab/show/inaccessible+cardinal
+    kind: mathematical reference
+  nlab-zf:
+    label: nLab — ZF
+    title: ZF
+    url: https://ncatlab.org/nlab/show/ZF
+    kind: mathematical reference
+  nlab-axiom-of-choice:
+    label: nLab — axiom of choice
+    title: axiom of choice
+    url: https://ncatlab.org/nlab/show/axiom+of+choice
+    kind: mathematical reference
+  nlab-zfc:
+    label: nLab — ZFC
+    title: ZFC
+    url: https://ncatlab.org/nlab/show/ZFC
+    kind: mathematical reference
+  nlab-partial-order:
+    label: nLab — partial order
+    title: partial order
+    url: https://ncatlab.org/nlab/show/partial+order
+    kind: mathematical reference
+  nlab-join-semilattice:
+    label: nLab — join-semilattice
+    title: join-semilattice
+    url: https://ncatlab.org/nlab/show/join-semilattice
+    kind: mathematical reference
+  nlab-meet-semilattice:
+    label: nLab — meet-semilattice
+    title: meet-semilattice
+    url: https://ncatlab.org/nlab/show/meet-semilattice
+    kind: mathematical reference
+  nlab-ordered-group:
+    label: nLab — ordered group
+    title: ordered group
+    url: https://ncatlab.org/nlab/show/ordered+group
+    kind: mathematical reference
+  nlab-forest:
+    label: nLab — forest
+    title: forest
+    url: https://ncatlab.org/nlab/show/forest
+    kind: mathematical reference

@@ -48,6 +48,7 @@ nodes:
     notes: ''
     citations:
       - wp-cartesian-category
+      - nlab-cartesian-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -70,6 +71,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-finitely-complete-category
       - nlab-finite-limits
       - riehl-category-context
     primaryField: mathematics
@@ -94,6 +96,7 @@ nodes:
     notes: ''
     citations:
       - wp-groupoid
+      - nlab-groupoid
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -118,6 +121,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-monoidal-category
       - nlab-monoidal-category
       - riehl-category-context
     primaryField: mathematics
@@ -190,6 +194,7 @@ nodes:
     notes: ''
     citations:
       - wp-thin-category
+      - nlab-thin-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -215,6 +220,7 @@ nodes:
     notes: ''
     citations:
       - wp-additive-category
+      - nlab-additive-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -238,6 +244,7 @@ nodes:
     notes: ''
     citations:
       - wp-braided-category
+      - nlab-braided-monoidal-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -261,6 +268,7 @@ nodes:
     notes: ''
     citations:
       - wp-ccc
+      - nlab-cartesian-closed-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -309,8 +317,9 @@ nodes:
     induces: []
     notes: All incoming branches are jointly required.
     citations:
-      - stacks-simplicial-objects
+      - wp-cosimplicial-object
       - nlab-simplicial-object
+      - stacks-simplicial-objects
       - riehl-category-context
     combination:
       inputs:
@@ -448,6 +457,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-abelian-category
       - nlab-abelian-category
       - stacks-abelian-category
       - riehl-category-context
@@ -545,6 +555,7 @@ nodes:
     induces: []
     notes: 'Construction junction: it is a visual device, not a separate standard mathematical structure.'
     citations:
+      - wp-groth-topos
       - nlab-topos
       - riehl-category-context
     combination:
@@ -576,8 +587,9 @@ nodes:
     induces: []
     notes: Equivalently, a functor $\Delta^{\mathrm{op}}\to C$. The ambient category is part of the specification.
     citations:
-      - stacks-simplicial-objects
+      - wp-cosimplicial-object
       - nlab-simplicial-object
+      - stacks-simplicial-objects
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -601,6 +613,7 @@ nodes:
     notes: ''
     citations:
       - wp-symmetric-category
+      - nlab-symmetric-monoidal-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -626,6 +639,7 @@ nodes:
       - An internal higher-order intuitionistic logic
     notes: ''
     citations:
+      - wp-groth-topos
       - nlab-topos
       - stacks-topos
       - riehl-category-context
@@ -701,6 +715,8 @@ nodes:
       - Images of diagrams and morphisms
     notes: ''
     citations:
+      - wp-functor
+      - nlab-functor
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -723,6 +739,8 @@ nodes:
       - Vertical and horizontal composition
     notes: ''
     citations:
+      - wp-natural-transformation
+      - nlab-natural-transformation
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -745,6 +763,8 @@ nodes:
       - Monads, universal constructions, and preservation theorems
     notes: ''
     citations:
+      - wp-adjunction
+      - nlab-adjunction
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -767,6 +787,7 @@ nodes:
       - Products, equalizers, and pullbacks
     notes: ''
     citations:
+      - wp-finitely-complete-category
       - riehl-category-context
     primaryField: mathematics
     fields:
@@ -789,6 +810,7 @@ nodes:
       - Coproducts, coequalizers, and pushouts
     notes: ''
     citations:
+      - wp-finitely-complete-category
       - riehl-category-context
     primaryField: mathematics
     fields:

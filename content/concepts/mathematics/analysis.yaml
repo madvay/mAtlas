@@ -240,6 +240,7 @@ nodes:
       - topology
     notes: More general value-group-valued norms require a different codomain and axioms; this node records the real-valued analytic notion.
     citations:
+      - wp-seminormed-vector-space
       - mathlib-seminorm
       - mathlib-normed-module
     primaryDomain: analysis
@@ -296,6 +297,7 @@ nodes:
       - topological vector space
     notes: Its norm canonically induces a metric, uniformity, topology, and topological-vector-space structure.
     citations:
+      - wp-normed
       - mathlib-seminorm
       - mathlib-normed-module
     primaryDomain: analysis
@@ -348,6 +350,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-locally-convex-space
       - eom-locally-convex
     primaryDomain: analysis
     domains:
@@ -451,6 +454,8 @@ nodes:
     induces: []
     notes: A Fréchet space is defined by its locally convex topology; no particular compatible complete metric is selected. It need not be normable. Every real or complex Banach space is Fréchet via its norm topology.
     citations:
+      - wp-frechet-space
+      - nlab-frechet-space
       - eom-frechet-space
     primaryDomain: analysis
     domains:
@@ -626,6 +631,7 @@ nodes:
     induces: []
     notes: 'Construction junction: it is a visual device, not a separate standard mathematical structure.'
     citations:
+      - wp-j-banach-algebra
       - mathlib-normed-algebra
       - mathlib-normed-ring
     combination:
@@ -710,6 +716,8 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-j-banach-algebra
+      - nlab-banach-algebra
       - mathlib-normed-algebra
       - mathlib-normed-ring
     primaryDomain: analysis
@@ -735,6 +743,7 @@ nodes:
     induces: []
     notes: All incoming branches are jointly required.
     citations:
+      - wp-cstar-algebra
       - mathlib-cstar-classes
     combination:
       inputs:
@@ -912,7 +921,6 @@ nodes:
     summary: A simultaneous eigenfunction of the spherical Laplace–Beltrami operator (equivalently $\mathbf L^2$) and a chosen component $L_z$; the $Y_{\ell m}$ form an orthonormal basis of $L^2(S^2)$.
     citations:
       - wp-spherical_harmonic
-      - nlab-spherical_harmonic
       - pdg-2026-mathematical-tools
       - nist-atomic-spectroscopy
     carriers:
@@ -1040,7 +1048,7 @@ nodes:
     summary: The space of one-dimensional rays in a complex Hilbert space, identifying nonzero vectors that differ by a nonzero complex scalar.
     citations:
       - wp-projective_hilbert_space
-      - nlab-projective_hilbert_space
+      - nlab-hilbert
     carriers:
       - complex Hilbert space $H$
     data:
@@ -1200,7 +1208,7 @@ nodes:
     summary: Fock space formed from symmetric tensor powers, appropriate to bosonic exchange symmetry.
     citations:
       - wp-fock_space
-      - nlab-symmetric_fock_space
+      - nlab-fock_space
     carriers:
       - one-particle Hilbert space $H$
     data:
@@ -1225,7 +1233,7 @@ nodes:
     summary: Fock space formed from antisymmetric tensor powers, appropriate to fermionic exchange symmetry.
     citations:
       - wp-fock_space
-      - nlab-antisymmetric_fock_space
+      - nlab-fock_space
     carriers:
       - one-particle Hilbert space $H$
     data:
@@ -1302,7 +1310,6 @@ nodes:
     summary: Strongly continuous one-parameter unitary groups correspond to self-adjoint generators.
     citations:
       - wp-stone_theorem
-      - nlab-stone_theorem
       - tong-quantum
     carriers:
       - strongly continuous one-parameter unitary group $U(t)$ on a Hilbert space
@@ -1340,7 +1347,104 @@ nodes:
     induces:
       - initial-value and boundary-value problems
     notes: An ODE may be linear or nonlinear; existence and uniqueness require additional hypotheses.
+  - id: j_differentiable_function
+    label: function + normed domain and codomain
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: analysis
+    domains:
+      - analysis
+      - algebra
+      - set-theory
+    level: 16
+    kind: junction
+    summary: Combine a function with normed-vector-space structures on its domain and codomain, then impose Fréchet differentiability.
+    carriers: []
+    data: []
+    axioms: []
+    induces: []
+    notes: 'Construction junction: open subsets of two normed vector spaces are used; the spaces may coincide but need not.'
+    citations:
+      - wp-differentiable-function
+      - nlab-differentiable-map
+    combination:
+      inputs:
+        - function
+        - normed_vector_space
+      compatibility: The function maps an open subset of one normed vector space to an open subset of another and admits a Fréchet derivative at every domain point.
+      output: differentiable_function
+  - id: differentiable_function
+    label: Differentiable function
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: analysis
+    domains:
+      - analysis
+      - topology
+    level: 16
+    kind: structure
+    conceptType: Regular map
+    summary: A map between open subsets of normed vector spaces that admits a linear first-order approximation at every point.
+    citations:
+      - wp-differentiable-function
+      - nlab-differentiable-map
+    carriers:
+      - open subsets $U\subseteq V$ and $W$ of normed vector spaces
+    data:
+      - function $f\colon U\to W$
+    axioms:
+      - a Fréchet derivative exists at every point of $U$
+    induces:
+      - continuous map
+      - derivative field $x\mapsto Df_x$
+    notes: In finite-dimensional real spaces this is the standard total differentiability notion; differentiability over other scalar fields or on manifolds requires the corresponding adapted definition.
+  - id: derivative
+    label: Derivative
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: analysis
+    domains:
+      - analysis
+      - algebra
+    level: 17
+    kind: structure
+    conceptType: Linear approximation
+    summary: At a differentiability point, the unique continuous linear map giving the first-order approximation to a function.
+    citations:
+      - wp-derivative
+      - nlab-derivative
+    carriers:
+      - normed vector spaces $V$ and $W$
+      - point $x$ in the function domain
+    data:
+      - continuous linear map $Df_x\colon V\to W$
+    axioms:
+      - $\lVert f(x+h)-f(x)-Df_x(h)\rVert/\lVert h\rVert\to0$ as $h\to0$
+    induces:
+      - directional derivatives when composed with directions
+    notes: This node uses the Fréchet derivative. One-variable derivatives and Jacobian matrices are special presentations; weaker directional or Gâteaux derivatives need not imply Fréchet differentiability.
 edges:
+  - id: normed_vector_space_to_differentiable_function_junction
+    source: normed_vector_space
+    target: j_differentiable_function
+    type: combine-compatible
+    label: normed domain and codomain
+    detail: Supply normed-vector-space structures for the function’s domain and codomain, with an open domain on which the derivative is defined.
+    citations:
+      - wp-differentiable-function
+      - nlab-differentiable-map
+  - id: differentiable_function_junction_to_differentiable_function
+    source: j_differentiable_function
+    target: differentiable_function
+    type: combine-compatible
+    label: impose Fréchet differentiability
+    detail: Require a continuous linear first-order approximation at every point of the open domain.
+    citations:
+      - wp-differentiable-function
+      - nlab-differentiable-map
   - id: math_adjoint_operator_to_self_adjoint_operator
     source: adjoint_operator
     target: self_adjoint_operator
@@ -1358,9 +1462,9 @@ edges:
     detail: Fermionic states occupy antisymmetric Fock space.
     citations:
       - wp-physics-fermi_dirac_statistics
-      - nlab-physics-fermi_dirac_statistics
+      - nlab-physics-particle_statistics
       - wp-fock_space
-      - nlab-antisymmetric_fock_space
+      - nlab-fock_space
     overview: true
   - id: j_cstar__banach_algebra
     source: banach_algebra
@@ -1498,7 +1602,7 @@ edges:
     detail: Fermionic Fock space retains antisymmetric tensor powers.
     citations:
       - wp-fock_space
-      - nlab-antisymmetric_fock_space
+      - nlab-fock_space
   - id: fock_to_occupation
     source: fock_space
     target: occupation_number_state
@@ -1507,9 +1611,8 @@ edges:
     detail: Fock space has an occupation-number basis after choosing one-particle modes.
     citations:
       - wp-physics-occupation_number_state
-      - nlab-physics-occupation_number_state
-      - wp-fock_space
       - nlab-fock_space
+      - wp-fock_space
     overview: true
   - id: fock_to_second
     source: fock_space
@@ -1531,7 +1634,7 @@ edges:
     detail: Bosonic Fock space retains symmetric tensor powers.
     citations:
       - wp-fock_space
-      - nlab-symmetric_fock_space
+      - nlab-fock_space
   - id: fourier_to_momentum
     source: fourier_transform
     target: wavefunction
@@ -1628,7 +1731,7 @@ edges:
     detail: Quotienting nonzero vectors by nonzero complex scalar multiplication gives projective Hilbert space.
     citations:
       - wp-projective_hilbert_space
-      - nlab-projective_hilbert_space
+      - nlab-hilbert
   - id: math_hilbert_to_qm
     source: hilbert_space
     target: quantum_mechanics
@@ -1674,7 +1777,6 @@ edges:
       - nlab-hilbert
       - princeton-functional-analysis
       - wp-spherical_harmonic
-      - nlab-spherical_harmonic
       - pdg-2026-mathematical-tools
       - nist-atomic-spectroscopy
   - id: tensorhilbert_from_hilbert
@@ -1877,7 +1979,7 @@ edges:
       - wp-physics-quantum_state
       - nlab-physics-pure_quantum_state
       - wp-projective_hilbert_space
-      - nlab-projective_hilbert_space
+      - nlab-hilbert
     overview: true
   - id: rigged_to_scattering
     source: rigged_hilbert_space
@@ -2011,11 +2113,9 @@ edges:
     detail: Hydrogenic and central-field orbitals separate into radial functions and spherical harmonics.
     citations:
       - wp-spherical_harmonic
-      - nlab-spherical_harmonic
       - pdg-2026-mathematical-tools
       - nist-atomic-spectroscopy
       - wp-physics-atomic_orbital
-      - nlab-physics-atomic_orbital
       - iupac-atomic-orbital
       - nist-atomic-states
   - id: stone_to_evolution
@@ -2026,10 +2126,9 @@ edges:
     detail: Stone’s theorem relates continuous unitary time evolution to a self-adjoint Hamiltonian.
     citations:
       - wp-stone_theorem
-      - nlab-stone_theorem
       - tong-quantum
       - wp-physics-unitary_time_evolution
-      - nlab-physics-unitary_time_evolution
+      - nlab-physics-quantum_mechanics
   - id: symmetricfock_to_bose
     source: symmetric_fock_space
     target: bose_einstein_statistics
@@ -2038,9 +2137,9 @@ edges:
     detail: Bosonic states occupy symmetric Fock space.
     citations:
       - wp-physics-bose_einstein_statistics
-      - nlab-physics-bose_einstein_statistics
+      - nlab-physics-particle_statistics
       - wp-fock_space
-      - nlab-symmetric_fock_space
+      - nlab-fock_space
     overview: true
   - id: tensorhilbert_to_compositeqm
     source: tensor_product_hilbert_space
@@ -2094,7 +2193,7 @@ edges:
     detail: Closed-system time evolution is represented by unitary operators.
     citations:
       - wp-physics-unitary_time_evolution
-      - nlab-physics-unitary_time_evolution
+      - nlab-physics-quantum_mechanics
       - wp-unitary_operator
       - nlab-unitary_operator
     overview: true
@@ -2324,3 +2423,21 @@ edges:
       - tong-qft
       - wp-fock_space
       - nlab-fock_space
+  - id: differentiable_function_to_derivative
+    source: differentiable_function
+    target: derivative
+    type: canonical-construction
+    label: take the first-order linearization
+    detail: At each point of a differentiable function, the defining first-order approximation determines a unique continuous linear derivative.
+    citations:
+      - wp-derivative
+      - nlab-derivative
+  - id: differentiable_function_to_continuous_map
+    source: differentiable_function
+    target: continuous_map
+    type: theorem-implication
+    label: differentiability implies continuity
+    detail: Fréchet differentiability at a point implies continuity there; a differentiable function is therefore continuous on its domain.
+    citations:
+      - wp-differentiable-function
+      - nlab-differentiable-map

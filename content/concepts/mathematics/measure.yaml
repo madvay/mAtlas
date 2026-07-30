@@ -16,6 +16,7 @@ nodes:
     notes: ''
     citations:
       - wp-measurable
+      - nlab-measurable-space
       - tao-measure-theory
     primaryDomain: measure
     domains:
@@ -41,6 +42,7 @@ nodes:
     notes: ''
     citations:
       - wp-measure-space
+      - nlab-measure-space
       - tao-measure-theory
     primaryDomain: measure
     domains:
@@ -115,6 +117,7 @@ nodes:
     notes: Both domain and codomain measurable structures are part of the specification; measurability is not a property of a bare function alone.
     citations:
       - wp-measurable-function
+      - nlab-measurable-function
       - tao-measure-theory
     primaryField: mathematics
     fields:
@@ -136,6 +139,7 @@ nodes:
     notes: ''
     citations:
       - wp-probability
+      - nlab-probability-space
       - tao-measure-theory
     primaryDomain: measure
     domains:
@@ -469,3 +473,13 @@ edges:
       - wp-haar_measure
       - nlab-haar_measure
       - mathlib-haar-measure
+  - id: probability_space_to_conditional_probability
+    source: probability_space
+    target: conditional_probability
+    type: canonical-construction
+    label: normalize on a positive-probability event
+    detail: For an event $B$ with $\mathbb P(B)>0$, restricting $\mathbb P$ to intersections with $B$ and dividing by $\mathbb P(B)$ gives the conditional probability measure.
+    citations:
+      - wp-conditional-probability
+      - nlab-probability-theory
+      - durrett-probability

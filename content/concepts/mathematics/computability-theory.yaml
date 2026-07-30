@@ -17,6 +17,8 @@ nodes:
       - A partial or total computed function
     notes: ''
     citations:
+      - wp-algorithm
+      - nlab-algorithm
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -39,6 +41,7 @@ nodes:
       - Decidability or undecidability classification
     notes: ''
     citations:
+      - wp-decision-problem
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -63,6 +66,8 @@ nodes:
       - A partial computable function
     notes: ''
     citations:
+      - wp-turing-machine
+      - nlab-turing-machine
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -85,6 +90,8 @@ nodes:
       - A formal counterpart of effective calculability
     notes: ''
     citations:
+      - wp-computable-function
+      - nlab-computable-function
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -107,6 +114,7 @@ nodes:
       - A domain of a partial computable function
     notes: ''
     citations:
+      - wp-recursively-enumerable-set
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -129,6 +137,7 @@ nodes:
       - Stored-program universality
     notes: ''
     citations:
+      - wp-universal-turing-machine
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -151,6 +160,7 @@ nodes:
       - A computable yes/no classification
     notes: ''
     citations:
+      - wp-decidable-problem
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -173,6 +183,7 @@ nodes:
       - A canonical undecidable problem
     notes: ''
     citations:
+      - wp-halting-problem
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -195,6 +206,7 @@ nodes:
       - Limits of algorithmic solution
     notes: ''
     citations:
+      - wp-undecidable-problem
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -216,6 +228,8 @@ nodes:
       - A bridge from informal procedure to mathematical computability
     notes: This is a thesis identifying an informal notion with a formal class, not a theorem proved from purely formal premises.
     citations:
+      - wp-church-turing-thesis
+      - nlab-church-turing-thesis
       - turing-computable-numbers
     primaryField: mathematics
     fields:
@@ -240,6 +254,8 @@ nodes:
       - Arithmetization of syntax
     notes: ''
     citations:
+      - wp-godel-numbering
+      - nlab-godel-numbering
       - godel-incompleteness-paper
       - openlogic-incompleteness
     primaryField: mathematics

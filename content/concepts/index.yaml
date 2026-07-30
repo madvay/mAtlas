@@ -1,6 +1,6 @@
 meta:
   title: Atlas of Fundamental Concepts
-  version: 1.5.3
+  version: 1.6.0
   description: A source-backed visual atlas connecting the mathematics of physical theories to foundational laws, spacetime, quantum mechanics, QFT, Standard Model fields and interactions, controlled reductions and effective theories, composite hadrons and nuclei, and precision atomic structure.
   direction: Fields are stacked vertically. Within a field, smaller level values are more structurally primitive or less composite; larger values generally indicate specialization, composition, effective description, collective organization, or emergence. The order is ontological and structural, not pedagogical difficulty.
   scope: Mathematics and a deeply sourced physics atlas from classical and relativistic foundations through quantum mechanics, QFT consistency and symmetry structure, complete Standard Model field and particle content, electroweak and low-energy EFT matching, QCD chiral and nuclear effective layers, and atomic composition, states, spectra, interactions, and precision corrections through atoms and ions.

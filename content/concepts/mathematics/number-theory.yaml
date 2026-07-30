@@ -185,6 +185,7 @@ nodes:
     notes: ''
     citations:
       - wp-integral-domain
+      - nlab-integral-domain
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -209,6 +210,7 @@ nodes:
     induces: []
     notes: This atlas uses the dimension-one convention, excluding fields; some references allow dimension at most one and hence include fields.
     citations:
+      - wp-dedekind-domain
       - nlab-dedekind-domain
       - stacks-dedekind
       - milne-algebraic-number-theory
@@ -234,6 +236,7 @@ nodes:
     notes: ''
     citations:
       - wp-gcd-domain
+      - nlab-gcd-domain
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -283,6 +286,7 @@ nodes:
     notes: ''
     citations:
       - wp-finite-field
+      - nlab-finite-field
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -305,6 +309,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-number-field
       - nlab-number-field
       - milne-algebraic-number-theory
     primaryField: mathematics
@@ -329,6 +334,7 @@ nodes:
     notes: ''
     citations:
       - wp-ufd
+      - nlab-unique-factorization-domain
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -400,6 +406,7 @@ nodes:
     notes: ''
     citations:
       - wp-pid
+      - nlab-principal-ideal-domain
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -474,7 +481,7 @@ nodes:
     notes: The metric wording is restricted to absolute values or rank-one valuations. General valued fields are naturally uniform spaces.
     citations:
       - wp-complete-valued
-      - nlab-complete-valued
+      - nlab-complete-field
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -500,6 +507,7 @@ nodes:
     notes: The explicit nonfield condition avoids collapsing the notion to a field under conventions that allow fields as PIDs.
     citations:
       - wp-dvr
+      - nlab-discrete-valuation-ring
       - stacks-dvr-regular
       - milne-algebraic-number-theory
     primaryField: mathematics
@@ -522,6 +530,7 @@ nodes:
     induces: []
     notes: The Euclidean function is treated as an existence property, not as chosen structure; not every principal ideal domain is Euclidean.
     citations:
+      - wp-euclidean-domain
       - nlab-euclidean-domain
       - milne-algebraic-number-theory
     primaryField: mathematics
@@ -551,6 +560,7 @@ nodes:
     induces: []
     notes: Under this broad definition, $\mathbb{R}$ and $\mathbb{C}$ are archimedean local fields. “Non-archimedean local field” excludes them and is often the intended arithmetic convention.
     citations:
+      - wp-local-field
       - nlab-local-field
       - milne-algebraic-number-theory
     primaryField: mathematics
@@ -602,6 +612,8 @@ nodes:
       - A valuation ring and topology
     notes: Equivalent multiplicative conventions use a non-Archimedean absolute value; Archimedean absolute values are treated separately when discussing places of number fields.
     citations:
+      - wp-valuation
+      - nlab-valuation
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -626,6 +638,7 @@ nodes:
       - A local field in the locally compact cases
     notes: ''
     citations:
+      - wp-completion-at-valuation
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -649,6 +662,8 @@ nodes:
       - Reduction modulo the maximal ideal
     notes: ''
     citations:
+      - wp-residue-field
+      - nlab-residue-field
       - stacks-algebra-text
     primaryField: mathematics
     fields:
@@ -670,6 +685,7 @@ nodes:
       - A completion $K_v$
     notes: ''
     citations:
+      - wp-place-of-number-field
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -693,6 +709,7 @@ nodes:
       - A local solvability condition
     notes: ''
     citations:
+      - wp-local-point
       - milne-algebraic-number-theory
       - poonen-rational-points-varieties
     primaryField: mathematics
@@ -717,6 +734,7 @@ nodes:
       - A single topological ring encoding all places
     notes: ''
     citations:
+      - wp-adele-ring
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -740,6 +758,7 @@ nodes:
       - The local-solubility premise in a Hasse-principle question
     notes: Everywhere local solubility does not in general imply a global rational point.
     citations:
+      - wp-local-point
       - poonen-rational-points-varieties
       - milne-algebraic-number-theory
     primaryField: mathematics
@@ -764,6 +783,8 @@ nodes:
       - A global solvability criterion
     notes: 'This is a pattern, not a universal theorem: it holds for some classes and fails for others.'
     citations:
+      - wp-local-global-principle
+      - nlab-local-global-principle
       - milne-algebraic-number-theory
       - poonen-rational-points-varieties
     primaryField: mathematics
@@ -787,6 +808,7 @@ nodes:
       - A valid local–global principle for quadratic forms
     notes: ''
     citations:
+      - wp-hasse-minkowski-theorem
       - milne-algebraic-number-theory
       - poonen-rational-points-varieties
     primaryField: mathematics
@@ -811,6 +833,7 @@ nodes:
       - An obstruction to naive local–global inference
     notes: ''
     citations:
+      - wp-local-point
       - milne-algebraic-number-theory
       - poonen-rational-points-varieties
     primaryField: mathematics
@@ -831,6 +854,7 @@ nodes:
     induces: []
     notes: The variety must be defined over the global field whose place supplies the completion.
     citations:
+      - wp-local-point
       - milne-algebraic-number-theory
       - stacks-schemes-text
     combination:
@@ -995,7 +1019,7 @@ edges:
     detail: Require completeness for the valuation-induced uniformity; for absolute values or rank-one valuations this is the familiar metric completeness condition.
     citations:
       - wp-complete-valued
-      - nlab-complete-valued
+      - nlab-complete-field
       - milne-algebraic-number-theory
   - id: peano_system_to_natural_numbers
     source: peano_system

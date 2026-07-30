@@ -44,6 +44,7 @@ nodes:
     summary: A perturbatively conserved Standard Model global number assigning $1/3$ to quarks and $1$ to baryons; nonperturbative electroweak effects violate $B+L$.
     citations:
       - wp-physics-baryon_number
+      - nlab-baryon-number
       - pdg-rpp
       - tong-particle
   - id: chirality
@@ -60,7 +61,7 @@ nodes:
     summary: The left- or right-handed Weyl representation of the proper Lorentz group; for massive particles chirality is not identical to helicity.
     citations:
       - wp-physics-chirality
-      - nlab-physics-chirality
+      - nlab-physics-weyl_spinor
       - tong-qft
       - tong-particle
   - id: ckm_matrix
@@ -94,6 +95,7 @@ nodes:
     summary: The $SU(3)_C$ quantum number carried by quarks and gluons; observable isolated states are color singlets.
     citations:
       - wp-physics-color_charge
+      - nlab-color-charge
       - pdg-qcd
       - tong-particle
   - id: electric_charge
@@ -110,6 +112,7 @@ nodes:
     summary: The charge generating electromagnetic $U(1)_{\rm em}$ and determining coupling to the photon.
     citations:
       - wp-physics-electric_charge
+      - nlab-electric-charge
       - pdg-standard-model
       - nist-codata
   - id: electromagnetic_interaction
@@ -174,7 +177,6 @@ nodes:
     summary: The lepton mixing matrix relating neutrino flavor states to neutrino mass eigenstates.
     citations:
       - wp-physics-pmns_matrix
-      - nlab-physics-pmns_matrix
       - pdg-2026-neutrino
       - nobel-neutrino
   - id: standard_model
@@ -425,6 +427,7 @@ nodes:
     summary: The projection of spin along momentum; Lorentz invariant for massless particles but frame-dependent for massive particles.
     citations:
       - wp-physics-helicity
+      - nlab-helicity
       - pdg-rpp
       - tong-qft
   - id: lepton
@@ -441,6 +444,7 @@ nodes:
     summary: A spin-one-half fermion that does not carry color charge; charged leptons and neutrinos occur in three generations.
     citations:
       - wp-physics-lepton
+      - nlab-lepton
       - pdg-rpp
       - tong-particle
   - id: neutral_current_weak_interaction
@@ -570,6 +574,7 @@ nodes:
     summary: A third-generation color-triplet quark with electric charge $-e/3$.
     citations:
       - wp-physics-bottom_quark
+      - nlab-bottom-quark
       - pdg-rpp
       - pdg-qcd
       - cern-standard-model
@@ -587,6 +592,7 @@ nodes:
     summary: A second-generation color-triplet quark with electric charge $+2e/3$.
     citations:
       - wp-physics-charm_quark
+      - nlab-charm-quark
       - pdg-rpp
       - pdg-qcd
       - cern-standard-model
@@ -604,7 +610,7 @@ nodes:
     summary: The absence of isolated color-charged asymptotic states and formation of color-singlet hadrons at ordinary energies.
     citations:
       - wp-physics-color_confinement
-      - nlab-physics-color_confinement
+      - nlab-physics-confinement
       - pdg-qcd
       - pdg-quark-model
   - id: down_quark
@@ -621,6 +627,7 @@ nodes:
     summary: A first-generation color-triplet quark with electric charge $-e/3$.
     citations:
       - wp-physics-down_quark
+      - nlab-down-quark
       - pdg-rpp
       - pdg-qcd
       - cern-standard-model
@@ -690,6 +697,7 @@ nodes:
     summary: The spin-zero quantum excitation of the Higgs field, discovered in 2012.
     citations:
       - wp-physics-higgs_boson
+      - nlab-higgs-boson
       - cern-higgs-overview
       - pdg-2026-higgs
     status: Observed
@@ -707,6 +715,7 @@ nodes:
     summary: The second-generation charged lepton, unstable to weak decay.
     citations:
       - wp-physics-muon
+      - nlab-muon
       - pdg-rpp
       - cern-standard-model
   - id: neutrino
@@ -791,6 +800,7 @@ nodes:
     summary: A second-generation color-triplet quark with electric charge $-e/3$.
     citations:
       - wp-physics-strange_quark
+      - nlab-strange-quark
       - pdg-rpp
       - pdg-qcd
       - cern-standard-model
@@ -840,6 +850,7 @@ nodes:
     summary: A third-generation color-triplet quark with electric charge $+2e/3$.
     citations:
       - wp-physics-top_quark
+      - nlab-top-quark
       - pdg-rpp
       - pdg-qcd
       - cern-standard-model
@@ -857,6 +868,7 @@ nodes:
     summary: A first-generation color-triplet quark with electric charge $+2e/3$.
     citations:
       - wp-physics-up_quark
+      - nlab-up-quark
       - pdg-rpp
       - pdg-qcd
       - cern-standard-model
@@ -874,6 +886,7 @@ nodes:
     summary: A massive charged spin-one electroweak gauge boson whose field generates charged-current weak amplitudes.
     citations:
       - wp-physics-w_boson
+      - nlab-w-boson
       - pdg-standard-model
       - pdg-rpp
     status: Observed
@@ -940,7 +953,6 @@ nodes:
     summary: The conversion of energetic colored quarks and gluons into color-singlet hadrons.
     citations:
       - wp-physics-hadronization
-      - nlab-physics-hadronization
       - pdg-qcd
       - pdg-quark-model
   - id: muon_neutrino
@@ -973,6 +985,7 @@ nodes:
     summary: The electron antiparticle, with the same mass and spin and opposite electric charge.
     citations:
       - wp-physics-positron
+      - nlab-positron
       - pdg-rpp
       - nist-codata
   - id: tau_neutrino
@@ -1103,6 +1116,7 @@ nodes:
     summary: A hadron with baryon number $B=+1$ (or $B=-1$ for an antibaryon). Conventional baryons have net valence content of three quarks, while exotic baryons may contain additional quark–antiquark or gluonic components.
     citations:
       - wp-physics-baryon
+      - nlab-baryon
       - pdg-quark-model
   - id: meson
     label: Meson
@@ -1118,6 +1132,7 @@ nodes:
     summary: A baryon-number-zero hadron with mesonic net valence quantum numbers, conventionally a quark–antiquark pair; exotic mesons may contain additional quark, antiquark, or gluonic components.
     citations:
       - wp-physics-meson
+      - nlab-meson
       - pdg-quark-model
   - id: isospin
     label: Isospin
@@ -1746,7 +1761,7 @@ edges:
       - wp-physics-color_charge
       - pdg-qcd
       - wp-physics-color_confinement
-      - nlab-physics-color_confinement
+      - nlab-physics-confinement
   - id: color_singlet_to_hadron
     source: hadron
     target: color_singlet
@@ -1834,6 +1849,18 @@ edges:
       - nist-atomic-wavefunctions
       - wp-physics-molecule
       - wp-physics-electromagnetic_interaction
+      - tong-em
+  - id: em_binds_chemical_bond
+    source: electromagnetic_interaction
+    target: chemical_bond
+    type: couples-interacts
+    label: interatomic electromagnetic binding
+    detail: Chemical bonding arises from the quantum-mechanical electromagnetic interaction of electrons and nuclei, including exchange and correlation effects; it is not an additional fundamental interaction.
+    citations:
+      - wp-physics-chemical-bond
+      - iupac-chemical-bond
+      - wp-physics-electromagnetic_interaction
+      - nist-quantum-theory
       - tong-em
   - id: em_to_nuclearcoulomb
     source: electromagnetic_interaction
@@ -2220,7 +2247,6 @@ edges:
     detail: The PMNS matrix relates flavor and mass bases.
     citations:
       - wp-physics-pmns_matrix
-      - nlab-physics-pmns_matrix
       - wp-physics-neutrino_mixing
       - pdg-2026-neutrino
   - id: quark_bottom_quark
@@ -2407,7 +2433,7 @@ edges:
     label: higher-dimension operator extension
     detail: SMEFT extends the Standard Model Lagrangian by higher-dimension operators built from Standard Model fields and symmetries. It is an EFT of unspecified heavy new physics, not an effective reduction of the Standard Model itself.
     citations:
-      - wp-physics-standard_model_effective_field_theory
+      - wp-physics-effective_field_theory
       - penco-eft
       - wp-physics-standard_model
       - nlab-physics-standard_model

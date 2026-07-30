@@ -136,6 +136,7 @@ nodes:
     summary: Nonluminous gravitating matter inferred from galaxies, clusters, lensing, structure formation, and cosmological observations; its microscopic identity remains unknown.
     citations:
       - wp-physics-dark-matter
+      - nlab-dark-matter
       - nasa-dark-matter
       - nasa-big-bang
   - id: dark_energy
@@ -175,6 +176,43 @@ nodes:
       - nasa-big-bang
       - nasa-dark-matter
       - nasa-dark-energy
+  - id: cosmological_redshift
+    label: Cosmological redshift
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: cosmology
+    domains:
+      - cosmology
+      - relativity
+      - experiments-observations
+    level: 7
+    kind: structure
+    conceptType: Observable expansion effect
+    summary: The change in observed wavelength caused by cosmological expansion between emission and observation; for comoving source and observer in an FLRW spacetime, $1+z=a(t_0)/a(t_{\rm em})$.
+    citations:
+      - wp-physics-cosmological-redshift
+      - nasa-hubble-cosmological-redshift
+    status: Observed
+  - id: hubble_lemaitre_law
+    label: Hubble–Lemaître law
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: cosmology
+    domains:
+      - cosmology
+      - relativity
+      - experiments-observations
+    level: 7
+    kind: structure
+    conceptType: Local expansion relation
+    summary: At sufficiently small cosmological redshift, the recession-rate proxy inferred from redshift is approximately proportional to proper distance, $v\simeq H_0d$.
+    citations:
+      - wp-physics-hubble-law
+      - nasa-hubble-constant
+      - nasa-hubble-cosmological-redshift
+    notes: At large redshift, distance and recession velocity depend on the chosen relativistic distance measure and cosmological model; the linear low-redshift expression must not be extrapolated naively.
 edges:
   - id: story_cosmological_principle_to_flrw_spacetime_model_realization
     source: cosmological_principle
@@ -203,6 +241,36 @@ edges:
     citations:
       - nasa-big-bang
       - nasa-dark-energy
+  - id: expanding_universe_to_cosmological_redshift
+    source: expanding_universe
+    target: cosmological_redshift
+    type: state-description
+    label: wavelength stretching by expansion
+    detail: For comoving emission and observation in an FLRW model, expansion changes photon wavelength by the scale-factor ratio $1+z=a(t_0)/a(t_{\rm em})$.
+    citations:
+      - wp-physics-cosmological-redshift
+      - nasa-hubble-cosmological-redshift
+  - id: expanding_universe_to_hubble_lemaitre_law
+    source: expanding_universe
+    target: hubble_lemaitre_law
+    type: state-description
+    label: local linear expansion rate
+    detail: Smooth FLRW expansion gives a locally linear distance–redshift relation; $H_0$ is the present value of $\dot a/a$, while peculiar velocities and higher-order cosmological terms matter beyond the local regime.
+    citations:
+      - wp-physics-hubble-law
+      - nasa-hubble-constant
+      - nasa-hubble-cosmological-redshift
+  - id: hubble_lemaitre_law_to_cosmological_redshift
+    source: hubble_lemaitre_law
+    target: cosmological_redshift
+    type: describes-governs
+    label: low-redshift distance relation
+    detail: In the low-redshift regime, measured cosmological redshift supplies the recession-rate proxy in the approximately linear relation $cz\simeq H_0d$; the exact relativistic relation is model dependent.
+    citations:
+      - wp-physics-hubble-law
+      - wp-physics-cosmological-redshift
+      - nasa-hubble-constant
+      - nasa-hubble-cosmological-redshift
   - id: story_expanding_universe_to_big_bang_model_historically_motivated
     source: expanding_universe
     target: big_bang_model

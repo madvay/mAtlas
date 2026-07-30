@@ -157,6 +157,7 @@ nodes:
     notes: The bipartition is treated as an existence property, not as chosen coloring data.
     citations:
       - wp-bipartite
+      - nlab-bipartite-graph
       - diestel-graph-theory
     primaryField: mathematics
     fields:
@@ -178,6 +179,7 @@ nodes:
     notes: ''
     citations:
       - wp-forest-graph
+      - nlab-forest
       - diestel-graph-theory
     primaryField: mathematics
     fields:
@@ -228,6 +230,7 @@ nodes:
     notes: ''
     citations:
       - wp-planar
+      - nlab-planar-graph
       - diestel-graph-theory
     primaryField: mathematics
     fields:
@@ -272,6 +275,7 @@ nodes:
     notes: ''
     citations:
       - wp-weighted-graph
+      - nlab-weighted-graph
       - diestel-graph-theory
     primaryField: mathematics
     fields:
@@ -294,6 +298,7 @@ nodes:
     notes: The standard finite oriented-matroid theory is intended here; infinite oriented matroids require additional axiomatic care.
     citations:
       - wp-oriented-matroid
+      - nlab-oriented-matroid
       - diestel-graph-theory
     primaryField: mathematics
     fields:
@@ -315,6 +320,79 @@ nodes:
     notes: ''
     citations:
       - wp-tree-graph
+      - nlab-tree
+      - diestel-graph-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: connected_graph
+    label: Connected graph
+    primaryDomain: combinatorics
+    domains:
+      - combinatorics
+    level: 4
+    kind: structure
+    summary: A nonempty simple graph in which every pair of vertices is joined by a path.
+    carriers:
+      - simple graph $G$
+    data: []
+    axioms:
+      - every two vertices are connected by a path
+    induces:
+      - a single connected component
+    notes: This node uses undirected vertex-connectivity. Strong and weak connectivity for directed graphs are distinct notions.
+    citations:
+      - wp-connected-graph
+      - nlab-connected-graph
+      - diestel-graph-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: complete_graph
+    label: Complete graph
+    primaryDomain: combinatorics
+    domains:
+      - combinatorics
+    level: 4
+    kind: structure
+    summary: A simple graph in which every pair of distinct vertices is adjacent.
+    carriers:
+      - vertex set $V$
+    data:
+      - all two-element subsets of $V$ as edges
+    axioms:
+      - each pair of distinct vertices is joined by exactly one edge
+    induces:
+      - maximal edge set among simple graphs on $V$
+    notes: The complete graph on $n$ vertices is denoted $K_n$.
+    citations:
+      - wp-complete-graph
+      - nlab-complete-graph
+      - diestel-graph-theory
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: graph_coloring
+    label: Proper vertex coloring
+    primaryDomain: combinatorics
+    domains:
+      - combinatorics
+    level: 4
+    kind: structure
+    summary: A labeling of a graph’s vertices by colors such that adjacent vertices receive different colors.
+    carriers:
+      - simple graph $G=(V,E)$
+      - color set $C$
+    data:
+      - map $c\colon V\to C$
+    axioms:
+      - $c(u)\ne c(v)$ whenever $\{u,v\}\in E$
+    induces:
+      - partition of the vertex set into independent color classes
+    notes: This is proper vertex coloring; edge colorings, face colorings, and improper colorings are separate notions.
+    citations:
+      - wp-graph-coloring
+      - nlab-vertex-coloring
       - diestel-graph-theory
     primaryField: mathematics
     fields:
@@ -356,6 +434,46 @@ edges:
     detail: Require the forest to be connected.
     citations:
       - wp-tree-graph
+      - diestel-graph-theory
+  - id: simple_graph_to_connected_graph
+    source: simple_graph
+    target: connected_graph
+    type: impose-axiom
+    label: + path-connected vertices
+    detail: Require the nonempty simple graph to contain a path between every pair of vertices.
+    citations:
+      - wp-connected-graph
+      - nlab-connected-graph
+      - diestel-graph-theory
+  - id: simple_graph_to_complete_graph
+    source: simple_graph
+    target: complete_graph
+    type: impose-axiom
+    label: + every possible edge
+    detail: Require every pair of distinct vertices to be adjacent.
+    citations:
+      - wp-complete-graph
+      - nlab-complete-graph
+      - diestel-graph-theory
+  - id: simple_graph_to_graph_coloring
+    source: simple_graph
+    target: graph_coloring
+    type: add-data
+    label: choose a proper vertex coloring
+    detail: Choose a color set and a vertex-labeling map whose values differ across every edge.
+    citations:
+      - wp-graph-coloring
+      - nlab-vertex-coloring
+      - diestel-graph-theory
+  - id: connected_graph_to_tree
+    source: connected_graph
+    target: tree
+    type: impose-axiom
+    label: + acyclicity
+    detail: A connected simple graph becomes a tree when it has no cycle.
+    citations:
+      - wp-tree-graph
+      - nlab-tree
       - diestel-graph-theory
   - id: e_hyper_simplicial
     source: hypergraph

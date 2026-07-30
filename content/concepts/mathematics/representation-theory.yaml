@@ -253,6 +253,7 @@ nodes:
     induces: []
     notes: All incoming branches are jointly required.
     citations:
+      - wp-j-lie-rep
       - mathlib-lie-module
     combination:
       inputs:
@@ -331,6 +332,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-j-lie-rep
       - mathlib-lie-module
     primaryField: mathematics
     fields:
@@ -424,7 +426,7 @@ edges:
     detail: The hypercharge factor is modeled by the circle group.
     citations:
       - wp-physics-standard_model_gauge_group
-      - nlab-physics-standard_model_gauge_group
+      - nlab-physics-standard_model
       - wp-circle_group
       - nlab-circle_group
     overview: true
@@ -555,9 +557,8 @@ edges:
     detail: Lorentz symmetry is mathematically represented by the Lorentz group.
     citations:
       - wp-physics-lorentz_symmetry
-      - nlab-physics-lorentz_symmetry
-      - wp-lorentz_group
       - nlab-lorentz_group
+      - wp-lorentz_group
     overview: true
   - id: math_lorentz_group_to_poincare_group
     source: lorentz_group
@@ -599,7 +600,7 @@ edges:
     detail: Special unitary groups supply the weak-isospin and color gauge factors.
     citations:
       - wp-physics-standard_model_gauge_group
-      - nlab-physics-standard_model_gauge_group
+      - nlab-physics-standard_model
       - wp-special_unitary_group
       - nlab-special_unitary_group
     overview: true
@@ -632,9 +633,8 @@ edges:
     detail: Spin-$1/2$ states transform in spinor representations.
     citations:
       - wp-physics-spin_half
-      - nlab-physics-spin_half
-      - wp-spinor_representation
       - nlab-spinor_representation
+      - wp-spinor_representation
     overview: true
   - id: spinorrep_to_spinorfield
     source: spinor_representation
@@ -656,7 +656,7 @@ edges:
     detail: One-particle state spaces carry unitary representations of spacetime and internal symmetry groups.
     citations:
       - wp-physics-one_particle_state
-      - nlab-physics-one_particle_state
+      - nlab-fock_space
       - wp-unitary_representation
       - nlab-unitary_representation
     overview: true

@@ -41,6 +41,7 @@ nodes:
     notes: ''
     citations:
       - wp-equivalence
+      - nlab-equivalence-relation
       - gierz-order
     primaryDomain: order
     domains:
@@ -65,6 +66,7 @@ nodes:
     notes: ''
     citations:
       - wp-preorder
+      - nlab-preorder
       - gierz-order
     primaryDomain: order
     domains:
@@ -89,6 +91,7 @@ nodes:
     notes: ''
     citations:
       - wp-poset
+      - nlab-partial-order
       - gierz-order
     primaryDomain: order
     domains:
@@ -165,6 +168,7 @@ nodes:
     notes: ''
     citations:
       - wp-semilattice
+      - nlab-join-semilattice
       - gierz-order
     primaryField: mathematics
     fields:
@@ -188,6 +192,7 @@ nodes:
     notes: ''
     citations:
       - wp-semilattice
+      - nlab-meet-semilattice
       - gierz-order
     primaryField: mathematics
     fields:
@@ -208,6 +213,7 @@ nodes:
     notes: ''
     citations:
       - wp-total-order
+      - nlab-total-order
       - gierz-order
     primaryDomain: order
     domains:
@@ -231,6 +237,7 @@ nodes:
     notes: 'Construction junction: it is a visual device, not a separate standard mathematical structure.'
     citations:
       - wp-ordered-group
+      - nlab-ordered-group
       - gierz-order
     combination:
       inputs:
@@ -256,6 +263,7 @@ nodes:
     induces: []
     notes: 'Construction junction: it is a visual device, not a separate standard mathematical structure.'
     citations:
+      - wp-j-lattice
       - nlab-lattice
       - gierz-order
     combination:
@@ -287,6 +295,7 @@ nodes:
     notes: ''
     citations:
       - wp-well-order
+      - nlab-well-order
       - gierz-order
     primaryField: mathematics
     fields:
@@ -308,7 +317,7 @@ nodes:
     induces: []
     notes: ''
     citations:
-      - wp-dcpo
+      - wp-cpo
       - nlab-dcpo
       - gierz-order
     primaryField: mathematics
@@ -332,6 +341,7 @@ nodes:
     induces: []
     notes: ''
     citations:
+      - wp-j-lattice
       - nlab-lattice
       - gierz-order
     primaryField: mathematics
@@ -405,6 +415,7 @@ nodes:
     notes: ''
     citations:
       - wp-distributive-lattice
+      - nlab-distributive-lattice
       - gierz-order
     primaryField: mathematics
     fields:
@@ -532,6 +543,7 @@ nodes:
     notes: ''
     citations:
       - wp-complete-lattice
+      - nlab-complete-lattice
       - gierz-order
     primaryField: mathematics
     fields:
@@ -555,6 +567,7 @@ nodes:
     notes: Every totally ordered group is lattice-ordered, but not conversely.
     citations:
       - wp-lattice-ordered-group
+      - nlab-lattice-ordered-group
       - gierz-order
     primaryField: mathematics
     fields:
@@ -580,6 +593,7 @@ nodes:
     notes: ''
     citations:
       - wp-residuated-lattice
+      - nlab-residuated-lattice
       - gierz-order
     primaryField: mathematics
     fields:
@@ -687,6 +701,7 @@ nodes:
     notes: ''
     citations:
       - wp-ordered-ring
+      - nlab-ordered-ring
       - gierz-order
     primaryField: mathematics
     fields:
@@ -716,6 +731,7 @@ nodes:
     notes: ''
     citations:
       - wp-boolean-algebra
+      - nlab-boolean-algebra
       - gierz-order
     primaryField: mathematics
     fields:
@@ -744,6 +760,7 @@ nodes:
     notes: ''
     citations:
       - wp-heyting-algebra
+      - nlab-heyting-algebra
       - gierz-order
     primaryField: mathematics
     fields:
@@ -769,6 +786,7 @@ nodes:
     citations:
       - wp-boolean-algebra
       - wp-complete-lattice
+      - nlab-complete-boolean-algebra
       - gierz-order
     primaryField: mathematics
     fields:
@@ -821,6 +839,7 @@ nodes:
     notes: ''
     citations:
       - wp-ordered-field
+      - nlab-ordered-field
       - gierz-order
     primaryField: mathematics
     fields:
@@ -1170,7 +1189,7 @@ edges:
     label: + directed suprema
     detail: Require every directed subset to have a supremum.
     citations:
-      - wp-dcpo
+      - wp-cpo
       - nlab-dcpo
       - gierz-order
   - id: poset_to_join_semilattice

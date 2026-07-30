@@ -287,6 +287,8 @@ nodes:
       - An equivalence relation on maps with fixed domain and codomain
     notes: ''
     citations:
+      - wp-homotopy
+      - nlab-homotopy
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -310,6 +312,8 @@ nodes:
       - A common homotopy type
     notes: ''
     citations:
+      - wp-homotopy-equivalence
+      - nlab-homotopy-equivalence
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -332,6 +336,7 @@ nodes:
       - Homotopy groups through path components and iteration
     notes: ''
     citations:
+      - wp-loop-space
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -355,6 +360,7 @@ nodes:
       - Covering-space classification under standard hypotheses
     notes: ''
     citations:
+      - wp-fundamental-group
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -378,6 +384,7 @@ nodes:
       - Higher-dimensional homotopy invariants
     notes: ''
     citations:
+      - wp-higher-homotopy-group
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -402,6 +409,7 @@ nodes:
       - Singular homology
     notes: ''
     citations:
+      - wp-singular-chain-complex
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -425,6 +433,7 @@ nodes:
       - Homotopy-invariant algebraic data for singular chains
     notes: ''
     citations:
+      - wp-homology-group
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -449,6 +458,7 @@ nodes:
       - Singular cohomology
     notes: ''
     citations:
+      - wp-singular-cochain-complex
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -472,6 +482,8 @@ nodes:
       - Contravariant topological invariants
     notes: ''
     citations:
+      - wp-cohomology-group
+      - nlab-cohomology-group
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:
@@ -496,6 +508,8 @@ nodes:
       - A refinement of the additive cohomology groups
     notes: ''
     citations:
+      - wp-cohomology-ring
+      - nlab-cohomology-ring
       - hatcher-algebraic-topology
     primaryField: mathematics
     fields:

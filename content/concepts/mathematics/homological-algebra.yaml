@@ -19,6 +19,7 @@ nodes:
     notes: A bigraded object is not merely a singly graded object with extra maps; the second grading is part of its indexing data.
     citations:
       - wp-double-complex
+      - nlab-bigraded-object
       - stacks-derived-text
     primaryField: mathematics
     fields:
@@ -67,6 +68,8 @@ nodes:
       - homology objects when the ambient category has the required kernels and images (for example, in an abelian category)
     notes: The zero composite $d^{2}=0$ requires zero morphisms; preadditive categories suffice. Homology objects require additional kernel/image or abelian hypotheses.
     citations:
+      - wp-chain-complex
+      - nlab-chain-complex
       - stacks-complexes
       - stacks-abelian-category
     primaryField: mathematics
@@ -92,6 +95,8 @@ nodes:
       - cohomology objects when the ambient category has the required kernels and images (for example, in an abelian category)
     notes: The zero composite $d^{2}=0$ requires zero morphisms; preadditive categories suffice. Cohomology objects require additional kernel/image or abelian hypotheses.
     citations:
+      - wp-chain-complex
+      - nlab-cochain-complex
       - stacks-complexes
       - stacks-abelian-category
     primaryField: mathematics
@@ -140,6 +145,8 @@ nodes:
       - total complex when the required direct sums or products exist
     notes: The usual total-complex construction additionally needs the relevant direct sums or products.
     citations:
+      - wp-double-complex
+      - nlab-double-complex
       - stacks-double-complex
     primaryField: mathematics
     fields:
@@ -300,6 +307,8 @@ nodes:
     induces: []
     notes: This node uses the cochain convention. An ordinary associative algebra can be formed from the total direct sum only when that direct sum exists in the ambient setting.
     citations:
+      - wp-differential-graded-algebra
+      - nlab-differential-graded-algebra
       - stacks-dga
     primaryField: mathematics
     fields:
@@ -322,6 +331,8 @@ nodes:
       - Algebraic control of kernels, cokernels, and extensions
     notes: ''
     citations:
+      - wp-exact-sequence
+      - nlab-exact-sequence
       - hatcher-algebraic-topology
       - stacks-derived-text
     primaryField: mathematics
@@ -347,7 +358,189 @@ nodes:
       - Relations across successive homological or cohomological degrees
     notes: ''
     citations:
+      - wp-exact-sequence
       - hatcher-algebraic-topology
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: j_chain_map
+    label: two chain complexes + degreewise morphisms
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - category-theory
+    level: 8
+    kind: junction
+    summary: Combine two chain complexes with degree-preserving morphisms that commute with their differentials.
+    carriers: []
+    data: []
+    axioms: []
+    induces: []
+    notes: Both occurrences of the chain-complex input live in the same additive category.
+    citations:
+      - wp-chain-map
+      - nlab-chain-map
+      - stacks-complexes
+    combination:
+      inputs:
+        - chain_complex
+      compatibility: Choose source and target complexes and maps $f_n\colon C_n\to D_n$ satisfying $d_Df_n=f_{n-1}d_C$ in every degree.
+      output: chain_map
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: chain_map
+    label: Chain map
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - category-theory
+    level: 8
+    kind: structure
+    summary: A degree-preserving morphism between chain complexes that commutes with the differentials.
+    carriers:
+      - chain complexes $(C_\bullet,d_C)$ and $(D_\bullet,d_D)$
+    data:
+      - morphisms $f_n\colon C_n\to D_n$
+    axioms:
+      - $d_Df_n=f_{n-1}d_C$ for every $n$
+    induces:
+      - homomorphisms on homology
+    notes: The analogous definition for cochain complexes uses the same commuting-square condition with cohomological grading.
+    citations:
+      - wp-chain-map
+      - nlab-chain-map
+      - stacks-complexes
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: quasi_isomorphism
+    label: Quasi-isomorphism
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - category-theory
+    level: 9
+    kind: structure
+    summary: A chain map that induces an isomorphism on every homology object.
+    carriers:
+      - chain map $f\colon C_\bullet\to D_\bullet$
+    data: []
+    axioms:
+      - $H_n(f)$ is an isomorphism for every $n$
+    induces:
+      - an isomorphism after passage to the derived category
+    notes: A quasi-isomorphism need not be an isomorphism or a chain-homotopy equivalence before localization.
+    citations:
+      - wp-quasi-isomorphism
+      - nlab-quasi-isomorphism
+      - stacks-quasi-isomorphism
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: projective_module
+    label: Projective module
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - algebra
+    level: 10
+    kind: structure
+    summary: A module $P$ for which $\operatorname{Hom}(P,-)$ is exact, equivalently every map from $P$ lifts across every surjective module map.
+    carriers:
+      - ring $R$
+      - $R$-module $P$
+    data: []
+    axioms:
+      - lifting property against surjective $R$-module homomorphisms
+    induces:
+      - direct-summand presentation inside a free module
+    notes: Projective does not mean free over an arbitrary ring, although every free module is projective.
+    citations:
+      - wp-projective-module
+      - nlab-projective-module
+      - stacks-projective-module
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: injective_module
+    label: Injective module
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - algebra
+    level: 10
+    kind: structure
+    summary: A module $I$ for which $\operatorname{Hom}(-,I)$ is exact, equivalently maps into $I$ extend across injective module maps.
+    carriers:
+      - ring $R$
+      - $R$-module $I$
+    data: []
+    axioms:
+      - extension property against injective $R$-module homomorphisms
+    induces:
+      - injective resolutions because module categories have enough injectives
+    notes: Injectivity depends on the base ring and is categorical, not the same as injectivity of a function.
+    citations:
+      - wp-injective-module
+      - nlab-injective-module
+      - stacks-injective-module
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: ext_functor
+    label: Ext functor
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - algebra
+      - category-theory
+    level: 10
+    kind: structure
+    conceptType: Derived functor
+    summary: The right-derived functors $\operatorname{Ext}^n_R(M,N)$ of $\operatorname{Hom}_R(M,-)$, equivalently derived-category morphisms $M\to N[n]$ under standard hypotheses.
+    carriers:
+      - modules or objects of an abelian category
+    data:
+      - graded groups $\operatorname{Ext}^n$
+    axioms:
+      - derived-functor construction or equivalent Yoneda construction
+    induces:
+      - long exact Ext sequences
+      - classification of extensions in degree one
+    notes: Variance and the choice of which Hom argument is derived must be stated; module categories permit computation by projective or injective resolutions.
+    citations:
+      - wp-ext-functor
+      - nlab-ext-functor
+      - stacks-ext-groups
+    primaryField: mathematics
+    fields:
+      - mathematics
+  - id: tor_functor
+    label: Tor functor
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - algebra
+      - category-theory
+    level: 10
+    kind: structure
+    conceptType: Derived functor
+    summary: The left-derived functors $\operatorname{Tor}^R_n(M,N)$ of the tensor product over a ring.
+    carriers:
+      - right $R$-module $M$ and left $R$-module $N$
+    data:
+      - graded groups $\operatorname{Tor}^R_n(M,N)$
+    axioms:
+      - computation from a projective or flat resolution in one argument
+    induces:
+      - long exact Tor sequences
+      - obstructions to flatness
+    notes: For a commutative ring both inputs may be written as $R$-modules; over a noncommutative ring their handedness matters.
+    citations:
+      - wp-tor-functor
+      - nlab-tor-functor
+      - stacks-tor-groups
     primaryField: mathematics
     fields:
       - mathematics
@@ -437,3 +630,64 @@ edges:
     detail: An exact category comes with a specified class of kernel–cokernel pairs, called conflations; retaining one such pair gives an exact sequence in the chosen exact structure.
     citations:
       - stacks-derived-text
+  - id: chain_complex_to_chain_map_junction
+    source: chain_complex
+    target: j_chain_map
+    type: combine-compatible
+    label: source and target complexes
+    detail: Supply two chain complexes in one additive category together with degreewise maps between them.
+    citations:
+      - wp-chain-map
+      - nlab-chain-map
+      - stacks-complexes
+  - id: chain_map_junction_to_chain_map
+    source: j_chain_map
+    target: chain_map
+    type: combine-compatible
+    label: commute with differentials
+    detail: Require the degreewise maps to satisfy the chain-map squares $d_Df=fd_C$.
+    citations:
+      - wp-chain-map
+      - nlab-chain-map
+      - stacks-complexes
+  - id: chain_map_to_quasi_isomorphism
+    source: chain_map
+    target: quasi_isomorphism
+    type: impose-axiom
+    label: + homology isomorphisms
+    detail: Require the induced morphism on every homology object to be an isomorphism.
+    citations:
+      - wp-quasi-isomorphism
+      - nlab-quasi-isomorphism
+      - stacks-quasi-isomorphism
+  - id: quasi_isomorphism_to_derived_category
+    source: quasi_isomorphism
+    target: derived_category
+    type: canonical-construction
+    label: formally invert quasi-isomorphisms
+    detail: The derived category is obtained from a suitable category of complexes by localizing at quasi-isomorphisms; this is categorical localization, not an elementwise quotient.
+    citations:
+      - wp-derived-category
+      - nlab-derived-category
+      - nlab-quasi-isomorphism
+      - stacks-derived-category
+  - id: derived_category_to_ext
+    source: derived_category
+    target: ext_functor
+    type: canonical-construction
+    label: shifted derived morphisms
+    detail: In the derived category of an abelian category, $\operatorname{Ext}^n(A,B)$ is represented by morphisms $A\to B[n]$.
+    citations:
+      - wp-ext-functor
+      - nlab-ext-functor
+      - stacks-ext-groups
+  - id: derived_category_to_tor
+    source: derived_category
+    target: tor_functor
+    type: canonical-construction
+    label: homology of the derived tensor product
+    detail: In derived categories of modules, the homology of $M\otimes_R^{\mathbf L}N$ computes $\operatorname{Tor}^R_n(M,N)$, with grading conventions stated explicitly.
+    citations:
+      - wp-tor-functor
+      - nlab-tor-functor
+      - stacks-tor-groups

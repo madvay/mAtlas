@@ -46,6 +46,7 @@ nodes:
       - Tangent spaces and smooth functions
     notes: ''
     citations:
+      - wp-smooth-manifold
       - nlab-smooth-manifold
       - lee-smooth-manifolds
     primaryField: mathematics
@@ -101,6 +102,7 @@ nodes:
     notes: ''
     citations:
       - wp-complex-manifold
+      - nlab-complex-manifold
       - lee-smooth-manifolds
     primaryField: mathematics
     fields:
@@ -121,6 +123,7 @@ nodes:
     induces: []
     notes: 'Construction junction: it is a visual device, not a separate standard mathematical structure.'
     citations:
+      - wp-j-lie-group
       - nlab-lie-group
       - lee-smooth-manifolds
     combination:
@@ -204,6 +207,7 @@ nodes:
     notes: ''
     citations:
       - wp-poisson
+      - nlab-poisson-manifold
       - lee-smooth-manifolds
     primaryField: mathematics
     fields:
@@ -230,6 +234,7 @@ nodes:
     notes: ''
     citations:
       - wp-pseudo-riemannian
+      - nlab-pseudo-riemannian-manifold
       - lee-smooth-manifolds
       - lee-riemannian-manifolds
     primaryField: mathematics
@@ -281,6 +286,7 @@ nodes:
     notes: ''
     citations:
       - wp-riemannian
+      - nlab-riemannian-manifold
       - lee-smooth-manifolds
       - lee-riemannian-manifolds
     primaryField: mathematics
@@ -333,6 +339,7 @@ nodes:
       - A Poisson structure
     notes: ''
     citations:
+      - wp-symplectic-manifold
       - nlab-symplectic
       - lee-smooth-manifolds
     primaryField: mathematics
@@ -460,6 +467,8 @@ nodes:
     induces: []
     notes: A globally defined contact form is extra coorientation/trivialization data. The contact distribution is the intrinsic object.
     citations:
+      - wp-contact-manifold
+      - nlab-contact-manifold
       - grabowska-grabowski-contact
     primaryField: mathematics
     fields:
@@ -537,6 +546,7 @@ nodes:
       - A Lie algebra at the identity
     notes: ''
     citations:
+      - wp-j-lie-group
       - nlab-lie-group
       - lee-smooth-manifolds
     primaryField: mathematics
@@ -634,7 +644,7 @@ nodes:
     summary: A vector bundle assembled from tensor powers of tangent and cotangent bundles.
     citations:
       - wp-tensor_bundle
-      - nlab-tensor_bundle
+      - nlab-vector-bundle
     carriers:
       - smooth manifold $M$
     data:
@@ -1497,7 +1507,7 @@ edges:
     detail: Continuous physical symmetries are modeled by Lie groups.
     citations:
       - wp-physics-physical_symmetry
-      - nlab-physics-physical_symmetry
+      - nlab-physics-symmetry
       - nlab-lie-group
       - lee-smooth-manifolds
     overview: true
@@ -1912,7 +1922,7 @@ edges:
     detail: Tensor powers and duals of tangent bundles form tensor bundles.
     citations:
       - wp-tensor_bundle
-      - nlab-tensor_bundle
+      - nlab-vector-bundle
   - id: math_tensor_bundle_to_tensor_field
     source: tensor_bundle
     target: tensor_field
@@ -2001,7 +2011,7 @@ edges:
       - nlab-tangent_vector
       - lee-smooth-manifolds
       - wp-physics-four_velocity
-      - nlab-physics-four_velocity
+      - nlab-physics-velocity
       - tong-relativity
   - id: bundleconnection_to_covariantderivative
     source: bundle_connection
@@ -2011,7 +2021,7 @@ edges:
     detail: Gauge-covariant differentiation is the physical use of a connection on an associated vector bundle.
     citations:
       - wp-physics-gauge_covariant_derivative
-      - nlab-physics-gauge_covariant_derivative
+      - nlab-physics-covariant_derivative
   - id: curvature_to_gaugefieldstrength
     source: curvature_form
     target: gauge_field_strength
@@ -2020,7 +2030,7 @@ edges:
     detail: Gauge field strengths are Lie-algebra-valued curvature two-forms.
     citations:
       - wp-physics-gauge_field_strength
-      - nlab-physics-gauge_field_strength
+      - nlab-physics-field_strength
   - id: story_lorentzian_manifold_to_schwarzschild_spacetime_mathematical_formulation
     source: lorentzian_manifold
     target: schwarzschild_spacetime

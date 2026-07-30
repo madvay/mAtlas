@@ -13,6 +13,7 @@ nodes:
     notes: ''
     citations:
       - wp-magma
+      - nlab-magma
       - stacks-algebra-text
     primaryDomain: algebra
     domains:
@@ -88,6 +89,7 @@ nodes:
     notes: ''
     citations:
       - wp-comm-monoid
+      - nlab-commutative-monoid
       - stacks-algebra-text
     primaryDomain: algebra
     domains:
@@ -140,6 +142,7 @@ nodes:
     notes: ''
     citations:
       - wp-abelian
+      - nlab-abelian-group
       - stacks-algebra-text
     primaryDomain: algebra
     domains:
@@ -456,6 +459,7 @@ nodes:
     notes: ''
     citations:
       - wp-perfect-field
+      - nlab-perfect-field
       - stacks-algebra-text
     primaryField: mathematics
     fields:
@@ -559,6 +563,8 @@ nodes:
     induces: []
     notes: The alternating axiom implies antisymmetry over every field. The converse needs characteristic different from 2, so antisymmetry is not used as an unrestricted substitute.
     citations:
+      - wp-lie-algebra
+      - nlab-lie-algebra
       - sage-lie-algebra
     primaryField: mathematics
     fields:
@@ -764,6 +770,8 @@ nodes:
     induces: []
     notes: The scalar involution here is complex conjugation.
     citations:
+      - wp-star-algebra
+      - nlab-star-algebra
       - mathlib-star-module
     primaryField: mathematics
     fields:
@@ -915,7 +923,7 @@ nodes:
     summary: Matrices or endomorphisms satisfying the Clifford relation $\{\gamma^\mu,\gamma^\nu\}=2g^{\mu\nu}I$, used to realize spinor representations.
     citations:
       - wp-gamma_matrices
-      - nlab-gamma_matrices
+      - nlab-clifford_algebra
       - tong-qft
     carriers:
       - spinor vector space $S$
@@ -1076,6 +1084,7 @@ nodes:
       - Evaluation maps, ideals, and quotient algebras
     notes: ''
     citations:
+      - wp-polynomial-ring
       - milne-fields-galois-theory
       - stacks-algebra-text
     primaryField: mathematics
@@ -1099,6 +1108,8 @@ nodes:
       - Degree, algebraic elements, and automorphisms
     notes: ''
     citations:
+      - wp-field-extension
+      - nlab-field-extension
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1121,6 +1132,7 @@ nodes:
       - Minimal polynomials and finite subextensions
     notes: ''
     citations:
+      - wp-algebraic-extension
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1143,6 +1155,8 @@ nodes:
       - Well-behaved embeddings into an algebraic closure
     notes: ''
     citations:
+      - wp-separable-extension
+      - nlab-separable-extension
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1165,6 +1179,8 @@ nodes:
       - A splitting-field characterization
     notes: ''
     citations:
+      - wp-normal-extension
+      - nlab-normal-extension
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1188,6 +1204,8 @@ nodes:
       - A normal algebraic extension
     notes: ''
     citations:
+      - wp-splitting-field
+      - nlab-splitting-field
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1210,6 +1228,7 @@ nodes:
       - An element of an automorphism group; its iterates generate a cyclic subgroup
     notes: ''
     citations:
+      - wp-field-automorphism
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1233,6 +1252,8 @@ nodes:
       - A Galois group controlling intermediate fields
     notes: ''
     citations:
+      - wp-galois-extension
+      - nlab-galois-extension
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1256,6 +1277,8 @@ nodes:
       - Actions on roots and intermediate fields
     notes: ''
     citations:
+      - wp-galois-group
+      - nlab-galois-group
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1279,6 +1302,7 @@ nodes:
       - An intermediate field
     notes: ''
     citations:
+      - wp-fixed-field
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1302,6 +1326,8 @@ nodes:
       - Degree-index relations and quotient Galois groups
     notes: ''
     citations:
+      - wp-fundamental-theorem-galois-theory
+      - nlab-fundamental-theorem-galois-theory
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1325,6 +1351,8 @@ nodes:
       - A criterion in solvability by radicals
     notes: ''
     citations:
+      - wp-solvable-group
+      - nlab-solvable-group
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1345,6 +1373,7 @@ nodes:
     induces: []
     notes: The solvable group supplied must be the Galois group of the chosen polynomial’s splitting field, not an unrelated group.
     citations:
+      - wp-j-radical-solvability
       - milne-fields-galois-theory
     combination:
       inputs:
@@ -1374,6 +1403,7 @@ nodes:
       - Equivalence with solvability of the Galois group under standard hypotheses
     notes: ''
     citations:
+      - wp-j-radical-solvability
       - milne-fields-galois-theory
     primaryField: mathematics
     fields:
@@ -1398,6 +1428,8 @@ nodes:
       - Quadratic varieties and orthogonal groups
     notes: ''
     citations:
+      - wp-quadratic-form
+      - nlab-quadratic-form
       - milne-algebraic-number-theory
     primaryField: mathematics
     fields:
@@ -1417,6 +1449,7 @@ nodes:
     induces: []
     notes: Both properties must hold for the same algebraic field extension.
     citations:
+      - wp-galois-extension
       - milne-fields-galois-theory
     combination:
       inputs:
@@ -1549,7 +1582,6 @@ edges:
       - wp-clifford_algebra
       - nlab-clifford_algebra
       - wp-gamma_matrices
-      - nlab-gamma_matrices
       - tong-qft
   - id: math_clifford_algebra_to_spin_group
     source: clifford_algebra
@@ -1786,7 +1818,7 @@ edges:
     detail: Gamma matrices realize the Clifford algebra in the Dirac operator.
     citations:
       - wp-gamma_matrices
-      - nlab-gamma_matrices
+      - nlab-clifford_algebra
       - tong-qft
       - wp-physics-dirac_equation
       - nlab-physics-dirac_equation
@@ -2636,3 +2668,23 @@ edges:
     citations:
       - poonen-rational-points-varieties
       - milne-algebraic-number-theory
+  - id: module_to_projective_module
+    source: module
+    target: projective_module
+    type: impose-axiom
+    label: + projective lifting property
+    detail: Require maps out of the module to lift across every surjective module homomorphism, equivalently require $\operatorname{Hom}(P,-)$ to be exact.
+    citations:
+      - wp-projective-module
+      - nlab-projective-module
+      - stacks-projective-module
+  - id: module_to_injective_module
+    source: module
+    target: injective_module
+    type: impose-axiom
+    label: + injective extension property
+    detail: Require maps into the module to extend across every injective module homomorphism, equivalently require $\operatorname{Hom}(-,I)$ to be exact.
+    citations:
+      - wp-injective-module
+      - nlab-injective-module
+      - stacks-injective-module

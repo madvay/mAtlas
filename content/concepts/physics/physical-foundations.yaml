@@ -56,6 +56,7 @@ nodes:
     summary: A compact relation or rule describing a stable regularity of physical systems within a stated domain of validity.
     citations:
       - wp-physics-physical_law
+      - nlab-physical-law
       - nist-codata
   - id: physical_quantity
     label: Physical quantity
@@ -86,6 +87,7 @@ nodes:
     summary: An independent variable or mode needed to specify a state within a chosen description.
     citations:
       - wp-physics-degree_of_freedom
+      - nlab-degree-of-freedom
       - cambridge-classical-dynamics
   - id: observable
     label: Observable
@@ -135,7 +137,7 @@ nodes:
     summary: A specification, relative to a theory, sufficient to determine probabilities or allowed future behavior for the observables represented by that theory.
     citations:
       - wp-physics-physical_state
-      - nlab-physics-physical_state
+      - nlab-physics-state
       - nist-quantum-theory
     sections:
       - title: Theory dependence
@@ -154,7 +156,7 @@ nodes:
     summary: A transformation that leaves specified physical structure, laws, or observables invariant; exact, approximate, local, global, continuous, or discrete symmetries must be distinguished.
     citations:
       - wp-physics-physical_symmetry
-      - nlab-physics-physical_symmetry
+      - nlab-physics-symmetry
       - tong-qft
   - id: fundamental_interaction
     label: Fundamental interaction
@@ -220,6 +222,7 @@ nodes:
     summary: A parameter controlling the strength of an interaction term; in QFT its renormalized value may depend on scale.
     citations:
       - wp-physics-coupling_constant
+      - nlab-coupling-constant
       - tong-qft
   - id: equation_of_motion
     label: Equation of motion
@@ -284,7 +287,7 @@ nodes:
     summary: A local conservation equation of the form $\partial_t\rho+\nabla\cdot\mathbf j=0$; in flat relativistic spacetime it is $\partial_\mu j^\mu=0$, while on curved spacetime the corresponding form is $\nabla_\mu j^\mu=0$.
     citations:
       - wp-physics-continuity_equation
-      - nlab-physics-continuity_equation
+      - nlab-physics-conservation_law
       - tong-em
       - tong-qft
   - id: binding_energy
@@ -301,6 +304,7 @@ nodes:
     summary: The energy required to separate a bound system into specified free constituents; equivalently, the bound state lies below that breakup threshold and has a corresponding mass deficit in its rest frame.
     citations:
       - wp-physics-binding_energy
+      - nlab-binding-energy
       - einstein-binding-energy
 edges:
   - id: atom_to_oneelectron
@@ -434,7 +438,7 @@ edges:
       - wp-physics-observable
       - nlab-physics-observable
       - wp-physics-physical_state
-      - nlab-physics-physical_state
+      - nlab-physics-state
   - id: symmetry_conservation
     source: physical_symmetry
     target: conservation_law
@@ -457,7 +461,7 @@ edges:
       - wp-physics-selection_rule
       - nist-atomic-spectroscopy
       - wp-physics-physical_symmetry
-      - nlab-physics-physical_symmetry
+      - nlab-physics-symmetry
   - id: physical_system_has_quantity
     source: physical_system
     target: physical_quantity
@@ -478,7 +482,7 @@ edges:
     citations:
       - nist-quantum-theory
       - wp-physics-physical_state
-      - nlab-physics-physical_state
+      - nlab-physics-state
       - wp-physics-physical_system
       - nlab-physics-physical_system
   - id: physical_system_to_quantum
@@ -601,7 +605,7 @@ edges:
     citations:
       - wp-physics-coupling_constant
       - tong-qft
-      - wp-physics-interacting_quantum_field
+      - wp-physics-quantum_field_theory
       - nlab-physics-interacting_quantum_field
   - id: coupling_to_running
     source: coupling_constant
@@ -662,7 +666,7 @@ edges:
     detail: A local conservation law is expressed by a continuity equation for a density and current.
     citations:
       - wp-physics-continuity_equation
-      - nlab-physics-continuity_equation
+      - nlab-physics-conservation_law
   - id: symmetry_to_isospin
     source: physical_symmetry
     target: isospin
