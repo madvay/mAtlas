@@ -1,12 +1,19 @@
 citationLegend:
   American Mathematical Society: AMS
-  Wikipedia: WP
-  Stacks Project: Stacks
-  Clay Mathematics Institute: Clay
+  APS Journals: APS
+  Cambridge University Press: Cambridge UP
   Encyclopedia of Mathematics: EoM
   IUPAC Gold Book: IUPAC
+  MIT OpenCourseWare: OCW
+  NIST / CODATA: CODATA
+  NASA Science: NASA
+  Nobel Prize: Nobel
   Open Logic Project: OLP
+  Physical Review: PR
+  Physical Review Letters: PRL
+  Stanford Encyclopedia of Philosophy: SEP
   U.S. DOE: DOE
+  Wikipedia: WP
 sources:
   aps-hohenberg-kohn:
     label: DOI — Inhomogeneous Electron Gas
