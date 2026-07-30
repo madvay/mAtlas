@@ -50,6 +50,9 @@ domains:
   - id: nuclear-physics
   - id: atomic-molecular-physics
   - id: experiments-observations
+  - id: dynamical-systems
+  - id: thermodynamics-statistical-mechanics
+  - id: condensed-matter-physics
 
 edgeTypes:
   - id: add-data

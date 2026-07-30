@@ -1,0 +1,899 @@
+nodes:
+  - id: thermodynamic_system
+    label: Thermodynamic system
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 23
+    kind: structure
+    conceptType: Macroscopic physical system
+    summary: A selected quantity of matter or region of space separated conceptually from its surroundings by a boundary. The permitted exchange of energy and matter distinguishes isolated, closed, and open systems.
+    citations:
+      - wp-physics-thermodynamic-system
+      - tong-statistical-physics
+  - id: thermodynamic_state
+    label: Thermodynamic state
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 24
+    kind: structure
+    conceptType: Macroscopic state description
+    summary: A macroscopic condition specified by a sufficient set of state variables. A thermodynamic state deliberately omits most microscopic coordinates and does not identify a unique microstate.
+    citations:
+      - wp-physics-thermodynamic-state
+      - tong-statistical-physics
+  - id: thermodynamic_equilibrium
+    label: Thermodynamic equilibrium
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 25
+    kind: structure
+    conceptType: Thermodynamic-state class
+    summary: A state with no unresolved macroscopic tendency to change under the imposed constraints, requiring thermal, mechanical, chemical, and phase equilibrium where those modes of exchange are available.
+    citations:
+      - wp-physics-thermodynamic-equilibrium
+      - tong-statistical-physics
+  - id: thermodynamic_state_variable
+    label: Thermodynamic state variable
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 25
+    kind: structure
+    conceptType: Macroscopic observable
+    summary: A macroscopic quantity used to specify equilibrium states, such as internal energy, entropy, volume, pressure, particle number, or temperature. State variables may be extensive or intensive and are constrained by equations of state.
+    citations:
+      - wp-physics-thermodynamic-state
+      - wp-physics-state-variable
+      - wp-physics-thermodynamics
+      - tong-statistical-physics
+  - id: statistical_mechanics
+    label: Statistical mechanics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 13
+    kind: structure
+    conceptType: Microscopic-to-macroscopic framework
+    summary: A framework that combines microscopic states and dynamics with probability to calculate macroscopic averages, fluctuations, and thermodynamic behavior. It does not replace the microscopic laws with probability alone.
+    citations:
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: temperature
+    label: Temperature
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 25
+    kind: structure
+    conceptType: Intensive state variable
+    summary: The intensive variable that equalizes between systems in mutual thermal equilibrium. In equilibrium statistical mechanics, inverse temperature is the variable conjugate to energy under the appropriate entropy representation.
+    citations:
+      - wp-physics-temperature
+      - wp-physics-laws-of-thermodynamics
+      - tong-statistical-physics
+  - id: zeroth_law_thermodynamics
+    label: Zeroth law of thermodynamics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 24
+    kind: structure
+    conceptType: Thermodynamic law
+    summary: If two systems are separately in thermal equilibrium with a third, they are in thermal equilibrium with each other. This transitive relation supports consistent empirical temperature scales.
+    citations:
+      - wp-physics-laws-of-thermodynamics
+      - wp-physics-temperature
+      - tong-statistical-physics
+  - id: first_law_thermodynamics
+    label: First law of thermodynamics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 24
+    kind: structure
+    conceptType: Thermodynamic law
+    summary: 'Energy conservation for thermodynamic processes: the change in internal energy equals energy transferred as heat and work, with signs fixed by convention. Heat and work describe transfer paths rather than stored state variables.'
+    citations:
+      - wp-physics-laws-of-thermodynamics
+      - wp-physics-thermodynamics
+      - tong-statistical-physics
+  - id: second_law_thermodynamics
+    label: Second law of thermodynamics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 24
+    kind: structure
+    conceptType: Thermodynamic law
+    summary: 'A law constraining spontaneous macroscopic processes: the entropy of an isolated system does not decrease, with equality for an ideal reversible process. Equivalent formulations restrict cyclic conversion of heat into work.'
+    citations:
+      - wp-physics-laws-of-thermodynamics
+      - wp-physics-entropy
+      - tong-statistical-physics
+  - id: classical_statistical_mechanics
+    label: Classical statistical mechanics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - classical-mechanics
+    level: 14
+    kind: structure
+    conceptType: Statistical-mechanics regime
+    summary: Statistical mechanics formulated on classical phase space, using probability densities or measures over positions and momenta together with classical microscopic dynamics.
+    citations:
+      - wp-physics-statistical-mechanics
+      - wp-physics-microstate
+      - tong-statistical-physics
+  - id: quantum_statistical_mechanics
+    label: Quantum statistical mechanics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - quantum-mechanics
+    level: 14
+    kind: structure
+    conceptType: Statistical-mechanics regime
+    summary: Statistical mechanics formulated with quantum states, observables, density operators, and Bose or Fermi statistics. Classical ensemble formulas emerge only in appropriate nondegenerate or semiclassical regimes.
+    citations:
+      - wp-physics-quantum-statistical-mechanics
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: microstate_space
+    label: Microstate space
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 14
+    kind: structure
+    conceptType: Microscopic state space
+    summary: The space of microscopic states admitted by a model. A classical microstate is a phase-space point; a quantum ensemble is built from quantum states or a density operator rather than a classical point distribution.
+    citations:
+      - wp-physics-microstate
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: statistical_ensemble
+    label: Statistical ensemble
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 14
+    kind: structure
+    conceptType: Statistical state description
+    summary: A probability measure over classical microstates or a density operator over a quantum state space, chosen to represent preparation constraints and calculate expectation values.
+    citations:
+      - wp-physics-statistical-ensemble
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: equilibrium_thermodynamics
+    label: Equilibrium thermodynamics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 24
+    kind: structure
+    conceptType: Macroscopic effective theory
+    summary: The macroscopic theory of equilibrium states, state functions, reversible comparison paths, and constraints on processes. It is largely insensitive to microscopic constitution but correspondingly omits microscopic fluctuations and detailed relaxation dynamics.
+    citations:
+      - wp-physics-thermodynamics
+      - wp-physics-thermodynamic-equilibrium
+      - tong-statistical-physics
+  - id: macrostate_space
+    label: Macrostate space
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 24
+    kind: structure
+    conceptType: Coarse-grained state space
+    summary: The state space defined by selected macroscopic observables or coarse-grained fields. Many microscopically distinct states can correspond to the same macrostate.
+    citations:
+      - wp-physics-microstate
+      - wp-physics-thermodynamic-state
+      - tong-statistical-physics
+  - id: microcanonical_ensemble
+    label: Microcanonical ensemble
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 15
+    kind: structure
+    conceptType: Equilibrium ensemble
+    summary: The equilibrium ensemble for an isolated system with fixed energy, volume, particle number, and other conserved quantities as specified, assigning invariant weight over the allowed energy shell.
+    citations:
+      - wp-physics-microcanonical-ensemble
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: canonical_ensemble
+    label: Canonical ensemble
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 15
+    kind: structure
+    conceptType: Equilibrium ensemble
+    summary: The equilibrium ensemble for a system exchanging energy with a reservoir at fixed temperature while its volume, particle number, and other chosen controls remain fixed.
+    citations:
+      - wp-physics-canonical-ensemble
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: grand_canonical_ensemble
+    label: Grand-canonical ensemble
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 15
+    kind: structure
+    conceptType: Equilibrium ensemble
+    summary: The equilibrium ensemble for a system exchanging both energy and particles with a reservoir, controlled by temperature, chemical potential, volume, and any additional conserved charges.
+    citations:
+      - wp-physics-grand-canonical-ensemble
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: nonequilibrium_statistical_mechanics
+    label: Nonequilibrium statistical mechanics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 15
+    kind: structure
+    conceptType: Time-dependent statistical framework
+    summary: Statistical descriptions of relaxation, transport, driven systems, and nonequilibrium steady states. General systems far from equilibrium do not share a single universal variational principle comparable to equilibrium free-energy minimization.
+    citations:
+      - wp-physics-nonequilibrium-thermodynamics
+      - tong-kinetic-theory
+  - id: thermodynamic_entropy
+    label: Thermodynamic entropy
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 26
+    kind: structure
+    conceptType: Extensive state function
+    summary: A thermodynamic state function whose reversible differential heat transfer satisfies $\mathrm dS=\delta Q_{\mathrm{rev}}/T$ for a simple closed system. Entropy change is defined independently of whether an actual process is reversible.
+    citations:
+      - wp-physics-entropy
+      - wp-physics-laws-of-thermodynamics
+      - tong-statistical-physics
+  - id: helmholtz_free_energy
+    label: Helmholtz free energy
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 27
+    kind: structure
+    conceptType: Thermodynamic potential
+    summary: The potential $F=U-TS$, natural for fixed temperature, volume, and particle number. Under those constraints, stable equilibrium minimizes $F$ relative to allowed states.
+    citations:
+      - wp-physics-helmholtz-free-energy
+      - wp-physics-thermodynamics
+      - tong-statistical-physics
+  - id: boltzmann_distribution
+    label: Boltzmann distribution
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 16
+    kind: structure
+    conceptType: Canonical probability law
+    summary: In a canonical ensemble, a microstate of energy $E_i$ has probability proportional to $e^{-\beta E_i}$, with normalization supplied by the partition function.
+    citations:
+      - wp-physics-boltzmann-distribution
+      - wp-physics-canonical-ensemble
+      - tong-statistical-physics
+  - id: partition_function
+    label: Statistical partition function
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 16
+    kind: structure
+    conceptType: Ensemble normalizer and generating function
+    summary: The normalization sum, trace, or integral over statistical weights. In equilibrium ensembles its logarithm generates free energies and derivatives that yield expectation values and response coefficients.
+    citations:
+      - wp-physics-partition-function
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: gibbs_entropy
+    label: Gibbs entropy
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 16
+    kind: structure
+    conceptType: Ensemble entropy
+    summary: The entropy functional $S=-k_{\mathrm B}\sum_i p_i\ln p_i$ for a discrete classical ensemble, with integral and quantum trace analogues subject to their measure and coarse-graining conventions.
+    citations:
+      - wp-physics-gibbs-entropy
+      - wp-physics-entropy
+      - tong-statistical-physics
+  - id: boltzmann_entropy
+    label: Boltzmann entropy
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 16
+    kind: structure
+    conceptType: Macrostate multiplicity entropy
+    summary: The expression $S=k_{\mathrm B}\ln\Omega$ associates entropy with the logarithm of the number or phase-space volume of microstates compatible with a specified macrostate, within a chosen resolution.
+    citations:
+      - wp-physics-boltzmann-entropy
+      - wp-physics-entropy
+      - tong-statistical-physics
+  - id: thermodynamic_limit
+    label: Thermodynamic limit
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 17
+    kind: structure
+    conceptType: Asymptotic regime
+    summary: The limit in which particle number and volume grow without bound while intensive densities remain fixed. In conventional short-range equilibrium systems it suppresses relative bulk fluctuations and permits sharp nonanalytic phase transitions; ordinary finite canonical systems with regular Hamiltonians instead have analytic partition functions.
+    citations:
+      - wp-physics-thermodynamic-limit
+      - wp-physics-phase-transition
+      - tong-statistical-physics
+  - id: ergodic_hypothesis
+    label: Ergodic hypothesis
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+    level: 16
+    kind: structure
+    conceptType: Microscopic-dynamics hypothesis
+    summary: The hypothesis that the relevant long-time behavior samples the invariant energy surface sufficiently for time averages to agree with ensemble averages. Strict mathematical ergodicity is neither established for all physical systems nor required for every successful equilibrium calculation.
+    citations:
+      - wp-physics-ergodic-hypothesis
+      - wp-math-ergodic-theory
+      - mit-ocw-ergodic-theory
+      - tong-statistical-physics
+  - id: fluctuation_dissipation_theorem
+    label: Fluctuation–dissipation theorem
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
+    level: 17
+    kind: structure
+    conceptType: Near-equilibrium response theorem
+    summary: A family of relations connecting linear response to equilibrium correlation functions under stationarity, equilibrium, and causality assumptions. It does not generally determine nonlinear response far from equilibrium.
+    citations:
+      - wp-physics-fluctuation-dissipation
+      - kubo-fluctuation-dissipation
+      - tong-kinetic-theory
+  - id: phase_transition
+    label: Phase transition
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
+    level: 30
+    kind: structure
+    conceptType: Collective thermodynamic phenomenon
+    summary: A change between macroscopic phases as control parameters vary. In equilibrium statistical mechanics an ideal sharp transition is represented by nonanalytic thermodynamic behavior in the thermodynamic limit; finite systems display rounded precursors.
+    citations:
+      - wp-physics-phase-transition
+      - wp-physics-thermodynamic-limit
+      - tong-statistical-physics
+  - id: order_parameter
+    label: Order parameter
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
+    level: 31
+    kind: structure
+    conceptType: Phase-state descriptor
+    summary: A quantity whose equilibrium value distinguishes phases and often transforms under a broken symmetry. Local order parameters are powerful for symmetry-breaking transitions but are not universal descriptors of every phase transition.
+    citations:
+      - wp-physics-phase-transition
+      - tong-statistical-physics
+  - id: critical_phenomena
+    label: Critical phenomena
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
+      - quantum-field-theory
+    level: 31
+    kind: structure
+    conceptType: Continuous-transition behavior
+    summary: Scale-dependent fluctuations near a continuous phase transition, characterized by a growing correlation length, scaling laws, and critical exponents. Mean-field descriptions fail when fluctuations become dominant.
+    citations:
+      - wp-physics-critical-phenomena
+      - wp-physics-phase-transition
+      - tong-statistical-physics
+  - id: universality_class
+    label: Universality class
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
+      - quantum-field-theory
+    level: 32
+    kind: structure
+    conceptType: Critical-behavior classification
+    summary: A class of systems sharing long-distance scaling functions and critical exponents despite different microscopic details. Spatial dimension, symmetry, interaction range, and conserved quantities are among the data that can distinguish classes.
+    citations:
+      - wp-physics-universality
+      - wp-physics-critical-phenomena
+      - tong-statistical-physics
+
+edges:
+  - id: thermo_system_to_state
+    source: thermodynamic_system
+    target: thermodynamic_state
+    type: state-description
+    label: macroscopic condition
+    detail: A thermodynamic state records the macroscopic condition of a selected system using a sufficient set of state variables while omitting microscopic coordinates.
+    citations:
+      - wp-physics-thermodynamic-system
+      - wp-physics-thermodynamic-state
+      - tong-statistical-physics
+  - id: thermo_state_to_equilibrium
+    source: thermodynamic_state
+    target: thermodynamic_equilibrium
+    type: classification
+    label: equilibrium-state subclass
+    detail: Equilibrium states are the thermodynamic states with no remaining macroscopic tendency to change under the imposed constraints.
+    citations:
+      - wp-physics-thermodynamic-state
+      - wp-physics-thermodynamic-equilibrium
+      - tong-statistical-physics
+  - id: thermo_state_to_state_variable
+    source: thermodynamic_state
+    target: thermodynamic_state_variable
+    type: state-description
+    label: coordinates by state variables
+    detail: State variables provide macroscopic coordinates or functions on the equilibrium state space; which variables are independent depends on the system and constraints.
+    citations:
+      - wp-physics-thermodynamic-state
+      - wp-physics-state-variable
+      - wp-physics-thermodynamics
+      - tong-statistical-physics
+  - id: thermo_equilibrium_theory_to_system
+    source: equilibrium_thermodynamics
+    target: thermodynamic_system
+    type: describes-governs
+    label: equilibrium macroscopic laws
+    detail: Equilibrium thermodynamics describes admissible equilibrium states and process constraints for macroscopic systems without specifying their microscopic constitution.
+    citations:
+      - wp-physics-thermodynamics
+      - wp-physics-thermodynamic-system
+      - tong-statistical-physics
+  - id: thermo_zeroth_law_to_equilibrium_theory
+    source: zeroth_law_thermodynamics
+    target: equilibrium_thermodynamics
+    type: theory-component
+    label: transitive thermal equilibrium
+    detail: The zeroth law supplies the equilibrium relation that makes empirical temperature comparison consistent.
+    citations:
+      - wp-physics-laws-of-thermodynamics
+      - wp-physics-temperature
+      - tong-statistical-physics
+  - id: thermo_first_law_to_equilibrium_theory
+    source: first_law_thermodynamics
+    target: equilibrium_thermodynamics
+    type: theory-component
+    label: energy balance
+    detail: The first law supplies the energy-balance constraint relating internal-energy change to heat and work transfers under a stated sign convention.
+    citations:
+      - wp-physics-laws-of-thermodynamics
+      - tong-statistical-physics
+  - id: thermo_second_law_to_equilibrium_theory
+    source: second_law_thermodynamics
+    target: equilibrium_thermodynamics
+    type: theory-component
+    label: entropy and process direction
+    detail: The second law constrains spontaneous processes and cyclic engines through entropy inequalities or equivalent Kelvin–Planck and Clausius statements.
+    citations:
+      - wp-physics-laws-of-thermodynamics
+      - wp-physics-entropy
+      - tong-statistical-physics
+  - id: thermo_equilibrium_theory_to_temperature
+    source: equilibrium_thermodynamics
+    target: temperature
+    type: state-description
+    label: thermal state variable
+    detail: Temperature is an intensive coordinate on equilibrium states and equalizes across a diathermal contact at mutual equilibrium.
+    citations:
+      - wp-physics-temperature
+      - wp-physics-thermodynamic-equilibrium
+      - tong-statistical-physics
+  - id: thermo_equilibrium_theory_to_entropy
+    source: equilibrium_thermodynamics
+    target: thermodynamic_entropy
+    type: state-description
+    label: entropy state function
+    detail: Equilibrium thermodynamics introduces entropy as a state function constrained by reversible heat relations and the second law.
+    citations:
+      - wp-physics-entropy
+      - wp-physics-laws-of-thermodynamics
+      - tong-statistical-physics
+  - id: thermo_equilibrium_theory_to_helmholtz
+    source: equilibrium_thermodynamics
+    target: helmholtz_free_energy
+    type: state-description
+    label: fixed-temperature potential
+    detail: The Legendre transform $F=U-TS$ is the thermodynamic potential natural to fixed temperature, volume, and particle number.
+    citations:
+      - wp-physics-helmholtz-free-energy
+      - tong-statistical-physics
+  - id: thermo_statistical_to_classical
+    source: statistical_mechanics
+    target: classical_statistical_mechanics
+    type: framework-specialization
+    label: classical phase-space statistics
+    detail: Classical statistical mechanics specializes the microscopic state space and evolution to classical phase space and classical dynamics.
+    citations:
+      - wp-physics-statistical-mechanics
+      - wp-physics-microstate
+      - tong-statistical-physics
+  - id: thermo_statistical_to_quantum
+    source: statistical_mechanics
+    target: quantum_statistical_mechanics
+    type: framework-specialization
+    label: quantum-state statistics
+    detail: Quantum statistical mechanics specializes the framework to quantum states, density operators, and quantum exchange statistics.
+    citations:
+      - wp-physics-quantum-statistical-mechanics
+      - tong-statistical-physics
+  - id: thermo_statistical_to_microstate_space
+    source: statistical_mechanics
+    target: microstate_space
+    type: state-description
+    label: microscopic alternatives
+    detail: Statistical mechanics specifies a microscopic state space before assigning weights and computing macroscopic quantities.
+    citations:
+      - wp-physics-microstate
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: thermo_statistical_to_ensemble
+    source: statistical_mechanics
+    target: statistical_ensemble
+    type: state-description
+    label: probabilistic statistical state
+    detail: An ensemble is the probabilistic state description used to average observables over classical or quantum microscopic alternatives.
+    citations:
+      - wp-physics-statistical-ensemble
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: thermo_system_to_macrostate_space
+    source: thermodynamic_system
+    target: macrostate_space
+    type: state-description
+    label: coarse macroscopic states
+    detail: Selecting macroscopic observables defines a reduced state space for the system; distinct microscopic states can map to the same point in it.
+    citations:
+      - wp-physics-thermodynamic-state
+      - wp-physics-microstate
+      - tong-statistical-physics
+  - id: thermo_microstate_to_macrostate_quotient
+    source: microstate_space
+    target: macrostate_space
+    type: quotient-construction
+    label: quotient by chosen macroscopic observables
+    detail: Given selected observables, identify two microstates when all selected macroscopic values agree; the resulting equivalence classes form a precise macrostate quotient. Other coarse-grainings need not be literal quotients.
+    citations:
+      - wp-physics-microstate
+      - wp-physics-thermodynamic-state
+      - tong-statistical-physics
+  - id: thermo_ensemble_to_microcanonical
+    source: statistical_ensemble
+    target: microcanonical_ensemble
+    type: classification
+    label: fixed-energy ensemble
+    detail: The microcanonical ensemble is the equilibrium ensemble selected by isolation and fixed conserved quantities, including an energy shell.
+    citations:
+      - wp-physics-microcanonical-ensemble
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: thermo_ensemble_to_canonical
+    source: statistical_ensemble
+    target: canonical_ensemble
+    type: classification
+    label: fixed-temperature ensemble
+    detail: The canonical ensemble is the equilibrium ensemble for energy exchange with a temperature reservoir at fixed remaining controls.
+    citations:
+      - wp-physics-canonical-ensemble
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: thermo_ensemble_to_grand_canonical
+    source: statistical_ensemble
+    target: grand_canonical_ensemble
+    type: classification
+    label: energy-and-particle exchange ensemble
+    detail: The grand-canonical ensemble permits energy and particle exchange and weights states using temperature and chemical potential.
+    citations:
+      - wp-physics-grand-canonical-ensemble
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: thermo_canonical_to_boltzmann_distribution
+    source: canonical_ensemble
+    target: boltzmann_distribution
+    type: state-description
+    label: canonical state weights
+    detail: Canonical microstate probabilities carry the Boltzmann weight $e^{-\beta E_i}$ divided by the canonical partition function.
+    citations:
+      - wp-physics-boltzmann-distribution
+      - wp-physics-canonical-ensemble
+      - tong-statistical-physics
+  - id: thermo_canonical_to_partition_function
+    source: canonical_ensemble
+    target: partition_function
+    type: state-description
+    label: canonical normalizer
+    detail: The canonical partition function is the trace, sum, or phase-space integral of Boltzmann weights and normalizes the canonical distribution.
+    citations:
+      - wp-physics-partition-function
+      - wp-physics-canonical-ensemble
+      - tong-statistical-physics
+  - id: thermo_partition_function_to_helmholtz
+    source: partition_function
+    target: helmholtz_free_energy
+    type: canonical-construction
+    label: $F=-k_{\mathrm B}T\ln Z$
+    detail: For a canonical equilibrium system, the partition function canonically determines the Helmholtz free energy by $F=-k_{\mathrm B}T\ln Z$.
+    citations:
+      - wp-physics-partition-function
+      - wp-physics-helmholtz-free-energy
+      - tong-statistical-physics
+  - id: thermo_ensemble_to_gibbs_entropy
+    source: statistical_ensemble
+    target: gibbs_entropy
+    type: state-description
+    label: entropy of ensemble weights
+    detail: Gibbs entropy is a functional of the ensemble probabilities or density operator, with the reference measure and quantum trace specified.
+    citations:
+      - wp-physics-gibbs-entropy
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: thermo_microcanonical_to_boltzmann_entropy
+    source: microcanonical_ensemble
+    target: boltzmann_entropy
+    type: state-description
+    label: logarithmic state count
+    detail: For a specified energy shell or macrostate, Boltzmann entropy is the logarithm of the compatible state count or phase-space volume times $k_{\mathrm B}$.
+    citations:
+      - wp-physics-boltzmann-entropy
+      - wp-physics-microcanonical-ensemble
+      - tong-statistical-physics
+  - id: thermo_gibbs_entropy_to_thermodynamic_entropy
+    source: gibbs_entropy
+    target: thermodynamic_entropy
+    type: mathematical-limit
+    label: equilibrium macroscopic entropy
+    detail: Under equilibrium, extensivity, and thermodynamic-limit assumptions, the appropriate ensemble entropy reproduces macroscopic thermodynamic entropy up to conventional additive constants. The relation can fail or require care for nonequivalent ensembles and long-range systems.
+    citations:
+      - wp-physics-gibbs-entropy
+      - wp-physics-entropy
+      - wp-physics-thermodynamic-limit
+      - tong-statistical-physics
+  - id: thermo_boltzmann_entropy_to_thermodynamic_entropy
+    source: boltzmann_entropy
+    target: thermodynamic_entropy
+    type: mathematical-limit
+    label: macrostate multiplicity limit
+    detail: In equilibrium macroscopic regimes where a sharply concentrated macrostate count exists, $k_{\mathrm B}\ln\Omega$ yields the thermodynamic entropy. The statement depends on the macrostate partition and limit.
+    citations:
+      - wp-physics-boltzmann-entropy
+      - wp-physics-entropy
+      - tong-statistical-physics
+  - id: thermo_statistical_to_equilibrium_thermodynamics
+    source: statistical_mechanics
+    target: equilibrium_thermodynamics
+    type: effective-theory
+    label: coarse-grained equilibrium description
+    detail: Equilibrium thermodynamics retains macroscopic variables while microscopic degrees of freedom are averaged, traced over, or encoded in equations of state and potentials. Thermodynamics also remains an autonomous phenomenological theory.
+    citations:
+      - wp-physics-statistical-mechanics
+      - wp-physics-thermodynamics
+      - tong-statistical-physics
+  - id: thermo_quantum_to_classical_statistical
+    source: quantum_statistical_mechanics
+    target: classical_statistical_mechanics
+    type: mathematical-limit
+    label: nondegenerate semiclassical regime
+    detail: Classical statistical mechanics is recovered for appropriate observables when quantum level spacing and exchange effects are negligible, for example in a dilute high-temperature regime; this is not a universal replacement of quantum dynamics.
+    citations:
+      - wp-physics-quantum-statistical-mechanics
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: thermo_statistical_to_thermodynamic_limit
+    source: statistical_mechanics
+    target: thermodynamic_limit
+    type: state-description
+    label: infinite-system asymptotic regime
+    detail: The thermodynamic limit is the large-system regime used to define bulk densities, suppress relative fluctuations, and support sharp equilibrium singularities.
+    citations:
+      - wp-physics-thermodynamic-limit
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+  - id: thermo_ergodic_hypothesis_to_classical_statistical
+    source: ergodic_hypothesis
+    target: classical_statistical_mechanics
+    type: theory-component
+    label: time-average justification
+    detail: The ergodic hypothesis supplies one route from long-time microscopic averages to invariant ensemble averages, but modern equilibrium statistical mechanics does not require strict ergodicity of every model.
+    citations:
+      - wp-physics-ergodic-hypothesis
+      - wp-math-ergodic-theory
+      - mit-ocw-ergodic-theory
+      - tong-statistical-physics
+  - id: thermo_statistical_to_nonequilibrium
+    source: statistical_mechanics
+    target: nonequilibrium_statistical_mechanics
+    type: framework-specialization
+    label: time-dependent and driven regimes
+    detail: Nonequilibrium statistical mechanics specializes the statistical framework to relaxation, transport, driving, and steady states outside equilibrium.
+    citations:
+      - wp-physics-nonequilibrium-thermodynamics
+      - tong-kinetic-theory
+  - id: thermo_fdt_to_nonequilibrium
+    source: fluctuation_dissipation_theorem
+    target: nonequilibrium_statistical_mechanics
+    type: theory-component
+    label: near-equilibrium linear response
+    detail: Fluctuation–dissipation relations contribute the linear-response sector near equilibrium by expressing response functions through equilibrium correlations; they do not cover arbitrary far-from-equilibrium dynamics.
+    citations:
+      - wp-physics-fluctuation-dissipation
+      - kubo-fluctuation-dissipation
+      - tong-kinetic-theory
+  - id: thermo_limit_to_phase_transition
+    source: thermodynamic_limit
+    target: phase_transition
+    type: theory-component
+    label: sharp equilibrium singularity
+    detail: A sharp nonanalytic equilibrium phase transition requires an infinite-system limit under the usual regularity assumptions; finite systems can display rapid but analytic crossover and finite-size scaling.
+    citations:
+      - wp-physics-thermodynamic-limit
+      - wp-physics-phase-transition
+      - tong-statistical-physics
+  - id: thermo_phase_transition_to_order_parameter
+    source: phase_transition
+    target: order_parameter
+    type: state-description
+    label: phase-distinguishing quantity
+    detail: For transitions admitting an order-parameter description, its equilibrium value distinguishes phases and often encodes spontaneous symmetry breaking; some topological and other transitions require different descriptors.
+    citations:
+      - wp-physics-phase-transition
+      - tong-statistical-physics
+  - id: thermo_phase_transition_to_critical_phenomena
+    source: phase_transition
+    target: critical_phenomena
+    type: classification
+    label: continuous-transition critical behavior
+    detail: Critical phenomena are the scale-invariant fluctuation behavior associated with continuous phase transitions near a critical point.
+    citations:
+      - wp-physics-phase-transition
+      - wp-physics-critical-phenomena
+      - tong-statistical-physics
+  - id: thermo_critical_to_universality
+    source: critical_phenomena
+    target: universality_class
+    type: state-description
+    label: shared critical scaling
+    detail: Critical exponents and scaling functions classify long-distance critical behavior into universality classes that can ignore many microscopic details.
+    citations:
+      - wp-physics-critical-phenomena
+      - wp-physics-universality
+      - tong-statistical-physics
+  - id: thermo_statistical_to_condensed_matter
+    source: statistical_mechanics
+    target: condensed_matter_physics
+    type: theory-component
+    label: ensembles, phases, and fluctuations
+    detail: Statistical mechanics supplies the ensemble, fluctuation, and phase-transition framework used throughout condensed-matter physics.
+    citations:
+      - wp-physics-statistical-mechanics
+      - wp-physics-condensed-matter
+      - tong-statistical-physics
+      - tong-solid-state-physics
+  - id: thermo_equilibrium_to_condensed_matter
+    source: equilibrium_thermodynamics
+    target: condensed_matter_physics
+    type: theory-component
+    label: macroscopic material thermodynamics
+    detail: Equilibrium thermodynamics supplies state variables, potentials, stability criteria, and phase coexistence conditions for macroscopic materials.
+    citations:
+      - wp-physics-thermodynamics
+      - wp-physics-condensed-matter
+      - tong-statistical-physics

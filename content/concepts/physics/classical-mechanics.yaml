@@ -149,6 +149,7 @@ nodes:
     primaryDomain: classical-mechanics
     domains:
       - classical-mechanics
+      - thermodynamics-statistical-mechanics
     level: 11
     kind: structure
     conceptType: Theory formulation
@@ -189,6 +190,7 @@ nodes:
     primaryDomain: classical-mechanics
     domains:
       - classical-mechanics
+      - thermodynamics-statistical-mechanics
     level: 11
     kind: structure
     conceptType: State-space structure
@@ -676,3 +678,24 @@ edges:
     citations:
       - wp-physics-canonical_quantization
       - nlab-physics-canonical_quantization
+  - id: hamiltonian_mechanics_to_classical_statistical_mechanics
+    source: hamiltonian_mechanics
+    target: classical_statistical_mechanics
+    type: theory-component
+    label: microscopic Hamiltonian evolution
+    detail: Hamiltonian mechanics supplies the microscopic equations of motion and invariant phase-space structure used by classical statistical mechanics; probability measures, ensembles, and macroscopic observables are additional statistical ingredients.
+    citations:
+      - wp-physics-hamiltonian_mechanics
+      - wp-physics-statistical-mechanics
+      - tong-statistical-physics
+      - mit-ocw-ergodic-theory
+  - id: phase_space_to_classical_statistical_mechanics
+    source: phase_space
+    target: classical_statistical_mechanics
+    type: theory-component
+    label: classical microstate space
+    detail: Classical statistical mechanics represents each microscopic state as a phase-space point and ensembles as measures or densities over phase space, subject to the selected Hamiltonian and constraints.
+    citations:
+      - wp-physics-phase_space
+      - wp-physics-microstate
+      - tong-statistical-physics

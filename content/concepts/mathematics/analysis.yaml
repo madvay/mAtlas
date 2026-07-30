@@ -1329,6 +1329,7 @@ nodes:
     primaryDomain: analysis
     domains:
       - analysis
+      - dynamical-systems
     level: 18
     kind: structure
     conceptType: Differential equation
@@ -2441,3 +2442,35 @@ edges:
     citations:
       - wp-differentiable-function
       - nlab-differentiable-map
+  - id: ordinary_differential_equation_to_smooth_flow
+    source: ordinary_differential_equation
+    target: smooth_flow
+    type: theorem-implication
+    label: autonomous complete evolution generates a flow
+    detail: A sufficiently regular autonomous first-order ODE on a smooth manifold has a unique local flow. It yields the global smooth flow represented here only when its generating vector field is complete; generic higher-order or nonautonomous ODEs first require an equivalent enlarged-state formulation.
+    citations:
+      - wp-ordinary_differential_equation
+      - wp-math-flow
+      - mit-ocw-nonlinear-dynamics
+  - id: fourier_transform_to_reciprocal_lattice
+    source: fourier_transform
+    target: reciprocal_lattice
+    type: mathematical-formulation
+    label: Fourier labels of lattice-periodic functions
+    detail: Fourier analysis on a direct Bravais lattice selects wavevectors $G$ satisfying $e^{iG\cdot R}=1$ for every lattice translation $R$; these permitted Fourier labels form the reciprocal lattice.
+    citations:
+      - wp-fourier_transform
+      - wp-physics-reciprocal-lattice
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: fock_space_to_phonon
+    source: fock_space
+    target: phonon
+    type: mathematical-formulation
+    label: bosonic occupation-number state space
+    detail: After harmonic lattice normal modes are quantized, their multi-phonon states are represented in a bosonic Fock space. This formulation presupposes the normal-mode approximation and does not make phonons fundamental particles.
+    citations:
+      - wp-fock_space
+      - wp-physics-phonon
+      - tong-solid-state-physics
+      - mit-theory-of-solids

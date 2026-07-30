@@ -1973,3 +1973,13 @@ edges:
     citations:
       - wp-differentiable-function
       - nlab-differentiable-map
+  - id: function_to_self_map
+    source: function
+    target: self_map
+    type: impose-axiom
+    label: identify domain and codomain
+    detail: Restrict a function $f:X\to Y$ by requiring $Y=X$. The resulting endofunction can be iterated, whereas an arbitrary function with different domain and codomain cannot be composed with itself.
+    citations:
+      - wp-function
+      - wp-math-dynamical-system
+      - mit-ocw-nonlinear-dynamics

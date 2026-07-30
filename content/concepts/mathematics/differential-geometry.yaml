@@ -2049,3 +2049,13 @@ edges:
     citations:
       - lee-smooth-manifolds
       - einstein-equation
+  - id: symplectic_manifold_to_hamiltonian_dynamical_system
+    source: symplectic_manifold
+    target: hamiltonian_dynamical_system
+    type: add-data
+    label: choose a Hamiltonian function
+    detail: Supplying a smooth function $H$ on a symplectic manifold determines the Hamiltonian vector field by $\iota_{X_H}\omega=\mathrm dH$ up to the declared sign convention, and hence a local Hamiltonian evolution; global evolution additionally requires completeness.
+    citations:
+      - wp-symplectic-manifold
+      - wp-math-hamiltonian-system
+      - cambridge-classical-dynamics

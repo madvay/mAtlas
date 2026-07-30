@@ -7863,3 +7863,378 @@ sources:
     title: forest
     url: https://ncatlab.org/nlab/show/forest
     kind: mathematical reference
+  mit-ocw-nonlinear-dynamics:
+    label: 'MIT OpenCourseWare — Nonlinear Dynamics: Chaos lecture notes'
+    title: 'Lecture Notes: Nonlinear Dynamics: Chaos'
+    url: https://ocw.mit.edu/courses/12-006j-nonlinear-dynamics-chaos-fall-2022/pages/lecture-notes/
+    kind: university lecture notes
+  mit-ocw-ergodic-theory:
+    label: MIT OpenCourseWare — Bits of ergodic theory
+    title: 'Chapter 8: Compressing Stationary Ergodic Sources'
+    url: https://ocw.mit.edu/courses/6-441-information-theory-spring-2016/099eee31611a15cbb951bd427a89428f_MIT6_441S16_chapter_8.pdf
+    kind: university lecture notes
+  scholarpedia-lyapunov-exponent:
+    label: Scholarpedia — Lyapunov exponent
+    title: Lyapunov exponent
+    url: https://www.scholarpedia.org/article/Lyapunov_exponent
+    kind: expert-reviewed reference
+  nlab-invariant-measure:
+    label: nLab — invariant measure
+    title: invariant measure
+    url: https://ncatlab.org/nlab/show/invariant+measure
+    kind: mathematical reference
+  tong-statistical-physics:
+    label: David Tong — Statistical Physics
+    title: Statistical Physics
+    url: https://davidtong.org/teaching/statistical-physics/
+    kind: University of Cambridge lecture notes
+  tong-solid-state-physics:
+    label: David Tong — Solid State Physics
+    title: Solid State Physics
+    url: https://davidtong.org/teaching/solid-state-physics/
+    kind: University of Cambridge lecture notes
+  mit-theory-of-solids:
+    label: MIT OpenCourseWare — Theory of Solids I lecture notes
+    title: 'Lecture Notes: Theory of Solids I'
+    url: https://ocw.mit.edu/courses/8-511-theory-of-solids-i-fall-2004/pages/lecture-notes/
+    kind: graduate university lecture notes
+  aps-bcs-theory:
+    label: APS — Theory of Superconductivity
+    title: Theory of Superconductivity
+    url: https://link.aps.org/doi/10.1103/PhysRev.108.1175
+    kind: primary research paper
+  aps-cooper-pairs:
+    label: APS — Bound Electron Pairs in a Degenerate Fermi Gas
+    title: Bound Electron Pairs in a Degenerate Fermi Gas
+    url: https://link.aps.org/doi/10.1103/PhysRev.104.1189
+    kind: primary research paper
+  nobel-bcs-1972:
+    label: Nobel Prize — 1972 physics prize press release
+    title: 'Press release: The 1972 Nobel Prize in Physics'
+    url: https://www.nobelprize.org/prizes/physics/1972/press-release/
+    kind: official Nobel Prize reference
+  wp-math-dynamical-system:
+    label: Wikipedia — Dynamical system
+    title: Dynamical system
+    url: https://en.wikipedia.org/wiki/Dynamical_system
+    kind: encyclopedic reference
+  wp-math-flow:
+    label: Wikipedia — Flow (mathematics)
+    title: Flow (mathematics)
+    url: https://en.wikipedia.org/wiki/Flow_%28mathematics%29
+    kind: encyclopedic reference
+  wp-math-orbit-dynamics:
+    label: Wikipedia — Orbit (dynamics)
+    title: Orbit (dynamics)
+    url: https://en.wikipedia.org/wiki/Orbit_%28dynamics%29
+    kind: encyclopedic reference
+  wp-math-invariant:
+    label: Wikipedia — Invariant set
+    title: Invariant set
+    url: https://en.wikipedia.org/wiki/Invariant_set
+    kind: encyclopedic reference
+  wp-math-fixed-point:
+    label: Wikipedia — Fixed point (mathematics)
+    title: Fixed point (mathematics)
+    url: https://en.wikipedia.org/wiki/Fixed_point_%28mathematics%29
+    kind: encyclopedic reference
+  wp-math-periodic-orbit:
+    label: Wikipedia — Periodic orbit
+    title: Periodic orbit
+    url: https://en.wikipedia.org/wiki/Periodic_orbit
+    kind: encyclopedic reference
+  wp-math-stability-theory:
+    label: Wikipedia — Stability theory
+    title: Stability theory
+    url: https://en.wikipedia.org/wiki/Stability_theory
+    kind: encyclopedic reference
+  wp-math-attractor:
+    label: Wikipedia — Attractor
+    title: Attractor
+    url: https://en.wikipedia.org/wiki/Attractor
+    kind: encyclopedic reference
+  wp-math-bifurcation-theory:
+    label: Wikipedia — Bifurcation theory
+    title: Bifurcation theory
+    url: https://en.wikipedia.org/wiki/Bifurcation_theory
+    kind: encyclopedic reference
+  wp-math-measure-preserving-system:
+    label: Wikipedia — Measure-preserving dynamical system
+    title: Measure-preserving dynamical system
+    url: https://en.wikipedia.org/wiki/Measure-preserving_dynamical_system
+    kind: encyclopedic reference
+  wp-math-ergodic-theory:
+    label: Wikipedia — Ergodic theory
+    title: Ergodic theory
+    url: https://en.wikipedia.org/wiki/Ergodic_theory
+    kind: encyclopedic reference
+  wp-math-lyapunov-exponent:
+    label: Wikipedia — Lyapunov exponent
+    title: Lyapunov exponent
+    url: https://en.wikipedia.org/wiki/Lyapunov_exponent
+    kind: encyclopedic reference
+  wp-math-chaos-theory:
+    label: Wikipedia — Chaos theory
+    title: Chaos theory
+    url: https://en.wikipedia.org/wiki/Chaos_theory
+    kind: encyclopedic reference
+  wp-math-hamiltonian-system:
+    label: Wikipedia — Hamiltonian system
+    title: Hamiltonian system
+    url: https://en.wikipedia.org/wiki/Hamiltonian_system
+    kind: encyclopedic reference
+  wp-physics-thermodynamics:
+    label: Wikipedia — Thermodynamics
+    title: Thermodynamics
+    url: https://en.wikipedia.org/wiki/Thermodynamics
+    kind: encyclopedic reference
+  wp-physics-laws-of-thermodynamics:
+    label: Wikipedia — Laws of thermodynamics
+    title: Laws of thermodynamics
+    url: https://en.wikipedia.org/wiki/Laws_of_thermodynamics
+    kind: encyclopedic reference
+  wp-physics-thermodynamic-system:
+    label: Wikipedia — Thermodynamic system
+    title: Thermodynamic system
+    url: https://en.wikipedia.org/wiki/Thermodynamic_system
+    kind: encyclopedic reference
+  wp-physics-thermodynamic-state:
+    label: Wikipedia — Thermodynamic state
+    title: Thermodynamic state
+    url: https://en.wikipedia.org/wiki/Thermodynamic_state
+    kind: encyclopedic reference
+  wp-physics-state-variable:
+    label: Wikipedia — State variable
+    title: State variable
+    url: https://en.wikipedia.org/wiki/State_variable
+    kind: encyclopedic reference
+  wp-physics-thermodynamic-equilibrium:
+    label: Wikipedia — Thermodynamic equilibrium
+    title: Thermodynamic equilibrium
+    url: https://en.wikipedia.org/wiki/Thermodynamic_equilibrium
+    kind: encyclopedic reference
+  wp-physics-temperature:
+    label: Wikipedia — Temperature
+    title: Temperature
+    url: https://en.wikipedia.org/wiki/Temperature
+    kind: encyclopedic reference
+  wp-physics-entropy:
+    label: Wikipedia — Entropy
+    title: Entropy
+    url: https://en.wikipedia.org/wiki/Entropy
+    kind: encyclopedic reference
+  wp-physics-helmholtz-free-energy:
+    label: Wikipedia — Helmholtz free energy
+    title: Helmholtz free energy
+    url: https://en.wikipedia.org/wiki/Helmholtz_free_energy
+    kind: encyclopedic reference
+  wp-physics-statistical-mechanics:
+    label: Wikipedia — Statistical mechanics
+    title: Statistical mechanics
+    url: https://en.wikipedia.org/wiki/Statistical_mechanics
+    kind: encyclopedic reference
+  wp-physics-quantum-statistical-mechanics:
+    label: Wikipedia — Quantum statistical mechanics
+    title: Quantum statistical mechanics
+    url: https://en.wikipedia.org/wiki/Quantum_statistical_mechanics
+    kind: encyclopedic reference
+  wp-physics-microstate:
+    label: Wikipedia — Microstate (statistical mechanics)
+    title: Microstate (statistical mechanics)
+    url: https://en.wikipedia.org/wiki/Microstate_%28statistical_mechanics%29
+    kind: encyclopedic reference
+  wp-physics-statistical-ensemble:
+    label: Wikipedia — Ensemble (mathematical physics)
+    title: Ensemble (mathematical physics)
+    url: https://en.wikipedia.org/wiki/Statistical_ensemble_%28mathematical_physics%29
+    kind: encyclopedic reference
+  wp-physics-microcanonical-ensemble:
+    label: Wikipedia — Microcanonical ensemble
+    title: Microcanonical ensemble
+    url: https://en.wikipedia.org/wiki/Microcanonical_ensemble
+    kind: encyclopedic reference
+  wp-physics-canonical-ensemble:
+    label: Wikipedia — Canonical ensemble
+    title: Canonical ensemble
+    url: https://en.wikipedia.org/wiki/Canonical_ensemble
+    kind: encyclopedic reference
+  wp-physics-grand-canonical-ensemble:
+    label: Wikipedia — Grand canonical ensemble
+    title: Grand canonical ensemble
+    url: https://en.wikipedia.org/wiki/Grand_canonical_ensemble
+    kind: encyclopedic reference
+  wp-physics-boltzmann-distribution:
+    label: Wikipedia — Boltzmann distribution
+    title: Boltzmann distribution
+    url: https://en.wikipedia.org/wiki/Boltzmann_distribution
+    kind: encyclopedic reference
+  wp-physics-partition-function:
+    label: Wikipedia — Partition function (statistical mechanics)
+    title: Partition function (statistical mechanics)
+    url: https://en.wikipedia.org/wiki/Partition_function_%28statistical_mechanics%29
+    kind: encyclopedic reference
+  wp-physics-gibbs-entropy:
+    label: Wikipedia — Entropy (statistical thermodynamics)
+    title: Entropy (statistical thermodynamics)
+    url: https://en.wikipedia.org/wiki/Gibbs_entropy
+    kind: encyclopedic reference
+  wp-physics-boltzmann-entropy:
+    label: Wikipedia — Boltzmann’s entropy formula
+    title: Boltzmann’s entropy formula
+    url: https://en.wikipedia.org/wiki/Boltzmann%27s_entropy_formula
+    kind: encyclopedic reference
+  wp-physics-thermodynamic-limit:
+    label: Wikipedia — Thermodynamic limit
+    title: Thermodynamic limit
+    url: https://en.wikipedia.org/wiki/Thermodynamic_limit
+    kind: encyclopedic reference
+  wp-physics-ergodic-hypothesis:
+    label: Wikipedia — Ergodic hypothesis
+    title: Ergodic hypothesis
+    url: https://en.wikipedia.org/wiki/Ergodic_hypothesis
+    kind: encyclopedic reference
+  wp-physics-nonequilibrium-thermodynamics:
+    label: Wikipedia — Non-equilibrium thermodynamics
+    title: Non-equilibrium thermodynamics
+    url: https://en.wikipedia.org/wiki/Nonequilibrium_thermodynamics
+    kind: encyclopedic reference
+  wp-physics-fluctuation-dissipation:
+    label: Wikipedia — Fluctuation–dissipation theorem
+    title: Fluctuation–dissipation theorem
+    url: https://en.wikipedia.org/wiki/Fluctuation%E2%80%93dissipation_theorem
+    kind: encyclopedic reference
+  wp-physics-phase-transition:
+    label: Wikipedia — Phase transition
+    title: Phase transition
+    url: https://en.wikipedia.org/wiki/Phase_transition
+    kind: encyclopedic reference
+  wp-physics-critical-phenomena:
+    label: Wikipedia — Critical phenomena
+    title: Critical phenomena
+    url: https://en.wikipedia.org/wiki/Critical_phenomena
+    kind: encyclopedic reference
+  wp-physics-universality:
+    label: Wikipedia — Universality (dynamical systems)
+    title: Universality (dynamical systems)
+    url: https://en.wikipedia.org/wiki/Universality_%28dynamical_systems%29
+    kind: encyclopedic reference
+  wp-physics-condensed-matter:
+    label: Wikipedia — Condensed matter physics
+    title: Condensed matter physics
+    url: https://en.wikipedia.org/wiki/Condensed_matter_physics
+    kind: encyclopedic reference
+  wp-physics-crystal-structure:
+    label: Wikipedia — Crystal structure
+    title: Crystal structure
+    url: https://en.wikipedia.org/wiki/Crystal_structure
+    kind: encyclopedic reference
+  wp-physics-bravais-lattice:
+    label: Wikipedia — Bravais lattice
+    title: Bravais lattice
+    url: https://en.wikipedia.org/wiki/Bravais_lattice
+    kind: encyclopedic reference
+  wp-physics-reciprocal-lattice:
+    label: Wikipedia — Reciprocal lattice
+    title: Reciprocal lattice
+    url: https://en.wikipedia.org/wiki/Reciprocal_lattice
+    kind: encyclopedic reference
+  wp-physics-quasiparticle:
+    label: Wikipedia — Quasiparticle
+    title: Quasiparticle
+    url: https://en.wikipedia.org/wiki/Quasiparticle
+    kind: encyclopedic reference
+  wp-physics-phonon:
+    label: Wikipedia — Phonon
+    title: Phonon
+    url: https://en.wikipedia.org/wiki/Phonon
+    kind: encyclopedic reference
+  wp-physics-bloch-theorem:
+    label: Wikipedia — Bloch’s theorem
+    title: Bloch’s theorem
+    url: https://en.wikipedia.org/wiki/Bloch%27s_theorem
+    kind: encyclopedic reference
+  wp-physics-band-structure:
+    label: Wikipedia — Electronic band structure
+    title: Electronic band structure
+    url: https://en.wikipedia.org/wiki/Electronic_band_structure
+    kind: encyclopedic reference
+  wp-physics-fermi-surface:
+    label: Wikipedia — Fermi surface
+    title: Fermi surface
+    url: https://en.wikipedia.org/wiki/Fermi_surface
+    kind: encyclopedic reference
+  wp-physics-tight-binding:
+    label: Wikipedia — Tight binding
+    title: Tight binding
+    url: https://en.wikipedia.org/wiki/Tight_binding
+    kind: encyclopedic reference
+  wp-physics-nearly-free-electron:
+    label: Wikipedia — Nearly free electron model
+    title: Nearly free electron model
+    url: https://en.wikipedia.org/wiki/Nearly_free_electron_model
+    kind: encyclopedic reference
+  wp-physics-electrical-conductor:
+    label: Wikipedia — Electrical conductor
+    title: Electrical conductor
+    url: https://en.wikipedia.org/wiki/Electrical_conductor
+    kind: encyclopedic reference
+  wp-physics-electrical-insulator:
+    label: Wikipedia — Insulator (electricity)
+    title: Insulator (electricity)
+    url: https://en.wikipedia.org/wiki/Insulator_%28electricity%29
+    kind: encyclopedic reference
+  wp-physics-semiconductor:
+    label: Wikipedia — Semiconductor
+    title: Semiconductor
+    url: https://en.wikipedia.org/wiki/Semiconductor
+    kind: encyclopedic reference
+  wp-physics-magnetism:
+    label: Wikipedia — Magnetism
+    title: Magnetism
+    url: https://en.wikipedia.org/wiki/Magnetism
+    kind: encyclopedic reference
+  wp-physics-ferromagnetism:
+    label: Wikipedia — Ferromagnetism
+    title: Ferromagnetism
+    url: https://en.wikipedia.org/wiki/Ferromagnetism
+    kind: encyclopedic reference
+  wp-physics-ising-model:
+    label: Wikipedia — Ising model
+    title: Ising model
+    url: https://en.wikipedia.org/wiki/Ising_model
+    kind: encyclopedic reference
+  wp-physics-superconductivity:
+    label: Wikipedia — Superconductivity
+    title: Superconductivity
+    url: https://en.wikipedia.org/wiki/Superconductivity
+    kind: encyclopedic reference
+  wp-physics-bcs-theory:
+    label: Wikipedia — BCS theory
+    title: BCS theory
+    url: https://en.wikipedia.org/wiki/BCS_theory
+    kind: encyclopedic reference
+  wp-physics-cooper-pair:
+    label: Wikipedia — Cooper pair
+    title: Cooper pair
+    url: https://en.wikipedia.org/wiki/Cooper_pair
+    kind: encyclopedic reference
+  wp-physics-hubbard-model:
+    label: Wikipedia — Hubbard model
+    title: Hubbard model
+    url: https://en.wikipedia.org/wiki/Hubbard_model
+    kind: encyclopedic reference
+  wp-physics-fermi-liquid:
+    label: Wikipedia — Fermi liquid theory
+    title: Fermi liquid theory
+    url: https://en.wikipedia.org/wiki/Fermi_liquid_theory
+    kind: encyclopedic reference
+  tong-kinetic-theory:
+    label: David Tong — Kinetic Theory
+    title: Kinetic Theory
+    url: https://www.damtp.cam.ac.uk/user/tong/kintheory/
+    kind: University of Cambridge lecture notes
+  kubo-fluctuation-dissipation:
+    label: Journal of the Physical Society of Japan — Statistical-Mechanical Theory of Irreversible Processes I
+    title: 'Statistical-Mechanical Theory of Irreversible Processes. I: General Theory and Simple Applications to Magnetic and Conduction Problems'
+    url: https://journals.jps.jp/doi/10.1143/JPSJ.12.570
+    kind: primary research paper

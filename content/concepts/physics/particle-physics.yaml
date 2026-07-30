@@ -3278,3 +3278,35 @@ edges:
       - cern-higgs-discovery
       - cern-higgs-overview
       - pdg-2026-higgs
+  - id: electron_to_electronic_condensed_matter
+    source: electron
+    target: electronic_condensed_matter
+    type: composition
+    label: mobile and bound electronic constituent
+    detail: Electrons are microscopic constituents of ordinary electronic condensed matter. Their charge, fermionic statistics, interactions, and coupling to ionic cores jointly shape bonding, transport, magnetism, and collective phases.
+    citations:
+      - wp-physics-electron
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: electron_to_cooper_pair
+    source: electron
+    target: cooper_pair
+    type: composition
+    label: paired electronic quasiparticles
+    detail: In an electronic superconductor, a Cooper pair is built from two correlated fermionic electron quasiparticle states near the Fermi surface; it is not a new elementary particle or ordinarily a tightly localized molecule.
+    citations:
+      - wp-physics-electron
+      - wp-physics-cooper-pair
+      - aps-cooper-pairs
+      - aps-bcs-theory
+  - id: electromagnetic_interaction_to_electronic_condensed_matter
+    source: electromagnetic_interaction
+    target: electronic_condensed_matter
+    type: couples-interacts
+    label: dominant microscopic coupling
+    detail: Electromagnetic interactions among electrons and nuclei underlie ordinary binding and electronic response in condensed matter, although effective low-energy models may encode screening, exchange, and lattice-mediated interactions rather than retain the bare Coulomb form.
+    citations:
+      - wp-physics-electromagnetic_interaction
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics

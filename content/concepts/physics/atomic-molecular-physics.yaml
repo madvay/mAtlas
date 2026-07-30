@@ -343,6 +343,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - condensed-matter-physics
     level: 29
     kind: structure
     conceptType: Fermionic exchange effect
@@ -660,6 +661,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - condensed-matter-physics
     level: 31
     kind: structure
     conceptType: Ground-state many-body formulation and approximation family
@@ -1097,6 +1099,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - condensed-matter-physics
     level: 34
     kind: structure
     conceptType: Interatomic binding relation
@@ -2161,3 +2164,34 @@ edges:
     citations:
       - wp-physics-perrin_brownian_motion_experiments
       - nobel-perrin
+  - id: atom_to_crystalline_solid
+    source: atom
+    target: crystalline_solid
+    type: composition
+    label: repeating atomic or ionic constituents
+    detail: A crystal is composed of atoms, ions, or molecular units arranged with long-range translational order. The constituent identity alone does not determine the lattice, bonding, defects, or phase.
+    citations:
+      - wp-physics-atom
+      - wp-physics-crystal-structure
+      - tong-solid-state-physics
+  - id: chemical_bond_to_crystalline_solid
+    source: chemical_bond
+    target: crystalline_solid
+    type: couples-interacts
+    label: stabilizes ordered material structure
+    detail: Ionic, covalent, metallic, van der Waals, and related bonding regimes can stabilize crystalline structures. A chemical bond is an effective description of electromagnetic quantum interactions, not an additional fundamental force.
+    citations:
+      - wp-physics-chemical-bond
+      - wp-physics-crystal-structure
+      - tong-solid-state-physics
+  - id: exchange_interaction_to_magnetic_order
+    source: exchange_interaction
+    target: magnetic_order
+    type: couples-interacts
+    label: spin-dependent ordering contribution
+    detail: Fermionic exchange and the resulting effective spin couplings are central microscopic contributions to many magnetically ordered phases. Exchange is not a separate force, and anisotropy, itinerancy, dipolar coupling, and lattice effects can also matter.
+    citations:
+      - wp-physics-exchange_interaction
+      - wp-physics-magnetism
+      - tong-solid-state-physics
+      - mit-theory-of-solids

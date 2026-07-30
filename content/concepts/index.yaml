@@ -1,9 +1,9 @@
 meta:
   title: Atlas of Fundamental Concepts
-  version: 1.6.0
-  description: A source-backed visual atlas connecting the mathematics of physical theories to foundational laws, spacetime, quantum mechanics, QFT, Standard Model fields and interactions, controlled reductions and effective theories, composite hadrons and nuclei, and precision atomic structure.
+  version: 1.7.0
+  description: A source-backed visual atlas connecting mathematical structures and dynamical systems to foundational laws, spacetime, quantum theory, thermodynamics and statistical mechanics, quantum fields, matter across particle-to-condensed scales, controlled reductions, effective theories, and collective phenomena.
   direction: Fields are stacked vertically. Within a field, smaller level values are more structurally primitive or less composite; larger values generally indicate specialization, composition, effective description, collective organization, or emergence. The order is ontological and structural, not pedagogical difficulty.
-  scope: Mathematics and a deeply sourced physics atlas from classical and relativistic foundations through quantum mechanics, QFT consistency and symmetry structure, complete Standard Model field and particle content, electroweak and low-energy EFT matching, QCD chiral and nuclear effective layers, and atomic composition, states, spectra, interactions, and precision corrections through atoms and ions.
+  scope: Mathematics and a deeply sourced physics atlas from classical and relativistic foundations through dynamical systems, equilibrium and nonequilibrium statistical physics, quantum mechanics, QFT consistency and symmetry structure, Standard Model fields and particles, electroweak and low-energy EFT matching, QCD chiral and nuclear effective layers, atomic structure, and condensed-matter organization including lattices, bands, quasiparticles, magnetism, and superconductivity.
   license: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
   licenseUrl: https://creativecommons.org/licenses/by-sa/4.0/
   attribution: mAtlas - Copyright (c) 2026 Advay Mengle - https://atlas.madvay.com/
@@ -105,6 +105,11 @@ domains:
     color: "#b45309"
     order: 15
     field: mathematics
+  - id: dynamical-systems
+    label: Dynamical systems
+    color: "#0d9488"
+    order: 15.5
+    field: mathematics
   - id: probability
     label: Probability
     color: "#7c3aed"
@@ -145,6 +150,11 @@ domains:
     color: "#b45309"
     order: 103
     field: physics
+  - id: thermodynamics-statistical-mechanics
+    label: Thermodynamics & statistical mechanics
+    color: "#ea580c"
+    order: 103.5
+    field: physics
   - id: quantum-field-theory
     label: Quantum field theory
     color: "#be123c"
@@ -164,6 +174,11 @@ domains:
     label: Atomic & molecular physics
     color: "#047857"
     order: 105
+    field: physics
+  - id: condensed-matter-physics
+    label: Condensed-matter physics
+    color: "#65a30d"
+    order: 106
     field: physics
   - id: experiments-observations
     label: Experiments, observations & problems

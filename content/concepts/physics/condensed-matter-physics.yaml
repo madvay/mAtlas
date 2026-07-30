@@ -1,0 +1,915 @@
+nodes:
+  - id: condensed_matter_physics
+    label: Condensed-matter physics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 18
+    kind: structure
+    conceptType: Physical theory domain
+    summary: The study of matter with many interacting degrees of freedom in condensed phases, emphasizing collective behavior, material properties, phases, and emergent quasiparticles rather than only isolated constituents.
+    citations:
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: quantum_many_body_system
+    label: Quantum many-body system
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 22
+    kind: structure
+    conceptType: Interacting quantum system
+    summary: A quantum system with many constituent degrees of freedom whose interactions and exchange statistics generally prevent reduction to independent one-particle solutions.
+    citations:
+      - wp-physics-many_body_quantum_mechanics
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: collective_excitation
+    label: Collective excitation
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 25
+    kind: structure
+    conceptType: Emergent excitation class
+    summary: A coherent mode involving correlated motion of many microscopic degrees of freedom. It can behave as an effective excitation with its own dispersion and quantum numbers.
+    citations:
+      - wp-physics-quasiparticle
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: quasiparticle
+    label: Quasiparticle
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-field-theory
+    level: 26
+    kind: structure
+    conceptType: Emergent effective excitation
+    summary: A long-lived excitation of an interacting many-body state that propagates approximately like a particle with renormalized properties. Quasiparticles are regime-dependent and can cease to exist when damping is too strong.
+    citations:
+      - wp-physics-quasiparticle
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: electronic_condensed_matter
+    label: Electronic condensed-matter system
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - atomic-molecular-physics
+    level: 29
+    kind: structure
+    conceptType: Ordinary material many-body system
+    summary: A condensed system whose relevant microscopic constituents include electrons and ionic cores or nuclei coupled predominantly by electromagnetism, with chemical bonding and exchange organizing the material state.
+    citations:
+      - wp-physics-condensed-matter
+      - wp-physics-many_body_quantum_mechanics
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: crystalline_solid
+    label: Crystalline solid
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - atomic-molecular-physics
+    level: 35
+    kind: structure
+    conceptType: Ordered condensed phase
+    summary: A solid with long-range translational order represented ideally by a lattice and basis. Real crystals contain boundaries, defects, vibrations, and finite domains, so the ideal periodic structure is a model rather than the material itself.
+    citations:
+      - wp-physics-crystal-structure
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: crystal_lattice_model
+    label: Crystal lattice model
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 36
+    kind: structure
+    conceptType: Periodic geometric model
+    summary: An ideal periodic point lattice together with a basis representing the repeating structure of a crystal. A Bravais lattice records translations and does not by itself specify chemical species, interactions, or defects.
+    citations:
+      - wp-physics-bravais-lattice
+      - wp-physics-crystal-structure
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: periodic_electron_model
+    label: Periodic-electron model
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 36
+    kind: structure
+    conceptType: Idealized electronic model
+    summary: A one-electron or mean-field Hamiltonian with lattice-periodic coefficients used to organize electron states in a crystal. Electron correlation, disorder, finite boundaries, and lattice motion are omitted or encoded only effectively.
+    citations:
+      - wp-physics-bloch-theorem
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: magnetic_order
+    label: Magnetic order
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - thermodynamics-statistical-mechanics
+    level: 31
+    kind: structure
+    conceptType: Collective phase property
+    summary: Long-range or otherwise organized correlations of magnetic moments, including ferro-, antiferro-, ferri-, and more complex orders. The microscopic mechanism can involve exchange, spin–orbit coupling, itinerant electrons, and lattice effects.
+    citations:
+      - wp-physics-magnetism
+      - wp-physics-condensed-matter
+      - tong-statistical-physics
+      - mit-theory-of-solids
+  - id: superconductivity
+    label: Superconductivity
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - thermodynamics-statistical-mechanics
+      - quantum-mechanics
+    level: 31
+    kind: structure
+    conceptType: Collective quantum phase
+    summary: A phase with dissipationless direct-current transport and electromagnetic rigidity manifested by magnetic-flux expulsion or related gauge response. It is not merely a perfect-conductor limit.
+    citations:
+      - wp-physics-superconductivity
+      - mit-theory-of-solids
+      - nobel-bcs-1972
+  - id: cooper_pair
+    label: Cooper pair
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 31
+    kind: structure
+    conceptType: Correlated fermion pair
+    summary: A correlated pair of fermions formed by an effective attractive interaction near a Fermi surface. In conventional superconductors the attraction is commonly phonon-mediated, but pairing mechanisms and symmetry can differ in unconventional systems.
+    citations:
+      - wp-physics-cooper-pair
+      - aps-cooper-pairs
+      - aps-bcs-theory
+      - mit-theory-of-solids
+  - id: reciprocal_lattice
+    label: Reciprocal lattice
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 37
+    kind: structure
+    conceptType: Dual periodic structure
+    summary: The lattice of wavevectors whose plane waves have the periodicity of a direct Bravais lattice. It organizes Fourier components, diffraction conditions, Brillouin zones, and crystal momentum modulo reciprocal vectors.
+    citations:
+      - wp-physics-reciprocal-lattice
+      - wp-physics-bravais-lattice
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: lattice_vibration
+    label: Lattice vibration
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - classical-mechanics
+    level: 37
+    kind: structure
+    conceptType: Collective lattice motion
+    summary: Displacements of atoms or ions about equilibrium positions. In the harmonic approximation the coupled motion decomposes into normal modes with acoustic and, for multi-atom bases, possible optical branches.
+    citations:
+      - wp-physics-phonon
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: bloch_theorem
+    label: Bloch theorem
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 37
+    kind: structure
+    conceptType: Spectral-structure theorem
+    summary: For a single-particle Hamiltonian periodic under lattice translations, eigenstates can be chosen as a plane-wave phase times a lattice-periodic function and labeled by crystal momentum modulo reciprocal-lattice vectors.
+    citations:
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: tight_binding_model
+    label: Tight-binding model
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 37
+    kind: structure
+    conceptType: Local-orbital model
+    summary: A lattice Hamiltonian built from localized orbitals with hopping and optional interaction terms. Its accuracy depends on the chosen localized basis, retained bands, and separation from omitted states.
+    citations:
+      - wp-physics-tight-binding
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: nearly_free_electron_model
+    label: Nearly-free-electron model
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 37
+    kind: structure
+    conceptType: Weak-periodic-potential approximation
+    summary: A perturbative model of electrons moving in a weak lattice-periodic potential. Bragg mixing opens gaps near degeneracies, while states far from those surfaces remain close to free-electron states.
+    citations:
+      - wp-physics-nearly-free-electron
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: ferromagnetism
+    label: Ferromagnetism
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - thermodynamics-statistical-mechanics
+    level: 32
+    kind: structure
+    conceptType: Magnetic ordered phase
+    summary: Magnetic order with a spontaneous net magnetization in zero applied field below an ordering temperature, after the thermodynamic symmetry-breaking limit is specified.
+    citations:
+      - wp-physics-ferromagnetism
+      - wp-physics-magnetism
+      - tong-statistical-physics
+      - mit-theory-of-solids
+  - id: conventional_superconductivity
+    label: Conventional superconductivity
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - thermodynamics-statistical-mechanics
+      - quantum-mechanics
+    level: 39
+    kind: structure
+    conceptType: Superconducting regime
+    summary: Superconductivity accounted for by electron pairing through an effective lattice-mediated attraction and described quantitatively by BCS or Eliashberg theory in its regime of validity.
+    citations:
+      - wp-physics-bcs-theory
+      - wp-physics-superconductivity
+      - aps-bcs-theory
+      - nobel-bcs-1972
+      - mit-theory-of-solids
+  - id: hubbard_model
+    label: Hubbard model
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 32
+    kind: structure
+    conceptType: Correlated-lattice model
+    summary: A lattice model balancing particle hopping against local interaction, most commonly an on-site electron repulsion. It is a minimal model for correlation effects, not a universal microscopic Hamiltonian for every solid.
+    citations:
+      - wp-physics-hubbard-model
+      - wp-physics-many_body_quantum_mechanics
+      - mit-theory-of-solids
+  - id: fermi_liquid_theory
+    label: Fermi-liquid theory
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-field-theory
+    level: 32
+    kind: structure
+    conceptType: Low-energy effective theory
+    summary: A low-energy description of interacting fermions whose excitations near the Fermi surface are long-lived quasiparticles continuously connected to those of a free Fermi gas. Non-Fermi liquids lie outside this framework.
+    citations:
+      - wp-physics-fermi-liquid
+      - wp-physics-quasiparticle
+      - mit-theory-of-solids
+  - id: phonon
+    label: Phonon
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+      - quantum-field-theory
+    level: 38
+    kind: structure
+    conceptType: Quantized collective excitation
+    summary: A quantum of a normal mode of lattice vibration in the harmonic or weakly anharmonic description. Phonons are quasiparticles with material-dependent dispersion and finite lifetimes when interactions are included.
+    citations:
+      - wp-physics-phonon
+      - wp-physics-quasiparticle
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: bloch_state
+    label: Bloch state
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 38
+    kind: structure
+    conceptType: Periodic-Hamiltonian state class
+    summary: An eigenstate chosen to transform under a lattice translation by a one-dimensional phase character, equivalently written as a plane wave times a lattice-periodic function.
+    citations:
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: electronic_band_structure
+    label: Electronic band structure
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+    level: 38
+    kind: structure
+    conceptType: Spectral state property
+    summary: The allowed electron energies as functions of crystal momentum in a periodic or approximately periodic solid. Band calculations depend on the Hamiltonian and approximation and need not capture strong correlation without additional treatment.
+    citations:
+      - wp-physics-band-structure
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: ising_model
+    label: Ising model
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - thermodynamics-statistical-mechanics
+    level: 33
+    kind: structure
+    conceptType: Lattice-spin model
+    summary: A model of two-valued local spins with specified lattice couplings and external field. It captures symmetry breaking and criticality in its universality classes but is not a literal microscopic description of every magnet.
+    citations:
+      - wp-physics-ising-model
+      - wp-physics-phase-transition
+      - tong-statistical-physics
+  - id: bcs_theory
+    label: BCS theory
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - quantum-mechanics
+      - quantum-field-theory
+    level: 40
+    kind: structure
+    conceptType: Microscopic mean-field theory
+    summary: The Bardeen–Cooper–Schrieffer theory of a paired fermionic condensate, predicting an excitation gap and thermodynamic and electromagnetic consequences for weak-coupling conventional superconductors.
+    citations:
+      - wp-physics-bcs-theory
+      - aps-bcs-theory
+      - aps-cooper-pairs
+      - nobel-bcs-1972
+      - mit-theory-of-solids
+  - id: fermi_surface
+    label: Fermi surface
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+      - thermodynamics-statistical-mechanics
+    level: 39
+    kind: structure
+    conceptType: Low-energy momentum-space structure
+    summary: At zero temperature, the locus in momentum or crystal-momentum space where a fermionic quasiparticle excitation meets the chemical potential. It bounds filled one-particle states in the free case; in an interacting Fermi liquid its shape and enclosed volume remain meaningful with qualifications.
+    citations:
+      - wp-physics-fermi-surface
+      - wp-physics-fermi-liquid
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: band_metal
+    label: Band metal
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 40
+    kind: structure
+    conceptType: Electronic material class
+    summary: A material class whose independent-electron or quasiparticle description has partially filled bands or band crossings at the chemical potential, permitting low-energy charged excitations. Scattering still controls finite conductivity.
+    citations:
+      - wp-physics-electrical-conductor
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: band_insulator
+    label: Band insulator
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 40
+    kind: structure
+    conceptType: Electronic material class
+    summary: An insulating state in which occupied and unoccupied single-particle bands are separated by an energy gap at integer filling. Mott and other correlation-driven insulators are not band insulators.
+    citations:
+      - wp-physics-electrical-insulator
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: semiconductor
+    label: Semiconductor
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 40
+    kind: structure
+    conceptType: Electronic material class
+    summary: A material with a band gap small enough that temperature, light, impurities, gates, or injection can create mobile electrons and holes, making conductivity strongly controllable.
+    citations:
+      - wp-physics-semiconductor
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+
+edges:
+  - id: condensed_framework_to_many_body_system
+    source: condensed_matter_physics
+    target: quantum_many_body_system
+    type: describes-governs
+    label: interacting many-body matter
+    detail: Condensed-matter physics describes quantum many-body systems and their material, collective, and low-energy behavior.
+    citations:
+      - wp-physics-condensed-matter
+      - wp-physics-many_body_quantum_mechanics
+      - mit-theory-of-solids
+  - id: condensed_framework_to_electronic_matter
+    source: condensed_matter_physics
+    target: electronic_condensed_matter
+    type: describes-governs
+    label: electronic materials
+    detail: Electronic condensed matter is a central class of systems studied using quantum mechanics, statistical mechanics, electromagnetism, and material-specific structure.
+    citations:
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_many_body_to_electronic_matter
+    source: quantum_many_body_system
+    target: electronic_condensed_matter
+    type: classification
+    label: interacting electron–ion system
+    detail: Ordinary electronic condensed matter is a quantum many-body system of electrons and ionic cores or nuclei, commonly treated with effective low-energy degrees of freedom.
+    citations:
+      - wp-physics-many_body_quantum_mechanics
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: condensed_electronic_matter_to_crystal
+    source: electronic_condensed_matter
+    target: crystalline_solid
+    type: classification
+    label: translationally ordered solid
+    detail: A crystalline solid is an electronic condensed-matter system whose equilibrium structure has long-range translational order, up to real defects and finite domains.
+    citations:
+      - wp-physics-crystal-structure
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics
+  - id: condensed_many_body_to_collective_excitation
+    source: quantum_many_body_system
+    target: collective_excitation
+    type: emergence
+    label: coherent many-body mode
+    detail: Correlated motion of many microscopic degrees of freedom can produce collective modes with effective dispersions and quantum numbers.
+    citations:
+      - wp-physics-quasiparticle
+      - wp-physics-many_body_quantum_mechanics
+      - mit-theory-of-solids
+  - id: condensed_many_body_to_quasiparticle
+    source: quantum_many_body_system
+    target: quasiparticle
+    type: emergence
+    label: long-lived effective excitation
+    detail: In regimes with sufficiently weak damping, poles or coherent structures in the interacting system behave as quasiparticles with renormalized properties.
+    citations:
+      - wp-physics-quasiparticle
+      - wp-physics-many_body_quantum_mechanics
+      - mit-theory-of-solids
+  - id: condensed_quasiparticle_to_phonon
+    source: quasiparticle
+    target: phonon
+    type: classification
+    label: lattice-vibration quasiparticle
+    detail: A phonon is a quasiparticle associated with a quantized lattice normal mode.
+    citations:
+      - wp-physics-quasiparticle
+      - wp-physics-phonon
+      - tong-solid-state-physics
+  - id: condensed_collective_excitation_to_phonon
+    source: collective_excitation
+    target: phonon
+    type: classification
+    label: collective lattice mode
+    detail: A phonon is a collective excitation because its normal coordinate represents coordinated motion of many lattice sites.
+    citations:
+      - wp-physics-phonon
+      - tong-solid-state-physics
+  - id: condensed_crystal_to_lattice_model
+    source: crystalline_solid
+    target: crystal_lattice_model
+    type: model-realization
+    label: ideal periodic geometry
+    detail: A lattice plus basis idealizes the ordered structure of a real crystal while omitting defects, surfaces, thermal displacement, and chemical dynamics.
+    citations:
+      - wp-physics-crystal-structure
+      - wp-physics-bravais-lattice
+      - tong-solid-state-physics
+  - id: condensed_lattice_to_reciprocal_lattice
+    source: crystal_lattice_model
+    target: reciprocal_lattice
+    type: canonical-construction
+    label: dual translation lattice
+    detail: The reciprocal lattice consists of wavevectors $G$ satisfying $e^{iG\cdot R}=1$ for every direct-lattice vector $R$—equivalently $G\cdot R\in2\pi\mathbb Z$ in the stated convention—and canonically encodes the Bravais lattice’s Fourier periodicity.
+    citations:
+      - wp-physics-reciprocal-lattice
+      - wp-physics-bravais-lattice
+      - tong-solid-state-physics
+  - id: condensed_crystal_to_lattice_vibration
+    source: crystalline_solid
+    target: lattice_vibration
+    type: state-description
+    label: collective ionic displacement
+    detail: Lattice vibrations describe time-dependent displacements about the crystal’s equilibrium structure; harmonic normal modes are an approximation to the full anharmonic dynamics.
+    citations:
+      - wp-physics-phonon
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_lattice_vibration_to_phonon
+    source: lattice_vibration
+    target: phonon
+    type: quantization
+    label: quantized normal mode
+    detail: Quantizing the harmonic lattice normal modes yields phonon creation and annihilation operators. Anharmonic interactions give phonons finite lifetimes and mode coupling.
+    citations:
+      - wp-physics-phonon
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_crystal_to_periodic_electron_model
+    source: crystalline_solid
+    target: periodic_electron_model
+    type: model-realization
+    label: periodic one-electron Hamiltonian
+    detail: A periodic one-electron or mean-field Hamiltonian models electrons in an ideal crystal after the ionic structure and many-electron effects are frozen or encoded effectively.
+    citations:
+      - wp-physics-bloch-theorem
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_periodic_model_to_bloch_theorem
+    source: periodic_electron_model
+    target: bloch_theorem
+    type: theorem-implication
+    label: periodic translation symmetry implies Bloch form
+    detail: For a single-particle Hamiltonian invariant under Bravais-lattice translations, simultaneous diagonalization of the commuting translation operators allows energy eigenstates to be chosen in Bloch form. Degeneracies do not invalidate the existence statement.
+    citations:
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_bloch_theorem_to_bloch_state
+    source: bloch_theorem
+    target: bloch_state
+    type: theorem-implication
+    label: Bloch-form eigenbasis
+    detail: Under lattice periodicity, eigenstates can be chosen to transform by lattice-translation characters and therefore have Bloch form.
+    citations:
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_periodic_model_to_band_structure
+    source: periodic_electron_model
+    target: electronic_band_structure
+    type: state-description
+    label: energy bands over crystal momentum
+    detail: Solving the periodic Hamiltonian in each crystal-momentum sector yields energy bands; the result belongs to the selected one-particle or mean-field model.
+    citations:
+      - wp-physics-band-structure
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+  - id: condensed_periodic_model_to_tight_binding
+    source: periodic_electron_model
+    target: tight_binding_model
+    type: model-realization
+    label: localized-orbital truncation
+    detail: Tight binding represents a periodic electronic problem in a truncated localized-orbital basis with fitted or derived hopping amplitudes; its errors depend on band isolation and basis quality rather than one universal small parameter.
+    citations:
+      - wp-physics-tight-binding
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: condensed_periodic_model_to_nearly_free
+    source: periodic_electron_model
+    target: nearly_free_electron_model
+    type: mathematical-limit
+    label: weak-periodic-potential approximation
+    detail: When the periodic potential is weak relative to the free-electron kinetic scale, perturbation theory recovers nearly free dispersion away from Bragg degeneracies and controlled gap opening after degenerate perturbation theory.
+    citations:
+      - wp-physics-nearly-free-electron
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_tight_binding_to_band_structure
+    source: tight_binding_model
+    target: electronic_band_structure
+    type: state-description
+    label: hopping-model bands
+    detail: Diagonalizing the Bloch Hamiltonian of a tight-binding model yields its band structure; it describes only the orbitals and interactions retained in that model.
+    citations:
+      - wp-physics-tight-binding
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_nearly_free_to_band_structure
+    source: nearly_free_electron_model
+    target: electronic_band_structure
+    type: state-description
+    label: weak-potential bands
+    detail: The nearly-free approximation produces bands close to the free-electron parabola, with gaps opened where reciprocal-lattice scattering mixes degenerate plane waves.
+    citations:
+      - wp-physics-nearly-free-electron
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_electronic_matter_to_band_metal
+    source: electronic_condensed_matter
+    target: band_metal
+    type: classification
+    label: metallic band filling
+    detail: Within a band or Fermi-liquid description, a material is metallic when charged excitations remain available arbitrarily close to the chemical potential.
+    citations:
+      - wp-physics-electrical-conductor
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_electronic_matter_to_band_insulator
+    source: electronic_condensed_matter
+    target: band_insulator
+    type: classification
+    label: filled-band insulator
+    detail: A band insulator is the material class whose occupied and unoccupied one-particle bands are separated by a gap at the relevant integer filling.
+    citations:
+      - wp-physics-electrical-insulator
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_electronic_matter_to_semiconductor
+    source: electronic_condensed_matter
+    target: semiconductor
+    type: classification
+    label: controllable gapped conductor
+    detail: Semiconductors are electronic materials with a moderate band gap and carrier populations that can be controlled by temperature, light, doping, gates, or injection.
+    citations:
+      - wp-physics-semiconductor
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_band_metal_to_band_structure
+    source: band_metal
+    target: electronic_band_structure
+    type: state-description
+    label: band crossing at chemical potential
+    detail: In the band-metal regime, the occupied bands are not separated from all unoccupied states by a gap at the chemical potential.
+    citations:
+      - wp-physics-electrical-conductor
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_band_metal_to_fermi_surface
+    source: band_metal
+    target: fermi_surface
+    type: state-description
+    label: low-energy occupation boundary
+    detail: At zero temperature, a conventional band metal has one or more Fermi surfaces separating occupied from unoccupied quasiparticle states in crystal-momentum space.
+    citations:
+      - wp-physics-fermi-surface
+      - wp-physics-electrical-conductor
+      - tong-solid-state-physics
+  - id: condensed_band_insulator_to_band_structure
+    source: band_insulator
+    target: electronic_band_structure
+    type: state-description
+    label: filled bands separated by a gap
+    detail: A band insulator’s band structure has completely filled occupied bands separated from empty bands by an excitation gap at the chemical potential.
+    citations:
+      - wp-physics-electrical-insulator
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_semiconductor_to_band_structure
+    source: semiconductor
+    target: electronic_band_structure
+    type: state-description
+    label: thermally and chemically accessible gap
+    detail: A semiconductor has a band gap while temperature, doping, illumination, or electrostatic control can populate mobile conduction-band electrons or valence-band holes.
+    citations:
+      - wp-physics-semiconductor
+      - wp-physics-band-structure
+      - tong-solid-state-physics
+  - id: condensed_electronic_matter_to_magnetic_order
+    source: electronic_condensed_matter
+    target: magnetic_order
+    type: emergence
+    label: collective moment ordering
+    detail: Exchange, spin–orbit coupling, itinerant-electron energetics, and lattice structure can collectively stabilize ordered magnetic phases; no single mechanism applies to every magnet.
+    citations:
+      - wp-physics-magnetism
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: condensed_magnetic_order_to_ferromagnetism
+    source: magnetic_order
+    target: ferromagnetism
+    type: classification
+    label: spontaneous net magnetization
+    detail: Ferromagnetism is the magnetic-order class with spontaneous bulk magnetization after selecting a symmetry-broken thermodynamic state.
+    citations:
+      - wp-physics-ferromagnetism
+      - wp-physics-magnetism
+      - tong-statistical-physics
+  - id: condensed_ferromagnetism_to_ising_model
+    source: ferromagnetism
+    target: ising_model
+    type: model-realization
+    label: two-state lattice-spin model
+    detail: The Ising model idealizes uniaxial magnetic degrees of freedom as two-valued lattice variables and captures ferromagnetic symmetry breaking and criticality in applicable universality classes.
+    citations:
+      - wp-physics-ising-model
+      - wp-physics-ferromagnetism
+      - tong-statistical-physics
+  - id: condensed_electronic_matter_to_superconductivity
+    source: electronic_condensed_matter
+    target: superconductivity
+    type: emergence
+    label: coherent paired quantum phase
+    detail: Interacting electronic matter can develop a phase-coherent paired state with superconducting electromagnetic response; the pairing mechanism is material dependent.
+    citations:
+      - wp-physics-superconductivity
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: condensed_superconductivity_to_conventional
+    source: superconductivity
+    target: conventional_superconductivity
+    type: classification
+    label: lattice-mediated pairing regime
+    detail: Conventional superconductors are the subclass whose pairing and measured properties are accounted for by lattice-mediated BCS or Eliashberg theory.
+    citations:
+      - wp-physics-bcs-theory
+      - wp-physics-superconductivity
+      - aps-bcs-theory
+      - nobel-bcs-1972
+  - id: condensed_cooper_pair_to_conventional_superconductivity
+    source: cooper_pair
+    target: conventional_superconductivity
+    type: emergence
+    label: coherent condensate of pairs
+    detail: Conventional superconductivity is collective order of strongly overlapping Cooper pairs; a collection of isolated pairs without phase coherence is not by itself a superconducting state.
+    citations:
+      - wp-physics-cooper-pair
+      - wp-physics-bcs-theory
+      - aps-bcs-theory
+      - mit-theory-of-solids
+  - id: condensed_phonon_to_conventional_superconductivity
+    source: phonon
+    target: conventional_superconductivity
+    type: couples-interacts
+    label: lattice-mediated effective attraction
+    detail: In conventional superconductors, electron–phonon coupling can produce a retarded effective attraction that supports Cooper pairing; this edge does not claim that all superconductivity is phonon mediated.
+    citations:
+      - wp-physics-bcs-theory
+      - wp-physics-phonon
+      - aps-bcs-theory
+      - mit-theory-of-solids
+  - id: condensed_conventional_superconductivity_to_bcs
+    source: conventional_superconductivity
+    target: bcs_theory
+    type: model-realization
+    label: weak-coupling paired mean-field theory
+    detail: BCS theory models the weak-coupling conventional superconducting phase and its gap, thermodynamics, and electromagnetic response; strong-coupling and unconventional materials require extensions or different theories.
+    citations:
+      - wp-physics-bcs-theory
+      - aps-bcs-theory
+      - nobel-bcs-1972
+      - mit-theory-of-solids
+  - id: condensed_electronic_matter_to_hubbard
+    source: electronic_condensed_matter
+    target: hubbard_model
+    type: model-realization
+    label: local-interaction lattice model
+    detail: The Hubbard model idealizes selected electronic bands by hopping and local interactions. It may be derived after projection in favorable cases but is often used phenomenologically without a universal error bound.
+    citations:
+      - wp-physics-hubbard-model
+      - wp-physics-many_body_quantum_mechanics
+      - mit-theory-of-solids
+  - id: condensed_electronic_matter_to_fermi_liquid
+    source: electronic_condensed_matter
+    target: fermi_liquid_theory
+    type: effective-theory
+    label: low-energy quasiparticles near a Fermi surface
+    detail: For interacting fermionic phases adiabatically connected to a Fermi gas, high-energy details are encoded in quasiparticle parameters and residual interactions near the Fermi surface. Non-Fermi-liquid phases are excluded.
+    citations:
+      - wp-physics-fermi-liquid
+      - wp-physics-quasiparticle
+      - mit-theory-of-solids
+  - id: condensed_fermi_liquid_to_quasiparticle
+    source: fermi_liquid_theory
+    target: quasiparticle
+    type: describes-governs
+    label: long-lived fermionic quasiparticles
+    detail: Fermi-liquid theory describes low-energy excitations near the Fermi surface as quasiparticles whose decay rate vanishes sufficiently rapidly toward the chemical potential.
+    citations:
+      - wp-physics-fermi-liquid
+      - wp-physics-quasiparticle
+      - mit-theory-of-solids
+  - id: condensed_electronic_matter_to_phase_transition
+    source: electronic_condensed_matter
+    target: phase_transition
+    type: emergence
+    label: collective material phase change
+    detail: Many-body interactions and entropy can collectively produce structural, magnetic, superconducting, and other phase transitions as external controls vary.
+    citations:
+      - wp-physics-phase-transition
+      - wp-physics-condensed-matter
+      - tong-statistical-physics
+  - id: condensed_electronic_matter_to_dft
+    source: electronic_condensed_matter
+    target: density_functional_theory
+    type: model-realization
+    label: ground-state density formulation
+    detail: Hohenberg–Kohn theory recasts the ground-state electronic problem in the density in principle; practical Kohn–Sham calculations depend on approximate exchange–correlation functionals and chosen ionic models.
+    citations:
+      - wp-physics-density_functional_theory
+      - aps-hohenberg-kohn
+      - aps-kohn-sham
+      - mit-theory-of-solids

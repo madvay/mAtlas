@@ -1654,3 +1654,13 @@ edges:
       - wp-physics-proton
       - doe-protons
       - pdg-rpp
+  - id: atomic_nucleus_to_electronic_condensed_matter
+    source: atomic_nucleus
+    target: electronic_condensed_matter
+    type: composition
+    label: ionic-core or nuclear constituent
+    detail: Ordinary electronic materials contain nuclei, usually grouped with core electrons into effective ions, together with valence or conduction electrons. Nuclear internal structure is normally unresolved at condensed-matter energy scales.
+    citations:
+      - wp-physics-atomic_nucleus
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics

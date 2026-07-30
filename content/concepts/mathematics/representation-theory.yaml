@@ -660,3 +660,14 @@ edges:
       - wp-unitary_representation
       - nlab-unitary_representation
     overview: true
+  - id: group_representation_to_bloch_state
+    source: group_representation
+    target: bloch_state
+    type: mathematical-formulation
+    label: character of the lattice-translation group
+    detail: Lattice translations act on one-particle states by commuting unitary operators. A Bloch state transforms in a one-dimensional character of that Abelian translation group, labeled by crystal momentum modulo the reciprocal lattice.
+    citations:
+      - wp-group-representation
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids

@@ -750,6 +750,8 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
     level: 7
     kind: structure
     conceptType: Scale-flow framework
@@ -869,6 +871,8 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
+      - thermodynamics-statistical-mechanics
+      - condensed-matter-physics
     level: 8
     kind: structure
     conceptType: Observable distribution
@@ -4075,3 +4079,54 @@ edges:
     citations:
       - wp-physics-canonical_quantization
       - nlab-physics-canonical_quantization
+  - id: quantum_field_theory_to_condensed_matter_physics
+    source: quantum_field_theory
+    target: condensed_matter_physics
+    type: theory-component
+    label: field and operator methods for collective matter
+    detail: Nonrelativistic quantum-field and many-body operator methods describe variable occupation, collective modes, symmetry breaking, and low-energy excitations in condensed matter. Condensed-matter physics also uses methods not organized as relativistic QFT.
+    citations:
+      - wp-physics-quantum_field_theory
+      - wp-physics-condensed-matter
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: effective_field_theory_to_fermi_liquid_theory
+    source: effective_field_theory
+    target: fermi_liquid_theory
+    type: framework-specialization
+    label: low-energy theory about a Fermi surface
+    detail: Fermi-liquid theory is an effective low-energy framework for interacting fermions near a stable Fermi surface, organized around quasiparticles and symmetry-allowed residual interactions. Systems without long-lived quasiparticles do not lie in this specialization.
+    citations:
+      - wp-physics-effective_field_theory
+      - wp-physics-fermi-liquid
+      - mit-theory-of-solids
+  - id: renormalization_group_to_critical_phenomena
+    source: renormalization_group
+    target: critical_phenomena
+    type: describes-governs
+    label: scale flow near criticality
+    detail: Renormalization-group flow explains scaling, relevant and irrelevant perturbations, and fixed-point behavior near continuous phase transitions; its conclusions depend on the selected degrees of freedom and coarse-graining scheme.
+    citations:
+      - wp-physics-renormalization_group
+      - wp-physics-critical-phenomena
+      - tong-statistical-physics
+  - id: renormalization_group_to_universality_class
+    source: renormalization_group
+    target: universality_class
+    type: describes-governs
+    label: common infrared fixed-point behavior
+    detail: Systems whose coarse-grained couplings flow toward the same infrared fixed point can share critical exponents and scaling functions, while dimensionality, symmetry, interaction range, and conserved dynamics can separate universality classes.
+    citations:
+      - wp-physics-renormalization_group
+      - wp-physics-universality
+      - tong-statistical-physics
+  - id: correlation_function_to_fluctuation_dissipation_theorem
+    source: correlation_function
+    target: fluctuation_dissipation_theorem
+    type: theory-component
+    label: equilibrium fluctuations determine linear response
+    detail: Fluctuation–dissipation relations express causal linear-response functions through appropriate equilibrium correlation or spectral functions under stationarity and thermal-equilibrium assumptions.
+    citations:
+      - wp-physics-correlation_function
+      - wp-physics-fluctuation-dissipation
+      - kubo-fluctuation-dissipation

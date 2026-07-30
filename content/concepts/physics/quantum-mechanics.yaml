@@ -98,6 +98,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - thermodynamics-statistical-mechanics
     level: 6
     kind: structure
     conceptType: State representation
@@ -446,6 +447,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - thermodynamics-statistical-mechanics
     level: 10
     kind: structure
     conceptType: Exchange statistics
@@ -462,6 +464,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - thermodynamics-statistical-mechanics
     level: 10
     kind: structure
     conceptType: Exchange statistics
@@ -590,6 +593,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - condensed-matter-physics
     level: 11
     kind: structure
     conceptType: Theory framework
@@ -1920,3 +1924,75 @@ edges:
       - wp-physics-schrodinger_equation
       - nlab-physics-schrodinger_equation
       - wp-physics-quantum_mechanics
+  - id: quantum_mechanics_to_quantum_statistical_mechanics
+    source: quantum_mechanics
+    target: quantum_statistical_mechanics
+    type: theory-component
+    label: quantum states, observables, and dynamics
+    detail: Quantum mechanics supplies the state spaces, observables, and microscopic evolution used in quantum statistical mechanics; statistical ensembles and thermodynamic limits add structure beyond ordinary single-system quantum theory.
+    citations:
+      - wp-physics-quantum_mechanics
+      - wp-physics-quantum-statistical-mechanics
+      - tong-statistical-physics
+  - id: density_operator_to_quantum_statistical_mechanics
+    source: density_operator
+    target: quantum_statistical_mechanics
+    type: theory-component
+    label: mixed-state ensemble representation
+    detail: Density operators represent quantum statistical ensembles and reduced equilibrium states, with expectation values computed by traces. Not every density operator is an equilibrium Gibbs state.
+    citations:
+      - wp-physics-density_operator
+      - wp-physics-quantum-statistical-mechanics
+      - tong-statistical-physics
+  - id: bose_einstein_statistics_to_quantum_statistical_mechanics
+    source: bose_einstein_statistics
+    target: quantum_statistical_mechanics
+    type: theory-component
+    label: bosonic occupation statistics
+    detail: Bose–Einstein statistics supplies the symmetric identical-particle sector and corresponding occupation laws used for bosonic quantum ensembles.
+    citations:
+      - wp-physics-bose_einstein_statistics
+      - wp-physics-quantum-statistical-mechanics
+      - tong-statistical-physics
+  - id: fermi_dirac_statistics_to_quantum_statistical_mechanics
+    source: fermi_dirac_statistics
+    target: quantum_statistical_mechanics
+    type: theory-component
+    label: fermionic occupation statistics
+    detail: Fermi–Dirac statistics supplies the antisymmetric identical-particle sector and exclusion-constrained occupation laws used for fermionic quantum ensembles.
+    citations:
+      - wp-physics-fermi_dirac_statistics
+      - wp-physics-quantum-statistical-mechanics
+      - tong-statistical-physics
+  - id: many_body_quantum_mechanics_to_quantum_many_body_system
+    source: many_body_quantum_mechanics
+    target: quantum_many_body_system
+    type: describes-governs
+    label: interacting many-degree-of-freedom dynamics
+    detail: Many-body quantum mechanics governs systems with several or many interacting quantum degrees of freedom; condensed-matter models select particular constituents, interactions, dimensionalities, and phases.
+    citations:
+      - wp-physics-many_body_quantum_mechanics
+      - wp-physics-condensed-matter
+      - mit-theory-of-solids
+  - id: quantum_harmonic_oscillator_to_phonon
+    source: quantum_harmonic_oscillator
+    target: phonon
+    type: theory-component
+    label: quantized normal-mode algebra
+    detail: In the harmonic approximation, each independent lattice normal mode has quantum-harmonic-oscillator creation, annihilation, and occupation-number structure. Anharmonic terms then couple modes and limit phonon lifetimes.
+    citations:
+      - wp-physics-quantum_harmonic_oscillator
+      - wp-physics-phonon
+      - tong-solid-state-physics
+      - mit-theory-of-solids
+  - id: schrodinger_equation_to_periodic_electron_model
+    source: schrodinger_equation
+    target: periodic_electron_model
+    type: theory-component
+    label: periodic single-particle eigenproblem
+    detail: A periodic-electron model uses the nonrelativistic Schrödinger eigenvalue problem with a lattice-periodic one-particle or mean-field Hamiltonian. Correlation, relativistic, disorder, and lattice-motion effects require extensions or different effective descriptions.
+    citations:
+      - wp-physics-schrodinger_equation
+      - wp-physics-bloch-theorem
+      - tong-solid-state-physics
+      - mit-theory-of-solids

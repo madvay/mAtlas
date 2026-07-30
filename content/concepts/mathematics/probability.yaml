@@ -613,3 +613,23 @@ edges:
       - wp-normal-distribution
       - nlab-central-limit-theorem
       - durrett-probability
+  - id: probability_distribution_to_statistical_ensemble
+    source: probability_distribution
+    target: statistical_ensemble
+    type: mathematical-formulation
+    label: classical ensemble measure
+    detail: A classical statistical ensemble is formulated as a probability measure on a specified microstate space. Quantum ensembles instead use density operators, so the probability-distribution formulation is not the whole target concept.
+    citations:
+      - wp-probability-distribution
+      - wp-physics-statistical-ensemble
+      - tong-statistical-physics
+  - id: stochastic_process_to_nonequilibrium_statistical_mechanics
+    source: stochastic_process
+    target: nonequilibrium_statistical_mechanics
+    type: mathematical-formulation
+    label: random time-evolution model
+    detail: Stochastic processes model fluctuating trajectories, transport, and effective open-system dynamics in nonequilibrium statistical mechanics. Deterministic kinetic and Hamiltonian descriptions are additional, non-equivalent formulations.
+    citations:
+      - wp-stochastic-process
+      - wp-physics-nonequilibrium-thermodynamics
+      - tong-kinetic-theory
