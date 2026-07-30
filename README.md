@@ -148,6 +148,11 @@ Fields and domains can also be marked **excluded** without clearing the ordinary
 
 The scoped routes initialize their corresponding field while using the same graph and codebase. Canonical concept URLs are field-independent so a multi-field concept has one durable identity.
 
+### Connection explorer
+
+The **Connect** toolbar control finds up to three short, deterministic, loopless paths between two concepts using only the nodes and relation types visible under the current filters. The default traversal can cross an admitted edge in either direction, but the linear explanation explicitly identifies whether each step follows or opposes the authored arrow; it never invents an inverse relation. A forward-only mode follows authored source-to-target assertions exclusively.
+
+The chosen path is highlighted and fitted on the graph, explained relation-by-relation in the Details panel, and recomputed when filters change. Connection state is bookmarkable through independent `connectFrom=`, `connectTo=`, optional `connectDir=forward`, and optional `connectPath=` parameters. Users can copy either the permalink or a Story-ready YAML `nodeSequence`. See `docs/product-spec-connection-explorer.md` for the product and behavioral contract.
 
 ### Stories and views
 

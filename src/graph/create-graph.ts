@@ -145,6 +145,11 @@ export const graphStyles: cytoscape.StylesheetJson = [
     }
   },
   { selector: 'node.prerequisite-highlight.search-match', style: { 'border-width': 5, 'border-color': '#facc15' } },
+  { selector: 'node.connection-dim', style: { opacity: 0.2 } },
+  { selector: 'edge.connection-dim', style: { opacity: 0.06, events: 'no' } },
+  { selector: 'node.connection-emphasis', style: { opacity: 1, 'border-width': 4, 'border-color': '#2563eb', 'z-index': 997 } },
+  { selector: 'edge.connection-emphasis', style: { display: 'element', opacity: 1, width: 5, 'line-color': '#2563eb', 'target-arrow-color': '#2563eb', 'z-index': 997 } },
+  { selector: 'node.connection-endpoint', style: { 'border-width': 6, 'border-color': '#1d4ed8', 'background-opacity': 1 } },
   { selector: 'node:selected', style: { 'border-width': 5, 'border-color': '#0f172a', 'background-opacity': 1 } },
   { selector: 'edge:selected', style: { width: 5, 'z-index': 999 } }
 ];

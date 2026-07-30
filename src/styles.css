@@ -2573,3 +2573,268 @@ body:not(.atlas-loading) .graph-loader {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Connection explorer */
+.connection-button,
+.connection-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.connection-button .material-icons {
+  font-size: 18px;
+}
+
+.connection-button.active {
+  border-color: #2563eb;
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.connection-dialog {
+  width: min(650px, calc(100vw - 28px));
+}
+
+.connection-form-content > p:first-child {
+  margin-top: 0;
+  color: var(--muted);
+}
+
+.connection-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 10px;
+}
+
+.connection-inputs label,
+.connection-direction {
+  display: grid;
+  gap: 5px;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+}
+
+.connection-inputs input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  padding: 7px 9px;
+  color: var(--text);
+  background: var(--panel);
+  font: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.connection-swap {
+  margin-bottom: 2px;
+}
+
+.connection-direction {
+  margin-top: 14px;
+}
+
+.connection-direction .select {
+  min-height: 38px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
+.form-error {
+  min-height: 1.3em;
+  margin: 9px 0 0 !important;
+  color: #b91c1c;
+  font-size: 12px !important;
+}
+
+.connection-title-arrow {
+  color: #64748b;
+  padding: 0 3px;
+}
+
+.connection-actions .detail-header-action {
+  cursor: pointer;
+}
+
+.connection-actions .copied {
+  border-color: #16a34a;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.connection-summary {
+  border: 1px solid #bfdbfe;
+  border-radius: 9px;
+  padding: 11px 12px;
+  background: #f8fbff;
+}
+
+.connection-summary p {
+  margin: 5px 0 0;
+}
+
+.connection-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.connection-alternatives {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.connection-alternative {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  padding: 6px 8px;
+  background: #fff;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.connection-alternative span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.connection-alternative.active {
+  border-color: #60a5fa;
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.connection-path {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.connection-node {
+  display: grid;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #fff;
+}
+
+.connection-node.endpoint {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.connection-node > span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.connection-node-link {
+  justify-self: start;
+  font-weight: 750;
+  text-align: left;
+}
+
+.connection-relation {
+  display: grid;
+  justify-items: start;
+  padding: 5px 0 5px 14px;
+  border-left: 2px solid #93c5fd;
+  margin-left: 17px;
+}
+
+.connection-edge-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  padding: 3px 0;
+  background: transparent;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.connection-edge-link > span:last-child {
+  display: grid;
+  gap: 1px;
+}
+
+.connection-edge-link strong {
+  color: #475569;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.connection-direction-symbol {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+.connection-direction-note {
+  margin-left: 29px;
+  color: #64748b;
+  font-size: 9px;
+}
+
+.connection-method {
+  margin-top: 13px !important;
+  font-size: 10px;
+}
+
+@media (max-width: 900px) {
+  .connection-button-label {
+    display: none;
+  }
+
+  .connection-button {
+    width: 34px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 620px) {
+  .connection-inputs {
+    grid-template-columns: 1fr auto;
+  }
+
+  .connection-inputs label:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .connection-swap {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .connection-alternatives {
+    grid-template-columns: 1fr;
+  }
+}

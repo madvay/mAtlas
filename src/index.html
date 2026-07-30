@@ -183,6 +183,9 @@
         <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
           <span class="material-icons" aria-hidden="true">highlight_alt</span>
         </button>
+        <button id="connectionButton" class="button connection-button" aria-haspopup="dialog" aria-pressed="false" title="Find and explain paths between two concepts">
+          <span class="material-icons" aria-hidden="true">route</span><span class="connection-button-label">Connect</span>
+        </button>
         <div class="layout-toolbar-toggle" role="group" aria-label="Graph layout">
           <button id="layeredLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="atlas" aria-label="Use Layered layout" aria-pressed="true" title="Layered layout">
             <span class="material-icons" aria-hidden="true">account_tree</span>
@@ -337,6 +340,35 @@
       </article>
     </div>
   </div>
+
+  <dialog id="connectionDialog" class="help-dialog connection-dialog">
+    <form id="connectionForm" class="dialog-card">
+      <div class="dialog-header">
+        <div>
+          <div class="kicker">Relationship discovery</div>
+          <h2>Connect two concepts</h2>
+        </div>
+        <button type="button" class="icon-button" aria-label="Close" data-connection-close>×</button>
+      </div>
+      <div class="dialog-content connection-form-content">
+        <p>Find short paths using only the concepts and relation types visible under the current filters.</p>
+        <div class="connection-inputs">
+          <label><span>From</span><input id="connectionFrom" list="conceptNames" type="search" autocomplete="off" placeholder="Concept name or identifier" required></label>
+          <button id="connectionSwap" type="button" class="icon-button connection-swap" aria-label="Swap endpoints" title="Swap endpoints"><span class="material-icons" aria-hidden="true">swap_vert</span></button>
+          <label><span>To</span><input id="connectionTo" list="conceptNames" type="search" autocomplete="off" placeholder="Concept name or identifier" required></label>
+        </div>
+        <label class="connection-direction"><span>Traversal</span><select id="connectionDirection" class="select">
+          <option value="either">Either direction; preserve arrow meaning</option>
+          <option value="forward">Follow authored arrows only</option>
+        </select></label>
+        <p id="connectionError" class="form-error" role="alert" aria-live="polite"></p>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="button" data-connection-close>Cancel</button>
+        <button type="submit" class="button primary">Find connections</button>
+      </div>
+    </form>
+  </dialog>
 
   <dialog id="viewsDialog" class="help-dialog views-dialog">
     <form method="dialog" class="dialog-card">

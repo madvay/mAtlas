@@ -2,6 +2,7 @@ import type cytoscape from 'cytoscape';
 import { byId, escapeHtml, queryAll as $$ } from '../core/dom.js';
 import { GraphModel } from '../model/graph-model.js';
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
+import { readConnectionQueryState } from '../state/connection-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
 import { viewCoreNodes, viewNodeSequence } from '../state/view-state.js';
 import { LabelSizer } from '../graph/label-sizer.js';
@@ -20,6 +21,7 @@ import { PanelController } from '../ui/panel-controller.js';
 import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
+import { ConnectionController } from '../ui/connection-controller.js';
 import { LocationController } from './location-controller.js';
 import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
@@ -128,6 +130,7 @@ export async function startAtlasApp(): Promise<void> {
   if (initialView) locationController.setActiveView(initialView.id);
 
   let viewsController: ViewsController | null = null;
+  let connectionController: ConnectionController | null = null;
   let graphViewPreservesView = (_view: AtlasView): boolean => true;
   let syncFilterViewScope = (): void => {};
   let currentSelectionTarget = (): SelectionTarget | null => locationController.parseSelection();
@@ -262,6 +265,7 @@ export async function startAtlasApp(): Promise<void> {
   const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
   const applyFilters = (options: { relayout?: boolean } = {}): void => {
     graphView.applyFilters(options);
+    connectionController?.refresh();
     scheduleLayoutUiUpdate();
   };
   const visibleGraphElements = (): cytoscape.CollectionReturnValue => graphView.visibleElements();
@@ -375,6 +379,23 @@ export async function startAtlasApp(): Promise<void> {
     syncDocumentMetadata(null);
   }
 
+  connectionController = new ConnectionController({
+    cy,
+    model,
+    math: mathRenderer,
+    currentSelection: () => currentSelectionTarget(),
+    openDetails: openDetailsPanel,
+    openFilters: () => setPanelOpen('filters', true),
+    fitElements: fitGraphElements,
+    prepareHighlight: () => {
+      cy.$(':selected').unselect();
+      setNeighborhoodHighlight(false, null, false);
+    },
+    refreshEdgeStyles: () => graphView.refreshEdgeZoomStyles(),
+    activateNode: (nodeId) => { activateNode(nodeId, { center: true, zoomIn: true, historyMode: 'push' }); },
+    activateEdge: (edgeId) => { activateEdge(edgeId, { center: true, zoomIn: true, historyMode: 'push' }); }
+  });
+
   function ensureNodeVisible(id: string): void {
     const element = cy.getElementById(id);
     if (!element || element.empty() || !element.hasClass('filter-hidden')) return;
@@ -427,6 +448,7 @@ export async function startAtlasApp(): Promise<void> {
     pointer,
     historyMode = 'push'
   }: { center?: boolean; zoomIn?: boolean; pointer?: { x: number; y: number }; historyMode?: HistoryMode } = {}): boolean {
+    connectionController?.clear();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     // A second details-panel navigation must replace, rather than queue behind,
@@ -457,6 +479,7 @@ export async function startAtlasApp(): Promise<void> {
     zoomIn = false,
     historyMode = 'push'
   }: { center?: boolean; zoomIn?: boolean; pointer?: { x: number; y: number }; historyMode?: HistoryMode } = {}): boolean {
+    connectionController?.clear();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     cy.stop(true, false);
@@ -479,6 +502,7 @@ export async function startAtlasApp(): Promise<void> {
   }
 
   function clearSelection({ historyMode = 'push' }: { historyMode?: HistoryMode } = {}): void {
+    connectionController?.clear();
     cy.$(':selected').unselect();
     setNeighborhoodHighlight(false, null, false);
     showEmptyDetails();
@@ -495,8 +519,16 @@ export async function startAtlasApp(): Promise<void> {
     const selected = cy.$(':selected').first();
 
     if (!target) {
-      if (selected && !selected.empty()) clearSelection({ historyMode: null });
-      if (initial) showEmptyDetails();
+      const connection = readConnectionQueryState(new URL(window.location.href).searchParams, model.knownNodeIds);
+      if (selected && !selected.empty()) {
+        if (connection) {
+          cy.$(':selected').unselect();
+          setNeighborhoodHighlight(false, null, false);
+        } else {
+          clearSelection({ historyMode: null });
+        }
+      }
+      if (initial && !connection) showEmptyDetails();
       return;
     }
 
@@ -606,6 +638,7 @@ export async function startAtlasApp(): Promise<void> {
     applySelectionFromLocation({ initial });
     syncDocumentMetadata(target);
     viewsController?.syncActiveView();
+    connectionController?.syncFromLocation({ fit: initial });
   }
 
   function clearSearch(clearInput = false): void {
@@ -668,6 +701,7 @@ export async function startAtlasApp(): Promise<void> {
           <ul>
             <li><strong>Search</strong> marks all matches and selects the best match without filtering the graph.</li>
             <li><strong>Neighborhood</strong> toggles immediate-neighbor emphasis for the selected item.</li>
+            <li><strong>Connect</strong> finds up to three short paths between two concepts using the currently visible relation graph, while preserving whether each step follows or opposes the authored arrow.</li>
             <li><strong>Layered / Compact</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
             <li><strong>Fit</strong> fits all currently visible nodes, labels, field boundaries, and field titles into the unobscured viewport.</li>
             <li>The panel, fullscreen, SVG, Views, and Help buttons control the surrounding workspace.</li>
@@ -773,6 +807,7 @@ export async function startAtlasApp(): Promise<void> {
     setNodeSequenceBadges: (nodeIds) => graphLabelLayer.setNodeSequence(nodeIds)
   });
   viewsController.initialize();
+  connectionController.initialize();
   buildHelp();
 
   byId('fitButton').addEventListener('click', fitVisibleGraph);

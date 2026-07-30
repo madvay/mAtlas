@@ -111,3 +111,17 @@ test('outgoing detail relations put the destination before the edge qualifier', 
   const detailsController = await readFile(new URL('../src/ui/details-controller.ts', import.meta.url), 'utf8');
   assert.match(detailsController, /\$\{this\.relationLink\(relation\.nodeId\)\} <span class="relation-via">via<\/span> \$\{edgeLabel\}/);
 });
+
+test('connection exploration uses the visible graph and preserves authored edge direction', async () => {
+  const controller = await readFile(new URL('../src/ui/connection-controller.ts', import.meta.url), 'utf8');
+  const pathSearch = await readFile(new URL('../src/graph/connection-path.ts', import.meta.url), 'utf8');
+  const location = await readFile(new URL('../src/app/location-controller.ts', import.meta.url), 'utf8');
+
+  assert.match(controller, /cy\.nodes\(\)\.not\('\.filter-hidden'\)/);
+  assert.match(controller, /cy\.edges\(\)\.not\('\.filter-hidden'\)/);
+  assert.match(controller, /opposite the authored arrow/);
+  assert.match(controller, /do not claim that every traversal direction is a logical derivation/);
+  assert.match(pathSearch, /direction === 'either'/);
+  assert.match(pathSearch, /followsArrow: false/);
+  assert.match(location, /copyConnectionQueryState\(current\.searchParams, url\.searchParams\)/);
+});

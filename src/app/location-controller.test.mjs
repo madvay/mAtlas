@@ -349,3 +349,23 @@ test('clearing selection preserves the view route with an explicit empty selecti
     browser.restore();
   }
 });
+
+test('filter and display location writes preserve an active connection inquiry', () => {
+  const browser = installBrowser('https://atlas.madvay.com/?connectFrom=blackbody&connectTo=quantum&connectDir=forward');
+  try {
+    const state = matchingState();
+    state.layout = 'breadthfirst';
+    const controller = controllerFor(state);
+    controller.write(null, 'replace');
+
+    const written = new URL(browser.writtenUrl());
+    assert.equal(written.searchParams.get('connectFrom'), 'blackbody');
+    assert.equal(written.searchParams.get('connectTo'), 'quantum');
+    assert.equal(written.searchParams.get('connectDir'), 'forward');
+    assert.equal(written.searchParams.get('selection'), 'none');
+    assert.equal(written.searchParams.has('node'), false);
+    assert.equal(written.searchParams.has('edge'), false);
+  } finally {
+    browser.restore();
+  }
+});

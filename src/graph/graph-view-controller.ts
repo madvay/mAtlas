@@ -67,6 +67,11 @@ export class GraphViewController {
     });
   }
 
+  refreshEdgeZoomStyles(): void {
+    this.lastEdgeZoomActive = null;
+    this.updateEdgeZoomStyles();
+  }
+
   applyFilters({ relayout = false }: { relayout?: boolean } = {}): void {
     const { cy, model, state } = this.options;
     const activeCoreNodeIds = this.activeCoreNodeIds();
@@ -310,6 +315,16 @@ export class GraphViewController {
     cy.edges().forEach((edge) => {
       if (edge.hasClass('filter-hidden')) {
         edge.style('opacity', EDGE_OPACITY_HIDDEN);
+        edge.style('events', EDGE_EVENTS_DISABLED);
+        return;
+      }
+      if (edge.hasClass('connection-emphasis')) {
+        edge.style('opacity', EDGE_OPACITY_FULL);
+        edge.style('events', EDGE_EVENTS_ENABLED);
+        return;
+      }
+      if (edge.hasClass('connection-dim')) {
+        edge.style('opacity', 0.06);
         edge.style('events', EDGE_EVENTS_DISABLED);
         return;
       }

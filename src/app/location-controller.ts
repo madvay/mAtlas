@@ -8,6 +8,7 @@ import {
   viewTaxonomyDefaults
 } from '../state/view-state.js';
 import { stripInlineMathText, summarizePlainText } from '../core/text.js';
+import { CONNECTION_FROM_PARAM, copyConnectionQueryState } from '../state/connection-state.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, AtlasView, HistoryMode, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 
@@ -317,6 +318,7 @@ export class LocationController {
         url.hash = '';
       }
     }
+    this.preserveConnectionQuery(url);
     if (url.href === window.location.href) return;
 
     try {
@@ -383,6 +385,15 @@ export class LocationController {
     this.setHeadMeta('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);
     this.setHeadMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title);
     this.setHeadMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description);
+  }
+
+  private preserveConnectionQuery(url: URL): void {
+    const current = new URL(window.location.href);
+    copyConnectionQueryState(current.searchParams, url.searchParams);
+    if (!url.searchParams.has(CONNECTION_FROM_PARAM)) return;
+    url.searchParams.delete('node');
+    url.searchParams.delete('edge');
+    url.searchParams.set('selection', 'none');
   }
 
   private urlForActiveViewSelection(target: SelectionTarget | null): URL {

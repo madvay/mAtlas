@@ -55,3 +55,14 @@ test('prerequisite highlighting is an opt-in browser preference', () => {
   assert.match(html, /id="highlightPrerequisitesToggle"[^>]*type="checkbox"/);
   assert.doesNotMatch(html, /id="highlightPrerequisitesToggle"[^>]*checked/);
 });
+
+test('connection explorer exposes endpoint search and direction-preserving traversal', () => {
+  assert.match(html, /id="connectionButton"[^>]*aria-haspopup="dialog"[^>]*aria-pressed="false"/);
+  assert.match(html, /id="connectionDialog"[^>]*class="[^"]*connection-dialog/);
+  assert.match(html, /id="connectionFrom"[^>]*list="conceptNames"/);
+  assert.match(html, /id="connectionTo"[^>]*list="conceptNames"/);
+  const traversal = html.match(/<select id="connectionDirection"[\s\S]*?<\/select>/)?.[0] ?? '';
+  assert.match(traversal, /value="either">Either direction; preserve arrow meaning/);
+  assert.match(traversal, /value="forward">Follow authored arrows only/);
+  assert.match(html, /id="connectionError"[^>]*role="alert"[^>]*aria-live="polite"/);
+});
