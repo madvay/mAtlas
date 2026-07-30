@@ -108,6 +108,7 @@ export class GraphViewController {
     this.updateStatus();
     this.options.scheduleFieldBands();
     this.options.updateFiltersToggleCount();
+    this.lastEdgeZoomActive = null;
     this.updateEdgeZoomStyles();
     if (relayout) this.options.runLayout(state.layout, true);
   }
