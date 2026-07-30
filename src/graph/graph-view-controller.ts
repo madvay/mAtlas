@@ -6,6 +6,15 @@ import type { LabelSizer } from './label-sizer.js';
 import { isCrossFieldEdgeAllowed, resolveFilterVisibility } from './visibility-policy.js';
 import { renderHtml } from '../ui/render.js';
 
+const EDGE_ZOOM_ACTIVATION_THRESHOLD = 0.65;
+const EDGE_OPACITY_HIDDEN = 0;
+const EDGE_OPACITY_ZOOMED_OUT = 0.32;
+const EDGE_OPACITY_FULL = EDGE_OPACITY_ZOOMED_OUT;
+const EDGE_OPACITY_DEPENDENCY_CONTEXT_DIMMED = 0.46;
+const EDGE_OPACITY_NEIGHBORHOOD_DIMMED = 0.14;
+const EDGE_EVENTS_ENABLED = 'yes' as const;
+const EDGE_EVENTS_DISABLED = 'no' as const;
+
 function sameNodeIds(a: ReadonlySet<string>, b: ReadonlySet<string>): boolean {
   if (a.size !== b.size) return false;
   for (const id of a) {
@@ -288,32 +297,32 @@ export class GraphViewController {
 
   updateEdgeZoomStyles(): void {
     const { cy, state } = this.options;
-    const activeAtZoom = state.edgeZoomActivation && cy.zoom() >= 0.65;
+    const activeAtZoom = state.edgeZoomActivation && cy.zoom() >= EDGE_ZOOM_ACTIVATION_THRESHOLD;
     if (this.lastEdgeZoomActive === activeAtZoom) return;
     this.lastEdgeZoomActive = activeAtZoom;
 
     cy.edges().forEach((edge) => {
       if (edge.hasClass('filter-hidden')) {
-        edge.style('opacity', 0);
-        edge.style('events', 'no');
+        edge.style('opacity', EDGE_OPACITY_HIDDEN);
+        edge.style('events', EDGE_EVENTS_DISABLED);
         return;
       }
       const prerequisiteHighlighted = edge.hasClass('prerequisite-highlight');
       const baseOpacity = edge.hasClass('dependency-context') && this.options.preferences().dimPrerequisites
-        ? 0.46
-        : edge.hasClass('neighborhood-dim') ? 0.14 : 1;
+        ? EDGE_OPACITY_DEPENDENCY_CONTEXT_DIMMED
+        : edge.hasClass('neighborhood-dim') ? EDGE_OPACITY_NEIGHBORHOOD_DIMMED : EDGE_OPACITY_FULL;
       if (prerequisiteHighlighted) {
-        edge.style('opacity', 1);
-        edge.style('events', !state.edgeZoomActivation || activeAtZoom ? 'yes' : 'no');
+        edge.style('opacity', EDGE_OPACITY_FULL);
+        edge.style('events', !state.edgeZoomActivation || activeAtZoom ? EDGE_EVENTS_ENABLED : EDGE_EVENTS_DISABLED);
       } else if (!state.edgeZoomActivation) {
         edge.style('opacity', baseOpacity);
-        edge.style('events', 'yes');
+        edge.style('events', EDGE_EVENTS_ENABLED);
       } else if (activeAtZoom) {
         edge.style('opacity', baseOpacity);
-        edge.style('events', 'yes');
+        edge.style('events', EDGE_EVENTS_ENABLED);
       } else {
-        edge.style('opacity', 0.32);
-        edge.style('events', 'no');
+        edge.style('opacity', EDGE_OPACITY_ZOOMED_OUT);
+        edge.style('events', EDGE_EVENTS_DISABLED);
       }
     });
   }
