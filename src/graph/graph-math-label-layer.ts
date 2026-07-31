@@ -186,6 +186,7 @@ export class GraphMathLabelLayer {
   private syncState(): void {
     for (const { element, label } of this.entries) {
       const hidden = !this.preferences.formulaeInGraph || element.hasClass('filter-hidden')
+        || element.hasClass('structure-source-node') || element.hasClass('structure-source-edge')
         || element.style('display') === 'none'
         || (element.isEdge() && element.hasClass('edge-labels-off'));
       if (hidden) {
@@ -205,12 +206,12 @@ export class GraphMathLabelLayer {
       label.style.zIndex = element.selected() ? '4' : element.isNode() ? '2' : '1';
     }
     for (const { element, marker } of this.domainMarkers) {
-      const hidden = !this.preferences.indicateOtherDomains || element.hasClass('filter-hidden') || element.style('display') === 'none';
+      const hidden = !this.preferences.indicateOtherDomains || element.hasClass('filter-hidden') || element.hasClass('structure-source-node') || element.style('display') === 'none';
       marker.hidden = hidden;
       if (!hidden) marker.style.opacity = String(numericOpacity(element, 1));
     }
     for (const { element, badge } of this.sequenceBadges) {
-      const hidden = element.hasClass('filter-hidden') || element.style('display') === 'none';
+      const hidden = element.hasClass('filter-hidden') || element.hasClass('structure-source-node') || element.style('display') === 'none';
       badge.hidden = hidden;
       if (!hidden) badge.style.opacity = String(numericOpacity(element, 1));
     }

@@ -58,6 +58,12 @@ test('URL state parser accepts canonical values, suppression states, prerequisit
   assert.equal(parsed.hidePrerequisites, true);
 });
 
+
+test('URL state parser accepts domain and field structure layouts', () => {
+  assert.equal(parseUrlUiState(new URLSearchParams('layout=domains'), known).layout, 'domains');
+  assert.equal(parseUrlUiState(new URLSearchParams('layout=fields'), known).layout, 'fields');
+});
+
 test('every prior Organic URL spelling maps to Compact', () => {
   for (const value of ['cose', 'cose-bilkent', 'organic']) {
     assert.equal(parseUrlUiState(new URLSearchParams(`layout=${value}`), known).layout, 'breadthfirst');

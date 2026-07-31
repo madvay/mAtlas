@@ -9,7 +9,7 @@ import { decodeDisplayToken, encodeDisplayToken } from './display-token.js';
 import { decodeFilterToken, encodeFilterToken } from './filter-token.js';
 import { stateMatchesViewDisplay, stateMatchesViewFilter } from './view-state.js';
 
-export const VALID_LAYOUTS: ReadonlySet<LayoutName> = new Set(['atlas', 'breadthfirst']);
+export const VALID_LAYOUTS: ReadonlySet<LayoutName> = new Set(['atlas', 'breadthfirst', 'domains', 'fields']);
 export const SHARE_FILTER_STATE_PARAM = 'filter';
 export const SHARE_DISPLAY_STATE_PARAM = 'disp';
 export const VALID_CROSS_FIELD_VISIBILITIES: ReadonlySet<CrossFieldVisibility> = new Set(['contextual', 'all', 'hidden']);

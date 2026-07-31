@@ -30,6 +30,7 @@ export class DetailsController {
   constructor(private readonly options: DetailsControllerOptions) {}
 
   showNode(id: string): void {
+    delete byId('detailBody').dataset.structureOverlay;
     const { model, cy } = this.options;
     const record = model.nodeRecord.get(id);
     if (!record) return;
@@ -87,6 +88,7 @@ export class DetailsController {
   }
 
   showEdge(id: string): void {
+    delete byId('detailBody').dataset.structureOverlay;
     const { model } = this.options;
     const record = model.edgeRecord.get(id);
     if (!record) return;
@@ -129,6 +131,7 @@ export class DetailsController {
   }
 
   showEmpty(): void {
+    delete byId('detailBody').dataset.structureOverlay;
     byId('detailTitle').textContent = 'Select a concept';
     renderHtml(byId('detailEditLink'), '');
     renderHtml(byId('detailBody'), `

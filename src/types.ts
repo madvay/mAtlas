@@ -1,7 +1,7 @@
 export type NodeKind = 'structure' | 'junction';
 export type LineStyle = 'solid' | 'dashed' | 'dotted';
 export type PrerequisiteTraversal = 'incoming' | 'outgoing' | 'both';
-export type LayoutName = 'atlas' | 'breadthfirst';
+export type LayoutName = 'atlas' | 'breadthfirst' | 'domains' | 'fields';
 export type CrossFieldVisibility = 'contextual' | 'all' | 'hidden';
 export type HistoryMode = 'push' | 'replace' | null;
 export type MathText = string;

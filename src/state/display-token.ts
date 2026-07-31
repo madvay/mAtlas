@@ -54,7 +54,9 @@ export const DISPLAY_TOKEN_CODEC: DisplayTokenCodec = Object.freeze({
       id: 'layout',
       values: Object.freeze([
         Object.freeze({ id: 'atlas' }),
-        Object.freeze({ id: 'breadthfirst' })
+        Object.freeze({ id: 'breadthfirst' }),
+        Object.freeze({ id: 'domains' }),
+        Object.freeze({ id: 'fields' })
       ])
     })
   ])
@@ -109,7 +111,7 @@ function applyEnum(result: UrlUiState, id: string, value: string): void {
       }
       break;
     case 'layout':
-      if (value === 'atlas' || value === 'breadthfirst') result.layout = value as LayoutName;
+      if (value === 'atlas' || value === 'breadthfirst' || value === 'domains' || value === 'fields') result.layout = value as LayoutName;
       break;
     default:
       break;

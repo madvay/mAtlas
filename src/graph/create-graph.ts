@@ -155,7 +155,60 @@ export const graphStyles: cytoscape.StylesheetJson = [
   { selector: 'edge.connection-emphasis', style: { display: 'element', opacity: 1, width: 5, 'line-color': '#2563eb', 'target-arrow-color': '#2563eb', 'z-index': 997 } },
   { selector: 'node.connection-endpoint', style: { 'border-width': 6, 'border-color': '#1d4ed8', 'background-opacity': 1 } },
   { selector: 'node:selected', style: { 'border-width': 5, 'border-color': '#0f172a', 'background-opacity': 1 } },
-  { selector: 'edge:selected', style: { width: 5, 'z-index': 999 } }
+  { selector: 'edge:selected', style: { width: 5, 'z-index': 999 } },
+  {
+    selector: 'node.structure-source-node',
+    style: {
+      label: '', opacity: 0.18, 'background-opacity': 0.72,
+      'border-width': 1, 'border-color': '#ffffff', 'z-index': 1
+    }
+  },
+  {
+    selector: 'node.structure-source-node:selected',
+    style: {
+      opacity: 0.82, 'background-opacity': 0.92,
+      'border-width': 5, 'border-color': '#0f172a', 'z-index': 995
+    }
+  },
+  { selector: 'node.structure-source-junction', style: { display: 'none' } },
+  { selector: 'edge.structure-source-edge', style: { display: 'none', events: 'no' } },
+  {
+    selector: 'node[semanticGroup = 1]',
+    style: {
+      shape: 'round-rectangle', width: 'data(nodeWidth)', height: 'data(nodeHeight)',
+      'background-color': 'data(color)', 'background-opacity': 0.96,
+      'border-width': 4, 'border-color': 'data(fieldColor)',
+      label: 'data(canvasLabel)', color: '#ffffff', 'font-size': 15, 'font-weight': 800,
+      'text-wrap': 'wrap', 'text-max-width': 'data(textWidth)',
+      'text-halign': 'center', 'text-valign': 'center',
+      opacity: 1, 'z-index': 1000, events: 'yes'
+    }
+  },
+  {
+    selector: 'node[semanticGroup = 1]:selected',
+    style: { 'border-width': 7, 'border-color': '#0f172a', 'background-opacity': 1, 'z-index': 1002 }
+  },
+  {
+    selector: 'edge[semanticConnection = 1]',
+    style: {
+      width: 'data(edgeWidth)', 'curve-style': 'bezier',
+      'control-point-distances': 'data(curveDistance)', 'control-point-weights': 0.5,
+      'line-color': 'data(structureColor)', 'target-arrow-color': 'data(structureColor)',
+      'target-arrow-shape': 'triangle', 'arrow-scale': 1.05,
+      label: 'data(canvasLabel)', color: '#172033', 'font-size': 11, 'font-weight': 800,
+      'text-background-color': '#ffffff', 'text-background-opacity': 0.94,
+      'text-background-padding': '4px', 'text-border-width': 1,
+      'text-border-color': '#cbd5e1', 'text-border-opacity': 0.9,
+      'text-rotation': 'autorotate', opacity: 0.84, events: 'yes', 'z-index': 999
+    }
+  },
+  {
+    selector: 'edge[semanticConnection = 1]:selected',
+    style: {
+      width: 'mapData(relationCount, 1, 100, 6, 18)', opacity: 1,
+      'line-color': '#0f172a', 'target-arrow-color': '#0f172a', 'z-index': 1001
+    }
+  }
 ];
 
 export function createGraph(container: HTMLElement, model: GraphModel, labels: LabelSizer, preferences: Preferences): cytoscape.Core {

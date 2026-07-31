@@ -21,7 +21,7 @@ import { PanelController } from '../ui/panel-controller.js';
 import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
-import { SemanticMapController } from '../ui/semantic-map-controller.js';
+import { StructureOverlayController } from '../ui/structure-overlay-controller.js';
 import { CompareController } from '../ui/compare-controller.js';
 import { LocationController } from './location-controller.js';
 import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
@@ -159,7 +159,10 @@ export async function startAtlasApp(): Promise<void> {
   window.cy = cy;
   currentSelectionTarget = () => {
     const selected = cy.$(':selected').first();
-    if (selected && !selected.empty()) return { kind: selected.isNode() ? 'node' : 'edge', id: selected.id() };
+    if (selected && !selected.empty()) {
+      if (selected.isNode() && model.nodeRecord.has(selected.id())) return { kind: 'node', id: selected.id() };
+      if (selected.isEdge() && model.edgeRecord.has(selected.id())) return { kind: 'edge', id: selected.id() };
+    }
     return locationController.parseSelection();
   };
 
@@ -202,9 +205,7 @@ export async function startAtlasApp(): Promise<void> {
   function syncExperimentalToolbarButtons(): void {
     const showExperimental = preferences.experimentalFeatures;
     const compareButton = document.getElementById('compareButton');
-    const semanticMapButton = document.getElementById('semanticMapButton');
     if (compareButton) compareButton.hidden = !showExperimental;
-    if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
   }
 
   function updateCompactLayoutSuggestion(): void {
@@ -243,11 +244,15 @@ export async function startAtlasApp(): Promise<void> {
     });
   }
 
+  let structureOverlayController: StructureOverlayController | null = null;
+  let updateGraphStatus = (): void => {};
+
   const layoutManager = new LayoutManager({
     cy,
     model,
     state,
     onStateChange: persistUiState,
+    onLayoutPrepared: () => structureOverlayController?.refresh(),
     onLayoutSettled: () => {
       scheduleFieldBands();
       scheduleLayoutUiUpdate();
@@ -257,6 +262,7 @@ export async function startAtlasApp(): Promise<void> {
 
   function runLayout(name: LayoutName = state.layout, fitAfter = true): void {
     layoutManager.run(name, fitAfter);
+    updateGraphStatus();
   }
 
   const graphView = new GraphViewController({
@@ -272,10 +278,13 @@ export async function startAtlasApp(): Promise<void> {
     activeView: () => locationController.activeView()
   });
   graphViewPreservesView = (view) => graphView.preservesView(view);
+  updateGraphStatus = () => graphView.updateStatus();
   const updateSemanticLabelSizes = (force = false): void => graphView.updateSemanticLabelSizes(force);
   const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
   const applyFilters = (options: { relayout?: boolean } = {}): void => {
     graphView.applyFilters(options);
+    structureOverlayController?.refresh();
+    graphView.updateStatus();
     comparisonController?.refresh();
     scheduleLayoutUiUpdate();
   };
@@ -310,12 +319,11 @@ export async function startAtlasApp(): Promise<void> {
       applyRendererPreferences(cy, preferences);
       graphLabelLayer.setPreferences(preferences);
       graphView.applyFilters({ relayout: false });
+      structureOverlayController?.refresh();
       if (previousPreferences.experimentalFeatures !== preferences.experimentalFeatures) {
         const showExperimental = preferences.experimentalFeatures;
         const compareButton = document.getElementById('compareButton');
-        const semanticMapButton = document.getElementById('semanticMapButton');
         if (compareButton) compareButton.hidden = !showExperimental;
-        if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
       }
     }
   });
@@ -470,6 +478,7 @@ export async function startAtlasApp(): Promise<void> {
     pointer,
     historyMode = 'push'
   }: { center?: boolean; zoomIn?: boolean; pointer?: { x: number; y: number }; historyMode?: HistoryMode } = {}): boolean {
+    structureOverlayController?.clearSelection();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     // A second details-panel navigation must replace, rather than queue behind,
@@ -500,6 +509,7 @@ export async function startAtlasApp(): Promise<void> {
     zoomIn = false,
     historyMode = 'push'
   }: { center?: boolean; zoomIn?: boolean; pointer?: { x: number; y: number }; historyMode?: HistoryMode } = {}): boolean {
+    structureOverlayController?.clearSelection();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     cy.stop(true, false);
@@ -522,6 +532,7 @@ export async function startAtlasApp(): Promise<void> {
   }
 
   function clearSelection({ historyMode = 'push' }: { historyMode?: HistoryMode } = {}): void {
+    structureOverlayController?.clearSelection();
     cy.$(':selected').unselect();
     setNeighborhoodHighlight(false, null, false);
     showEmptyDetails();
@@ -714,9 +725,9 @@ export async function startAtlasApp(): Promise<void> {
             <li><strong>Search</strong> marks all matches and selects the best match without filtering the graph.</li>
             <li><strong>Neighborhood</strong> toggles immediate-neighbor emphasis for the selected item.</li>
             <li><strong>Compare</strong> uses one A/B pair for two analyses: Overview contrasts structure, taxonomy, sources, direct relations, and shared neighbors; Connections finds and explains up to three short visible-graph paths while preserving authored edge direction.</li>
-            <li><strong>Layered / Compact</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
-            <li><strong>Fit</strong> fits all currently visible nodes, labels, field boundaries, and field titles into the unobscured viewport.</li>
-            <li><strong>Structure map</strong> compresses the current graph into field- or domain-scale nodes, weighted directed connections, and ranked bridge concepts. Double-click a field to descend to its domains or a domain to open its concepts.</li>
+            <li><strong>Layered / Compact / Domains / Fields</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
+            <li><strong>Domains</strong> and <strong>Fields</strong> preserve Layered concept positions, dim the concept substrate, and overlay taxonomy centroids joined by weighted directed relations. The underlying concepts remain selectable.</li>
+            <li><strong>Fit</strong> fits all currently visible graph elements, labels, field boundaries, and field titles into the unobscured viewport.</li>
             <li>The panel, fullscreen, SVG, Views, and Help buttons control the surrounding workspace.</li>
           </ul>
         </section>
@@ -743,6 +754,7 @@ export async function startAtlasApp(): Promise<void> {
           <h3>Layouts</h3>
           <p><strong>Layered</strong> uses the authored global levels and primary-domain lanes. It preserves the atlas’s editorial hierarchy and displays field boundaries.</p>
           <p><strong>Compact</strong> uses only the nodes currently visible. Empty authored levels consume no rows, and each row is ordered deterministically by primary-domain order and then canonical node order. Changing filters recomputes the same layout for the same visible set.</p>
+          <p><strong>Domains</strong> and <strong>Fields</strong> use Layered geometry as a semantic substrate. Concept labels and detailed edges are suppressed while full-opacity centroid nodes summarize the visible primary domains or fields. Curved arrow thickness records the number of visible directed relations; selecting a centroid or aggregate relation opens its statistics in Details.</p>
         </section>
       </div>
 
@@ -766,7 +778,7 @@ export async function startAtlasApp(): Promise<void> {
         <section class="help-card">
           <h3>Details and sources</h3>
           <p>Details gives the selected item’s summary, data, axioms, induced structures, notes, domain memberships, relations, stories and views, and source links. In a relation such as “Builds toward,” the destination is shown first and the edge annotation follows as <em>via [annotation]</em>. Relation links can navigate to concepts currently hidden by filters without silently changing a prohibited-domain setting.</p>
-          <p>The compare action pins a concept into the shared Overview/Connections workspace. Connections can fit an active path and copy its node sequence for Story authoring. The edit action opens the corresponding source file on GitHub. The share action copies a permalink containing the item selection and the current independently versioned <code>filter=</code> and <code>disp=</code> states.</p>
+          <p>The compare action pins a concept into the shared Overview/Connections workspace. Connections can fit an active path and copy its node sequence for Story authoring. The edit action opens the corresponding source file on GitHub. The share action copies a permalink containing the item selection and the current independently versioned <code>filter=</code> and <code>disp=</code> states. SVG export inherits the current layout, including the Domains or Fields overlay exactly as shown.</p>
         </section>
         <section class="help-card">
           <h3>Stories and views</h3>
@@ -808,15 +820,18 @@ export async function startAtlasApp(): Promise<void> {
   if (routedView && !graphView.preservesView(routedView)) locationController.deactivateView();
   filterControls.initialize();
   syncExperimentalToolbarButtons();
-  const semanticMapController = new SemanticMapController({
+  structureOverlayController = new StructureOverlayController({
     model,
     state,
-    sourceCy: cy,
+    cy,
+    openPanel: openDetailsPanel,
     focusField: (fieldId) => filterControls.focusField(fieldId),
     focusDomain: (domainId) => filterControls.focusDomain(domainId),
+    activateNode: (nodeId) => activateNode(nodeId, { center: true, zoomIn: true, historyMode: 'push' }),
+    activateEdge: (edgeId) => activateEdge(edgeId, { center: false, historyMode: 'push' }),
     renderMathText
   });
-  semanticMapController.initialize();
+  structureOverlayController.initialize();
   viewsController = new ViewsController({
     views: viewsData.views,
     activeView: () => locationController.activeView(),
@@ -836,7 +851,7 @@ export async function startAtlasApp(): Promise<void> {
   $$<HTMLButtonElement>('[data-toolbar-layout]').forEach((button) => {
     button.addEventListener('click', () => {
       const layout = button.dataset.toolbarLayout;
-      if (layout === 'atlas' || layout === 'breadthfirst') runLayout(layout, true);
+      if (layout === 'atlas' || layout === 'breadthfirst' || layout === 'domains' || layout === 'fields') runLayout(layout, true);
     });
   });
   byId('focusButton').addEventListener('click', toggleNeighborhoodHighlight);
@@ -880,18 +895,38 @@ export async function startAtlasApp(): Promise<void> {
 
   // Graph interactions
   cy.on('tap', 'node', (event) => {
-    activateNode((event.target as cytoscape.SingularElementReturnValue).id(), { center: false, historyMode: 'push' });
+    const target = event.target as cytoscape.SingularElementReturnValue;
+    if (Number(target.data('semanticGroup')) === 1) {
+      structureOverlayController?.selectGroupElement(target);
+      return;
+    }
+    activateNode(target.id(), { center: false, historyMode: 'push' });
   });
   cy.on('tap', 'edge', (event) => {
-    activateEdge((event.target as cytoscape.SingularElementReturnValue).id(), { center: false, historyMode: 'push' });
+    const target = event.target as cytoscape.SingularElementReturnValue;
+    if (Number(target.data('semanticConnection')) === 1) {
+      structureOverlayController?.selectConnectionElement(target);
+      return;
+    }
+    activateEdge(target.id(), { center: false, historyMode: 'push' });
   });
   cy.on('dbltap', 'node', (event) => {
+    const target = event.target as cytoscape.SingularElementReturnValue;
+    if (Number(target.data('semanticGroup')) === 1) {
+      structureOverlayController?.selectGroupElement(target);
+      return;
+    }
     const pointer = { x: event.renderedPosition.x, y: event.renderedPosition.y };
-    activateNode((event.target as cytoscape.SingularElementReturnValue).id(), { center: true, zoomIn: true, pointer, historyMode: 'push' });
+    activateNode(target.id(), { center: true, zoomIn: true, pointer, historyMode: 'push' });
   });
   cy.on('dbltap', 'edge', (event) => {
+    const target = event.target as cytoscape.SingularElementReturnValue;
+    if (Number(target.data('semanticConnection')) === 1) {
+      structureOverlayController?.selectConnectionElement(target);
+      return;
+    }
     const pointer = { x: event.renderedPosition.x, y: event.renderedPosition.y };
-    activateEdge((event.target as cytoscape.SingularElementReturnValue).id(), { center: true, zoomIn: true, pointer, historyMode: 'push' });
+    activateEdge(target.id(), { center: true, zoomIn: true, pointer, historyMode: 'push' });
   });
   cy.on('tap', (event) => {
     if (event.target !== cy) return;

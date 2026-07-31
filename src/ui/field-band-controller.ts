@@ -30,7 +30,7 @@ export class FieldBandController {
 
   update(): void {
     const { cy, model, state } = this.options;
-    if (state.layout !== 'atlas') {
+    if (state.layout === 'breadthfirst') {
       this.clear();
       return;
     }

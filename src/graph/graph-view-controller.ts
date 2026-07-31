@@ -150,7 +150,7 @@ export class GraphViewController {
   }
 
   visibleElements(): cytoscape.CollectionReturnValue {
-    return this.options.cy.elements().not('.filter-hidden');
+    return this.options.cy.elements().not('.filter-hidden').filter((element) => element.style('display') !== 'none');
   }
 
   fitVisible(): void {
@@ -168,7 +168,8 @@ export class GraphViewController {
     const { cy, state } = this.options;
     const button = byId<HTMLButtonElement>('focusButton');
     const selected = cy.$(':selected').first();
-    const hasSelection = Boolean(selected && !selected.empty());
+    const hasSelection = Boolean(selected && !selected.empty()
+      && (selected.isNode() ? this.options.model.nodeRecord.has(selected.id()) : this.options.model.edgeRecord.has(selected.id())));
     button.disabled = !hasSelection;
     button.setAttribute('aria-pressed', String(state.neighborhoodActive));
     button.classList.toggle('active', state.neighborhoodActive);
@@ -189,7 +190,7 @@ export class GraphViewController {
     }
 
     const selected = cy.getElementById(state.neighborhoodElementId);
-    if (!selected || selected.empty() || selected.hasClass('filter-hidden')) {
+    if (!selected || selected.empty() || selected.hasClass('filter-hidden') || !this.options.model.nodeRecord.has(selected.id())) {
       state.neighborhoodActive = false;
       state.neighborhoodElementId = null;
       this.syncNeighborhoodButton();
@@ -225,6 +226,10 @@ export class GraphViewController {
   toggleNeighborhoodHighlight(): void {
     const selected = this.options.cy.$(':selected').first();
     if (!selected || selected.empty()) return;
+    const known = selected.isNode()
+      ? this.options.model.nodeRecord.has(selected.id())
+      : this.options.model.edgeRecord.has(selected.id());
+    if (!known) return;
     this.setNeighborhoodHighlight(!this.options.state.neighborhoodActive, selected.id(), false);
   }
 
@@ -276,6 +281,22 @@ export class GraphViewController {
   updateStatus(): void {
     const { cy, model, state } = this.options;
     const visibleNodes = cy.nodes().not('.filter-hidden').filter((node) => model.nodeRecord.get(node.id())?.kind === 'structure');
+    if (state.layout === 'fields' || state.layout === 'domains') {
+      const groups = cy.nodes('[semanticGroup = 1]');
+      const connections = cy.edges('[semanticConnection = 1]');
+      const relationCount = connections.reduce((sum, edge) => sum + Number(edge.data('relationCount') ?? 0), 0);
+      const noun = state.layout === 'fields' ? 'fields' : 'domains';
+      renderHtml(byId('status'), `
+        <a href="#" id="statusFiltersLink" class="status-item status-link" title="Show filters">
+          <span class="material-icons">layers</span>
+          <strong class="status-link-text">${state.selectedDomains.size} of ${model.domainOrder.length} domains</strong>
+        </a>
+        <span class="status-item" title="Concepts"><span class="material-icons">auto_stories</span>${visibleNodes.length}</span>
+        <span class="status-item" title="Visible ${noun}"><span class="material-icons">hub</span>${groups.length}</span>
+        <span class="status-item" title="Aggregate directed links"><span class="material-icons">call_split</span>${connections.length}</span>
+        <span class="status-item" title="Underlying directed relations"><span class="material-icons">account_tree</span>${relationCount}</span>`);
+      return;
+    }
     const contextNodes = visibleNodes.filter('.dependency-faded');
     const visibleJunctions = cy.nodes().not('.filter-hidden').filter((node) => model.nodeRecord.get(node.id())?.kind === 'junction');
     const visibleEdges = cy.edges().not('.filter-hidden');
@@ -313,6 +334,16 @@ export class GraphViewController {
     this.lastEdgeZoomActive = activeAtZoom;
 
     cy.edges().forEach((edge) => {
+      if (Number(edge.data('semanticConnection')) === 1) {
+        edge.style('opacity', edge.selected() ? 1 : 0.84);
+        edge.style('events', EDGE_EVENTS_ENABLED);
+        return;
+      }
+      if (edge.hasClass('structure-source-edge')) {
+        edge.style('opacity', EDGE_OPACITY_HIDDEN);
+        edge.style('events', EDGE_EVENTS_DISABLED);
+        return;
+      }
       if (edge.hasClass('filter-hidden')) {
         edge.style('opacity', EDGE_OPACITY_HIDDEN);
         edge.style('events', EDGE_EVENTS_DISABLED);

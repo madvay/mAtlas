@@ -8,6 +8,7 @@ interface LayoutManagerOptions {
   model: GraphModel;
   state: AppState;
   onStateChange: () => void;
+  onLayoutPrepared: (name: LayoutName) => void;
   onLayoutSettled: () => void;
   fitVisible: (elements: cytoscape.CollectionReturnValue, padding?: number) => void;
 }
@@ -34,16 +35,18 @@ export class LayoutManager {
     const select = document.getElementById('layoutSelect');
     if (select instanceof HTMLSelectElement) select.value = name;
     if (layoutChanged) this.options.onStateChange();
-    const visible = cy.elements().not('.filter-hidden');
-
-    if (name === 'atlas') {
+    const layered = name === 'atlas' || name === 'domains' || name === 'fields';
+    if (layered) {
       const positions = this.atlasPositions();
-      cy.nodes().positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
+      cy.nodes().positions((node) => positions[node.id()] ?? node.position());
+      this.options.onLayoutPrepared(name);
+      const visible = cy.elements().not('.filter-hidden');
       if (fitAfter) this.options.fitVisible(visible);
       this.options.onLayoutSettled();
       return;
     }
 
+    const visible = cy.elements().not('.filter-hidden');
     const visibleNodeIds = new Set<string>();
     visible.nodes().forEach((node) => {
       visibleNodeIds.add(node.id());
@@ -54,7 +57,8 @@ export class LayoutManager {
       this.options.model.data.domains,
       this.options.model.domainOrder
     );
-    visible.nodes().positions((node) => positions[node.id()] ?? { x: 0, y: 0 });
+    visible.nodes().positions((node) => positions[node.id()] ?? node.position());
+    this.options.onLayoutPrepared(name);
     if (fitAfter) this.options.fitVisible(visible);
     this.options.onLayoutSettled();
   }

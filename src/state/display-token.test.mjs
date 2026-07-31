@@ -62,6 +62,14 @@ test('display tokens round-trip only software-defined flags and enums', () => {
   assert.equal(base64UrlToBytes(token).length, 7, 'the display fixture contains no checksum bytes');
 });
 
+
+test('domain and field structure layouts round-trip as appended enum values', () => {
+  for (const layout of ['domains', 'fields']) {
+    const token = encodeDisplayToken(state({ layout }));
+    assert.equal(decodeDisplayToken(token).layout, layout);
+  }
+});
+
 test('display encoding is deterministic and independently versioned', () => {
   assert.equal(encodeDisplayToken(state()), encodeDisplayToken(state()));
   assert.throws(

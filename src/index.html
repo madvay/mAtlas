@@ -193,12 +193,15 @@
           <button id="compactLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="breadthfirst" aria-label="Use Compact layout" aria-pressed="false" title="Compact layout">
             <span class="material-icons" aria-hidden="true">view_stream</span>
           </button>
+          <button id="domainsLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="domains" aria-label="Use Domains structure layout" aria-pressed="false" title="Domains structure">
+            <span class="material-icons" aria-hidden="true">bubble_chart</span>
+          </button>
+          <button id="fieldsLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="fields" aria-label="Use Fields structure layout" aria-pressed="false" title="Fields structure">
+            <span class="material-icons" aria-hidden="true">hub</span>
+          </button>
         </div>
         <button id="fitButton" class="button icon-button" aria-label="Fit graph" title="Fit all concepts currently allowed by the filters into the viewport (F)">
           <span class="material-icons" aria-hidden="true">fit_screen</span>
-        </button>
-        <button id="semanticMapButton" class="button icon-button" hidden aria-haspopup="dialog" aria-label="Open structure map" title="Open a field- and domain-scale map of the visible atlas">
-          <span class="material-icons" aria-hidden="true">hub</span>
         </button>
         <button id="detailsToggle" class="button icon-button panel-button" aria-label="Toggle details" aria-pressed="false" title="Show or hide details">
           <span class="material-icons" aria-hidden="true">density_medium</span>
@@ -263,7 +266,7 @@
             <label class="toggle-row"><input id="showPrimaryOnlyToggle" type="checkbox"> Show only primary domain matches</label>
             <label class="toggle-row"><input id="hideIsolatesToggle" type="checkbox"> Hide isolates without filtered relations</label>
             <label class="select-row" for="crossFieldSelect"><span>Cross-field links</span><select id="crossFieldSelect" class="select"><option value="contextual">Contextual</option><option value="all">All</option><option value="hidden">Hidden</option></select></label>
-            <label class="select-row" for="layoutSelect"><span>Layout</span><select id="layoutSelect" class="select"><option value="atlas">Layered</option><option value="breadthfirst">Compact</option></select></label>
+            <label class="select-row" for="layoutSelect"><span>Layout</span><select id="layoutSelect" class="select"><option value="atlas">Layered</option><option value="breadthfirst">Compact</option><option value="domains">Domains</option><option value="fields">Fields</option></select></label>
           </div>
         </section>
 
@@ -344,36 +347,6 @@
       </article>
     </div>
   </div>
-
-  <dialog id="semanticMapDialog" class="help-dialog semantic-map-dialog">
-    <div class="dialog-card">
-      <div class="dialog-header semantic-map-header">
-        <div>
-          <div class="kicker">Structure map</div>
-          <h2>Semantic zoom</h2>
-        </div>
-        <div class="semantic-map-header-actions">
-          <div class="semantic-map-scale" role="group" aria-label="Map scale">
-            <button id="semanticMapFields" type="button" class="button secondary" aria-pressed="true">Fields</button>
-            <button id="semanticMapDomains" type="button" class="button secondary" aria-pressed="false">Domains</button>
-          </div>
-          <button type="button" class="icon-button" data-semantic-map-close aria-label="Close">×</button>
-        </div>
-      </div>
-      <div class="semantic-map-toolbar">
-        <button id="semanticMapBack" type="button" class="text-button" hidden><span class="material-icons" aria-hidden="true">arrow_back</span> All fields</button>
-        <span id="semanticMapScope">Field scale</span>
-        <span class="semantic-map-toolbar-note">Uses the current concept and edge filters</span>
-      </div>
-      <div class="semantic-map-content">
-        <div id="semanticMapGraph" class="semantic-map-graph" role="application" aria-label="Aggregated map of atlas fields and domains"></div>
-        <aside id="semanticMapDetails" class="semantic-map-details" aria-live="polite"></aside>
-      </div>
-      <div class="dialog-actions">
-        <button type="button" class="button primary" data-semantic-map-close>Close</button>
-      </div>
-    </div>
-  </dialog>
 
   <dialog id="viewsDialog" class="help-dialog views-dialog">
     <form method="dialog" class="dialog-card">

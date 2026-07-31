@@ -52,7 +52,8 @@ test('field scale folds domain relations into internal and cross-field counts', 
   assert.equal(mathematics.outgoingRelations, 2);
   assert.deepEqual(map.connections, [{
     id: 'mathematics->physics', source: 'mathematics', target: 'physics', count: 2,
-    typeCounts: { models: 2 }
+    typeCounts: { models: 2 },
+    edgeIds: ['e2', 'e3']
   }]);
 });
 
@@ -65,4 +66,20 @@ test('positions are deterministic and domains remain grouped by field rows', () 
   const mechanics = first.groups.find((group) => group.id === 'mechanics');
   assert.equal(algebra.position.y, geometry.position.y);
   assert.notEqual(algebra.position.y, mechanics.position.y);
+});
+
+
+test('centroids use the current visible Layered node positions', () => {
+  const positions = {
+    group: { x: 20, y: 40 },
+    manifold: { x: 100, y: 80 },
+    'phase-space': { x: 400, y: 120 }
+  };
+  const map = buildSemanticMap({
+    ...base,
+    scale: 'fields',
+    positionForNode: (nodeId) => positions[nodeId]
+  });
+  assert.deepEqual(map.groups.find((group) => group.id === 'mathematics').position, { x: 60, y: 60 });
+  assert.deepEqual(map.groups.find((group) => group.id === 'physics').position, { x: 400, y: 120 });
 });

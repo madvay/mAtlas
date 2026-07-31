@@ -22,6 +22,7 @@ export interface SemanticMapConnection {
   target: string;
   count: number;
   typeCounts: Record<string, number>;
+  edgeIds: string[];
 }
 
 export interface SemanticMapData {
@@ -39,6 +40,7 @@ export interface SemanticMapInput {
   domainOrder: readonly string[];
   fieldForDomain: (domainId: string) => string;
   primaryFieldForNode: (node: GraphNode) => string;
+  positionForNode?: (nodeId: string) => Point | undefined;
 }
 
 function groupId(scale: SemanticMapScale, node: GraphNode, primaryFieldForNode: (node: GraphNode) => string): string {
@@ -90,6 +92,20 @@ function semanticPositions(
   return positions;
 }
 
+function centroid(conceptIds: readonly string[], positionForNode: (nodeId: string) => Point | undefined): Point | null {
+  let x = 0;
+  let y = 0;
+  let count = 0;
+  for (const nodeId of conceptIds) {
+    const point = positionForNode(nodeId);
+    if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) continue;
+    x += point.x;
+    y += point.y;
+    count += 1;
+  }
+  return count > 0 ? { x: x / count, y: y / count } : null;
+}
+
 export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
   const structureNodes = input.nodes.filter((node) => node.kind === 'structure');
   const visibleNodeIds = new Set(structureNodes.map((node) => node.id));
@@ -104,7 +120,7 @@ export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
   }
 
   const groupIds = new Set(conceptIdsByGroup.keys());
-  const positions = semanticPositions(
+  const fallbackPositions = semanticPositions(
     input.scale,
     groupIds,
     input.fieldOrder,
@@ -146,10 +162,12 @@ export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
       source: sourceGroup,
       target: targetGroup,
       count: 0,
-      typeCounts: {}
+      typeCounts: {},
+      edgeIds: []
     };
     connection.count += 1;
     connection.typeCounts[edge.type] = (connection.typeCounts[edge.type] ?? 0) + 1;
+    connection.edgeIds.push(edge.id);
     connections.set(id, connection);
   }
 
@@ -163,6 +181,9 @@ export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
     const bridgeConcepts = [...(bridgeCounts.get(id) ?? new Map<string, number>())]
       .map(([nodeId, count]) => ({ nodeId, count }))
       .sort((left, right) => right.count - left.count || left.nodeId.localeCompare(right.nodeId));
+    const position = input.positionForNode
+      ? centroid(conceptIds, input.positionForNode) ?? fallbackPositions.get(id) ?? { x: 0, y: 0 }
+      : fallbackPositions.get(id) ?? { x: 0, y: 0 };
     return {
       id,
       label: definition?.label ?? id,
@@ -174,13 +195,14 @@ export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
       incomingRelations: incomingCounts.get(id) ?? 0,
       outgoingRelations: outgoingCounts.get(id) ?? 0,
       bridgeConcepts,
-      position: positions.get(id) ?? { x: 0, y: 0 }
+      position
     };
   });
 
   return {
     groups,
-    connections: [...connections.values()].sort((left, right) =>
-      left.source.localeCompare(right.source) || left.target.localeCompare(right.target))
+    connections: [...connections.values()]
+      .map((connection) => ({ ...connection, edgeIds: [...connection.edgeIds].sort() }))
+      .sort((left, right) => left.source.localeCompare(right.source) || left.target.localeCompare(right.target))
   };
 }

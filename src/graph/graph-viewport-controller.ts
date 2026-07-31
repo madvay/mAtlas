@@ -31,7 +31,7 @@ export class GraphViewportController {
       box,
       { width: cy.width(), height: cy.height() },
       this.options.viewportInsets(),
-      state.layout === 'atlas' ? FIELD_BAND_MARGINS : NO_MARGINS,
+      state.layout === 'breadthfirst' ? NO_MARGINS : FIELD_BAND_MARGINS,
       padding,
       ABSOLUTE_MIN_ZOOM,
       cy.maxZoom(),

@@ -18,13 +18,15 @@ test('layout selection lives inside the collapsible Display section', () => {
   assert.equal(html.slice(displayStart, displayEnd).includes('id="layoutSelect"'), true);
 });
 
-test('layout selector exposes only Layered and Compact', () => {
+test('layout selector exposes concept and structure scales', () => {
   const select = html.match(/<select id="layoutSelect"[^>]*>([\s\S]*?)<\/select>/)?.[1] ?? '';
   const options = [...select.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)]
     .map((match) => ({ value: match[1], label: match[2] }));
   assert.deepEqual(options, [
     { value: 'atlas', label: 'Layered' },
-    { value: 'breadthfirst', label: 'Compact' }
+    { value: 'breadthfirst', label: 'Compact' },
+    { value: 'domains', label: 'Domains' },
+    { value: 'fields', label: 'Fields' }
   ]);
 });
 
@@ -61,9 +63,14 @@ test('experimental features is an opt-in browser preference', () => {
   assert.doesNotMatch(html, /id="experimentalFeaturesToggle"[^>]*checked/);
 });
 
-test('Compare and Semantic Map toolbar buttons are hidden by default', () => {
+test('Compare is hidden by default and the obsolete Structure Map dialog is absent', () => {
   assert.match(html, /id="compareButton"[^>]*hidden/);
-  assert.match(html, /id="semanticMapButton"[^>]*hidden/);
+  assert.doesNotMatch(html, /id="semanticMapButton"|id="semanticMapDialog"/);
+});
+
+test('layout toolbar exposes all four enum values', () => {
+  const values = [...html.matchAll(/data-toolbar-layout="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(values, ['atlas', 'breadthfirst', 'domains', 'fields']);
 });
 
 test('Compare integrates overview and direction-preserving connection analysis', () => {
@@ -80,7 +87,7 @@ test('Compare integrates overview and direction-preserving connection analysis',
 
 test('modal dialogs are siblings rather than nested inside another closed dialog', () => {
   const dialogs = [...html.matchAll(/<dialog\b[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/dialog>/g)];
-  assert.ok(dialogs.length >= 4);
+  assert.ok(dialogs.length >= 3);
   for (const [, id, body] of dialogs) {
     assert.doesNotMatch(body, /<dialog\b/, `${id} contains another dialog`);
   }

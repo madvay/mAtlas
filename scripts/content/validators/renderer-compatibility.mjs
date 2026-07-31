@@ -7,7 +7,7 @@ export function validate(context) {
   const errors = [];
   const allowedKinds = new Set(['structure', 'junction']);
   const allowedLineStyles = new Set(['solid', 'dashed', 'dotted']);
-  const allowedLayouts = new Set(['atlas', 'breadthfirst']);
+  const allowedLayouts = new Set(['atlas', 'breadthfirst', 'domains', 'fields']);
   const allowedCrossField = new Set(['contextual', 'all', 'hidden']);
 
   for (const [id, field] of fields) {

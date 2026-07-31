@@ -36,17 +36,23 @@ export class SvgExporter {
   ) {}
 
   serializeVisible(): SvgExportResult | null {
-    const visibleNodes = this.cy.nodes().not('.filter-hidden');
+    const visibleNodes = this.cy.nodes().not('.filter-hidden').filter((element) => element.style('display') !== 'none');
     const visibleEdges = this.cy.edges().not('.filter-hidden').filter((element) => {
       const edge = element as cytoscape.EdgeSingular;
-      return !edge.source().hasClass('filter-hidden') && !edge.target().hasClass('filter-hidden');
+      return edge.style('display') !== 'none'
+        && !edge.source().hasClass('filter-hidden') && !edge.target().hasClass('filter-hidden');
     });
+    const structureScale = this.state.layout === 'fields' ? 'field' : this.state.layout === 'domains' ? 'domain' : null;
     return this.serialize({
       nodes: visibleNodes,
       edges: visibleEdges,
-      accessibleTitle: this.model.data.meta.title,
-      accessibleDescription: `${this.model.data.meta.description} Exported from the current visible graph.`,
-      exportNote: 'Exported from the current visible graph; use the atlas site for the latest data and terms.'
+      accessibleTitle: structureScale ? `${structureScale === 'field' ? 'Field' : 'Domain'} structure — ${this.model.data.meta.title}` : this.model.data.meta.title,
+      accessibleDescription: structureScale
+        ? `${this.model.data.meta.description} Exported with the visible concept graph dimmed beneath ${structureScale} centroids and directed aggregate relations.`
+        : `${this.model.data.meta.description} Exported from the current visible graph.`,
+      exportNote: structureScale
+        ? `Current ${structureScale} structure overlay; aggregate arrow width represents directed relation count.`
+        : 'Exported from the current visible graph; use the atlas site for the latest data and terms.'
     });
   }
 
@@ -109,6 +115,45 @@ export class SvgExporter {
     parts.push(`<rect x="${minX}" y="${minY + headerHeight}" width="${graphOriginalWidth}" height="${graphOriginalHeight}" fill="url(#grid)"/>`);
 
     visibleEdges.forEach((element) => {
+      if (Number(element.data('semanticConnection')) === 1) {
+        const sourceElement = element.source();
+        const targetElement = element.target();
+        const source = sourceElement.position();
+        const target = targetElement.position();
+        const dx = target.x - source.x;
+        const dy = target.y - source.y;
+        const length = Math.max(1, Math.hypot(dx, dy));
+        const perpendicular = { x: -dy / length, y: dx / length };
+        const distance = Number(element.data('curveDistance')) || 0;
+        const control = {
+          x: (source.x + target.x) / 2 + perpendicular.x * distance,
+          y: (source.y + target.y) / 2 + perpendicular.y * distance
+        };
+        const sourceHalf = { w: Number(sourceElement.data('nodeWidth')) / 2 + 4, h: Number(sourceElement.data('nodeHeight')) / 2 + 4 };
+        const targetHalf = { w: Number(targetElement.data('nodeWidth')) / 2 + 4, h: Number(targetElement.data('nodeHeight')) / 2 + 4 };
+        const start = this.rectangleBoundaryPoint(source, control, sourceHalf.w, sourceHalf.h);
+        const end = this.rectangleBoundaryPoint(target, control, targetHalf.w, targetHalf.h);
+        const selected = element.selected();
+        const color = selected ? '#0f172a' : String(element.data('structureColor') ?? '#64748b');
+        const strokeWidth = selected ? Math.min(18, Number(element.data('edgeWidth') ?? 3) + 4) : Number(element.data('edgeWidth') ?? 3);
+        const opacity = selected ? 1 : 0.84;
+        parts.push(`<path d="M ${start.x.toFixed(2)} ${start.y.toFixed(2)} Q ${control.x.toFixed(2)} ${control.y.toFixed(2)} ${end.x.toFixed(2)} ${end.y.toFixed(2)}" fill="none" stroke="${escapeHtml(color)}" stroke-width="${strokeWidth.toFixed(2)}" opacity="${opacity}"/>`);
+        const tangentX = end.x - control.x;
+        const tangentY = end.y - control.y;
+        const tangentLength = Math.max(1, Math.hypot(tangentX, tangentY));
+        const ux = tangentX / tangentLength;
+        const uy = tangentY / tangentLength;
+        const arrowSize = 7;
+        const baseX = end.x - ux * 15;
+        const baseY = end.y - uy * 15;
+        parts.push(`<path d="M ${end.x.toFixed(2)} ${end.y.toFixed(2)} L ${(baseX - uy * arrowSize).toFixed(2)} ${(baseY + ux * arrowSize).toFixed(2)} L ${(baseX + uy * arrowSize).toFixed(2)} ${(baseY - ux * arrowSize).toFixed(2)} Z" fill="${escapeHtml(color)}" opacity="${opacity}"/>`);
+        const labelX = 0.25 * start.x + 0.5 * control.x + 0.25 * end.x;
+        const labelY = 0.25 * start.y + 0.5 * control.y + 0.25 * end.y;
+        const label = String(element.data('label') ?? element.data('relationCount') ?? '');
+        parts.push(`<circle cx="${labelX.toFixed(2)}" cy="${labelY.toFixed(2)}" r="12" fill="#ffffff" fill-opacity="0.95" stroke="#cbd5e1" stroke-width="1"/>`);
+        parts.push(`<text x="${labelX.toFixed(2)}" y="${(labelY + 4).toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="11" font-weight="800" fill="#172033">${escapeHtml(label)}</text>`);
+        return;
+      }
       const record = this.model.edgeRecord.get(element.id());
       if (!record) return;
       const sourceElement = element.source();
@@ -182,6 +227,25 @@ export class SvgExporter {
 
     const sequenceIndex = new Map(this.nodeSequence().map((nodeId, index) => [nodeId, index + 1]));
     visibleNodes.forEach((element) => {
+      if (Number(element.data('semanticGroup')) === 1) {
+        const position = element.position();
+        const nodeWidth = Number(element.data('nodeWidth')) || 190;
+        const nodeHeight = Number(element.data('nodeHeight')) || 76;
+        const x = position.x - nodeWidth / 2;
+        const y = position.y - nodeHeight / 2;
+        const selected = element.selected();
+        const fill = String(element.data('color') ?? '#64748b');
+        const border = selected ? '#0f172a' : String(element.data('fieldColor') ?? '#ffffff');
+        parts.push(`<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${nodeWidth.toFixed(2)}" height="${nodeHeight.toFixed(2)}" rx="12" fill="${escapeHtml(fill)}" fill-opacity="${selected ? 1 : 0.96}" stroke="${escapeHtml(border)}" stroke-width="${selected ? 7 : 4}"/>`);
+        const lines = String(element.data('label') ?? '').split('\n');
+        const fontSize = 15;
+        const lineHeight = 18;
+        lines.forEach((line, index) => {
+          const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
+          parts.push(`<text x="${position.x.toFixed(2)}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize}" font-weight="800" fill="#ffffff">${escapeHtml(line)}</text>`);
+        });
+        return;
+      }
       const record = this.model.nodeRecord.get(element.id());
       if (!record) return;
       const position = element.position();
@@ -192,7 +256,10 @@ export class SvgExporter {
       const y = position.y - nodeHeight / 2;
       const isDependencyFaded = element.hasClass('dependency-faded');
       const prerequisiteHighlighted = element.hasClass('prerequisite-highlight');
-      const opacity = prerequisiteHighlighted ? 1 : element.hasClass('neighborhood-dim') ? 0.46 : 1;
+      const structureSource = element.hasClass('structure-source-node');
+      const opacity = structureSource
+        ? element.selected() ? 0.82 : 0.18
+        : prerequisiteHighlighted ? 1 : element.hasClass('neighborhood-dim') ? 0.46 : 1;
       const selected = element.selected();
       const emphasized = element.hasClass('neighborhood-emphasis');
       const searchMatch = element.hasClass('search-match');
@@ -210,7 +277,7 @@ export class SvgExporter {
         const fill = prerequisiteHighlighted ? '#bae6fd' : data.domains[record.primaryDomain]?.color ?? '#64748b';
         const backgroundOpacity = prerequisiteHighlighted ? 1 : isDependencyFaded && this.preferences().dimPrerequisites ? 0.46 : 0.92;
         parts.push(`<rect x="${x}" y="${y}" width="${nodeWidth}" height="${nodeHeight}" rx="8" fill="${escapeHtml(fill)}" fill-opacity="${backgroundOpacity}" stroke="${borderColor}" stroke-width="${borderWidth}" opacity="${opacity}"/>`);
-        const additionalDomains = this.model.nodeDomainIds(record).slice(1);
+        const additionalDomains = structureSource ? [] : this.model.nodeDomainIds(record).slice(1);
         if (additionalDomains.length) {
           const markerWidth = additionalDomains.length * 12 - 3;
           const markerX = x + nodeWidth - markerWidth;
@@ -221,16 +288,16 @@ export class SvgExporter {
           });
         }
       }
-      const label = stripInlineMathText(record.label);
+      const label = structureSource ? '' : stripInlineMathText(record.label);
       const fontSize = Math.min(16, this.fittingLabelCap(record, label));
-      const lines = this.wrappedLines(label, fontSize, isJunction ? 92 : 144);
+      const lines = label ? this.wrappedLines(label, fontSize, isJunction ? 92 : 144) : [];
       const lineHeight = fontSize * 1.16;
       const textColor = prerequisiteHighlighted ? '#0c4a6e' : isJunction ? '#7c2d12' : '#ffffff';
       lines.forEach((line, index) => {
         const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
         parts.push(`<text x="${position.x}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="600" fill="${textColor}" opacity="${opacity}">${escapeHtml(line)}</text>`);
       });
-      const stepNumber = sequenceIndex.get(record.id);
+      const stepNumber = structureSource ? undefined : sequenceIndex.get(record.id);
       if (stepNumber !== undefined) {
         parts.push(`<circle cx="${x}" cy="${y + nodeHeight}" r="10" fill="#ffffff" stroke="#0f172a" stroke-width="2" opacity="${opacity}"/>`);
         parts.push(`<text x="${x}" y="${(y + nodeHeight + 3.5).toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="10" font-weight="800" fill="#0f172a" opacity="${opacity}">${stepNumber}</text>`);
