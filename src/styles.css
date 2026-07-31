@@ -1198,6 +1198,10 @@ body:not(.atlas-loading) .graph-loader {
   margin-top: 8px;
 }
 
+.detail-header-actions [hidden] {
+  display: none !important;
+}
+
 .detail-header-action {
   display: inline-flex;
   align-items: center;

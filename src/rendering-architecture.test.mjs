@@ -112,6 +112,18 @@ test('outgoing detail relations put the destination before the edge qualifier', 
   assert.match(detailsController, /\$\{this\.relationLink\(relation\.nodeId\)\} <span class="relation-via">via<\/span> \$\{edgeLabel\}/);
 });
 
+test('experimental Compare controls stay synchronized across toolbar and details', async () => {
+  const appSource = await readFile(new URL('../src/app/atlas-app.ts', import.meta.url), 'utf8');
+  const detailsController = await readFile(new URL('../src/ui/details-controller.ts', import.meta.url), 'utf8');
+  const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+
+  assert.match(appSource, /for \(const id of \['compareButton', 'detailCompareButton'\]\)/);
+  assert.match(appSource, /experimentalFeatures: \(\) => preferences\.experimentalFeatures/);
+  assert.match(appSource, /setPreferences: \(next\) => \{[\s\S]*?syncExperimentalButtons\(\);/);
+  assert.match(detailsController, /id="detailCompareButton"\$\{this\.options\.experimentalFeatures\(\) \? '' : ' hidden'\}/);
+  assert.match(styles, /\.detail-header-actions \[hidden\]\s*\{\s*display:\s*none !important;/);
+});
+
 test('Compare connection analysis uses the visible graph and preserves authored edge direction', async () => {
   const controller = await readFile(new URL('../src/ui/compare-controller.ts', import.meta.url), 'utf8');
   const pathSearch = await readFile(new URL('../src/graph/connection-path.ts', import.meta.url), 'utf8');

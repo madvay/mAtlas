@@ -205,10 +205,12 @@ export async function startAtlasApp(): Promise<void> {
     byId<HTMLSelectElement>('layoutSelect').value = state.layout;
   }
 
-  function syncExperimentalToolbarButtons(): void {
+  function syncExperimentalButtons(): void {
     const showExperimental = preferences.experimentalFeatures;
-    const compareButton = document.getElementById('compareButton');
-    if (compareButton) compareButton.hidden = !showExperimental;
+    for (const id of ['compareButton', 'detailCompareButton']) {
+      const compareButton = document.getElementById(id);
+      if (compareButton) compareButton.hidden = !showExperimental;
+    }
   }
 
   function updateCompactLayoutSuggestion(): void {
@@ -322,18 +324,13 @@ export async function startAtlasApp(): Promise<void> {
     renderMathText,
     preferences: () => preferences,
     setPreferences: (next) => {
-      const previousPreferences = preferences;
       preferences = next;
       writePreferences();
       applyRendererPreferences(cy, preferences);
       graphLabelLayer.setPreferences(preferences);
       graphView.applyFilters({ relayout: false });
       structureOverlayController?.refresh();
-      if (previousPreferences.experimentalFeatures !== preferences.experimentalFeatures) {
-        const showExperimental = preferences.experimentalFeatures;
-        const compareButton = document.getElementById('compareButton');
-        if (compareButton) compareButton.hidden = !showExperimental;
-      }
+      syncExperimentalButtons();
     }
   });
   const buildFilters = (): void => filterControls.build();
@@ -387,6 +384,7 @@ export async function startAtlasApp(): Promise<void> {
     activateNode: (id) => { activateNode(id, { center: true, zoomIn: true, historyMode: 'push' }); },
     activateEdge: (id) => { activateEdge(id, { center: true, zoomIn: true, historyMode: 'push' }); },
     compareNode: (id) => openConceptComparison(id),
+    experimentalFeatures: () => preferences.experimentalFeatures,
     openPanel: openDetailsPanel,
     navigate: (href) => {
       const url = new URL(href, window.location.href);
@@ -837,7 +835,7 @@ export async function startAtlasApp(): Promise<void> {
   const routedView = locationController.activeView();
   if (routedView && !graphView.preservesView(routedView)) locationController.deactivateView();
   filterControls.initialize();
-  syncExperimentalToolbarButtons();
+  syncExperimentalButtons();
   structureOverlayController = new StructureOverlayController({
     model,
     state,

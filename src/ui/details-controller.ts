@@ -22,6 +22,7 @@ interface DetailsControllerOptions {
   activateNode: (nodeId: string) => void;
   activateEdge: (edgeId: string) => void;
   compareNode: (nodeId: string) => void;
+  experimentalFeatures: () => boolean;
   openPanel: () => void;
   navigate: (href: string) => void;
 }
@@ -240,7 +241,7 @@ export class DetailsController {
       <a href="${escapeHtml(permalink)}" class="detail-header-action" id="detailShareButton" aria-label="Copy permalink" title="Copy permalink">
         <span class="material-symbols-outlined" aria-hidden="true">link</span>
       </a>
-      ${itemKind === 'node' ? `<a href="${escapeHtml(compareHref)}" class="detail-header-action" id="detailCompareButton" aria-label="Compare concept" title="Compare concept">
+      ${itemKind === 'node' ? `<a href="${escapeHtml(compareHref)}" class="detail-header-action" id="detailCompareButton"${this.options.experimentalFeatures() ? '' : ' hidden'} aria-label="Compare concept" title="Compare concept">
         <span class="material-symbols-outlined" aria-hidden="true">compare_arrows</span>
       </a>` : ''}
       <a href="${escapeHtml(this.options.githubEditUrl(itemId))}" class="detail-header-action" id="detailEditButton" aria-label="Edit item" title="Edit item" target="_blank" rel="noopener">
