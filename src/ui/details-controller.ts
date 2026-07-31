@@ -234,11 +234,13 @@ export class DetailsController {
   }
 
   private renderHeaderActions(itemId: string, itemKind: 'node' | 'edge'): string {
+    const permalink = this.options.permalinkUrl(itemId, itemKind);
+    const compareHref = itemKind === 'node' ? this.options.itemUrl(itemId, 'node') : '#';
     return `<div class="detail-header-actions" data-item-id="${escapeHtml(itemId)}" data-item-kind="${itemKind}">
-      <a href="#" class="detail-header-action" id="detailShareButton" aria-label="Copy permalink" title="Copy permalink">
+      <a href="${escapeHtml(permalink)}" class="detail-header-action" id="detailShareButton" aria-label="Copy permalink" title="Copy permalink">
         <span class="material-symbols-outlined" aria-hidden="true">link</span>
       </a>
-      ${itemKind === 'node' ? `<a href="#" class="detail-header-action" id="detailCompareButton" aria-label="Compare concept" title="Compare concept">
+      ${itemKind === 'node' ? `<a href="${escapeHtml(compareHref)}" class="detail-header-action" id="detailCompareButton" aria-label="Compare concept" title="Compare concept">
         <span class="material-symbols-outlined" aria-hidden="true">compare_arrows</span>
       </a>` : ''}
       <a href="${escapeHtml(this.options.githubEditUrl(itemId))}" class="detail-header-action" id="detailEditButton" aria-label="Edit item" title="Edit item" target="_blank" rel="noopener">
