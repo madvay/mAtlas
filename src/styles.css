@@ -20,6 +20,24 @@
   box-sizing: border-box;
 }
 
+.material-symbols-outlined {
+  display: inline-block;
+  direction: ltr;
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  font-feature-settings: "liga";
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  letter-spacing: normal;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
 html,
 body {
   width: 100%;
@@ -370,13 +388,13 @@ input:focus-visible {
   border-radius: 4px;
 }
 
-.filter-section-toggle .material-icons-outlined {
+.filter-section-toggle .material-symbols-outlined {
   flex: 0 0 auto;
   font-size: 18px;
   transition: transform 140ms ease;
 }
 
-.filter-section-toggle[aria-expanded="false"] .material-icons-outlined {
+.filter-section-toggle[aria-expanded="false"] .material-symbols-outlined {
   transform: rotate(-90deg);
 }
 
@@ -438,7 +456,7 @@ input:focus-visible {
   cursor: pointer;
 }
 
-.exclude-toggle .material-icons-outlined {
+.exclude-toggle .material-symbols-outlined {
   font-size: 12px;
   line-height: 1;
 }
@@ -836,7 +854,7 @@ body:not(.atlas-loading) .graph-loader {
   margin-right: 0;
 }
 
-.status .material-icons-outlined {
+.status .material-symbols-outlined {
   font-size: 14px;
   line-height: 1;
   vertical-align: middle;
@@ -864,7 +882,7 @@ body:not(.atlas-loading) .graph-loader {
   text-decoration: underline;
 }
 
-.status .status-link .material-icons-outlined {
+.status .status-link .material-symbols-outlined {
   text-decoration: none !important;
   display: inline-flex;
 }
@@ -902,7 +920,7 @@ body:not(.atlas-loading) .graph-loader {
   text-decoration: underline;
 }
 
-.status .status-link .material-icons-outlined {
+.status .status-link .material-symbols-outlined {
   text-decoration: none;
 }
 
@@ -1003,7 +1021,7 @@ body:not(.atlas-loading) .graph-loader {
   background: #f1f5f9;
 }
 
-.detail-view-link>.material-icons-outlined {
+.detail-view-link>.material-symbols-outlined {
   flex: 0 0 auto;
   color: #475569;
   font-size: 19px;
@@ -1186,7 +1204,7 @@ body:not(.atlas-loading) .graph-loader {
   background: transparent;
 }
 
-.detail-header-action .material-icons-outlined {
+.detail-header-action .material-symbols-outlined {
   font-size: 18px;
   line-height: 1;
 }
@@ -1374,7 +1392,7 @@ body:not(.atlas-loading) .graph-loader {
   background: #f8fafc;
 }
 
-.suppression-sample .material-icons-outlined {
+.suppression-sample .material-symbols-outlined {
   font-size: 15px;
 }
 
@@ -1995,7 +2013,7 @@ body:not(.atlas-loading) .graph-loader {
   white-space: nowrap;
 }
 
-.views-button .material-icons-outlined {
+.views-button .material-symbols-outlined {
   font-size: 18px;
 }
 
@@ -2110,7 +2128,7 @@ body:not(.atlas-loading) .graph-loader {
   opacity: .65;
 }
 
-.view-sequence-button .material-icons-outlined {
+.view-sequence-button .material-symbols-outlined {
   font-size: 18px;
 }
 
@@ -2732,7 +2750,7 @@ body:not(.atlas-loading) .graph-loader {
   color: #64748b;
 }
 
-.compare-empty .material-icons-outlined {
+.compare-empty .material-symbols-outlined {
   font-size: 46px;
   color: #94a3b8;
 }
@@ -2817,7 +2835,7 @@ body:not(.atlas-loading) .graph-loader {
   font-size: 11px !important;
 }
 
-.compare-source-count .material-icons-outlined {
+.compare-source-count .material-symbols-outlined {
   font-size: 15px;
 }
 
@@ -2947,7 +2965,7 @@ body:not(.atlas-loading) .graph-loader {
   border-top: 1px solid var(--line);
 }
 
-.compare-dialog-actions .material-icons-outlined {
+.compare-dialog-actions .material-symbols-outlined {
   font-size: 16px;
   vertical-align: -3px;
 }

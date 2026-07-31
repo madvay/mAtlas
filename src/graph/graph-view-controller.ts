@@ -288,13 +288,13 @@ export class GraphViewController {
       const noun = state.layout === 'fields' ? 'fields' : 'domains';
       renderHtml(byId('status'), `
         <a href="#" id="statusFiltersLink" class="status-item status-link" title="Show filters">
-          <span class="material-icons-outlined">layers</span>
+          <span class="material-symbols-outlined">layers</span>
           <strong class="status-link-text">${state.selectedDomains.size} of ${model.domainOrder.length} domains</strong>
         </a>
-        <span class="status-item" title="Concepts"><span class="material-icons-outlined">auto_stories</span>${visibleNodes.length}</span>
-        <span class="status-item" title="Visible ${noun}"><span class="material-icons-outlined">hub</span>${groups.length}</span>
-        <span class="status-item" title="Aggregate directed links"><span class="material-icons-outlined">call_split</span>${connections.length}</span>
-        <span class="status-item" title="Underlying directed relations"><span class="material-icons-outlined">account_tree</span>${relationCount}</span>`);
+        <span class="status-item" title="Concepts"><span class="material-symbols-outlined">auto_stories</span>${visibleNodes.length}</span>
+        <span class="status-item" title="Visible ${noun}"><span class="material-symbols-outlined">hub</span>${groups.length}</span>
+        <span class="status-item" title="Aggregate directed links"><span class="material-symbols-outlined">call_split</span>${connections.length}</span>
+        <span class="status-item" title="Underlying directed relations"><span class="material-symbols-outlined">account_tree</span>${relationCount}</span>`);
       return;
     }
     const contextNodes = visibleNodes.filter('.dependency-faded');
@@ -304,26 +304,26 @@ export class GraphViewController {
       visibleEdges.filter('[synthetic = 1]').map((edge) => edge.data('junctionId'))
     ).size;
     const contextText = contextNodes.length
-      ? `<span class="status-item" title="Faded prerequisites"><span class="material-icons-outlined">subdirectory_arrow_right</span>${contextNodes.length}</span>`
+      ? `<span class="status-item" title="Faded prerequisites"><span class="material-symbols-outlined">subdirectory_arrow_right</span>${contextNodes.length}</span>`
       : '';
     const junctionText = state.showJunctions
-      ? `<span class="status-item" title="Visible junctions"><span class="material-icons-outlined">change_history</span>${visibleJunctions.length}</span>`
-      : `<span class="status-item" title="Collapsed constructions"><span class="material-icons-outlined">change_history</span>${collapsedConstructions}</span>`;
+      ? `<span class="status-item" title="Visible junctions"><span class="material-symbols-outlined">change_history</span>${visibleJunctions.length}</span>`
+      : `<span class="status-item" title="Collapsed constructions"><span class="material-symbols-outlined">change_history</span>${collapsedConstructions}</span>`;
     const suffix = state.neighborhoodActive
-      ? '<span class="status-item" title="Neighborhood highlighted"><span class="material-icons-outlined">star</span></span>'
+      ? '<span class="status-item" title="Neighborhood highlighted"><span class="material-symbols-outlined">star</span></span>'
       : '';
     const crossFieldCount = visibleEdges.filter('.cross-field-edge').length;
     const crossFieldText = crossFieldCount
-      ? `<span class="status-item" title="Cross-field relations"><span class="material-icons-outlined">swap_horiz</span>${crossFieldCount}</span>`
+      ? `<span class="status-item" title="Cross-field relations"><span class="material-symbols-outlined">swap_horiz</span>${crossFieldCount}</span>`
       : '';
     renderHtml(byId('status'), `
       <a href="#" id="statusFiltersLink" class="status-item status-link" title="Show filters">
-        <span class="material-icons-outlined">layers</span>
+        <span class="material-symbols-outlined">layers</span>
         <strong class="status-link-text">${state.selectedDomains.size} of ${model.domainOrder.length} domains</strong>
       </a>
-      <span class="status-item" title="Concepts"><span class="material-icons-outlined">auto_stories</span>${visibleNodes.length}</span>
+      <span class="status-item" title="Concepts"><span class="material-symbols-outlined">auto_stories</span>${visibleNodes.length}</span>
       ${contextText}${junctionText}
-      <span class="status-item" title="Relations"><span class="material-icons-outlined">call_split</span>${visibleEdges.length}</span>
+      <span class="status-item" title="Relations"><span class="material-symbols-outlined">call_split</span>${visibleEdges.length}</span>
       ${crossFieldText}${suffix}`);
   }
 

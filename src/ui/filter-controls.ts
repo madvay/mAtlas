@@ -104,7 +104,7 @@ export class FilterControls {
       fieldLabel.title = field.description;
       renderHtml(fieldLabel, `
         <input type="checkbox" data-field="${escapeHtml(fieldId)}" ${state.selectedFields.has(fieldId) ? 'checked' : ''}>
-        <button type="button" class="exclude-toggle" data-exclude-field="${escapeHtml(fieldId)}" aria-pressed="${state.excludedFields.has(fieldId)}" title="Exclude concepts whose primary field is ${escapeHtml(field.label)}" aria-label="Exclude concepts whose primary field is ${escapeHtml(field.label)}"><span class="material-icons-outlined" aria-hidden="true">visibility_off</span></button>
+        <button type="button" class="exclude-toggle" data-exclude-field="${escapeHtml(fieldId)}" aria-pressed="${state.excludedFields.has(fieldId)}" title="Exclude concepts whose primary field is ${escapeHtml(field.label)}" aria-label="Exclude concepts whose primary field is ${escapeHtml(field.label)}"><span class="material-symbols-outlined" aria-hidden="true">visibility_off</span></button>
         <span class="swatch" style="background:${escapeHtml(field.color)}"></span>
         <span><a href="${escapeHtml(this.options.fieldPageUrl(fieldId))}" class="filter-link filter-field-link" data-field-link="${escapeHtml(fieldId)}">${escapeHtml(field.label)}</a> <span class="filter-count">${memberCount}</span></span>`);
       group.appendChild(fieldLabel);
@@ -481,7 +481,7 @@ export class FilterControls {
       : suppression === 'excluded'
         ? `${domainLabel} is excluded from prerequisite context; tap again to prohibit it completely`
         : `${domainLabel} is prohibited completely; tap again to allow it`;
-    return `<button type="button" class="exclude-toggle domain-suppression-toggle" data-exclude-domain="${escapeHtml(domainId)}" data-suppression="${suppression}" aria-pressed="${ariaPressed}" title="${escapeHtml(action)}" aria-label="${escapeHtml(action)}"><span class="material-icons-outlined" aria-hidden="true">${icon}</span></button>`;
+    return `<button type="button" class="exclude-toggle domain-suppression-toggle" data-exclude-domain="${escapeHtml(domainId)}" data-suppression="${suppression}" aria-pressed="${ariaPressed}" title="${escapeHtml(action)}" aria-label="${escapeHtml(action)}"><span class="material-symbols-outlined" aria-hidden="true">${icon}</span></button>`;
   }
 
   private syncDomainSuppressionButton(button: HTMLButtonElement, domainId: string, suppression: DomainSuppression): void {

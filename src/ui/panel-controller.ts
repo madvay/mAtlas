@@ -69,8 +69,8 @@ export class PanelController {
     maximizeButton.setAttribute('aria-pressed', String(!state.filtersOpen && !state.detailsOpen));
     maximizeButton.classList.toggle('active', !state.filtersOpen && !state.detailsOpen);
     renderHtml(maximizeButton, !state.filtersOpen && !state.detailsOpen
-      ? '<span class="material-icons-outlined" aria-hidden="true">fullscreen_exit</span>'
-      : '<span class="material-icons-outlined" aria-hidden="true">fullscreen</span>');
+      ? '<span class="material-symbols-outlined" aria-hidden="true">fullscreen_exit</span>'
+      : '<span class="material-symbols-outlined" aria-hidden="true">fullscreen</span>');
 
     const leftRail = byId<HTMLButtonElement>('filtersRailToggle');
     const rightRail = byId<HTMLButtonElement>('detailsRailToggle');

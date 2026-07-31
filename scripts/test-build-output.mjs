@@ -91,6 +91,13 @@ await access(new URL(manifest.assets.atlasSvg, dist));
 await access(new URL(`${manifest.assets.directory}index.html`, dist));
 const appCss = await readFile(new URL(manifest.assets.css, dist), 'utf8');
 const appJs = await readFile(new URL(manifest.assets.app, dist), 'utf8');
+const materialSymbolAssets = `${appIndex}
+${appCss}
+${appJs}`;
+const legacyIconPattern = new RegExp(`${['material', 'icons'].join('-')}|${['Material', 'Icons'].join(' ')}`);
+if (!/Material\+Symbols\+Outlined(?:&amp;|&)display=block/.test(appIndex)) throw new Error('The application does not load Material Symbols Outlined with blocking font display.');
+if (!appCss.includes('.material-symbols-outlined') || !/font-family:(?:\"Material Symbols Outlined\"|Material Symbols Outlined)/.test(appCss)) throw new Error('The application stylesheet lacks the Material Symbols Outlined rendering contract.');
+if (legacyIconPattern.test(materialSymbolAssets)) throw new Error('The built application still contains a legacy icon-font reference.');
 if (!appJs.includes('./content/') || appJs.includes('./data/')) throw new Error('The application bundle does not read runtime JSON exclusively from ./content/.');
 if (!appIndex.includes('id="mobileViewContext"')) throw new Error('The application template lacks the mobile guided-view context host.');
 if (!appIndex.includes('href="/directory/"')) throw new Error('The application omits the atlas directory link.');
@@ -166,6 +173,7 @@ for (const view of viewsData.views) {
   const encodedId = encodeURIComponent(view.id);
   const html = await readFile(new URL(`views/${encodedId}/index.html`, dist), 'utf8');
   assertCacheRecovery(html, `Static view page ${view.id}`);
+  if (legacyIconPattern.test(html)) throw new Error(`Static view page ${view.id} still contains a legacy icon-font reference.`);
   if (!html.includes(`<meta name="atlas:view" content="${view.id}">`)) throw new Error(`Static page for ${view.id} lacks its view metadata.`);
   if (!html.includes('<base href="../../">')) throw new Error(`Static page for ${view.id} has the wrong base path.`);
   if (!html.includes('<script id="view-page-jsonld" type="application/ld+json">')) throw new Error(`Static page for ${view.id} lacks view JSON-LD.`);

@@ -27,9 +27,9 @@ function renderStaticSequence(view, graphData) {
   const firstNodeId = sequence[0];
   const firstLabel = graphData.nodes.find((node) => node.id === firstNodeId)?.label ?? firstNodeId ?? '';
   return `<div class="view-sequence-controls" role="group" aria-label="Guided sequence navigation">
-      <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step" disabled><span class="material-icons-outlined" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
+      <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step" disabled><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
       <div class="view-sequence-position"><span>Step 1 of ${sequence.length}</span><strong>${renderInlineMath(firstLabel)}</strong></div>
-      <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${sequence.length < 2 ? ' disabled' : ''}><span class="view-sequence-button-label">Next</span><span class="material-icons-outlined" aria-hidden="true">chevron_right</span></button>
+      <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${sequence.length < 2 ? ' disabled' : ''}><span class="view-sequence-button-label">Next</span><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button>
     </div>`;
 }
 
@@ -38,9 +38,9 @@ function renderStaticBanner(view, graphData) {
   return `<section id="viewBanner" class="view-banner" aria-live="polite"><div class="view-banner-copy">
       <details class="view-context-details" open>
         <summary>
-          <span class="material-icons view-context-icon" aria-hidden="true">explore</span>
+          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">explore</span>
           <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${renderInlineMath(view.title)}</strong></span>
-          <span class="material-icons view-context-chevron" aria-hidden="true">expand_more</span>
+          <span class="material-symbols-outlined view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
         <div class="view-context-body">
           <p>${escapeHtml(view.narrative)}</p>

@@ -190,9 +190,9 @@ export class ViewsController {
     return `<div class="view-banner-desktop view-banner-copy">
       <details class="view-context-details"${this.bannerDetailsOpen ? ' open' : ''}>
         <summary>
-          <span class="material-icons view-context-icon" aria-hidden="true">explore</span>
+          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">explore</span>
           <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${this.options.math.renderText(view.title)}</strong></span>
-          <span class="material-icons view-context-chevron" aria-hidden="true">expand_more</span>
+          <span class="material-symbols-outlined view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
         <div class="view-context-body">
           <p class="math-rich">${this.options.math.renderText(view.narrative)}</p>
@@ -213,9 +213,9 @@ export class ViewsController {
     return `<div class="view-compact-context ${className}">
       <details class="view-context-details">
         <summary>
-          <span class="material-icons view-context-icon" aria-hidden="true">explore</span>
+          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">explore</span>
           <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${this.options.math.renderText(view.title)}</strong></span>
-          <span class="material-icons view-context-chevron" aria-hidden="true">expand_more</span>
+          <span class="material-symbols-outlined view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
         <div class="view-context-body">
           <p class="math-rich">${this.options.math.renderText(view.narrative)}</p>
@@ -236,9 +236,9 @@ export class ViewsController {
     const previousDisabled = safeIndex <= 0 ? ' disabled' : '';
     const nextDisabled = safeIndex >= count - 1 ? ' disabled' : '';
     return `<div class="view-sequence-controls${compact ? ' compact' : ''}" role="group" aria-label="Guided sequence navigation">
-      <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step"${previousDisabled}><span class="material-icons-outlined" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
+      <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step"${previousDisabled}><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
       <div class="view-sequence-position" aria-live="polite"><span>Step ${safeIndex + 1} of ${count}</span><strong title="${escapeHtml(nodeLabel)}">${this.options.math.renderText(nodeLabel)}</strong></div>
-      <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${nextDisabled}><span class="view-sequence-button-label">Next</span><span class="material-icons-outlined" aria-hidden="true">chevron_right</span></button>
+      <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${nextDisabled}><span class="view-sequence-button-label">Next</span><span class="material-symbols-outlined" aria-hidden="true">chevron_right</span></button>
     </div>`;
   }
 
