@@ -57,12 +57,24 @@ test('text-label clearance uses stable graph geometry and scales with the map', 
   assert.equal(structureNodeGap('domains', broadZoom) * broadZoom, 5);
 });
 
-test('aggregate edge widths are monotonic and reciprocal curves separate', () => {
-  const zoom = 0.08;
-  const thin = structureEdgeVisualMetrics('domains', 1, zoom);
-  const thick = structureEdgeVisualMetrics('domains', 64, zoom);
+test('aggregate edge widths preserve the 1720x911 desktop weight and scale with semantic typography', () => {
+  // The app header leaves an 824px graph canvas in the user's 1720x911
+  // reference viewport. This all-atlas bound is the structure-map fit case.
+  const desktopZoom = estimateStructureFitZoom(
+    { x1: -6984.375, y1: -35, w: 14859.308333333334, h: 12310 },
+    { width: 1720, height: 824 }
+  );
+  const mobileZoom = 0.015;
+  const thin = structureEdgeVisualMetrics('domains', 1, desktopZoom);
+  const thick = structureEdgeVisualMetrics('domains', 64, desktopZoom);
+  const mobile = structureEdgeVisualMetrics('domains', 64, mobileZoom);
+  const establishedDesktopWidth = (2.4 + Math.log2(65) * 1.35) * 0.6;
   assert.ok(thin.width < thick.width);
-  assert.ok(thick.renderedWidth <= 13.5);
+  assert.ok(Math.abs(thick.renderedWidth / establishedDesktopWidth - 1) < 0.01);
+  assert.equal(mobile.width, thick.width);
+  assert.equal(mobile.selectedWidth, thick.selectedWidth);
+  assert.equal(mobile.arrowSize, thick.arrowSize);
+  assert.ok(Math.abs(mobile.renderedWidth / thick.renderedWidth - mobileZoom / desktopZoom) < 0.001);
 
   // Reversing source and target reverses Cytoscape's perpendicular vector.
   // The same signed control distance therefore puts reciprocal curves on

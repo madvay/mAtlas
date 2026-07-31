@@ -47,6 +47,10 @@ const MAX_FIT_ZOOM = 1.5;
 // pixels. At roughly this zoom a single-field graph reproduces the intended
 // reading size; wider/taller selections then scale down naturally with the map.
 const STRUCTURE_LABEL_REFERENCE_ZOOM = 0.11;
+// Preserve the established aggregate-edge weight at a 1720 × 911 desktop
+// viewport (1720 × 824 graph canvas), then let the map zoom scale it with the
+// semantic labels on smaller canvases.
+const STRUCTURE_EDGE_REFERENCE_ZOOM = 0.043;
 
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.min(maximum, Math.max(minimum, value));
@@ -177,17 +181,24 @@ export function structureEdgeVisualMetrics(
 ): StructureEdgeVisualMetrics {
   const zoom = clamp(estimatedFitZoom, MIN_FIT_ZOOM, MAX_FIT_ZOOM);
   const count = Math.max(1, relationCount);
-  const renderedWidth = clamp(2.4 + Math.log2(count + 1) * 1.35, 3.2, 13.5) * 0.6;
+  const referenceRenderedWidth = clamp(2.4 + Math.log2(count + 1) * 1.35, 3.2, 13.5) * 0.6;
+  const width = referenceRenderedWidth / STRUCTURE_EDGE_REFERENCE_ZOOM;
   const renderedCurveDistance = scale === 'fields' ? 72 : 46;
   return {
-    width: renderedWidth / zoom,
-    selectedWidth: (renderedWidth + 3.4) / zoom,
+    // Author aggregate-edge thickness in the same stable graph coordinates as
+    // the semantic labels. Dividing by the live fit zoom made edge thickness a
+    // screen-space constant, so mobile maps had tiny labels beside desktop-size
+    // strokes. The reference zoom preserves the established desktop proportion
+    // while allowing labels, strokes, selection emphasis, and arrows to scale
+    // down together on smaller viewports.
+    width,
+    selectedWidth: (referenceRenderedWidth + 3.4) / STRUCTURE_EDGE_REFERENCE_ZOOM,
     // Cytoscape defines the control-point side relative to the directed
     // source→target vector. Keeping the same sign means reversing an edge also
     // reverses the perpendicular, placing reciprocal arrows on opposite sides.
     curveDistance: renderedCurveDistance / zoom,
-    arrowSize: Math.max(10, renderedWidth * 1.7) / zoom,
-    renderedWidth
+    arrowSize: Math.max(10, referenceRenderedWidth * 1.7) / STRUCTURE_EDGE_REFERENCE_ZOOM,
+    renderedWidth: width * zoom
   };
 }
 
