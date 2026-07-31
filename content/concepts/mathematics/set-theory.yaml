@@ -249,7 +249,7 @@ nodes:
       - number-theory
     level: 5
     conceptType: Ordinal class
-    summary: 'A von Neumann ordinal $n$ obtained from $0=\varnothing$ by finitely many successor steps, so $n=\{0,1,\ldots,n-1\}$.  For example, $0=\varnothing$, $1=\{0\}$, $2=\{0,1\}$, $3=\{0,1,2\}$, and so on, or in terms of empty sets: $0=\varnothing$, $1=\{\varnothing\}$, $2=\{\varnothing,\{\varnothing\}\}$, $3=\{\varnothing,\{\varnothing\},\{\varnothing,\{\varnothing\}\}\}$, and so on.'
+    summary: 'A von Neumann ordinal $n$ obtained from $0=\varnothing$ by finitely many successor steps, so $n=\{0,1,\ldots,n-1\}$.'
     carriers:
       - transitive finite set $n$
     data: []
@@ -257,7 +257,9 @@ nodes:
       - membership well-orders $n$
     induces:
       - finite cardinal and natural-number numeral
-    notes: Finite ordinals are canonical representatives of finite order types and finite cardinalities.
+    notes: |
+      As examples, $0=\varnothing$, $1=\{0\}$, $2=\{0,1\}$, $3=\{0,1,2\}$, and so on, or in terms of empty sets: $0=\varnothing$, $1=\{\varnothing\}$, $2=\{\varnothing,\{\varnothing\}\}$, $3=\{\varnothing,\{\varnothing\},\{\varnothing,\{\varnothing\}\}\}$, and so on.
+      Finite ordinals are canonical representatives of finite order types and finite cardinalities.
     citations:
       - wp-von-neumann-ordinal
       - openlogic-set-theory
