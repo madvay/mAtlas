@@ -217,7 +217,8 @@ export async function startAtlasApp(): Promise<void> {
     const compactButton = byId<HTMLButtonElement>('compactLayoutButton');
     let helpful = false;
     if (state.layout === 'atlas' && !locationController.activeView() && !panelController.isMobileLayout()) {
-      const visibleNodes = cy.nodes().not('.filter-hidden').filter((element) =>
+      const displayedNodes = cy.nodes().not('.filter-hidden').filter((element) => element.style('display') !== 'none');
+      const visibleNodes = displayedNodes.filter((element) =>
         model.nodeRecord.get(element.id())?.kind === 'structure');
       if (!visibleNodes.empty()) {
         const levelCounts = new Map<number, number>();
@@ -230,6 +231,7 @@ export async function startAtlasApp(): Promise<void> {
           width: box.w,
           height: box.h,
           nodeCount: visibleNodes.length,
+          displayedNodeCount: displayedNodes.length,
           levelCounts: [...levelCounts.values()]
         });
       }
