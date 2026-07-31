@@ -1,10 +1,17 @@
 import type cytoscape from 'cytoscape';
 import type { Preferences } from '../types.js';
 import { DEFAULT_PREFERENCES } from '../state/preferences.js';
+import {
+  DOMAIN_MARKER_RADIUS,
+  DOMAIN_MARKER_STEP,
+  domainMarkerTopLeft
+} from './domain-marker-geometry.js';
 
 interface DomainMarkerEntry {
   element: cytoscape.NodeSingular;
-  marker: HTMLDivElement;
+  colors: readonly string[];
+  visible: boolean;
+  opacity: number;
 }
 
 interface SequenceBadgeEntry {
@@ -22,9 +29,11 @@ function numericOpacity(element: cytoscape.NodeSingular, fallback: number): numb
   return Number.isFinite(value) ? value : fallback;
 }
 
-/** DOM overlays that complement, but never replace, Cytoscape's lightweight text labels. */
+/** A single canvas for secondary-domain dots plus a tiny DOM layer for Story badges. */
 export class GraphOverlayLayer {
   private readonly layer = document.createElement('div');
+  private readonly markerCanvas = document.createElement('canvas');
+  private readonly markerContext = this.markerCanvas.getContext('2d');
   private readonly viewport = document.createElement('div');
   private readonly domainMarkers: DomainMarkerEntry[] = [];
   private readonly sequenceBadges: SequenceBadgeEntry[] = [];
@@ -34,18 +43,20 @@ export class GraphOverlayLayer {
 
   constructor(
     private readonly cy: cytoscape.Core,
-    graphContainer: HTMLElement,
+    private readonly graphContainer: HTMLElement,
     preferences: Preferences = { ...DEFAULT_PREFERENCES }
   ) {
     this.preferences = preferences;
     this.layer.className = 'graph-overlay-layer';
     this.layer.setAttribute('aria-hidden', 'true');
+    this.markerCanvas.className = 'graph-domain-marker-canvas';
     this.viewport.className = 'graph-overlay-viewport';
+    this.layer.appendChild(this.markerCanvas);
     this.layer.appendChild(this.viewport);
     graphContainer.insertAdjacentElement('afterend', this.layer);
     this.buildDomainMarkers();
 
-    // Pan and zoom are the hot path: one compositor transform updates every overlay.
+    // Position animation is coalesced to one canvas redraw per browser frame.
     this.cy.on('pan zoom resize', () => this.schedule(VIEWPORT_DIRTY));
     this.cy.on('position', () => this.schedule(GEOMETRY_DIRTY));
     this.cy.on('style data', () => this.schedule(GEOMETRY_DIRTY | STATE_DIRTY));
@@ -79,9 +90,10 @@ export class GraphOverlayLayer {
       this.frame = 0;
       const pending = this.dirty;
       this.dirty = 0;
-      if (pending & VIEWPORT_DIRTY) this.syncViewport();
-      if (pending & GEOMETRY_DIRTY) this.syncGeometry();
       if (pending & STATE_DIRTY) this.syncState();
+      if (pending & VIEWPORT_DIRTY) this.syncBadgeViewport();
+      if (pending & GEOMETRY_DIRTY) this.syncBadgeGeometry();
+      if (pending & ALL_DIRTY) this.drawDomainMarkers();
     });
   }
 
@@ -90,32 +102,23 @@ export class GraphOverlayLayer {
       if (Number(node.data('multiDomain')) !== 1) return;
       const colors = node.data('domainColors');
       if (!Array.isArray(colors) || colors.length < 2) return;
-      const marker = document.createElement('div');
-      marker.className = 'graph-domain-markers';
-      marker.style.transform = 'translate(-100%, -100%)';
-      for (const color of colors.slice(1)) {
-        const dot = document.createElement('span');
-        dot.style.backgroundColor = String(color);
-        marker.appendChild(dot);
-      }
-      this.viewport.appendChild(marker);
-      this.domainMarkers.push({ element: node, marker });
+      this.domainMarkers.push({
+        element: node,
+        colors: colors.slice(1).map(String),
+        visible: false,
+        opacity: 1
+      });
     });
+    this.markerCanvas.setAttribute('data-domain-marker-nodes', String(this.domainMarkers.length));
   }
 
-  private syncViewport(): void {
+  private syncBadgeViewport(): void {
     const pan = this.cy.pan();
     const zoom = this.cy.zoom();
     this.viewport.style.transform = `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${zoom})`;
   }
 
-  private syncGeometry(): void {
-    for (const { element, marker } of this.domainMarkers) {
-      if (element.hasClass('filter-hidden') || element.style('display') === 'none') continue;
-      const position = element.position();
-      marker.style.left = `${position.x + 76}px`;
-      marker.style.top = `${position.y + 25}px`;
-    }
+  private syncBadgeGeometry(): void {
     for (const { element, badge } of this.sequenceBadges) {
       if (element.hasClass('filter-hidden') || element.style('display') === 'none') continue;
       const bounds = element.boundingBox({ includeLabels: false, includeOverlays: false });
@@ -125,13 +128,13 @@ export class GraphOverlayLayer {
   }
 
   private syncState(): void {
-    for (const { element, marker } of this.domainMarkers) {
-      const hidden = !this.preferences.indicateOtherDomains
-        || element.hasClass('filter-hidden')
-        || element.hasClass('structure-source-node')
-        || element.style('display') === 'none';
-      marker.hidden = hidden;
-      if (!hidden) marker.style.opacity = String(numericOpacity(element, 1));
+    for (const entry of this.domainMarkers) {
+      const { element } = entry;
+      entry.visible = this.preferences.indicateOtherDomains
+        && !element.hasClass('filter-hidden')
+        && !element.hasClass('structure-source-node')
+        && element.style('display') !== 'none';
+      entry.opacity = entry.visible ? numericOpacity(element, 1) : 0;
     }
     for (const { element, badge } of this.sequenceBadges) {
       const hidden = element.hasClass('filter-hidden')
@@ -140,5 +143,51 @@ export class GraphOverlayLayer {
       badge.hidden = hidden;
       if (!hidden) badge.style.opacity = String(numericOpacity(element, 1));
     }
+  }
+
+  private drawDomainMarkers(): void {
+    const context = this.markerContext;
+    if (!context) return;
+    const pixelRatio = Math.max(1, Number(window.devicePixelRatio) || 1);
+    const width = Math.max(1, this.graphContainer.clientWidth);
+    const height = Math.max(1, this.graphContainer.clientHeight);
+    const backingWidth = Math.max(1, Math.round(width * pixelRatio));
+    const backingHeight = Math.max(1, Math.round(height * pixelRatio));
+    if (this.markerCanvas.width !== backingWidth) this.markerCanvas.width = backingWidth;
+    if (this.markerCanvas.height !== backingHeight) this.markerCanvas.height = backingHeight;
+
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, backingWidth, backingHeight);
+
+    const pan = this.cy.pan();
+    const zoom = this.cy.zoom();
+    context.setTransform(
+      pixelRatio * zoom,
+      0,
+      0,
+      pixelRatio * zoom,
+      pixelRatio * pan.x,
+      pixelRatio * pan.y
+    );
+
+    for (const { element, colors, visible, opacity } of this.domainMarkers) {
+      if (!visible || opacity <= 0) continue;
+      const position = element.position();
+      const origin = domainMarkerTopLeft(position, colors.length);
+      context.globalAlpha = Math.max(0, Math.min(1, opacity));
+      colors.forEach((color, index) => {
+        context.fillStyle = color;
+        context.beginPath();
+        context.arc(
+          origin.x + DOMAIN_MARKER_RADIUS + index * DOMAIN_MARKER_STEP,
+          origin.y + DOMAIN_MARKER_RADIUS,
+          DOMAIN_MARKER_RADIUS,
+          0,
+          Math.PI * 2
+        );
+        context.fill();
+      });
+    }
+    context.globalAlpha = 1;
   }
 }

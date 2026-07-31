@@ -69,7 +69,10 @@ test('static export uses the npm-managed browser and domain markers stay consist
 
   assert.match(generator, /import puppeteer from 'puppeteer'/);
   assert.doesNotMatch(generator, /CHROME_BIN|spawnSync|browserCandidates/);
-  assert.match(overlayLayer, /graph-domain-markers/);
+  assert.match(overlayLayer, /graph-domain-marker-canvas/);
+  assert.match(overlayLayer, /getContext\('2d'\)/);
+  assert.match(overlayLayer, /requestAnimationFrame/);
+  assert.doesNotMatch(overlayLayer, /createElement\('span'\)|graph-domain-markers/);
   assert.match(exporter, /<circle cx=/);
   assert.doesNotMatch(exporter, /katex|foreignObject|renderText|svgCssText/i);
   assert.match(exporter, /if \(!this\.state\.showEdgeLabels\) return/);
@@ -88,8 +91,8 @@ test('static export uses the npm-managed browser and domain markers stay consist
   assert.match(generator, /atlas:static-svg-field/);
   assert.match(generator, /static\/domains\/\$\{encodeURIComponent\(domainId\)\}\.svg/);
   assert.doesNotMatch(exporter, /markerY[^\n]*<rect|stroke-opacity="0\.3"/);
-  assert.doesNotMatch(styles, /\.graph-domain-markers\s*\{[^}]*?(?:background|box-shadow|contain):/s);
-  assert.doesNotMatch(styles, /\.graph-domain-markers\s*>\s*span\s*\{[^}]*border:/s);
+  assert.match(styles, /\.graph-domain-marker-canvas\s*\{[^}]*position: absolute[^}]*width: 100%[^}]*height: 100%/s);
+  assert.doesNotMatch(styles, /\.graph-domain-markers|\.graph-domain-markers\s*>\s*span/);
   assert.doesNotMatch(styles, /will-change:\s*transform/);
   assert.match(fieldBands, /container\.hidden = true/);
   assert.match(fieldBands, /container\.hidden = false/);

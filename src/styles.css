@@ -766,21 +766,13 @@ body:not(.atlas-loading) .graph-loader {
 }
 
 
-.graph-domain-markers {
+.graph-domain-marker-canvas {
   position: absolute;
-  display: flex;
-  gap: 3px;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-}
-
-.graph-domain-markers[hidden] {
-  display: none;
-}
-
-.graph-domain-markers > span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
 }
 
 .graph-sequence-badge {
