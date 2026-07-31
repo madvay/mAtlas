@@ -214,6 +214,10 @@ export const graphStyles: cytoscape.StylesheetJson = [
     style: { opacity: 1, 'z-index': 1000 }
   },
   {
+    selector: 'edge[semanticConnection = 1].structure-connection-hidden',
+    style: { display: 'none', events: 'no' }
+  },
+  {
     selector: 'edge[semanticConnection = 1]:selected',
     style: {
       width: 'data(selectedEdgeWidth)', opacity: 1,

@@ -697,6 +697,7 @@ body:not(.atlas-loading) .graph-loader {
   justify-items: stretch;
   gap: 0;
   padding: clamp(12px, 2vw, 28px);
+  overflow: hidden;
 }
 
 .domain-static-graph,
@@ -715,9 +716,27 @@ body:not(.atlas-loading) .graph-loader {
   grid-area: 1 / 1;
   align-self: start;
   justify-self: end;
-  z-index: 1;
+  z-index: 2;
   margin: 8px;
   background: rgba(251, 252, 254, 0.92);
+}
+
+.graph-loader.domain-graph-loader::after,
+.graph-loader.field-graph-loader::after {
+  content: "";
+  grid-area: 1 / 1;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 34%,
+    rgba(255, 255, 255, 0.08) 42%,
+    rgba(255, 255, 255, 0.78) 50%,
+    rgba(255, 255, 255, 0.08) 58%,
+    transparent 66%
+  );
+  background-size: 240% 100%;
+  animation: static-graph-glow 2.4s linear infinite;
 }
 
 .domain-graph-loading-label,
@@ -725,7 +744,7 @@ body:not(.atlas-loading) .graph-loader {
   grid-area: 1 / 1;
   align-self: end;
   justify-self: end;
-  z-index: 1;
+  z-index: 2;
   margin: 8px;
   padding: 5px 8px;
   border: 1px solid #d7dee9;
@@ -737,6 +756,19 @@ body:not(.atlas-loading) .graph-loader {
 
 @keyframes loader-spin {
   to { transform: rotate(1turn); }
+}
+
+@keyframes static-graph-glow {
+  from { background-position: 120% 0; }
+  to { background-position: -120% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .graph-loader.domain-graph-loader::after,
+  .graph-loader.field-graph-loader::after {
+    animation: none;
+    opacity: 0.18;
+  }
 }
 
 .graph-math-label[hidden] {

@@ -233,6 +233,21 @@ export class GraphViewController {
     this.setNeighborhoodHighlight(!this.options.state.neighborhoodActive, selected.id(), false);
   }
 
+  clearInteractionHighlights(): void {
+    const { cy, state } = this.options;
+    state.neighborhoodActive = false;
+    state.neighborhoodElementId = null;
+    if (state.crossFieldVisibility === 'contextual') {
+      this.applyFilters({ relayout: false });
+      return;
+    }
+    cy.elements().removeClass('neighborhood-dim neighborhood-emphasis prerequisite-highlight');
+    this.syncNeighborhoodButton();
+    this.lastEdgeZoomActive = null;
+    this.updateEdgeZoomStyles();
+    this.updateStatus();
+  }
+
   syncSelectedPrerequisiteHighlight({ updateEdgeStyles = true }: { updateEdgeStyles?: boolean } = {}): void {
     const { cy, model, state } = this.options;
     const refreshEdgeStyles = (): void => {

@@ -6,6 +6,7 @@ const atlasApp = await readFile(new URL('atlas-app.ts', import.meta.url), 'utf8'
 const exporter = await readFile(new URL('../ui/svg-exporter.ts', import.meta.url), 'utf8');
 const controller = await readFile(new URL('../ui/structure-overlay-controller.ts', import.meta.url), 'utf8');
 const graphView = await readFile(new URL('../graph/graph-view-controller.ts', import.meta.url), 'utf8');
+const graphStyles = await readFile(new URL('../graph/create-graph.ts', import.meta.url), 'utf8');
 const fieldBands = await readFile(new URL('../ui/field-band-controller.ts', import.meta.url), 'utf8');
 
 test('concept tap, double-tap, and tooltip paths are blocked in structure modes', () => {
@@ -22,10 +23,13 @@ test('structure-mode SVG concepts are visual substrate rather than hyperlinks', 
 });
 
 
-test('structure connections are dim by default and incident links are emphasized by group selection', () => {
+test('structure group selection isolates incident links and clearing restores every connection', () => {
   assert.match(controller, /CONNECTION_EMPHASIS_CLASS = 'structure-connection-emphasis'/);
+  assert.match(controller, /CONNECTION_HIDDEN_CLASS = 'structure-connection-hidden'/);
   assert.match(controller, /this\.selection = \{ kind: 'group', id \};[\s\S]*this\.syncConnectionEmphasis\(\)/);
-  assert.match(controller, /edge\.source\(\)\.id\(\) === selectedGroupElementId \|\| edge\.target\(\)\.id\(\) === selectedGroupElementId/);
+  assert.match(controller, /edge\.source\(\)\.id\(\) === selectedGroupElementId \|\| edge\.target\(\)\.id\(\) === selectedGroupElementId[\s\S]*addClass\(CONNECTION_EMPHASIS_CLASS\)[\s\S]*else[\s\S]*addClass\(CONNECTION_HIDDEN_CLASS\)/);
+  assert.match(controller, /removeClass\(`\$\{CONNECTION_EMPHASIS_CLASS\} \$\{CONNECTION_HIDDEN_CLASS\}`\)/);
+  assert.match(graphStyles, /edge\[semanticConnection = 1\]\.structure-connection-hidden'[\s\S]*display: 'none'[\s\S]*events: 'no'/);
   assert.match(exporter, /hasClass\('structure-connection-emphasis'\)[\s\S]*selected \|\| emphasized \? 1 : 0\.18/);
 });
 
@@ -35,7 +39,17 @@ test('structure-edge opacity remains stylesheet-owned across zoom, filter, and d
   assert.match(graphView, /cy\.edges\('\[semanticConnection = 1\]'\)[\s\S]*removeStyle\('opacity'\)[\s\S]*removeStyle\('events'\)/);
   assert.match(graphView, /cy\.edges\(\)\.not\('\[semanticConnection = 1\]'\)\.forEach/);
   assert.match(controller, /this\.restoreSelection\(\);\s*this\.syncConnectionEmphasis\(\);/);
-  assert.match(controller, /syncConnectionEmphasis[\s\S]*removeStyle\('opacity'\)[\s\S]*removeClass\(CONNECTION_EMPHASIS_CLASS\)/);
+  assert.match(controller, /syncConnectionEmphasis[\s\S]*removeStyle\('opacity'\)[\s\S]*removeClass\(`\$\{CONNECTION_EMPHASIS_CLASS\} \$\{CONNECTION_HIDDEN_CLASS\}`\)/);
+});
+
+test('layout-mode transitions clear incompatible selection, neighborhood, prerequisite, and detail state', () => {
+  assert.match(atlasApp, /interactionModeForLayout[\s\S]*layout === 'domains' \|\| layout === 'fields' \? layout : 'concepts'/);
+  assert.match(atlasApp, /resetInteractionForLayout\(name\);[\s\S]*prepareForLayout\(name\)/);
+  assert.match(atlasApp, /if \(layoutChanged\) resetInteractionForLayout\(next\.layout, \{ updateLocation: false \}\)/);
+  assert.match(atlasApp, /structureOverlayController\?\.clearSelection\(\);[\s\S]*cy\.\$\(':selected'\)\.unselect\(\);[\s\S]*graphView\.clearInteractionHighlights\(\);/);
+  assert.match(atlasApp, /nextMode === 'concepts'\) showEmptyDetails\(\);[\s\S]*showIntroductionForLayout\(nextLayout, false\)/);
+  assert.match(graphView, /clearInteractionHighlights\(\)[\s\S]*state\.neighborhoodActive = false;[\s\S]*state\.neighborhoodElementId = null;[\s\S]*crossFieldVisibility === 'contextual'[\s\S]*this\.applyFilters\(\{ relayout: false \}\)[\s\S]*removeClass\('neighborhood-dim neighborhood-emphasis prerequisite-highlight'\)/);
+  assert.match(controller, /showIntroductionForLayout\(layout: LayoutName/);
 });
 
 test('structure substrate dimming is installed before layout and retained throughout overlay rebuilds', () => {

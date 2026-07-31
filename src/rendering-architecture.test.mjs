@@ -48,6 +48,15 @@ test('graph nodes avoid per-node encoded images and startup hides the unfit view
   assert.match(appSource, /classList\.remove\('atlas-loading'\)/);
 });
 
+test('static taxonomy images retain a looping horizontal glow while the interactive graph loads', async () => {
+  const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  assert.match(styles, /\.graph-loader\.domain-graph-loader::after,[\s\S]*\.graph-loader\.field-graph-loader::after/);
+  assert.match(styles, /linear-gradient\([\s\S]*rgba\(255, 255, 255, 0\.78\)[\s\S]*background-size: 240% 100%/);
+  assert.match(styles, /animation: static-graph-glow 2\.4s linear infinite/);
+  assert.match(styles, /@keyframes static-graph-glow[\s\S]*background-position: 120% 0[\s\S]*background-position: -120% 0/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*\.graph-loader\.domain-graph-loader::after,[\s\S]*animation: none/s);
+});
+
 test('static export uses the npm-managed browser and domain markers stay consistent', async () => {
   const generator = await readFile(new URL('../scripts/generate-static-atlas-svg.mjs', import.meta.url), 'utf8');
   const labelLayer = await readFile(new URL('../src/graph/graph-math-label-layer.ts', import.meta.url), 'utf8');

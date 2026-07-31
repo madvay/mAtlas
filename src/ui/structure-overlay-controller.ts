@@ -26,6 +26,7 @@ type OverlaySelection =
 
 const OVERLAY_SELECTOR = '[semanticOverlay = 1]';
 const CONNECTION_EMPHASIS_CLASS = 'structure-connection-emphasis';
+const CONNECTION_HIDDEN_CLASS = 'structure-connection-hidden';
 
 export class StructureOverlayController {
   private mapData: SemanticMapData = { groups: [], connections: [] };
@@ -183,6 +184,7 @@ export class StructureOverlayController {
 
     this.restoreSelection();
     this.syncConnectionEmphasis();
+    if (!this.selection && this.structureDetailsVisible()) this.renderIntroduction(false);
   }
 
   selectGroupElement(element: cytoscape.SingularElementReturnValue): void {
@@ -226,7 +228,13 @@ export class StructureOverlayController {
 
   clearSelection(): void {
     this.selection = null;
+    this.options.cy.elements(OVERLAY_SELECTOR).unselect();
     this.syncConnectionEmphasis();
+  }
+
+  showIntroductionForLayout(layout: LayoutName, open = false): void {
+    if (layout !== 'domains' && layout !== 'fields') return;
+    this.renderIntroduction(open, layout);
   }
 
   private applyGroupSelection(id: string, element: cytoscape.SingularElementReturnValue, open: boolean): void {
@@ -280,30 +288,32 @@ export class StructureOverlayController {
     // dim, selected-edge, and incident-edge selectors are authoritative.
     edges.removeStyle('opacity');
     edges.removeStyle('events');
-    edges.removeClass(CONNECTION_EMPHASIS_CLASS);
+    edges.removeClass(`${CONNECTION_EMPHASIS_CLASS} ${CONNECTION_HIDDEN_CLASS}`);
     if (this.selection?.kind !== 'group') return;
     const selectedGroupElementId = this.groupElementId(this.selection.id);
     edges.forEach((edge) => {
       if (edge.source().id() === selectedGroupElementId || edge.target().id() === selectedGroupElementId) {
         edge.addClass(CONNECTION_EMPHASIS_CLASS);
+      } else {
+        edge.addClass(CONNECTION_HIDDEN_CLASS);
       }
     });
   }
 
-  private renderIntroduction(open: boolean): void {
-    const noun = this.options.state.layout === 'fields' ? 'field' : 'domain';
+  private renderIntroduction(open: boolean, layout: LayoutName = this.options.state.layout): void {
+    const noun = layout === 'fields' ? 'field' : 'domain';
     const relationCount = this.mapData.connections.reduce((sum, connection) => sum + connection.count, 0);
     renderHtml(byId('detailTitle'), `${noun === 'field' ? 'Field' : 'Domain'} structure`);
     renderHtml(byId('detailEditLink'), '');
     renderHtml(byId('detailBody'), `
-      <p>The visible concept graph is grouped by primary ${noun}. Dimmed concept nodes provide positional context but are intentionally non-interactive. Aggregate arrows preserve direction and their width represents relation count; they remain subdued until a field or domain label is selected.</p>
+      <p>The visible concept graph is grouped by primary ${noun}. Dimmed concept nodes provide positional context but are intentionally non-interactive. Aggregate arrows preserve direction and their width represents relation count; selecting a field or domain label isolates its incident arrows.</p>
       <dl class="structure-overlay-stats">
         <div><dt>Visible concepts</dt><dd>${this.mapData.groups.reduce((sum, group) => sum + group.conceptCount, 0)}</dd></div>
         <div><dt>${noun}s</dt><dd>${this.mapData.groups.length}</dd></div>
         <div><dt>Cross-${noun} relations</dt><dd>${relationCount}</dd></div>
         <div><dt>Directed links</dt><dd>${this.mapData.connections.length}</dd></div>
       </dl>
-      <p class="muted">Select a field or domain label to bring all of its incident arrows to full strength, or select one aggregate arrow for its detailed statistics.</p>`);
+      <p class="muted">Select a field or domain label to hide unrelated arrows and bring its immediate connection neighborhood to full strength, or select one aggregate arrow for its detailed statistics.</p>`);
     this.markStructureDetails();
     if (open) this.options.openPanel();
   }

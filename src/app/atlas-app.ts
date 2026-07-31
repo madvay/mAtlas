@@ -260,6 +260,14 @@ export async function startAtlasApp(): Promise<void> {
   }
 
   let updateGraphStatus = (): void => {};
+  type LayoutInteractionMode = 'concepts' | 'domains' | 'fields';
+  const interactionModeForLayout = (layout: LayoutName): LayoutInteractionMode =>
+    layout === 'domains' || layout === 'fields' ? layout : 'concepts';
+  let activeLayoutInteractionMode = interactionModeForLayout(state.layout);
+  let resetInteractionForLayout = (
+    _layout: LayoutName,
+    _options: { updateLocation?: boolean } = {}
+  ): void => {};
 
   const layoutManager = new LayoutManager({
     cy,
@@ -275,6 +283,7 @@ export async function startAtlasApp(): Promise<void> {
   });
 
   function runLayout(name: LayoutName = state.layout, fitAfter = true): void {
+    resetInteractionForLayout(name);
     structureOverlayController?.prepareForLayout(name);
     if (name === 'domains' || name === 'fields') fieldBandController.clear();
     layoutManager.run(name, fitAfter);
@@ -648,6 +657,8 @@ export async function startAtlasApp(): Promise<void> {
       return;
     }
 
+    if (layoutChanged) resetInteractionForLayout(next.layout, { updateLocation: false });
+
     state.selectedFields = new Set(next.fields);
     state.selectedDomains = new Set(next.domains);
     state.selectedEdgeTypes = new Set(next.edgeTypes);
@@ -752,7 +763,7 @@ export async function startAtlasApp(): Promise<void> {
             <li><strong>Neighborhood</strong> toggles immediate-neighbor emphasis for the selected item.</li>
             <li><strong>Compare</strong> uses one A/B pair for two analyses: Overview contrasts structure, taxonomy, sources, direct relations, and shared neighbors; Connections finds and explains up to three short visible-graph paths while preserving authored edge direction.</li>
             <li><strong>Layered / Compact / Domains / Fields</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
-            <li><strong>Domains</strong> and <strong>Fields</strong> preserve Layered concept positions, dim the concept substrate, and overlay taxonomy centroids joined by weighted directed relations. The dimmed concept substrate is non-interactive so the structure remains readable at whole-map scale.</li>
+            <li><strong>Domains</strong> and <strong>Fields</strong> preserve Layered concept positions, dim the concept substrate, and overlay taxonomy centroids joined by weighted directed relations. Selecting a centroid hides non-neighborhood arrows until the selection is cleared. The dimmed concept substrate is non-interactive so the structure remains readable at whole-map scale.</li>
             <li><strong>Fit</strong> fits all currently visible graph elements, labels, field boundaries, and field titles into the unobscured viewport.</li>
             <li>The panel, fullscreen, SVG, Views, and Help buttons control the surrounding workspace.</li>
           </ul>
@@ -780,7 +791,7 @@ export async function startAtlasApp(): Promise<void> {
           <h3>Layouts</h3>
           <p><strong>Layered</strong> uses the authored global levels and primary-domain lanes. It preserves the atlas’s editorial hierarchy and displays field boundaries.</p>
           <p><strong>Compact</strong> uses only the nodes currently visible. Empty authored levels consume no rows, and each row is ordered deterministically by primary-domain order and then canonical node order. Changing filters recomputes the same layout for the same visible set.</p>
-          <p><strong>Domains</strong> and <strong>Fields</strong> use Layered geometry as a semantic substrate. Concept labels and detailed edges are suppressed while full-opacity centroid nodes summarize the visible primary domains or fields. Curved arrow thickness records the number of visible directed relations; selecting a centroid or aggregate relation opens its statistics in Details.</p>
+          <p><strong>Domains</strong> and <strong>Fields</strong> use Layered geometry as a semantic substrate. Concept labels and detailed edges are suppressed while full-opacity centroid nodes summarize the visible primary domains or fields. Curved arrow thickness records the number of visible directed relations; selecting a centroid isolates its incident arrows, while selecting a centroid or aggregate relation opens its statistics in Details.</p>
         </section>
       </div>
 
@@ -877,6 +888,25 @@ export async function startAtlasApp(): Promise<void> {
     setNodeSequenceBadges: (nodeIds) => graphLabelLayer.setNodeSequence(nodeIds)
   });
   viewsController.initialize();
+  resetInteractionForLayout = (nextLayout, { updateLocation = true } = {}): void => {
+    const nextMode = interactionModeForLayout(nextLayout);
+    if (nextMode === activeLayoutInteractionMode) return;
+    activeLayoutInteractionMode = nextMode;
+
+    cy.stop(true, false);
+    structureOverlayController?.clearSelection();
+    cy.$(':selected').unselect();
+    graphView.clearInteractionHighlights();
+    clearHover();
+    viewsController?.syncSelection(null);
+    if (nextMode === 'concepts') showEmptyDetails();
+    else structureOverlayController?.showIntroductionForLayout(nextLayout, false);
+    syncDocumentMetadata(null);
+    if (updateLocation) writeLocationState(null, 'replace');
+  };
+  if (activeLayoutInteractionMode !== 'concepts') {
+    structureOverlayController.showIntroductionForLayout(state.layout, false);
+  }
   buildHelp();
 
   byId('fitButton').addEventListener('click', fitVisibleGraph);
