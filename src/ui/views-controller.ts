@@ -236,9 +236,9 @@ export class ViewsController {
     const previousDisabled = safeIndex <= 0 ? ' disabled' : '';
     const nextDisabled = safeIndex >= count - 1 ? ' disabled' : '';
     return `<div class="view-sequence-controls${compact ? ' compact' : ''}" role="group" aria-label="Guided sequence navigation">
-      <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step"${previousDisabled}><span class="material-icons" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
+      <button type="button" class="view-sequence-button" data-view-prev aria-label="Previous step" title="Previous step"${previousDisabled}><span class="material-icons-outlined" aria-hidden="true">chevron_left</span><span class="view-sequence-button-label">Previous</span></button>
       <div class="view-sequence-position" aria-live="polite"><span>Step ${safeIndex + 1} of ${count}</span><strong title="${escapeHtml(nodeLabel)}">${this.options.math.renderText(nodeLabel)}</strong></div>
-      <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${nextDisabled}><span class="view-sequence-button-label">Next</span><span class="material-icons" aria-hidden="true">chevron_right</span></button>
+      <button type="button" class="view-sequence-button" data-view-next aria-label="Next step" title="Next step"${nextDisabled}><span class="view-sequence-button-label">Next</span><span class="material-icons-outlined" aria-hidden="true">chevron_right</span></button>
     </div>`;
   }
 

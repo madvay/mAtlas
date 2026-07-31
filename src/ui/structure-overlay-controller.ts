@@ -430,7 +430,7 @@ export class StructureOverlayController {
   private renderSelectionHeaderActions(): void {
     renderHtml(byId('detailEditLink'), `<div class="detail-header-actions">
       <a href="#" class="detail-header-action" id="detailShareButton" aria-label="Copy permalink" title="Copy permalink">
-        <span class="material-icons" aria-hidden="true">share</span>
+        <span class="material-icons-outlined" aria-hidden="true">share</span>
       </a>
     </div>`);
   }

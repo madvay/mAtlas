@@ -755,9 +755,9 @@ export async function startAtlasApp(): Promise<void> {
         <h3>Fields, domains, and suppression states</h3>
         <p>Field and domain checkboxes choose the concepts of direct interest. A multi-domain concept matches when any enabled membership matches, unless <strong>Show only primary domain matches</strong> is enabled.</p>
         <div class="help-state-key">
-          <div><span class="suppression-sample allowed"><span class="material-icons">visibility</span></span><strong>Allowed</strong> — ordinary filtering and prerequisite context.</div>
-          <div><span class="suppression-sample excluded"><span class="material-icons">visibility_off</span></span><strong>Excluded</strong> — a primary-domain node is not admitted merely as prerequisite context, but an enabled, non-excluded secondary membership may still select it directly.</div>
-          <div><span class="suppression-sample prohibited"><span class="material-icons">block</span></span><strong>Prohibited</strong> — a node with that primary domain is always hidden, including through secondary memberships and prerequisite closure.</div>
+          <div><span class="suppression-sample allowed"><span class="material-icons-outlined">visibility</span></span><strong>Allowed</strong> — ordinary filtering and prerequisite context.</div>
+          <div><span class="suppression-sample excluded"><span class="material-icons-outlined">visibility_off</span></span><strong>Excluded</strong> — a primary-domain node is not admitted merely as prerequisite context, but an enabled, non-excluded secondary membership may still select it directly.</div>
+          <div><span class="suppression-sample prohibited"><span class="material-icons-outlined">block</span></span><strong>Prohibited</strong> — a node with that primary domain is always hidden, including through secondary memberships and prerequisite closure.</div>
         </div>
         <p>Domain visibility buttons cycle gray → yellow → red → gray. Field exclusion remains a two-state gray/red control. Required prerequisite nodes that survive these rules are normally shown as faded context; <strong>Hide prerequisites</strong> removes that closure entirely.</p>
       </section>

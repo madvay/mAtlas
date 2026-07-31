@@ -140,7 +140,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Atlas of Fundamental Concepts</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" />
   <!-- atlas:assets -->
   <script type="application/ld+json">
     {
@@ -158,7 +158,7 @@
     <header class="topbar">
       <div class="brand">
         <button id="filtersToggle" class="button icon-button panel-button" aria-label="Toggle filters" aria-pressed="false" title="Show or hide filters">
-          <span class="material-icons" aria-hidden="true">filter_list</span>
+          <span class="material-icons-outlined" aria-hidden="true">filter_list</span>
           <span class="panel-count" aria-hidden="true"></span>
         </button>
         <a class="brand-link" href="/" aria-label="Open the Atlas of Fundamental Concepts">
@@ -178,45 +178,45 @@
           <datalist id="conceptNames"></datalist>
         </label>
         <button id="searchButton" class="button icon-button" aria-label="Search concepts" title="Find matching concepts and select the best match">
-          <span class="material-icons" aria-hidden="true">search</span>
+          <span class="material-icons-outlined" aria-hidden="true">search</span>
         </button>
         <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
-          <span class="material-icons" aria-hidden="true">highlight_alt</span>
+          <span class="material-icons-outlined" aria-hidden="true">highlight_alt</span>
         </button>
         <button id="compareButton" class="button icon-button" hidden aria-haspopup="dialog" aria-pressed="false" aria-label="Compare concepts" title="Compare two concepts">
-          <span class="material-icons" aria-hidden="true">compare_arrows</span>
+          <span class="material-icons-outlined" aria-hidden="true">compare_arrows</span>
         </button>
         <div class="layout-toolbar-toggle" role="group" aria-label="Graph layout">
-          <button id="layeredLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="atlas" aria-label="Use Layered layout" aria-pressed="true" title="Layered layout">
-            <span class="material-icons" aria-hidden="true">account_tree</span>
-          </button>
-          <button id="compactLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="breadthfirst" aria-label="Use Compact layout" aria-pressed="false" title="Compact layout">
-            <span class="material-icons" aria-hidden="true">view_stream</span>
+          <button id="layeredLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="atlas" aria-label="Use Layered layout" aria-pressed="false" title="Layered layout">
+            <span class="material-icons-outlined" aria-hidden="true">account_tree</span>
           </button>
           <button id="domainsLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="domains" aria-label="Use Domains structure layout" aria-pressed="false" title="Domains structure">
-            <span class="material-icons" aria-hidden="true">bubble_chart</span>
+            <span class="material-icons-outlined" aria-hidden="true">bubble_chart</span>
           </button>
           <button id="fieldsLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="fields" aria-label="Use Fields structure layout" aria-pressed="false" title="Fields structure">
-            <span class="material-icons" aria-hidden="true">hub</span>
+            <span class="material-icons-outlined" aria-hidden="true">all_out</span>
+          </button>
+          <button id="compactLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="breadthfirst" aria-label="Use Compact layout" aria-pressed="false" title="Compact layout">
+            <span class="material-icons-outlined" aria-hidden="true">view_stream</span>
           </button>
         </div>
         <button id="fitButton" class="button icon-button" aria-label="Fit graph" title="Fit all concepts currently allowed by the filters into the viewport (F)">
-          <span class="material-icons" aria-hidden="true">fit_screen</span>
+          <span class="material-icons-outlined" aria-hidden="true">fit_screen</span>
         </button>
         <button id="detailsToggle" class="button icon-button panel-button" aria-label="Toggle details" aria-pressed="false" title="Show or hide details">
-          <span class="material-icons" aria-hidden="true">density_medium</span>
+          <span class="material-icons-outlined" aria-hidden="true">density_medium</span>
         </button>
         <button id="maximizeButton" class="button icon-button active" aria-pressed="true" title="Restore the sidebars">
-          <span class="material-icons" aria-hidden="true">fullscreen_exit</span>
+          <span class="material-icons-outlined" aria-hidden="true">fullscreen_exit</span>
         </button>
         <button id="exportSvgButton" class="button icon-button" aria-label="Export SVG" title="Download the current visible graph as SVG">
-          <span class="material-icons" aria-hidden="true">download</span>
+          <span class="material-icons-outlined" aria-hidden="true">download</span>
         </button>
         <button id="viewsButton" class="button views-button" aria-haspopup="dialog" aria-label="Browse stories and views" title="Browse stories and views">
-          <span class="material-icons" aria-hidden="true">explore</span><span class="views-button-label">Stories &amp; Views</span>
+          <span class="material-icons-outlined" aria-hidden="true">explore</span><span class="views-button-label">Stories &amp; Views</span>
         </button>
         <button id="helpButton" class="button icon-button" aria-haspopup="dialog" aria-label="Open key" title="Open key">
-          <span class="material-icons" aria-hidden="true">help_outline</span>
+          <span class="material-icons-outlined" aria-hidden="true">help_outline</span>
         </button>
       </div>
     </header>
@@ -228,7 +228,7 @@
         <section id="taxonomyFilterSection" class="filter-section">
           <div class="section-heading">
             <button type="button" class="filter-section-toggle" aria-expanded="true" aria-controls="fieldFilterSection" data-filter-section-toggle>
-              <span>Fields / Domains</span><span class="material-icons" aria-hidden="true">expand_more</span>
+              <span>Fields / Domains</span><span class="material-icons-outlined" aria-hidden="true">expand_more</span>
             </button>
             <div class="section-actions">
               <button id="fieldsAll" type="button" class="text-button">all</button>
@@ -243,7 +243,7 @@
         <section class="filter-section">
           <div class="section-heading">
             <button type="button" class="filter-section-toggle" aria-expanded="true" aria-controls="edgeFilterSection" data-filter-section-toggle>
-              <span>Edges</span><span class="material-icons" aria-hidden="true">expand_more</span>
+              <span>Edges</span><span class="material-icons-outlined" aria-hidden="true">expand_more</span>
             </button>
             <button id="edgesAll" type="button" class="text-button">all</button>
           </div>
@@ -255,7 +255,7 @@
         <section class="filter-section">
           <div class="section-heading">
             <button type="button" class="filter-section-toggle" aria-expanded="true" aria-controls="displayFilterSection" data-filter-section-toggle>
-              <span>Display</span><span class="material-icons" aria-hidden="true">expand_more</span>
+              <span>Display</span><span class="material-icons-outlined" aria-hidden="true">expand_more</span>
             </button>
           </div>
           <div id="displayFilterSection" class="filter-section-body display-filter-controls">
@@ -273,7 +273,7 @@
         <section class="filter-section">
           <div class="section-heading">
             <button type="button" class="filter-section-toggle" aria-expanded="true" aria-controls="preferencesFilterSection" data-filter-section-toggle>
-              <span>Preferences</span><span class="material-icons" aria-hidden="true">expand_more</span>
+              <span>Preferences</span><span class="material-icons-outlined" aria-hidden="true">expand_more</span>
             </button>
             <button id="preferencesReset" type="button" class="text-button">reset</button>
           </div>
@@ -295,7 +295,7 @@
         <section class="filter-section data-section">
           <div class="section-heading">
             <button type="button" class="filter-section-toggle" aria-expanded="true" aria-controls="dataFilterSection" data-filter-section-toggle>
-              <span>Data</span><span class="material-icons" aria-hidden="true">expand_more</span>
+              <span>Data</span><span class="material-icons-outlined" aria-hidden="true">expand_more</span>
             </button>
           </div>
           <div id="dataFilterSection" class="filter-section-body">
@@ -380,7 +380,7 @@
           <input id="compareLeftInput" list="compareConceptNames" type="search" placeholder="Search concepts…" autocomplete="off">
         </label>
         <button id="compareSwapButton" type="button" class="button icon-button" aria-label="Swap concepts" title="Swap concepts">
-          <span class="material-icons" aria-hidden="true">swap_horiz</span>
+          <span class="material-icons-outlined" aria-hidden="true">swap_horiz</span>
         </button>
         <label class="compare-concept-input">
           <span><strong>B</strong> Second concept</span>
@@ -406,13 +406,13 @@
       <div class="dialog-actions compare-dialog-actions">
         <button id="compareClearButton" type="button" class="button">Clear</button>
         <button id="compareFitPathButton" type="button" class="button" hidden>
-          <span class="material-icons" aria-hidden="true">fit_screen</span> Fit path
+          <span class="material-icons-outlined" aria-hidden="true">fit_screen</span> Fit path
         </button>
         <button id="compareCopySequenceButton" type="button" class="button" hidden>
-          <span class="material-icons" aria-hidden="true">content_copy</span> Copy Story sequence
+          <span class="material-icons-outlined" aria-hidden="true">content_copy</span> Copy Story sequence
         </button>
         <button id="compareCopyButton" type="button" class="button">
-          <span class="material-icons" aria-hidden="true">link</span> Copy link
+          <span class="material-icons-outlined" aria-hidden="true">link</span> Copy link
         </button>
         <button class="button primary" value="close">Close</button>
       </div>
