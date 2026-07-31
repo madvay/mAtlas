@@ -1,0 +1,604 @@
+nodes:
+- id: electrochemistry
+  label: Electrochemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 29
+  kind: structure
+  conceptType: Disciplinary framework
+  summary: Study of coupled chemical change, charge transport, interfacial potential, and electrical work.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: redox_reaction
+  label: Redox reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  - inorganic-coordination-chemistry
+  level: 30
+  kind: structure
+  conceptType: Reaction class
+  summary: A chemical reaction represented by coupled oxidation and reduction half-reactions with conserved charge and electrons in the formal
+    bookkeeping.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrolyte
+  label: Electrolyte
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 30
+  kind: structure
+  conceptType: Functional substance class
+  summary: A substance that produces mobile ions in a melt or solution and thereby supports ionic conduction.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrode
+  label: Electrode
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 31
+  kind: structure
+  conceptType: Interfacial component
+  summary: An electronic conductor contacting an ionic or other medium at an interface where charge transfer or capacitive charging can occur.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrochemical_cell
+  label: Electrochemical cell
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 33
+  kind: structure
+  conceptType: Coupled physical system
+  summary: A system of electrodes and ion-conducting phases arranged to convert chemical and electrical work or to drive chemical change electrically.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrode_potential
+  label: Electrode potential
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 33
+  kind: structure
+  conceptType: Interfacial thermodynamic quantity
+  summary: A potential difference associated with an electrode interface, measurable only through a complete cell and a reference convention.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: standard_electrode_potential
+  label: Standard electrode potential
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 34
+  kind: structure
+  conceptType: Reference electrochemical quantity
+  summary: The electrode potential for a specified reduction half-reaction relative to a reference electrode with all components in their standard
+    states.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: nernst_equation
+  label: Nernst equation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 35
+  kind: structure
+  conceptType: Electrochemical equilibrium relation
+  summary: A relation between equilibrium electrode or cell potential, standard potential, temperature, and reaction activities.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: galvanic_cell
+  label: Galvanic cell
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 35
+  kind: structure
+  conceptType: Electrochemical cell class
+  summary: An electrochemical cell in which a spontaneous overall redox reaction delivers electrical work to an external circuit.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrolytic_cell
+  label: Electrolytic cell
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 35
+  kind: structure
+  conceptType: Electrochemical cell class
+  summary: An electrochemical cell in which external electrical work drives a nonspontaneous net chemical transformation.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrolysis
+  label: Electrolysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 34
+  kind: structure
+  conceptType: Electrochemical process
+  summary: Use of electric current and electrode reactions to drive chemical transformation in an electrolyte.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: faraday_laws_electrolysis
+  label: Faraday’s laws of electrolysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 35
+  kind: structure
+  conceptType: Quantitative electrochemical laws
+  summary: Relations stating that transformed amount is proportional to charge passed and inversely related to the electrons required per chemical
+    event.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: electrochemical_double_layer
+  label: Electrochemical double layer
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 35
+  kind: structure
+  conceptType: Interfacial charge structure
+  summary: The coupled distribution of electronic charge, ions, solvent polarization, and specifically adsorbed species near an electrode interface.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: overpotential
+  label: Electrode overpotential
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 36
+  kind: structure
+  conceptType: Kinetic driving quantity
+  summary: The departure of an electrode potential from its equilibrium value required to sustain a specified current under kinetic and transport
+    losses.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: cyclic_voltammetry
+  label: Cyclic voltammetry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 36
+  kind: structure
+  conceptType: Electroanalytical method
+  summary: Measurement of current while an electrode potential is swept through a forward and reverse waveform to probe redox thermodynamics,
+    kinetics, and transport.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: battery
+  label: Battery
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 39
+  kind: structure
+  conceptType: Electrochemical device
+  summary: One or more electrochemical cells configured to store chemical free energy and deliver electrical energy, with reversibility depending
+    on chemistry and design.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: fuel_cell
+  label: Fuel cell
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 39
+  kind: structure
+  conceptType: Electrochemical device
+  summary: A cell that converts continuously supplied fuel and oxidant into electrical work and products without storing all reactants internally.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: corrosion
+  label: Electrochemical corrosion
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  level: 38
+  kind: structure
+  conceptType: Material degradation process
+  summary: Spontaneous interfacial oxidation of a material coupled to reduction reactions and ionic transport in its environment.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: voltaic_pile_experiments
+  label: Voltaic-pile experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  - chemistry-experiments-evidence
+  level: 32
+  kind: structure
+  conceptType: Historical motivating experiment program
+  summary: Volta stacked dissimilar metals separated by electrolyte-soaked material to produce sustained current, providing a controllable source
+    for early electrochemistry.
+  citations:
+  - wp-chem-voltaic-pile
+  - science-museum-voltaic-pile
+- id: faraday_electrolysis_experiments
+  label: Faraday’s electrolysis experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  - chemistry-experiments-evidence
+  level: 34
+  kind: structure
+  conceptType: Historical motivating experiment program
+  summary: Faraday measured material deposited or released at electrodes against charge passed and established quantitative electrochemical equivalents.
+  citations:
+  - wp-chem-faraday-electrolysis
+  - royal-institution-faraday-electrochemistry
+- id: nernst_concentration_cell_measurements
+  label: Nernst concentration-cell measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  - chemistry-experiments-evidence
+  level: 36
+  kind: structure
+  conceptType: Historical verifying measurement program
+  summary: Concentration-cell electromotive-force measurements tested the logarithmic relation among potential, temperature, and chemical activity
+    underlying the Nernst equation.
+  citations:
+  - wp-chem-nernst-equation
+  - nobel-nernst-1920
+edges:
+- id: chem_electrochemistry_to_redox_reaction_describes_governs
+  source: electrochemistry
+  target: redox_reaction
+  type: describes-governs
+  label: couples electron and ion transfer
+  detail: Electrochemistry spatially or interfacially couples redox half-reactions through electronic and ionic current paths.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrolyte_to_electrochemical_cell_composition
+  source: electrolyte
+  target: electrochemical_cell
+  type: composition
+  label: supplies ionic conductor
+  detail: An electrolyte closes the internal ionic current path and maintains electroneutral transport between electrode regions.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrode_to_electrochemical_cell_composition
+  source: electrode
+  target: electrochemical_cell
+  type: composition
+  label: supplies electronic interface
+  detail: Electrodes connect electron conduction to interfacial charge transfer or capacitive response.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrode_potential_to_standard_electrode_potential_state_description
+  source: electrode_potential
+  target: standard_electrode_potential
+  type: state-description
+  label: has standard-state reference
+  detail: A standard potential fixes activities and reference-electrode convention for a specified half-reaction.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_nernst_equation_to_electrode_potential_describes_governs
+  source: nernst_equation
+  target: electrode_potential
+  type: describes-governs
+  label: activity-dependent equilibrium potential
+  detail: The Nernst equation adjusts a standard potential for nonstandard activities at equilibrium.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrochemical_cell_to_galvanic_cell_classification
+  source: electrochemical_cell
+  target: galvanic_cell
+  type: classification
+  label: includes power-producing cells
+  detail: A galvanic cell operates with a spontaneous cell reaction under its discharge conditions.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrochemical_cell_to_electrolytic_cell_classification
+  source: electrochemical_cell
+  target: electrolytic_cell
+  type: classification
+  label: includes electrically driven cells
+  detail: An electrolytic cell consumes electrical work to force a net chemical transformation.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_faraday_laws_electrolysis_to_electrolysis_describes_governs
+  source: faraday_laws_electrolysis
+  target: electrolysis
+  type: describes-governs
+  label: relates charge and transformed amount
+  detail: Faraday’s laws connect integrated current to stoichiometric electron transfer when current efficiency and side reactions are accounted
+    for.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_redox_reaction_to_corrosion_transformation_process
+  source: redox_reaction
+  target: corrosion
+  type: transformation-process
+  label: coupled material oxidation
+  detail: Corrosion couples anodic dissolution or oxidation to cathodic reduction through conductive and ionic paths.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrolysis_to_chloralkali_process_framework_specialization
+  source: electrolysis
+  target: chloralkali_process
+  type: framework-specialization
+  label: industrial brine electrolysis
+  detail: Chloralkali production specializes electrolysis to coupled chloride oxidation and water reduction while preventing product recombination.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_voltaic_pile_experiments_to_electrochemical_cell_historically_motivated
+  source: voltaic_pile_experiments
+  target: electrochemical_cell
+  type: historically-motivated
+  label: sustained current from repeated cells
+  detail: The pile made chemically generated current reproducible and enabled decomposition, isolation, and quantitative study before modern interfacial
+    theory.
+  citations:
+  - wp-chem-voltaic-pile
+  - science-museum-voltaic-pile
+- id: chem_faraday_electrolysis_experiments_to_faraday_laws_electrolysis_historically_motivated
+  source: faraday_electrolysis_experiments
+  target: faraday_laws_electrolysis
+  type: historically-motivated
+  label: charge–amount proportionality
+  detail: Faraday’s electrode-product measurements established quantitative charge accounting and electrochemical equivalents.
+  citations:
+  - wp-chem-faraday-electrolysis
+  - royal-institution-faraday-electrochemistry
+- id: chem_nernst_equation_to_nernst_concentration_cell_measurements_experimentally_verified_by
+  source: nernst_equation
+  target: nernst_concentration_cell_measurements
+  type: experimentally-verified-by
+  label: logarithmic concentration dependence
+  detail: Concentration cells exhibited the activity-dependent electromotive force predicted by the Nernst relation within reversible-cell conditions.
+  citations:
+  - wp-chem-nernst-equation
+  - nobel-nernst-1920
+- id: chem_redox_reaction_to_metabolism_composition
+  source: redox_reaction
+  target: metabolism
+  type: composition
+  label: forms metabolic electron-transfer network
+  detail: Metabolism contains coupled redox reactions mediated by cofactors, gradients, and enzyme-controlled pathways.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrode_to_chemical_interface_composition
+  source: electrode
+  target: chemical_interface
+  type: composition
+  label: forms electron–ion boundary
+  detail: An electrode establishes an interface where electronic and ionic charge, adsorption, solvent structure, reaction, and transport are
+    coupled.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_galvanic_cell_to_battery_framework_specialization
+  source: galvanic_cell
+  target: battery
+  type: framework-specialization
+  label: combined into stored-energy device
+  detail: A battery contains one or more electrochemical cells plus materials, separators, current collectors, controls, and packaging.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_galvanic_cell_to_fuel_cell_framework_specialization
+  source: galvanic_cell
+  target: fuel_cell
+  type: framework-specialization
+  label: operated with continuing reactant feed
+  detail: A fuel cell is a galvanic system supplied continuously with reactants and coupled to transport, catalysis, water, and heat management.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrochemical_double_layer_to_adsorption_couples_interacts
+  source: electrochemical_double_layer
+  target: adsorption
+  type: couples-interacts
+  label: couples charge with specific ion uptake
+  detail: Double-layer structure can include specifically adsorbed ions and molecules beyond diffuse electrostatic screening.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_redox_reaction_to_photosynthesis_chemistry_theory_component
+  source: redox_reaction
+  target: photosynthesis_chemistry
+  type: theory-component
+  label: supplies light-driven electron-transfer steps
+  detail: Coupled oxidation–reduction reactions supply electron transfer in photosynthetic chemistry, linked to
+    photon absorption, proton transfer, membrane transport, and carbon fixation.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_redox_reaction_to_cyclic_voltammetry_experimentally_verified_by
+  source: redox_reaction
+  target: cyclic_voltammetry
+  type: experimentally-verified-by
+  label: tested by potential-swept current response
+  detail: Cyclic voltammetry can test a redox mechanism through peak positions, shapes, scan-rate behavior, and
+    coupled chemistry, but mass transport, resistance, capacitance, and electrode condition must be modeled.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrode_to_electrochemical_double_layer_state_description
+  source: electrode
+  target: electrochemical_double_layer
+  type: state-description
+  label: develops interfacial charge organization
+  detail: An electrode in contact with an electrolyte develops a potential- and composition-dependent double layer
+    involving electronic charge, solvent orientation, diffuse ions, and possible specific adsorption.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrode_to_overpotential_state_description
+  source: electrode
+  target: overpotential
+  type: state-description
+  label: assigned a departure from equilibrium potential
+  detail: An operating electrode has an overpotential relative to a defined equilibrium potential; charge transfer,
+    mass transport, resistance, bubbles, area, and reference placement can all contribute.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrode_potential_to_electrochemistry_theory_component
+  source: electrode_potential
+  target: electrochemistry
+  type: theory-component
+  label: supplies an interfacial thermodynamic coordinate
+  detail: Electrode-potential conventions supply a central coordinate for electrochemistry, but only potential differences
+    relative to a reference are measured and kinetics or transport require additional variables.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrochemical_cell_to_gibbs_energy_state_description
+  source: electrochemical_cell
+  target: gibbs_energy
+  type: state-description
+  label: assigned a reaction Gibbs-energy change
+  detail: An electrochemical cell reaction has a Gibbs-energy change related reversibly to cell potential under
+    stated temperature, pressure, activities, electron count, and sign conventions; losses reduce operating voltage.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_electrolytic_cell_to_electrolysis_theory_component
+  source: electrolytic_cell
+  target: electrolysis
+  type: theory-component
+  label: supplies driven electrode and electrolyte interfaces
+  detail: An electrolytic cell supplies electrodes, electrolyte, separators, geometry, and an external potential
+    for electrolysis; current efficiency, mass transport, overpotential, and side reactions control conversion.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book

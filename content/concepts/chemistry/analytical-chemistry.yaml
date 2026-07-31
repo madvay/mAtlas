@@ -1,0 +1,577 @@
+nodes:
+- id: analytical_chemistry
+  label: Analytical chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 33
+  kind: structure
+  conceptType: Measurement field
+  summary: Development and application of strategies for identifying chemical entities and estimating composition, amount, structure, uncertainty,
+    and spatial or temporal distribution.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: qualitative_chemical_analysis
+  label: Qualitative chemical analysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 34
+  kind: structure
+  conceptType: Inference class
+  summary: Determination of which specified chemical entities, structures, phases, or classes are present within a stated detection capability.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: quantitative_chemical_analysis
+  label: Quantitative chemical analysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 34
+  kind: structure
+  conceptType: Measurement class
+  summary: Estimation of an analyte amount or composition together with calibration, uncertainty, selectivity, and sampling qualifications.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chemical_measurement
+  label: Chemical measurement
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 34
+  kind: structure
+  conceptType: Measurement process
+  summary: An experimental process that maps chemical properties or composition to calibrated observations under a defined measurement model.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chemical_sampling
+  label: Chemical sampling
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 34
+  kind: structure
+  conceptType: Measurement operation
+  summary: Selection and preparation of a portion intended to represent a material, population, place, or time interval for chemical analysis.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chemical_reference_material
+  label: Chemical reference material
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 34
+  kind: structure
+  conceptType: Metrological artifact
+  summary: A sufficiently homogeneous and stable material characterized for specified properties and intended for calibration, method validation,
+    or quality control.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: metrological_traceability_chemistry
+  label: Metrological traceability in chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 35
+  kind: structure
+  conceptType: Measurement relation
+  summary: Property of a result whereby it can be related to a reference through a documented unbroken calibration chain, each step contributing
+    uncertainty.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: calibration_curve
+  label: Calibration curve
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 35
+  kind: structure
+  conceptType: Measurement model
+  summary: A fitted relation between instrument response and known quantity values, used with stated uncertainty and validity range to infer unknowns.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: measurement_uncertainty_chemistry
+  label: Chemical measurement uncertainty
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 35
+  kind: structure
+  conceptType: Metrological quantity
+  summary: A parameter characterizing dispersion of quantity values reasonably attributable to a chemical measurand under a stated model.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: detection_limit
+  label: Detection limit
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 36
+  kind: structure
+  conceptType: Performance characteristic
+  summary: A decision- or model-dependent low-end quantity at which a measurement procedure can distinguish signal from an appropriate blank distribution
+    with stated error rates.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: separation_science
+  label: Separation science
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 35
+  kind: structure
+  conceptType: Method field
+  summary: Study of processes that distribute mixture components differently between phases, fields, membranes, or trajectories to improve isolation
+    or measurement.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chromatography
+  label: Chromatography
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 36
+  kind: structure
+  conceptType: Separation method class
+  summary: Differential migration of components through a stationary phase under transport by a mobile phase.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: gas_chromatography
+  label: Gas chromatography
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 37
+  kind: structure
+  conceptType: Chromatographic method
+  summary: Chromatography using a gaseous mobile phase, generally for volatile or derivatized analytes.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: liquid_chromatography
+  label: Liquid chromatography
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 37
+  kind: structure
+  conceptType: Chromatographic method
+  summary: Chromatography using a liquid mobile phase and a stationary phase chosen for retention selectivity.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: mass_spectrometry
+  label: Mass spectrometry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 26
+  kind: structure
+  conceptType: Instrumental analysis method
+  summary: Production, separation, and detection of gas-phase ions according to mass-to-charge ratio, often with structural inference from fragmentation
+    and exact mass.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: spectrophotometry
+  label: Spectrophotometry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 36
+  kind: structure
+  conceptType: Optical measurement method
+  summary: Quantitative measurement of transmitted, absorbed, emitted, or reflected radiant power as a function of wavelength.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: titration
+  label: Titration
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 36
+  kind: structure
+  conceptType: Stoichiometric measurement method
+  summary: Controlled addition of a reagent of known amount while monitoring an endpoint related to a defined chemical equivalence condition.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: x_ray_crystallography
+  label: X-ray crystallography
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 37
+  kind: structure
+  conceptType: Structure-determination method
+  summary: Inference of periodic electron density and atomic structure from X-ray diffraction intensities, a structural model, and refinement
+    against measured data.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: tsvet_chromatography_experiments
+  label: Tsvet’s pigment chromatography experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  - chemistry-experiments-evidence
+  level: 35
+  kind: structure
+  conceptType: Historical motivating experiment program
+  summary: Tsvet separated plant pigments into colored bands by passing extracts through adsorbent columns, establishing a general differential-migration
+    method.
+  citations:
+  - wp-chem-tsvet
+  - acs-chromatography-landmark
+- id: bragg_xray_diffraction_experiments
+  label: Bragg X-ray diffraction experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  - chemistry-experiments-evidence
+  level: 36
+  kind: structure
+  conceptType: Historical motivating experiment program
+  summary: The Braggs related crystal diffraction angles to lattice-plane spacings and solved early crystal structures, turning X-ray interference
+    into a chemical structure method.
+  citations:
+  - wp-chem-bragg-law
+  - nobel-bragg-1915
+edges:
+- id: chem_analytical_chemistry_to_qualitative_chemical_analysis_classification
+  source: analytical_chemistry
+  target: qualitative_chemical_analysis
+  type: classification
+  label: includes identification
+  detail: Qualitative analysis identifies chemical presence or structure under stated specificity and detection limits.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_quantitative_chemical_analysis_classification
+  source: analytical_chemistry
+  target: quantitative_chemical_analysis
+  type: classification
+  label: includes amount estimation
+  detail: Quantitative analysis estimates an amount or composition and its uncertainty.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_chemical_measurement_to_quantitative_chemical_analysis_theory_component
+  source: chemical_measurement
+  target: quantitative_chemical_analysis
+  type: theory-component
+  label: supplies calibrated observations
+  detail: Quantitative analysis combines a measurement model, calibration, sample preparation, and uncertainty evaluation.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_chemical_sampling_to_quantitative_chemical_analysis_theory_component
+  source: chemical_sampling
+  target: quantitative_chemical_analysis
+  type: theory-component
+  label: controls representativeness
+  detail: Sampling variance and bias can dominate instrumental precision when the sampled material is heterogeneous.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_chemical_reference_material_to_metrological_traceability_chemistry_theory_component
+  source: chemical_reference_material
+  target: metrological_traceability_chemistry
+  type: theory-component
+  label: provides characterized reference
+  detail: Certified or otherwise characterized reference materials can anchor calibration and validation chains.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_separation_science_classification
+  source: analytical_chemistry
+  target: separation_science
+  type: classification
+  label: includes separative analysis
+  detail: Separation can isolate analytes, remove interference, or provide time-resolved identification.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_separation_science_to_chromatography_classification
+  source: separation_science
+  target: chromatography
+  type: classification
+  label: includes phase-distribution methods
+  detail: Chromatography is a central separation-science family based on differential migration.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_chromatography_to_gas_chromatography_classification
+  source: chromatography
+  target: gas_chromatography
+  type: classification
+  label: gas mobile phase
+  detail: Gas chromatography specializes chromatography to gaseous transport and volatile analytes.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_chromatography_to_liquid_chromatography_classification
+  source: chromatography
+  target: liquid_chromatography
+  type: classification
+  label: liquid mobile phase
+  detail: Liquid chromatography covers modes differentiated by stationary phase and retention mechanism.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_mass_spectrometry_classification
+  source: analytical_chemistry
+  target: mass_spectrometry
+  type: classification
+  label: includes mass-to-charge analysis
+  detail: Mass spectrometry supports elemental, molecular, isotopic, and structural analysis through ion measurements.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_spectrophotometry_classification
+  source: analytical_chemistry
+  target: spectrophotometry
+  type: classification
+  label: includes optical quantitation
+  detail: Spectrophotometry converts calibrated wavelength-dependent optical responses into chemical information.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_titration_classification
+  source: analytical_chemistry
+  target: titration
+  type: classification
+  label: includes stoichiometric volumetry
+  detail: Titrations infer analyte amount from reagent amount at a modeled equivalence condition.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_x_ray_crystallography_classification
+  source: analytical_chemistry
+  target: x_ray_crystallography
+  type: classification
+  label: includes diffraction structure analysis
+  detail: Crystallography infers atomic arrangements from reciprocal-space intensities and a constrained structural model.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_tsvet_chromatography_experiments_to_chromatography_historically_motivated
+  source: tsvet_chromatography_experiments
+  target: chromatography
+  type: historically-motivated
+  label: separated pigment bands
+  detail: Tsvet’s column separations supplied the named prototype for chromatography and demonstrated differential adsorption and migration.
+  citations:
+  - wp-chem-tsvet
+  - acs-chromatography-landmark
+- id: chem_bragg_xray_diffraction_experiments_to_x_ray_crystallography_historically_motivated
+  source: bragg_xray_diffraction_experiments
+  target: x_ray_crystallography
+  type: historically-motivated
+  label: diffraction converted to structure
+  detail: Bragg’s relation and early structure solutions made crystal diffraction an operational atomic-structure method.
+  citations:
+  - wp-chem-bragg-law
+  - nobel-bragg-1915
+- id: chem_mass_spectrometry_to_aston_mass_spectrograph_measurements_experimentally_verified_by
+  source: mass_spectrometry
+  target: aston_mass_spectrograph_measurements
+  type: experimentally-verified-by
+  label: mass-resolved isotope beams
+  detail: Aston’s positive-ray mass spectrograph demonstrated chemically consequential isotopic mass patterns and the analytical power of mass-to-charge
+    separation.
+  citations:
+  - wp-chem-mass-spectrometry
+  - nobel-aston
+- id: chem_mass_spectrometry_to_ion_transformation_process
+  source: mass_spectrometry
+  target: ion
+  type: transformation-process
+  label: creates gas-phase ions for analysis
+  detail: A mass-spectrometric workflow ionizes analyte species before separating and detecting the resulting gas-phase ions; the ionization method can fragment, adduct, or otherwise alter what is observed.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_environmental_chemistry_theory_component
+  source: analytical_chemistry
+  target: environmental_chemistry
+  type: theory-component
+  label: supplies measurement and uncertainty methods
+  detail: Environmental chemistry relies on representative sampling, separation, calibration, detection, speciation,
+    quality control, and uncertainty evaluation supplied by analytical chemistry.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_analytical_chemistry_to_cyclic_voltammetry_classification
+  source: analytical_chemistry
+  target: cyclic_voltammetry
+  type: classification
+  label: includes potential-sweep electroanalysis
+  detail: Cyclic voltammetry is an electroanalytical method within analytical chemistry, combining controlled potential
+    scans with current measurement and transport-aware interpretation.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_separation_science_to_separation_process_framework_specialization
+  source: separation_science
+  target: separation_process
+  type: framework-specialization
+  label: specializes selective partitioning to process scale
+  detail: Process separations specialize separation science through throughput, energy, equipment, control, safety,
+    fouling, recycle, product specifications, and lifecycle constraints.
+  citations:
+  - wp-chem-chemical-industry
+  - doe-new-chemistry-roadmap
+  - doe-catalysts
+- id: chem_quantitative_chemical_analysis_to_calibration_curve_model_realization
+  source: quantitative_chemical_analysis
+  target: calibration_curve
+  type: model-realization
+  label: modeled by a validated response relation
+  detail: A calibration curve is a response-to-quantity model used in quantitative analysis; its form, range, standards,
+    residuals, uncertainty, matrix effects, and drift must be validated.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_quantitative_chemical_analysis_to_concentration_state_description
+  source: quantitative_chemical_analysis
+  target: concentration
+  type: state-description
+  label: reports concentration as a measurand
+  detail: Quantitative analysis can report concentration only with the measurand, amount basis, sample preparation,
+    calibration, matrix, uncertainty, and traceability stated explicitly.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_quantitative_chemical_analysis_to_measurement_uncertainty_chemistry_state_description
+  source: quantitative_chemical_analysis
+  target: measurement_uncertainty_chemistry
+  type: state-description
+  label: qualified by a measurement-uncertainty model
+  detail: A quantitative result is qualified by uncertainty for a defined measurand and coverage statement, incorporating
+    identified calibration, sampling, preparation, model, repeatability, and other contributions.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_qualitative_chemical_analysis_to_detection_limit_state_description
+  source: qualitative_chemical_analysis
+  target: detection_limit
+  type: state-description
+  label: assigned a procedure-specific detection capability
+  detail: A qualitative procedure has a detection capability defined through an explicit decision rule, error rates,
+    blank distribution, matrix, method, and operating conditions rather than one universal instrument number.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook

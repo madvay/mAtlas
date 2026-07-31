@@ -1,0 +1,53 @@
+id: atoms-to-chemical-reactivity
+title: From atomic identity to chemical reactivity
+summary: Trace how proton number and electronic organization become periodic patterns, bonds, molecular structures, mechanisms, and catalysis.
+narrative: Chemistry does not replace atomic physics with a separate inventory of particles. It reuses physical atoms, ions, electrons, orbitals, and bonds, then adds composition, comparative periodic concepts, molecular representations, and reaction evidence. The route shows where simple trends help, where bonding models are alternatives rather than literal pictures, and how structure becomes a constrained reaction pathway.
+tags:
+  - Chemistry
+  - Atomic structure
+  - Bonding
+  - Reactivity
+featured: true
+settings:
+  fields:
+    - chemistry
+  domains:
+    - chemical-foundations
+    - atomic-structure-periodicity
+    - molecular-structure-bonding
+    - quantum-chemistry-spectroscopy
+    - chemical-kinetics-dynamics
+    - chemistry-experiments-evidence
+  edgeTypes:
+    - classification
+    - framework-specialization
+    - theory-component
+    - describes-governs
+    - composition
+    - state-description
+    - transformation-process
+    - mathematical-formulation
+    - model-realization
+    - couples-interacts
+    - historically-motivated
+    - experimentally-verified-by
+  crossFieldVisibility: contextual
+  edgeLabels: true
+  junctions: false
+  edgeZoomActivation: true
+  layout: atlas
+nodeSequence:
+  - chemical_element
+  - proton_number
+  - periodic_law
+  - periodic_table
+  - electron_configuration
+  - valence_electron
+  - electronegativity
+  - chemical_bond
+  - molecular_structure
+  - molecular_symmetry
+  - potential_energy_surface
+  - reaction_mechanism
+  - transition_state
+  - catalysis

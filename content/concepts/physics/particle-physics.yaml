@@ -103,9 +103,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: particle-physics
     domains:
       - particle-physics
+      - atomic-structure-periodicity
+      - electrochemistry
     level: 10
     kind: structure
     conceptType: Conserved gauge charge
@@ -636,9 +639,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: particle-physics
     domains:
       - particle-physics
+      - atomic-structure-periodicity
+      - quantum-chemistry-spectroscopy
+      - electrochemistry
     level: 12
     kind: structure
     conceptType: Elementary particle
@@ -757,9 +764,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: particle-physics
     domains:
       - particle-physics
+      - quantum-chemistry-spectroscopy
+      - chemical-kinetics-dynamics
     level: 12
     kind: structure
     conceptType: Elementary particle

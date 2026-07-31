@@ -1,0 +1,598 @@
+nodes:
+- id: molecular_structure
+  label: Molecular structure
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 32
+  kind: structure
+  conceptType: Structural description
+  summary: The three-dimensional nuclear arrangement, connectivity, conformation, and electronic organization assigned to a molecular entity.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: valence_bond_theory
+  label: Valence-bond theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 31
+  kind: structure
+  conceptType: Bonding framework
+  summary: A quantum description that builds molecular states from localized atomic-orbital configurations and their resonance among bonding patterns.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_orbital_theory
+  label: Molecular-orbital theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 31
+  kind: structure
+  conceptType: Bonding framework
+  summary: A quantum description using one-electron functions delocalized over a molecule as a basis for its many-electron state.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: lewis_structure
+  label: Lewis structure
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 32
+  kind: structure
+  conceptType: Electron-bookkeeping model
+  summary: A two-dimensional valence-electron representation showing bonds, lone pairs, and formal charges.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: formal_charge
+  label: Formal charge
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 33
+  kind: structure
+  conceptType: Bookkeeping quantity
+  summary: The charge assigned to an atom by equally partitioning bonding electron pairs in a Lewis representation.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: resonance_chemistry
+  label: Resonance in chemical structure
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 33
+  kind: structure
+  conceptType: Representation principle
+  summary: Use of several contributing valence-bond structures to represent one delocalized quantum state, not rapid switching among classical
+    formulas.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: vsepr_theory
+  label: VSEPR model
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 33
+  kind: structure
+  conceptType: Qualitative geometry model
+  summary: A qualitative model that predicts many main-group geometries by arranging valence-shell electron domains to reduce repulsions.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: orbital_hybridization
+  label: Orbital hybridization
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 33
+  kind: structure
+  conceptType: Localized-orbital model
+  summary: A basis transformation among atomic orbitals used to construct directional localized orbitals; it is a model choice rather than a separately
+    observed process.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: bond_order
+  label: Bond order
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 34
+  kind: structure
+  conceptType: Bond descriptor
+  summary: A model-dependent measure of bonding multiplicity or electron occupation that often correlates with bond length and strength.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: covalent_bond
+  label: Covalent bond
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 34
+  kind: structure
+  conceptType: Bonding regime
+  summary: A bond stabilized substantially by shared electron density between atomic centers.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: ionic_bonding
+  label: Ionic bonding
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 34
+  kind: structure
+  conceptType: Bonding regime
+  summary: Electrostatic stabilization in an assembly with substantial charge separation, usually coupled to short-range repulsion, polarization,
+    and quantum effects.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: hydrogen_bond
+  label: Hydrogen bond
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 35
+  kind: structure
+  conceptType: Directional intermolecular or intramolecular interaction
+  summary: An attractive, directional interaction involving a hydrogen atom bound to an electronegative center and another electron-rich region.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: intermolecular_force
+  label: Intermolecular interaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 35
+  kind: structure
+  conceptType: Noncovalent interaction class
+  summary: An interaction between molecular entities, including electrostatic, induction, dispersion, hydrogen-bonding, and exchange contributions.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_geometry
+  label: Molecular geometry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 35
+  kind: structure
+  conceptType: Geometric property
+  summary: The spatial arrangement of nuclei in a selected molecular structure, usually specified near an equilibrium or averaged over motion.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_symmetry
+  label: Molecular symmetry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 36
+  kind: structure
+  conceptType: Symmetry classification
+  summary: The transformations that leave a molecular geometry or molecular Hamiltonian invariant, organized through point or permutation-inversion
+    groups.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_dipole_moment
+  label: Molecular dipole moment
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 36
+  kind: structure
+  conceptType: Electromagnetic property
+  summary: The first moment of a molecule’s charge distribution relative to a stated origin; for neutral molecules it is origin independent.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_conformation
+  label: Molecular conformation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 36
+  kind: structure
+  conceptType: Structural state
+  summary: A molecular geometry reachable by rotations and deformations without changing constitution, subject to barriers and environmental constraints.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_graph
+  label: Molecular graph
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  level: 34
+  kind: structure
+  conceptType: Mathematical representation
+  summary: A graph whose vertices represent atoms and whose edges encode selected bonding or connectivity relations while omitting most metric
+    and electronic detail.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+edges:
+- id: chem_molecular_structure_to_lewis_structure_model_realization
+  source: molecular_structure
+  target: lewis_structure
+  type: model-realization
+  label: two-dimensional valence model
+  detail: A Lewis structure records selected connectivity and valence bookkeeping but does not uniquely determine a three-dimensional or quantum
+    structure.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_structure_to_molecular_graph_model_realization
+  source: molecular_structure
+  target: molecular_graph
+  type: model-realization
+  label: connectivity graph
+  detail: A molecular graph retains constitution while abstracting away coordinates, vibrations, and most electronic structure.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_structure_to_molecular_geometry_state_description
+  source: molecular_structure
+  target: molecular_geometry
+  type: state-description
+  label: nuclear arrangement
+  detail: Geometry is the spatial component of a molecular structure at a specified state or level of averaging.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_structure_to_molecular_conformation_state_description
+  source: molecular_structure
+  target: molecular_conformation
+  type: state-description
+  label: accessible conformers
+  detail: A flexible molecular structure can occupy distinct conformations separated by energetic barriers.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_valence_bond_theory_to_chemical_bond_describes_governs
+  source: valence_bond_theory
+  target: chemical_bond
+  type: describes-governs
+  label: localized bonding description
+  detail: Valence-bond theory describes bonds through spin-coupled localized configurations and resonance, with quantitative accuracy depending
+    on the wavefunction expansion.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_orbital_theory_to_chemical_bond_describes_governs
+  source: molecular_orbital_theory
+  target: chemical_bond
+  type: describes-governs
+  label: delocalized orbital description
+  detail: Molecular-orbital theory describes bonding through occupations of orbitals extending over the molecular framework.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_orbital_hybridization_to_valence_bond_theory_theory_component
+  source: orbital_hybridization
+  target: valence_bond_theory
+  type: theory-component
+  label: localized orbital basis
+  detail: Hybrid orbitals are a convenient localized basis within many valence-bond and qualitative bonding models.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_lewis_structure_to_formal_charge_state_description
+  source: lewis_structure
+  target: formal_charge
+  type: state-description
+  label: assigns formal charges
+  detail: Formal charge is computed from a specified Lewis electron allocation and need not equal a measured partial charge.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_lewis_structure_to_resonance_chemistry_state_description
+  source: lewis_structure
+  target: resonance_chemistry
+  type: state-description
+  label: requires multiple contributors
+  detail: When no one Lewis formula captures the valence distribution, several contributors represent one delocalized state.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_vsepr_theory_to_molecular_geometry_describes_governs
+  source: vsepr_theory
+  target: molecular_geometry
+  type: describes-governs
+  label: qualitative shape prediction
+  detail: VSEPR predicts many main-group shapes from electron-domain arrangements but is not a universal electronic-structure theory.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_covalent_bond_to_molecule_couples_interacts
+  source: covalent_bond
+  target: molecule
+  type: couples-interacts
+  label: stabilizes molecular connectivity
+  detail: Shared electron density can stabilize nuclei in a molecular entity; many bonds have mixed covalent, ionic, and multicenter character.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_ionic_bonding_to_crystalline_solid_couples_interacts
+  source: ionic_bonding
+  target: crystalline_solid
+  type: couples-interacts
+  label: stabilizes ionic lattices
+  detail: Long-range Coulomb attraction plus repulsion and polarization can stabilize ionic crystals; the bonding is collective rather than a
+    set of isolated pair bonds.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_intermolecular_force_to_hydrogen_bond_classification
+  source: intermolecular_force
+  target: hydrogen_bond
+  type: classification
+  label: includes hydrogen bonding
+  detail: Hydrogen bonds form a directional subclass of noncovalent molecular interactions.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_intermolecular_force_to_molecular_conformation_couples_interacts
+  source: intermolecular_force
+  target: molecular_conformation
+  type: couples-interacts
+  label: biases conformational populations
+  detail: Intramolecular and solvent-mediated noncovalent interactions reshape conformational free-energy landscapes.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_dipole_moment_to_intermolecular_force_theory_component
+  source: molecular_dipole_moment
+  target: intermolecular_force
+  type: theory-component
+  label: contributes electrostatic coupling
+  detail: Permanent dipoles contribute orientation-dependent electrostatic interactions, alongside induction, dispersion, and exchange.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_structure_to_stereochemistry_framework_specialization
+  source: molecular_structure
+  target: stereochemistry
+  type: framework-specialization
+  label: specialized to spatial identity
+  detail: Stereochemistry studies distinctions arising from three-dimensional arrangement within a fixed or explicitly related connectivity.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_orbital_theory_to_quantum_chemistry_theory_component
+  source: molecular_orbital_theory
+  target: quantum_chemistry
+  type: theory-component
+  label: supplies delocalized orbital framework
+  detail: Molecular-orbital theory is one central approximation framework within quantum chemistry, not an observable decomposition of an exact
+    many-electron state.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_hydrogen_bond_to_protein_structure_couples_interacts
+  source: hydrogen_bond
+  target: protein_structure
+  type: couples-interacts
+  label: stabilizes recurring folds
+  detail: Hydrogen-bond networks help stabilize secondary and tertiary protein structures together with hydrophobic, ionic, dispersion, and covalent
+    interactions.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_intermolecular_force_to_solution_describes_governs
+  source: intermolecular_force
+  target: solution
+  type: describes-governs
+  label: controls mixing nonideality
+  detail: Solute–solute, solvent–solvent, and solute–solvent interactions determine deviations from ideal mixing and influence phase behavior.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_symmetry_to_molecular_spectroscopy_describes_governs
+  source: molecular_symmetry
+  target: molecular_spectroscopy
+  type: describes-governs
+  label: sets spectroscopic selection patterns
+  detail: Molecular symmetry classifies states and normal modes and constrains which transitions can carry intensity.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_dipole_moment_to_infrared_spectroscopy_theory_component
+  source: molecular_dipole_moment
+  target: infrared_spectroscopy
+  type: theory-component
+  label: enables dipole-active vibrations
+  detail: An infrared-active normal mode changes the molecular dipole moment; a permanent dipole is not required for every vibrational transition.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_conformation_to_protein_structure_composition
+  source: molecular_conformation
+  target: protein_structure
+  type: composition
+  label: forms conformational ensemble
+  detail: Protein structure is an ensemble of conformations shaped by sequence, environment, ligands, and dynamics rather than one perfectly rigid
+    geometry.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_covalent_bond_to_peptide_bond_classification
+  source: covalent_bond
+  target: peptide_bond
+  type: classification
+  label: includes resonance-stabilized peptide bonds
+  detail: A peptide bond is a covalent amide linkage between residue units; resonance restricts rotation and gives
+    partial double-bond character without making it a separate bonding category.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_hydrogen_bond_to_base_pairing_composition
+  source: hydrogen_bond
+  target: base_pairing
+  type: composition
+  label: forms directional pairing contacts
+  detail: Hydrogen bonds form directional contacts in canonical and noncanonical base pairs, while stacking, solvation,
+    ions, and conformational constraints also contribute to stability and specificity.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_molecular_structure_to_molecular_spectroscopy_experimentally_verified_by
+  source: molecular_structure
+  target: molecular_spectroscopy
+  type: experimentally-verified-by
+  label: constrained by molecular spectra
+  detail: Resolved transition frequencies, intensities, splittings, and selection patterns test structural assignments,
+    but extracting geometry or dynamics requires an explicit spectroscopic model and uncertainty analysis.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_geometry_to_orbital_hybridization_model_realization
+  source: molecular_geometry
+  target: orbital_hybridization
+  type: model-realization
+  label: represented by directional hybrid orbitals
+  detail: Hybridization is a localized orbital model used to rationalize selected molecular geometries and bonding
+    patterns; it is not a unique observable decomposition of an exact wavefunction.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_covalent_bond_to_valence_bond_theory_model_realization
+  source: covalent_bond
+  target: valence_bond_theory
+  type: model-realization
+  label: represented by localized electron pairing
+  detail: Valence-bond theory models a covalent bond with localized spin-coupled structures and resonance; quantitative
+    accuracy depends on the chosen orbital and configuration space.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_geometry_to_molecular_symmetry_state_description
+  source: molecular_geometry
+  target: molecular_symmetry
+  type: state-description
+  label: classified by invariant symmetry operations
+  detail: A molecular geometry is classified by symmetry operations that leave the idealized nuclear arrangement
+    invariant; conformational motion, isotopic substitution, and environment can lower the effective symmetry.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molecular_structure_to_structure_property_relation_chemistry_theory_component
+  source: molecular_structure
+  target: structure_property_relation_chemistry
+  type: theory-component
+  label: supplies local connectivity and geometry
+  detail: Molecular structure supplies local connectivity, geometry, conformation, and interactions to a structure–property
+    analysis, while mesoscale and bulk organization can dominate material response.
+  citations:
+  - wp-chem-polymer-chemistry
+  - iupac-purple-book
+  - nist-polymers-processing

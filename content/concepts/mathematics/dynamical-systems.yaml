@@ -559,3 +559,25 @@ edges:
       - wp-math-dynamical-system
       - wp-physics-nonequilibrium-thermodynamics
       - tong-statistical-physics
+  - id: dynamical_system_to_biochemical_pathway
+    source: dynamical_system
+    target: biochemical_pathway
+    type: mathematical-formulation
+    label: formulates regulated pathway dynamics
+    detail: Nonlinear dynamical systems formulate pathway models with conservation constraints, regulation, transport, and parameter uncertainty; stochastic and spatial descriptions are needed outside the deterministic well-mixed regime.
+    citations:
+      - wp-math-dynamical-system
+      - wp-chem-biochemistry
+      - ncbi-molecular-biology-cell
+      - pubchem-docs
+  - id: dynamical_system_to_chemical_reactor
+    source: dynamical_system
+    target: chemical_reactor
+    type: mathematical-formulation
+    label: formulates transient reactor behavior
+    detail: Controlled nonlinear dynamical systems formulate reactor states, inputs, feedback, constraints, multiplicity, and instability once kinetic, flow, heat-transfer, and mass-transfer assumptions are specified.
+    citations:
+      - wp-math-dynamical-system
+      - wp-chem-chemical-industry
+      - doe-new-chemistry-roadmap
+      - doe-catalysts

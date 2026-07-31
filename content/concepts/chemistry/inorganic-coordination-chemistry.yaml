@@ -1,0 +1,563 @@
+nodes:
+- id: inorganic_compound
+  label: Inorganic compound
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 32
+  kind: structure
+  conceptType: Compound class
+  summary: A conventional chemical class covering most compounds not organized primarily around carbon frameworks; its boundary with organic and
+    organometallic chemistry is historical and porous.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: ionic_compound
+  label: Ionic compound
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 33
+  kind: structure
+  conceptType: Compound class
+  summary: A charge-neutral substance whose structure is usefully described as an extended assembly of cations and anions rather than discrete
+    neutral molecules.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: ligand
+  label: Ligand
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 34
+  kind: structure
+  conceptType: Coordination component
+  summary: An atom, ion, or molecule that binds a central atom through one or more donor sites in a coordination entity.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: coordination_theory
+  label: Coordination theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 35
+  kind: structure
+  conceptType: Structural framework
+  summary: A framework distinguishing a central atom’s coordination sphere, ligand count, geometry, and counterions from simple valence formulas.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: coordination_complex
+  label: Coordination complex
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 36
+  kind: structure
+  conceptType: Chemical entity
+  summary: A molecular or ionic entity containing a central atom bonded to a surrounding set of ligands.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: coordination_number
+  label: Coordination number
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 36
+  kind: structure
+  conceptType: Structural descriptor
+  summary: The number of directly attached donor atoms or neighboring entities counted under an explicit coordination convention.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chelation
+  label: Chelation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 37
+  kind: structure
+  conceptType: Multidentate binding process
+  summary: Binding of two or more donor sites from one ligand to the same central atom, often altering thermodynamic stability and kinetic behavior.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: metal_ligand_bonding
+  label: Metal–ligand bonding
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 36
+  kind: structure
+  conceptType: Bonding regime
+  summary: Bonding between a metal center and ligands through electrostatic, covalent donation, back-bonding, and orbital-overlap contributions.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: crystal_field_theory
+  label: Crystal-field theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 37
+  kind: structure
+  conceptType: Electrostatic electronic-structure model
+  summary: A model treating ligands as external charge distributions that split metal d-orbital energies according to coordination geometry.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: ligand_field_theory
+  label: Ligand-field theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 38
+  kind: structure
+  conceptType: Molecular-orbital bonding framework
+  summary: An extension of crystal-field ideas that incorporates covalent metal–ligand orbital interactions.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: transition_metal_chemistry
+  label: Transition-metal chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 38
+  kind: structure
+  conceptType: Element-block field
+  summary: Chemistry of d-block elements characterized by multiple oxidation states, coordination geometries, magnetic states, and catalytic pathways.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: organometallic_compound
+  label: Organometallic compound
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 37
+  kind: structure
+  conceptType: Compound class
+  summary: A compound containing a bonding interaction between an organic-group carbon atom and a metal or metalloid center under the adopted
+    nomenclature.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: oxidative_addition
+  label: Oxidative addition
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 39
+  kind: structure
+  conceptType: Organometallic elementary step
+  summary: A step in which a metal inserts into a bond while its formal oxidation state and coordination number commonly increase.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: reductive_elimination
+  label: Reductive elimination
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 39
+  kind: structure
+  conceptType: Organometallic elementary step
+  summary: A step in which two ligands couple and leave a metal center while its formal oxidation state and coordination number commonly decrease.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: bioinorganic_chemistry
+  label: Bioinorganic chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  level: 40
+  kind: structure
+  conceptType: Interface field
+  summary: Study of metal ions, inorganic cofactors, mineral phases, and coordination chemistry in biological systems.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: werner_coordination_isomer_studies
+  label: Werner’s coordination-isomer studies
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  - chemistry-experiments-evidence
+  level: 34
+  kind: structure
+  conceptType: Historical motivating experiment program
+  summary: Werner used conductivity, precipitation, optical resolution, and systematic isomer counts to distinguish coordinated ligands from counterions
+    and infer octahedral complexes.
+  citations:
+  - wp-chem-werner
+  - nobel-werner-1913
+edges:
+- id: chem_inorganic_compound_to_ionic_compound_classification
+  source: inorganic_compound
+  target: ionic_compound
+  type: classification
+  label: includes ionic solids
+  detail: Ionic compounds are a major inorganic class, although organic ions can also form ionic compounds.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_inorganic_compound_to_coordination_complex_classification
+  source: inorganic_compound
+  target: coordination_complex
+  type: classification
+  label: includes coordination entities
+  detail: Many coordination compounds are conventionally inorganic, with boundaries extending into organometallic and bioinorganic chemistry.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_ligand_to_coordination_complex_composition
+  source: ligand
+  target: coordination_complex
+  type: composition
+  label: coordinates central atom
+  detail: Ligands are structural constituents of a coordination entity and can bind through one or several donor atoms.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_coordination_theory_to_coordination_complex_describes_governs
+  source: coordination_theory
+  target: coordination_complex
+  type: describes-governs
+  label: distinguishes coordination sphere
+  detail: Coordination theory organizes central atoms, coordinated ligands, geometry, and outer-sphere ions.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_coordination_complex_to_coordination_number_state_description
+  source: coordination_complex
+  target: coordination_number
+  type: state-description
+  label: has coordination count
+  detail: Coordination number is assigned to a complex using a stated neighbor or donor-atom counting convention.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_metal_ligand_bonding_to_coordination_complex_couples_interacts
+  source: metal_ligand_bonding
+  target: coordination_complex
+  type: couples-interacts
+  label: stabilizes coordination entity
+  detail: Metal–ligand interactions determine geometry, electronic states, spectra, lability, and reactivity.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_crystal_field_theory_to_coordination_complex_describes_governs
+  source: crystal_field_theory
+  target: coordination_complex
+  type: describes-governs
+  label: electrostatic d-level splitting
+  detail: Crystal-field theory predicts geometry-dependent d-orbital splitting while neglecting explicit covalent bonding.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_crystal_field_theory_to_ligand_field_theory_framework_specialization
+  source: crystal_field_theory
+  target: ligand_field_theory
+  type: framework-specialization
+  label: extended by covalent orbital mixing
+  detail: Ligand-field theory retains symmetry-based splitting while adding molecular-orbital covalency.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_transition_metal_chemistry_to_coordination_complex_classification
+  source: transition_metal_chemistry
+  target: coordination_complex
+  type: classification
+  label: includes transition-metal complexes
+  detail: Coordination complexes are central entities in transition-metal chemistry but also occur for main-group and f-block centers.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_inorganic_compound_to_organometallic_compound_classification
+  source: inorganic_compound
+  target: organometallic_compound
+  type: classification
+  label: overlaps metal–carbon compounds
+  detail: Organometallic chemistry overlaps inorganic chemistry while being defined by metal–carbon bonding rather than by a clean disciplinary
+    boundary.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_werner_coordination_isomer_studies_to_coordination_theory_historically_motivated
+  source: werner_coordination_isomer_studies
+  target: coordination_theory
+  type: historically-motivated
+  label: isomer counts and ion tests
+  detail: Werner’s coordinated-versus-ionizable ligand distinctions and predicted isomer counts materially motivated acceptance of spatial coordination
+    theory.
+  citations:
+  - wp-chem-werner
+  - nobel-werner-1913
+- id: chem_ionic_compound_to_ionic_bonding_model_realization
+  source: ionic_compound
+  target: ionic_bonding
+  type: model-realization
+  label: realizes extended ionic interaction
+  detail: Ionic compounds are extended charge-neutral structures; pairwise ion language is useful but lattice, polarization, and covalency matter.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_ligand_to_lewis_acid_base_model_realization
+  source: ligand
+  target: lewis_acid_base
+  type: model-realization
+  label: acts as electron-pair donor
+  detail: A ligand commonly acts as a Lewis base toward a central atom, with bonding that can also include metal-to-ligand back-donation.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_coordination_complex_to_molecular_symmetry_state_description
+  source: coordination_complex
+  target: molecular_symmetry
+  type: state-description
+  label: classified by point-group symmetry
+  detail: Idealized and distorted coordination geometries can be classified by molecular symmetry, constraining orbitals, spectra, and isomerism.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_coordination_complex_to_radiopharmaceutical_composition
+  source: coordination_complex
+  target: radiopharmaceutical
+  type: composition
+  label: forms metal-based imaging and therapy agents
+  detail: Many radiopharmaceuticals use chelators to control radionuclide speciation, targeting, kinetic stability, and in vivo distribution.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_crystal_field_theory_to_molecular_spectroscopy_describes_governs
+  source: crystal_field_theory
+  target: molecular_spectroscopy
+  type: describes-governs
+  label: predicts d-level transitions
+  detail: Crystal-field splittings help organize electronic spectra and magnetism, while covalency, spin–orbit coupling, and vibronic effects
+    refine assignments.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_organometallic_compound_to_homogeneous_catalysis_theory_component
+  source: organometallic_compound
+  target: homogeneous_catalysis
+  type: theory-component
+  label: forms molecular catalyst intermediates
+  detail: Organometallic complexes are common catalysts or intermediates in homogeneous cycles, though homogeneous catalysis also includes nonmetal
+    systems.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_oxidative_addition_to_reaction_mechanism_composition
+  source: oxidative_addition
+  target: reaction_mechanism
+  type: composition
+  label: forms bond-activation step
+  detail: Oxidative addition is one elementary organometallic step that must be embedded in a balanced catalytic mechanism.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_crystal_field_theory_to_electron_configuration_describes_governs
+  source: crystal_field_theory
+  target: electron_configuration
+  type: describes-governs
+  label: organizes metal-ion orbital occupations
+  detail: Crystal-field splitting and electron count organize idealized d-orbital occupations, spin states, and related trends in coordination complexes; covalency and low symmetry require ligand-field or electronic-structure refinements.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_inorganic_compound_to_ceramic_material_composition
+  source: inorganic_compound
+  target: ceramic_material
+  type: composition
+  label: forms ceramic phases
+  detail: Ionic and covalent inorganic compounds form the principal phases of many ceramics; processing history,
+    porosity, grain boundaries, and secondary phases also control behavior.
+  citations:
+  - wp-chem-polymer-chemistry
+  - iupac-purple-book
+  - nist-polymers-processing
+- id: chem_inorganic_compound_to_qualitative_chemical_analysis_experimentally_verified_by
+  source: inorganic_compound
+  target: qualitative_chemical_analysis
+  type: experimentally-verified-by
+  label: identified through selective chemical evidence
+  detail: Qualitative tests can support an inorganic-species assignment through selective reactions and controls,
+    but interferences, mixtures, detection limits, and speciation prevent a universal one-test identification.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_coordination_complex_to_vsepr_theory_model_realization
+  source: coordination_complex
+  target: vsepr_theory
+  type: model-realization
+  label: approximated by electron-domain repulsion
+  detail: VSEPR can provide a limited qualitative geometry model for some coordination environments, but ligand-field,
+    steric, covalent, electronic, and relativistic effects often dominate transition-metal complexes.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_coordination_complex_to_oxidation_state_state_description
+  source: coordination_complex
+  target: oxidation_state
+  type: state-description
+  label: assigned a formal metal oxidation state
+  detail: A coordination complex can be assigned formal oxidation states by an explicit ionic approximation; noninnocent
+    ligands, delocalization, and metal–ligand covalency can make localization ambiguous.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_metal_ligand_bonding_to_molecular_orbital_theory_model_realization
+  source: metal_ligand_bonding
+  target: molecular_orbital_theory
+  type: model-realization
+  label: represented by symmetry-adapted orbital mixing
+  detail: Molecular-orbital theory models metal–ligand bonding through symmetry-adapted donor and acceptor interactions;
+    the chosen orbital partition is model dependent and correlation may require extensions.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_oxidative_addition_to_organometallic_compound_transformation_process
+  source: oxidative_addition
+  target: organometallic_compound
+  type: transformation-process
+  label: produces a higher-coordinate formal oxidation product
+  detail: Oxidative addition transforms an organometallic complex by adding two ligand fragments and formally increasing
+    coordination number and metal oxidation state, subject to mechanism and electron-count conventions.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_chelation_to_chemical_measurement_theory_component
+  source: chelation
+  target: chemical_measurement
+  type: theory-component
+  label: supplies selective complex formation
+  detail: Chelation supplies selective complex formation in many analytical procedures, while competing ligands,
+    protonation, kinetics, indicators, matrix effects, and stability constants control performance.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_reductive_elimination_to_organic_synthesis_theory_component
+  source: reductive_elimination
+  target: organic_synthesis
+  type: theory-component
+  label: supplies bond-forming catalyst turnover
+  detail: Reductive elimination supplies carbon–carbon or carbon–heteroatom bond formation in many catalytic syntheses;
+    precursor geometry, oxidation state, ligands, and competing pathways control it.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_bioinorganic_chemistry_to_biochemical_cofactor_describes_governs
+  source: bioinorganic_chemistry
+  target: biochemical_cofactor
+  type: describes-governs
+  label: describes metal-ion and cluster cofactors
+  detail: Bioinorganic chemistry describes how metal ions and clusters contribute structure, electron transfer, small-molecule activation, transport, and catalysis in selected cofactors; many cofactors contain no metal.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_bioinorganic_chemistry_to_enzyme_catalysis_describes_governs
+  source: bioinorganic_chemistry
+  target: enzyme_catalysis
+  type: describes-governs
+  label: describes metalloenzyme reaction centers
+  detail: Bioinorganic models describe coordination, redox, spin, proton-coupled transfer, and substrate activation at metalloenzyme centers, without implying that all enzyme catalysis is metal-mediated.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book

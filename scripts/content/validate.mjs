@@ -3,6 +3,7 @@ import * as schema from './validators/schema.mjs';
 import * as references from './validators/references.mjs';
 import * as semantic from './validators/semantic.mjs';
 import * as editorial from './validators/editorial.mjs';
+import * as chemistry from './validators/chemistry.mjs';
 import * as rendererCompatibility from './validators/renderer-compatibility.mjs';
 import * as shareCodec from './validators/share-codec.mjs';
 
@@ -12,6 +13,7 @@ export const validationLayers = Object.freeze([
   references,
   semantic,
   editorial,
+  chemistry,
   rendererCompatibility
 ]);
 

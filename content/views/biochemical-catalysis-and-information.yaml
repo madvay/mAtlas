@@ -1,0 +1,57 @@
+id: biochemical-catalysis-and-information
+title: Chemical dynamics in living systems
+summary: Link molecular structure, enzyme kinetics, metabolic networks, membrane electrochemistry, and chemical information in nucleic acids.
+narrative: Living chemistry uses the same thermodynamic, kinetic, acid–base, redox, and structural constraints as nonliving systems, but organizes them through macromolecular selectivity, compartments, regulation, and driven networks. This path joins molecular interactions to enzyme-rate reductions, pathway dynamics, energy conversion, and experimentally constrained DNA structure and replication.
+tags:
+  - Chemistry
+  - Biochemistry
+  - Enzymes
+  - Nucleic acids
+settings:
+  fields:
+    - mathematics
+    - chemistry
+  domains:
+    - dynamical-systems
+    - molecular-structure-bonding
+    - chemical-thermodynamics-equilibrium
+    - solutions-interfaces
+    - chemical-kinetics-dynamics
+    - inorganic-coordination-chemistry
+    - analytical-chemistry
+    - electrochemistry
+    - biochemistry-chemical-biology
+    - chemistry-experiments-evidence
+  edgeTypes:
+    - classification
+    - framework-specialization
+    - theory-component
+    - describes-governs
+    - composition
+    - state-description
+    - transformation-process
+    - mathematical-formulation
+    - model-realization
+    - couples-interacts
+    - experimentally-verified-by
+  crossFieldVisibility: all
+  edgeLabels: true
+  junctions: false
+  edgeZoomActivation: true
+  layout: atlas
+nodeSequence:
+  - biomolecule
+  - protein_structure
+  - enzyme
+  - enzyme_catalysis
+  - michaelis_menten_kinetics
+  - biochemical_pathway
+  - dynamical_system
+  - metabolism
+  - redox_reaction
+  - biomembrane
+  - oxidative_phosphorylation
+  - nucleic_acid
+  - dna_double_helix
+  - dna_replication
+  - meselson_stahl_experiment

@@ -2,6 +2,58 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { LayoutManager } from '../../.test-build/graph/layout-manager.js';
 
+function node(id, primaryField, primaryDomain, level) {
+  return {
+    id,
+    label: id,
+    primaryField,
+    primaryDomain,
+    level,
+    kind: 'structure'
+  };
+}
+
+function managerFor(nodes) {
+  const domains = {
+    'atomic-molecular-physics': { field: 'physics', order: 105 },
+    'atomic-structure-periodicity': { field: 'chemistry', order: 201 },
+    'molecular-structure-bonding': { field: 'chemistry', order: 202 }
+  };
+  const model = {
+    data: { nodes, domains },
+    fieldOrder: ['physics', 'chemistry'],
+    domainOrder: Object.keys(domains),
+    fieldForDomain: (domainId) => domains[domainId].field,
+    nodePrimaryField: (record) => record.primaryField
+  };
+  return new LayoutManager({
+    cy: { nodes: () => ({ stop: () => {} }) },
+    model,
+    state: { layout: 'atlas' },
+    onStateChange: () => {},
+    animateGraph: () => false,
+    refitOnChange: () => false,
+    onLayoutStarted: () => {},
+    onLayoutPrepared: () => {},
+    onLayoutSettled: () => {},
+    fitVisible: () => {},
+    cancelFit: () => {}
+  });
+}
+
+test('Layered shares authored level rows across Physics and Chemistry', () => {
+  const positions = managerFor([
+    node('physics_atom', 'physics', 'atomic-molecular-physics', 28),
+    node('chemistry_atom', 'chemistry', 'atomic-structure-periodicity', 28),
+    node('chemistry_molecule', 'chemistry', 'molecular-structure-bonding', 35)
+  ]).atlasPositions();
+
+  assert.equal(positions.physics_atom.y, 28 * 180);
+  assert.equal(positions.chemistry_atom.y, positions.physics_atom.y);
+  assert.equal(positions.chemistry_molecule.y, 35 * 180);
+  assert.ok(Math.abs(positions.chemistry_atom.x - positions.physics_atom.x) <= 300);
+});
+
 function makeNode(id, position = { x: 0, y: 0 }) {
   let current = { ...position };
   return {

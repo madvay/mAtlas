@@ -72,9 +72,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - radiochemistry
     level: 19
     kind: structure
     conceptType: Composite particle
@@ -252,9 +254,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - atomic-structure-periodicity
+      - radiochemistry
     level: 23
     kind: structure
     conceptType: Composite system
@@ -335,9 +340,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - quantum-chemistry-spectroscopy
     level: 24
     kind: structure
     conceptType: State property
@@ -367,9 +374,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - atomic-structure-periodicity
     level: 24
     kind: structure
     conceptType: Composition number
@@ -463,9 +472,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - atomic-structure-periodicity
+      - radiochemistry
     level: 25
     kind: structure
     conceptType: Atomic species classified by nucleus
@@ -495,9 +507,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - atomic-structure-periodicity
+      - radiochemistry
     level: 26
     kind: structure
     conceptType: Nuclide class
@@ -560,9 +575,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - radiochemistry
     level: 26
     kind: structure
     conceptType: Spontaneous process
@@ -576,9 +593,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - radiochemistry
     level: 27
     kind: structure
     conceptType: Nuclear decay process
@@ -592,9 +611,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - radiochemistry
     level: 27
     kind: structure
     conceptType: Weak nuclear process
@@ -609,9 +630,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - radiochemistry
     level: 27
     kind: structure
     conceptType: Electromagnetic nuclear transition
@@ -673,9 +696,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
+      - radiochemistry
+      - industrial-process-chemistry
     level: 27
     kind: structure
     conceptType: Nuclear reaction or decay process
@@ -745,10 +771,14 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
       - experiments-observations
+      - analytical-chemistry
+      - radiochemistry
+      - chemistry-experiments-evidence
     level: 27
     kind: structure
     conceptType: Discovery and measurement program
@@ -1664,3 +1694,47 @@ edges:
       - wp-physics-atomic_nucleus
       - wp-physics-condensed-matter
       - tong-solid-state-physics
+  - id: isotope_to_isotope_tracer
+    source: isotope
+    target: isotope_tracer
+    type: model-realization
+    label: assigned as a distinguishable atom-flow label
+    detail: An isotope becomes a tracer when its distinguishable abundance or decay signature is introduced or observed to follow material through a chemical, biological, or environmental system.
+    citations:
+      - wp-physics-isotope
+      - iupac-isotopes
+      - wp-chem-radiochemistry
+      - iaea-neutron-activation-analysis
+  - id: radioactive_decay_to_radiometric_dating
+    source: radioactive_decay
+    target: radiometric_dating
+    type: model-realization
+    label: realized as a calibrated nuclear clock
+    detail: Radiometric dating uses a decay law together with parent–daughter measurements, closure and initial-condition models, calibration, and propagated uncertainty.
+    citations:
+      - wp-physics-radioactive_decay
+      - iaea-livechart
+      - wp-chem-radiocarbon-dating
+      - nobel-libby-1960
+  - id: chem_nuclear_fission_to_nuclear_fuel_cycle_chemistry_theory_component
+    source: nuclear_fission
+    target: nuclear_fuel_cycle_chemistry
+    type: theory-component
+    label: supplies fissile consumption and product inventories
+    detail: Fission rates, yields, decay heat, and product nuclides supply source terms for fuel-cycle chemistry,
+      while reactor history and chemical processing determine actual inventories.
+    citations:
+    - wp-chem-radiochemistry
+    - iaea-neutron-activation-analysis
+    - iupac-gold-book
+  - id: chem_isotope_to_radionuclide_chemistry_classification
+    source: isotope
+    target: radionuclide_chemistry
+    type: classification
+    label: includes radioactive isotopic members
+    detail: A radionuclide is an unstable nuclide and may be an isotope of a specified element; the classification
+      depends on proton and neutron numbers and nuclear state, not chemical behavior alone.
+    citations:
+    - wp-chem-radiochemistry
+    - iaea-neutron-activation-analysis
+    - iupac-gold-book

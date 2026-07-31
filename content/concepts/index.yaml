@@ -1,9 +1,11 @@
 meta:
   title: Atlas of Fundamental Concepts
-  version: 1.7.1
-  description: A source-backed visual atlas connecting mathematical structures and dynamical systems to foundational laws, spacetime, quantum theory, thermodynamics and statistical mechanics, quantum fields, matter across particle-to-condensed scales, controlled reductions, effective theories, and collective phenomena.
-  direction: Fields are stacked vertically. Within a field, smaller level values are more structurally primitive or less composite; larger values generally indicate specialization, composition, effective description, collective organization, or emergence. The order is ontological and structural, not pedagogical difficulty.
-  scope: Mathematics and a deeply sourced physics atlas from classical and relativistic foundations through dynamical systems, equilibrium and nonequilibrium statistical physics, quantum mechanics, QFT consistency and symmetry structure, Standard Model fields and particles, electroweak and low-energy EFT matching, QCD chiral and nuclear effective layers, atomic structure, and condensed-matter organization including lattices, bands, quasiparticles, magnetism, and superconductivity.
+  # Content version must be updated on each change, fix for fixes, minor for content additions,
+  # major for breaking schema change (i.e. content major == schema major version).
+  version: 1.9.0
+  description: A source-backed visual atlas connecting mathematics, physics, and chemistry from formal structures and physical law through chemical composition, bonding, reactivity, measurement, materials, living systems, environmental processes, and industrial practice.
+  direction: Smaller levels generally indicate less structure or composition; larger values generally indicate specialization, composition, effective description, collective organization, or emergence. Mathematics occupies the upper formal band. Physics and Chemistry share the lower scientific band. The order is ontological and structural, not pedagogical difficulty.
+  scope: Mathematics; physics from classical and relativistic foundations through quantum, particle, nuclear, atomic, statistical, and condensed-matter organization; and chemistry from composition, atomic periodicity, molecular structure, thermodynamics, kinetics, and measurement through inorganic, organic, electrochemical, radiochemical, materials, biochemical, environmental, and industrial systems.
   license: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
   licenseUrl: https://creativecommons.org/licenses/by-sa/4.0/
   attribution: mAtlas - Copyright (c) 2026 Advay Mengle - https://atlas.madvay.com/
@@ -24,6 +26,13 @@ fields:
     order: 1
     path: physics
     description: Empirical theories and models of matter, energy, spacetime, interactions, and physical systems.
+  - id: chemistry
+    label: Chemistry
+    shortLabel: Chemistry
+    color: "#9a3412"
+    order: 2
+    path: chemistry
+    description: Composition, structure, properties, measurement, and transformations of substances across molecular, material, biological, environmental, and industrial scales.
 domains:
   - id: set-theory
     label: Set theory
@@ -185,6 +194,91 @@ domains:
     color: "#be123c"
     order: 109
     field: physics
+  - id: chemical-foundations
+    label: Chemical foundations
+    color: "#92400e"
+    order: 200
+    field: chemistry
+  - id: atomic-structure-periodicity
+    label: Atomic structure & periodicity
+    color: "#b45309"
+    order: 201
+    field: chemistry
+  - id: molecular-structure-bonding
+    label: Molecular structure & bonding
+    color: "#c2410c"
+    order: 202
+    field: chemistry
+  - id: quantum-chemistry-spectroscopy
+    label: Quantum chemistry & spectroscopy
+    color: "#a21caf"
+    order: 203
+    field: chemistry
+  - id: chemical-thermodynamics-equilibrium
+    label: Chemical thermodynamics & equilibrium
+    color: "#be123c"
+    order: 204
+    field: chemistry
+  - id: solutions-interfaces
+    label: Solutions, acids, bases & interfaces
+    color: "#0e7490"
+    order: 205
+    field: chemistry
+  - id: chemical-kinetics-dynamics
+    label: Chemical kinetics & dynamics
+    color: "#dc2626"
+    order: 206
+    field: chemistry
+  - id: inorganic-coordination-chemistry
+    label: Inorganic & coordination chemistry
+    color: "#4338ca"
+    order: 207
+    field: chemistry
+  - id: organic-chemistry
+    label: Organic chemistry
+    color: "#15803d"
+    order: 208
+    field: chemistry
+  - id: analytical-chemistry
+    label: Analytical chemistry
+    color: "#0369a1"
+    order: 209
+    field: chemistry
+  - id: electrochemistry
+    label: Electrochemistry
+    color: "#0891b2"
+    order: 210
+    field: chemistry
+  - id: radiochemistry
+    label: Radiochemistry
+    color: "#7e22ce"
+    order: 211
+    field: chemistry
+  - id: materials-polymer-chemistry
+    label: Materials & polymer chemistry
+    color: "#4d7c0f"
+    order: 212
+    field: chemistry
+  - id: biochemistry-chemical-biology
+    label: Biochemistry & chemical biology
+    color: "#047857"
+    order: 213
+    field: chemistry
+  - id: environmental-atmospheric-chemistry
+    label: Environmental & atmospheric chemistry
+    color: "#0f766e"
+    order: 214
+    field: chemistry
+  - id: industrial-process-chemistry
+    label: Industrial & process chemistry
+    color: "#475569"
+    order: 215
+    field: chemistry
+  - id: chemistry-experiments-evidence
+    label: Chemical experiments & evidence
+    color: "#991b1b"
+    order: 216
+    field: chemistry
 removedDomains:
   - id: foundation
     path: math/foundation

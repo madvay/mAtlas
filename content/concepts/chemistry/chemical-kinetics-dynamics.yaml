@@ -1,0 +1,750 @@
+nodes:
+- id: chemical_reaction
+  label: Chemical reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 27
+  kind: structure
+  conceptType: Transformation process
+  summary: A process that changes chemical identities or bonding arrangements while conserving charge and the relevant nuclei.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chemical_kinetics
+  label: Chemical kinetics
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 29
+  kind: structure
+  conceptType: Disciplinary framework
+  summary: Study of reaction rates, mechanisms, transport coupling, and time-dependent chemical composition.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: reaction_rate
+  label: Reaction rate
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 30
+  kind: structure
+  conceptType: Kinetic quantity
+  summary: The time derivative of reaction progress or species amount normalized by an explicitly stated volume, area, mass, or other basis.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: rate_law
+  label: Rate law
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 31
+  kind: structure
+  conceptType: Kinetic relation
+  summary: A mathematical relation between reaction rate and state variables or species activities, determined by mechanism or experiment rather
+    than overall stoichiometry alone.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: elementary_reaction
+  label: Elementary reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 31
+  kind: structure
+  conceptType: Mechanistic event
+  summary: A single molecular event with no resolved intermediate on the chosen mechanism and time scale.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: reaction_mechanism
+  label: Reaction mechanism
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 32
+  kind: structure
+  conceptType: Process model
+  summary: An ordered network of elementary or effective steps proposed to account for products, intermediates, kinetics, stereochemistry, and
+    isotope effects.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: reaction_coordinate
+  label: Reaction coordinate
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 30
+  kind: structure
+  conceptType: Reduced dynamical coordinate
+  summary: A chosen low-dimensional variable that tracks progress between reactant and product regions but generally omits other coupled degrees
+    of freedom.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: transition_state
+  label: Transition state
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 31
+  kind: structure
+  conceptType: Dynamical bottleneck
+  summary: A dividing-surface configuration near a free-energy or potential-energy saddle that controls reactive flux under a specified theory.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: activation_energy
+  label: Activation energy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 31
+  kind: structure
+  conceptType: Kinetic parameter
+  summary: An empirical or model-derived energy scale governing temperature sensitivity; its meaning depends on the rate expression and need not
+    equal one barrier height exactly.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: steady_state_approximation
+  label: Steady-state approximation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 33
+  kind: structure
+  conceptType: Kinetic approximation
+  summary: An approximation setting selected intermediate production and consumption nearly equal after an initial transient.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: arrhenius_equation
+  label: Arrhenius equation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 32
+  kind: structure
+  conceptType: Temperature-rate relation
+  summary: An exponential model $k=Ae^{-E_a/(RT)}$ for a rate coefficient over a regime in which the apparent activation energy and prefactor
+    are adequately stable.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: collision_theory
+  label: Collision theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 32
+  kind: structure
+  conceptType: Kinetic model
+  summary: A gas-phase reaction model relating rate to collision frequency, relative speed, energetic threshold, and an orientation or steric
+    factor.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: transition_state_theory
+  label: Transition-state theory
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 33
+  kind: structure
+  conceptType: Rate theory
+  summary: A statistical rate theory based on equilibrium-like population near a dividing surface and negligible recrossing, with corrections
+    when those assumptions fail.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: catalysis
+  label: Catalysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 34
+  kind: structure
+  conceptType: Reaction-pathway modification
+  summary: Increase of reaction rate by a substance or active site that participates in a lower-free-energy mechanism and is regenerated in the
+    overall catalytic cycle.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: homogeneous_catalysis
+  label: Homogeneous catalysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 35
+  kind: structure
+  conceptType: Catalysis regime
+  summary: Catalysis in which catalyst and reactants occupy the same phase, often through a molecular cycle of intermediates.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: heterogeneous_catalysis
+  label: Heterogeneous catalysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 35
+  kind: structure
+  conceptType: Catalysis regime
+  summary: Catalysis at an interface between phases, involving adsorption, surface reaction, transport, and desorption.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: photochemistry
+  label: Photochemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 35
+  kind: structure
+  conceptType: Excited-state reaction field
+  summary: Chemical transformations initiated or redirected by photon absorption and subsequent excited-state dynamics.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: arrhenius_temperature_rate_measurements
+  label: Arrhenius temperature–rate comparisons
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  - chemistry-experiments-evidence
+  level: 31
+  kind: structure
+  conceptType: Historical motivating data analysis
+  summary: Arrhenius compared the strong temperature dependence of reaction rates with an activated-molecule population model, motivating the
+    exponential rate relation bearing his name.
+  citations:
+  - wp-chem-arrhenius-equation
+  - nobel-arrhenius-1903
+- id: zewail_femtochemistry_experiments
+  label: Zewail’s femtochemistry experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  - chemistry-experiments-evidence
+  level: 35
+  kind: structure
+  conceptType: Canonical verifying experiment program
+  summary: Pump–probe measurements with femtosecond pulses resolved transient molecular configurations and time scales during bond rearrangement
+    rather than only reactant and product spectra.
+  citations:
+  - wp-chem-femtochemistry
+  - nobel-zewail-1999
+edges:
+- id: chem_chemical_kinetics_to_chemical_reaction_describes_governs
+  source: chemical_kinetics
+  target: chemical_reaction
+  type: describes-governs
+  label: describes reaction rates
+  detail: Kinetics describes how a specified reaction system approaches products, steady states, or equilibrium.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_rate_to_chemical_kinetics_theory_component
+  source: reaction_rate
+  target: chemical_kinetics
+  type: theory-component
+  label: supplies a normalized progress variable
+  detail: Reaction rate supplies chemical kinetics with a measure of time evolution only after the reaction extent, stoichiometric normalization, volume or area basis, and system boundary are defined.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_chemical_kinetics_to_rate_law_model_realization
+  source: chemical_kinetics
+  target: rate_law
+  type: model-realization
+  label: represented by a regime-specific rate law
+  detail: A rate law is an empirical or mechanism-derived model of chemical kinetics valid over stated composition, temperature, pressure, phase, and transport regimes.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_elementary_reaction_to_reaction_mechanism_composition
+  source: elementary_reaction
+  target: reaction_mechanism
+  type: composition
+  label: forms mechanism step
+  detail: A mechanism is assembled from elementary or explicitly coarse-grained steps connected by intermediates.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_mechanism_to_rate_law_describes_governs
+  source: reaction_mechanism
+  target: rate_law
+  type: describes-governs
+  label: implies kinetic form
+  detail: A proposed mechanism yields a rate law only after approximations, conservation equations, and initial conditions are stated.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_activation_energy_to_arrhenius_equation_theory_component
+  source: activation_energy
+  target: arrhenius_equation
+  type: theory-component
+  label: sets apparent slope
+  detail: For Arrhenius behavior, the slope of $\ln k$ versus $1/T$ determines an apparent activation energy.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_mechanism_to_steady_state_approximation_model_realization
+  source: reaction_mechanism
+  target: steady_state_approximation
+  type: model-realization
+  label: eliminates short-lived intermediates
+  detail: The steady-state approximation reduces mechanism equations when selected intermediates remain at low, slowly varying concentrations.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_collision_theory_to_rate_law_model_realization
+  source: collision_theory
+  target: rate_law
+  type: model-realization
+  label: gas-collision rate model
+  detail: For simple gas reactions, collision theory estimates rate coefficients from collision and reaction probabilities.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_transition_state_theory_to_rate_law_model_realization
+  source: transition_state_theory
+  target: rate_law
+  type: model-realization
+  label: statistical barrier-crossing rate
+  detail: Transition-state theory connects an activated-complex partition function and free-energy barrier to a rate coefficient.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_catalysis_to_homogeneous_catalysis_classification
+  source: catalysis
+  target: homogeneous_catalysis
+  type: classification
+  label: includes same-phase cycles
+  detail: Homogeneous catalysis is classified by catalyst and reactants sharing a phase.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_catalysis_to_heterogeneous_catalysis_classification
+  source: catalysis
+  target: heterogeneous_catalysis
+  type: classification
+  label: includes interfacial cycles
+  detail: Heterogeneous catalysis couples surface chemistry to mass and heat transport.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_photochemistry_to_chemical_reaction_describes_governs
+  source: photochemistry
+  target: chemical_reaction
+  type: describes-governs
+  label: describes light-initiated reaction pathways
+  detail: Photochemistry describes how photon absorption populates electronic states with reaction pathways unavailable or negligible on the ground state, including competing relaxation and energy-transfer channels.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_photochemistry_to_photosynthesis_chemistry_framework_specialization
+  source: photochemistry
+  target: photosynthesis_chemistry
+  type: framework-specialization
+  label: biological light-energy conversion
+  detail: Photosynthesis specializes photochemistry through pigment–protein reaction centers, electron-transfer chains, and coupled carbon fixation.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_photochemistry_to_atmospheric_photochemistry_framework_specialization
+  source: photochemistry
+  target: atmospheric_photochemistry
+  type: framework-specialization
+  label: sunlit atmospheric reaction networks
+  detail: Atmospheric photochemistry specializes molecular photochemistry to open, transported gas–particle systems under the solar spectrum.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_catalysis_to_process_catalysis_framework_specialization
+  source: catalysis
+  target: process_catalysis
+  type: framework-specialization
+  label: industrial catalyst operation
+  detail: Process catalysis adds catalyst shaping, deactivation, regeneration, transport, heat management, and plant integration to molecular
+    catalytic cycles.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_arrhenius_temperature_rate_measurements_to_arrhenius_equation_historically_motivated
+  source: arrhenius_temperature_rate_measurements
+  target: arrhenius_equation
+  type: historically-motivated
+  label: activated temperature dependence
+  detail: The empirical temperature dependence and activated-population interpretation led to the Arrhenius rate expression; modern transition-state
+    theory supplies a more detailed basis.
+  citations:
+  - wp-chem-arrhenius-equation
+  - nobel-arrhenius-1903
+- id: chem_transition_state_to_zewail_femtochemistry_experiments_experimentally_verified_by
+  source: transition_state
+  target: zewail_femtochemistry_experiments
+  type: experimentally-verified-by
+  label: time-resolved transient configurations
+  detail: Femtosecond spectroscopy directly resolved evolving wavepackets and transient structures near reaction bottlenecks in selected systems,
+    without implying one universal classical path.
+  citations:
+  - wp-chem-femtochemistry
+  - nobel-zewail-1999
+- id: chem_reaction_coordinate_to_zewail_femtochemistry_experiments_experimentally_verified_by
+  source: reaction_coordinate
+  target: zewail_femtochemistry_experiments
+  type: experimentally-verified-by
+  label: resolved bond-rearrangement dynamics
+  detail: Pump–probe signals tracked selected coordinates during ultrafast reactions and tested dynamical models beyond endpoint kinetics.
+  citations:
+  - wp-chem-femtochemistry
+  - nobel-zewail-1999
+- id: chem_chemical_reaction_to_organic_synthesis_composition
+  source: chemical_reaction
+  target: organic_synthesis
+  type: composition
+  label: forms synthetic operations
+  detail: Organic synthesis sequences reactions with workup, purification, characterization, protection, and process constraints.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_chemical_reaction_to_redox_reaction_classification
+  source: chemical_reaction
+  target: redox_reaction
+  type: classification
+  label: includes oxidation–reduction
+  detail: Redox reactions are chemical reactions classified by coupled changes in formal electron assignment.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_chemical_reaction_to_polymerization_classification
+  source: chemical_reaction
+  target: polymerization
+  type: classification
+  label: includes macromolecule-forming reactions
+  detail: Polymerization transforms monomers into chains or networks through mechanisms whose kinetics and architectures vary widely.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_chemical_kinetics_to_chemical_reactor_describes_governs
+  source: chemical_kinetics
+  target: chemical_reactor
+  type: describes-governs
+  label: couples rates to reactor balances
+  detail: Reactor behavior follows reaction kinetics coupled to mixing, residence time, heat and mass transfer, and control.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_chemical_kinetics_to_contaminant_fate_theory_component
+  source: chemical_kinetics
+  target: contaminant_fate
+  type: theory-component
+  label: supplies transformation time scales
+  detail: Environmental fate models combine reaction rate laws with transport, partitioning, photolysis, and biological processes.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_mechanism_to_substitution_reaction_describes_governs
+  source: reaction_mechanism
+  target: substitution_reaction
+  type: describes-governs
+  label: distinguishes substitution pathways
+  detail: Substitution can proceed by several stepwise or concerted mechanisms distinguished by kinetics, stereochemistry, and intermediate evidence.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_mechanism_to_elimination_reaction_describes_governs
+  source: reaction_mechanism
+  target: elimination_reaction
+  type: describes-governs
+  label: distinguishes elimination pathways
+  detail: Elimination mechanisms differ in molecularity, base dependence, stereoelectronic requirements, and competition with substitution.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_mechanism_to_addition_reaction_describes_governs
+  source: reaction_mechanism
+  target: addition_reaction
+  type: describes-governs
+  label: resolves bond-addition steps
+  detail: Addition reactions may be polar, radical, pericyclic, surface-mediated, or catalytic and require mechanism-specific evidence.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_transition_state_to_activation_energy_state_description
+  source: transition_state
+  target: activation_energy
+  type: state-description
+  label: defines barrier contribution
+  detail: Activation energy is an apparent temperature-dependence parameter, whereas a transition-state free-energy barrier includes enthalpic
+    and entropic contributions.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_steady_state_approximation_to_michaelis_menten_kinetics_model_realization
+  source: steady_state_approximation
+  target: michaelis_menten_kinetics
+  type: model-realization
+  label: supports enzyme-rate reduction
+  detail: The quasi-steady-state treatment of enzyme–substrate complex concentration yields a Michaelis–Menten form under stated initial-rate
+    and conservation assumptions.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_catalysis_to_enzyme_catalysis_framework_specialization
+  source: catalysis
+  target: enzyme_catalysis
+  type: framework-specialization
+  label: specializes to biological macromolecules
+  detail: Enzyme catalysis adds selective binding, conformational dynamics, acid–base groups, cofactors, and cellular regulation to general catalytic
+    principles.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_heterogeneous_catalysis_to_haber_bosch_process_theory_component
+  source: heterogeneous_catalysis
+  target: haber_bosch_process
+  type: theory-component
+  label: enables surface ammonia synthesis
+  detail: Haber–Bosch ammonia synthesis relies on heterogeneous activation of nitrogen and hydrogen integrated with pressure, heat, separation,
+    and recycle.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_photochemistry_to_ozone_depletion_chemistry_theory_component
+  source: photochemistry
+  target: ozone_depletion_chemistry
+  type: theory-component
+  label: initiates radical reservoirs
+  detail: Photolysis creates reactive halogen and oxygen species, while heterogeneous activation and catalytic cycles control polar ozone loss.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_photochemistry_to_excited_state_describes_governs
+  source: photochemistry
+  target: excited_state
+  type: describes-governs
+  label: describes electronically excited molecular states
+  detail: Photochemistry describes electronically excited molecular states prepared by photon absorption and their competing relaxation, energy-transfer, charge-transfer, and reaction pathways.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_reaction_mechanism_to_chain_growth_polymerization_theory_component
+  source: reaction_mechanism
+  target: chain_growth_polymerization
+  type: theory-component
+  label: supplies initiation, propagation, and termination steps
+  detail: A chain-growth polymerization mechanism is assembled from elementary initiation and propagation steps
+    and, depending on the process, termination and transfer steps.
+  citations:
+  - wp-chem-polymer-chemistry
+  - iupac-purple-book
+  - nist-polymers-processing
+- id: chem_chemical_kinetics_to_polymerization_describes_governs
+  source: chemical_kinetics
+  target: polymerization
+  type: describes-governs
+  label: governs initiation, propagation, transfer, and termination
+  detail: Kinetic models describe polymerization rates and chain populations through elementary steps, transport,
+    heat release, viscosity, and reactor history rather than a single overall rate constant.
+  citations:
+  - wp-chem-polymer-chemistry
+  - iupac-purple-book
+  - nist-polymers-processing
+- id: chem_transition_state_theory_to_enzyme_catalysis_describes_governs
+  source: transition_state_theory
+  target: enzyme_catalysis
+  type: describes-governs
+  label: relates activation free energy to catalytic rate
+  detail: Transition-state theory relates a rate to an activation free-energy model under recrossing and equilibration
+    assumptions; enzyme dynamics, tunneling, diffusion, and multiple pathways can require corrections.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_chemical_kinetics_to_tropospheric_ozone_chemistry_describes_governs
+  source: chemical_kinetics
+  target: tropospheric_ozone_chemistry
+  type: describes-governs
+  label: governs competing radical production and loss
+  detail: Coupled kinetic mechanisms describe tropospheric ozone formation and removal as sunlight, nitrogen oxides,
+    volatile organics, radicals, deposition, transport, and meteorology vary.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_chemical_kinetics_to_process_safety_chemistry_theory_component
+  source: chemical_kinetics
+  target: process_safety_chemistry
+  type: theory-component
+  label: supplies runaway and incompatibility time scales
+  detail: Reaction and decomposition kinetics supply time scales and heat-release rates for safety analysis, combined
+    with transport, pressure relief, mixing, inventory, uncertainty, and credible failure scenarios.
+  citations:
+  - wp-chem-chemical-industry
+  - doe-new-chemistry-roadmap
+  - doe-catalysts
+- id: chem_rate_law_to_michaelis_menten_kinetics_classification
+  source: rate_law
+  target: michaelis_menten_kinetics
+  type: classification
+  label: includes a saturating enzyme-rate form
+  detail: Michaelis–Menten kinetics is a specific reduced rate-law form under stated mechanism, initial-rate, substrate-excess,
+    and steady-state or rapid-equilibrium assumptions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_catalysis_to_stratospheric_ozone_cycle_theory_component
+  source: catalysis
+  target: stratospheric_ozone_cycle
+  type: theory-component
+  label: supplies radical catalytic cycles
+  detail: Catalytic cycles involving halogen, hydrogen, nitrogen, and oxygen radicals supply reaction pathways in
+    stratospheric ozone chemistry, coupled to photolysis, reservoirs, transport, and heterogeneous activation.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_reaction_mechanism_to_chemical_equation_model_realization
+  source: reaction_mechanism
+  target: chemical_equation
+  type: model-realization
+  label: summarized by a net chemical equation
+  detail: A net chemical equation is a coarse representation of a mechanism that preserves overall stoichiometry
+    but omits elementary steps, intermediates, rates, and pathway branching.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_catalysis_to_reaction_mechanism_model_realization
+  source: catalysis
+  target: reaction_mechanism
+  type: model-realization
+  label: represented by an alternative catalytic cycle
+  detail: A catalytic mechanism models an alternative reaction cycle that regenerates catalyst and changes accessible
+    kinetic pathways; the proposed steps require independent kinetic and structural evidence.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_catalysis_to_activation_energy_state_description
+  source: catalysis
+  target: activation_energy
+  type: state-description
+  label: associated with a lower accessible barrier pathway
+  detail: A catalyst provides an alternative pathway with different activation barriers without changing the equilibrium
+    free-energy difference; the apparent activation energy can depend on mechanism and conditions.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts

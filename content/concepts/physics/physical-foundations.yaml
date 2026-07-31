@@ -261,9 +261,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
+      - chemical-thermodynamics-equilibrium
     level: 5
     kind: structure
     conceptType: Physical quantity
@@ -295,9 +297,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
+      - atomic-structure-periodicity
+      - molecular-structure-bonding
     level: 7
     kind: structure
     conceptType: Energy difference

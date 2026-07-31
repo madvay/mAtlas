@@ -210,9 +210,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - chemical-foundations
+      - atomic-structure-periodicity
     level: 27
     kind: structure
     conceptType: Classification by nuclear charge
@@ -243,9 +246,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - chemical-foundations
+      - atomic-structure-periodicity
     level: 28
     kind: structure
     conceptType: Composite system
@@ -467,9 +473,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - atomic-structure-periodicity
+      - quantum-chemistry-spectroscopy
     level: 30
     kind: structure
     conceptType: State representation
@@ -658,10 +667,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
       - condensed-matter-physics
+      - quantum-chemistry-spectroscopy
     level: 31
     kind: structure
     conceptType: Ground-state many-body formulation and approximation family
@@ -677,9 +688,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - atomic-structure-periodicity
     level: 31
     kind: structure
     conceptType: Many-electron basis classification
@@ -738,9 +751,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - quantum-chemistry-spectroscopy
     level: 31
     kind: structure
     conceptType: Self-consistent-field approximation
@@ -861,9 +876,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - quantum-chemistry-spectroscopy
     level: 32
     kind: structure
     conceptType: Many-body approximation method
@@ -876,9 +893,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - quantum-chemistry-spectroscopy
     level: 32
     kind: structure
     conceptType: Many-body approximation method
@@ -923,9 +942,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - quantum-chemistry-spectroscopy
+      - analytical-chemistry
     level: 33
     kind: structure
     conceptType: Observable pattern
@@ -1019,9 +1041,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - atomic-structure-periodicity
+      - solutions-interfaces
+      - electrochemistry
     level: 34
     kind: structure
     conceptType: Charged system
@@ -1096,10 +1122,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
       - condensed-matter-physics
+      - molecular-structure-bonding
     level: 34
     kind: structure
     conceptType: Interatomic binding relation
@@ -1114,9 +1142,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - atomic-structure-periodicity
+      - solutions-interfaces
+      - electrochemistry
     level: 35
     kind: structure
     conceptType: Ion class
@@ -1129,9 +1161,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - atomic-structure-periodicity
+      - solutions-interfaces
+      - electrochemistry
     level: 35
     kind: structure
     conceptType: Ion class
@@ -1144,9 +1180,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - chemical-foundations
+      - molecular-structure-bonding
     level: 35
     kind: structure
     conceptType: Composite system
@@ -1161,9 +1200,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
+      - atomic-structure-periodicity
     level: 32
     kind: structure
     conceptType: Separation energy
@@ -1214,10 +1255,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
       - experiments-observations
+      - atomic-structure-periodicity
+      - chemistry-experiments-evidence
     level: 28
     kind: structure
     conceptType: Canonical measurement
@@ -2195,3 +2239,67 @@ edges:
       - wp-physics-magnetism
       - tong-solid-state-physics
       - mit-theory-of-solids
+  - id: molecule_to_molecular_structure
+    source: molecule
+    target: molecular_structure
+    type: state-description
+    label: described by connectivity and geometry
+    detail: A molecular entity is assigned a structure comprising connectivity, nuclear geometry, conformation, and electronic organization at a stated resolution and time scale.
+    citations:
+      - wp-physics-molecule
+      - iupac-molecule
+      - wp-chem-molecular-graph
+      - iupac-gold-book
+    overview: true
+  - id: chemical_bond_to_covalent_bond
+    source: chemical_bond
+    target: covalent_bond
+    type: classification
+    label: includes covalent bonding descriptions
+    detail: Covalent bonding is a major chemical-bond regime characterized by shared and delocalized electron density; real bonds can mix covalent, ionic, and other character.
+    citations:
+      - wp-physics-chemical-bond
+      - iupac-chemical-bond
+      - openstax-chemistry-2e
+  - id: chemical_bond_to_ionic_bonding
+    source: chemical_bond
+    target: ionic_bonding
+    type: classification
+    label: includes ionic bonding descriptions
+    detail: Ionic bonding describes electrostatic stabilization in charge-separated structures, with polarization, covalency, lattice geometry, and environment determining the realized character.
+    citations:
+      - wp-physics-chemical-bond
+      - iupac-chemical-bond
+      - openstax-chemistry-2e
+  - id: chemical_bond_to_hydrogen_bond
+    source: chemical_bond
+    target: hydrogen_bond
+    type: classification
+    label: includes directional hydrogen bonding
+    detail: Hydrogen bonding is an attractive, directional interaction involving a hydrogen atom bound to an electronegative partner and another electron-rich site, with strength and covalency varying by system.
+    citations:
+      - wp-physics-chemical-bond
+      - iupac-chemical-bond
+      - iupac-gold-book
+  - id: chem_chemical_bond_to_bond_order_state_description
+    source: chemical_bond
+    target: bond_order
+    type: state-description
+    label: assigned a model-dependent bond multiplicity
+    detail: Bond order is a model-dependent descriptor of a chemical bond; formal, valence-bond, molecular-orbital,
+      and density-based definitions need not yield the same value.
+    citations:
+    - wp-physics-chemical-bond
+    - openstax-chemistry-2e
+    - iupac-gold-book
+  - id: molecule_to_molecular_rotation
+    source: molecule
+    target: molecular_rotation
+    type: state-description
+    label: has quantized rotational degrees of freedom
+    detail: An isolated molecule has rotational degrees of freedom whose quantized level pattern depends on nuclear geometry and masses; symmetry, vibration–rotation coupling, fields, collisions, and condensed environments modify the ideal rigid-rotor description.
+    citations:
+      - wp-physics-molecule
+      - nlab-molecule
+      - wp-chem-quantum-chemistry
+      - iupac-green-book

@@ -24,7 +24,6 @@ interface ActiveLayoutRun {
 }
 
 interface AtlasBlock {
-  fieldId: string;
   level: number;
   domain: string;
   nodes: GraphNode[];
@@ -34,6 +33,36 @@ interface AtlasBlock {
   halfNodeWidth: number;
   left?: number;
 }
+
+// Chemistry is not a vertically appended field.  These lanes put its domains
+// beside the Physics areas with which they have the closest structural or
+// experimental contact; offsets keep adjacent Chemistry domains legible.
+const CHEMISTRY_LANE_ANCHORS: Readonly<Record<string, { physicsDomain: string; offset: number }>> = Object.freeze({
+  'chemical-foundations': { physicsDomain: 'atomic-molecular-physics', offset: -900 },
+  'atomic-structure-periodicity': { physicsDomain: 'atomic-molecular-physics', offset: -200 },
+  'molecular-structure-bonding': { physicsDomain: 'atomic-molecular-physics', offset: 350 },
+  'quantum-chemistry-spectroscopy': { physicsDomain: 'atomic-molecular-physics', offset: -550 },
+  'chemical-thermodynamics-equilibrium': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 0 },
+  'solutions-interfaces': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 540 },
+  'chemical-kinetics-dynamics': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 1060 },
+  'inorganic-coordination-chemistry': { physicsDomain: 'atomic-molecular-physics', offset: -250 },
+  'organic-chemistry': { physicsDomain: 'atomic-molecular-physics', offset: -1050 },
+  'analytical-chemistry': { physicsDomain: 'atomic-molecular-physics', offset: 500 },
+  electrochemistry: { physicsDomain: 'thermodynamics-statistical-mechanics', offset: -580 },
+  radiochemistry: { physicsDomain: 'nuclear-physics', offset: 0 },
+  'materials-polymer-chemistry': { physicsDomain: 'condensed-matter-physics', offset: 0 },
+  'biochemistry-chemical-biology': { physicsDomain: 'atomic-molecular-physics', offset: -900 },
+  'environmental-atmospheric-chemistry': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 850 },
+  'industrial-process-chemistry': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: -350 },
+  'chemistry-experiments-evidence': { physicsDomain: 'experiments-observations', offset: 0 }
+});
+
+// Physics and Chemistry share one vertical band: a Chemistry level therefore
+// remains directly comparable to the corresponding Physics level.  That band
+// begins after the highest Mathematics level, preserving the atlas's intended
+// broad progression from formal structures to physical systems while retaining
+// the Physics--Chemistry integration within the scientific band.
+const MATHEMATICS_TO_SCIENCE_GAP = 4;
 
 export class LayoutManager {
   private activeRun: ActiveLayoutRun | null = null;
@@ -161,13 +190,14 @@ export class LayoutManager {
   atlasPositions(): Record<string, Point> {
     const { model } = this.options;
     const centers = this.domainCenters();
-    const fieldBases = this.fieldBaseLevels();
+    const scienceBaseLevel = this.scienceBaseLevel();
     const positions: Record<string, Point> = {};
     const groups = new Map<string, GraphNode[]>();
 
     for (const node of model.data.nodes) {
       const fieldId = model.nodePrimaryField(node);
-      const key = `${fieldId}|${node.level}|${node.primaryDomain}`;
+      const displayLevel = node.level + ((fieldId === 'physics' || fieldId === 'chemistry') ? scienceBaseLevel : 0);
+      const key = `${displayLevel}|${node.primaryDomain}`;
       const group = groups.get(key) ?? [];
       group.push(node);
       groups.set(key, group);
@@ -175,7 +205,7 @@ export class LayoutManager {
 
     const levelGroups = new Map<string, AtlasBlock[]>();
     for (const [key, group] of groups) {
-      const [fieldId = '', levelText = '0', domain = ''] = key.split('|');
+      const [levelText = '0', domain = ''] = key.split('|');
       const level = Number(levelText);
       group.sort((a, b) => a.kind === b.kind
         ? a.label.localeCompare(b.label)
@@ -184,10 +214,9 @@ export class LayoutManager {
       const center = centers[domain] ?? 0;
       const nodeSpan = spacing * Math.max(0, group.length - 1);
       const maxNodeWidth = Math.max(...group.map((node) => node.kind === 'junction' ? 116 : 164));
-      const levelKey = `${fieldId}|${level}`;
+      const levelKey = `${level}`;
       const collection = levelGroups.get(levelKey) ?? [];
       collection.push({
-        fieldId,
         level,
         domain,
         nodes: group,
@@ -215,7 +244,7 @@ export class LayoutManager {
       for (const block of blocks) block.left = (block.left ?? 0) + shift;
 
       for (const block of blocks) {
-        const y = ((fieldBases[block.fieldId] ?? 0) + block.level) * 180;
+        const y = block.level * 180;
         block.nodes.forEach((node, index) => {
           positions[node.id] = { x: (block.left ?? 0) + index * block.spacing, y };
         });
@@ -226,10 +255,29 @@ export class LayoutManager {
     return positions;
   }
 
+  private scienceBaseLevel(): number {
+    const { model } = this.options;
+    const mathematicsLevels = model.data.nodes
+      .filter((node) => model.nodePrimaryField(node) === 'mathematics')
+      .map((node) => node.level);
+    const scienceLevels = model.data.nodes
+      .filter((node) => {
+        const fieldId = model.nodePrimaryField(node);
+        return fieldId === 'physics' || fieldId === 'chemistry';
+      })
+      .map((node) => node.level);
+    if (!mathematicsLevels.length || !scienceLevels.length) return 0;
+    return Math.max(...mathematicsLevels) - Math.min(...scienceLevels) + MATHEMATICS_TO_SCIENCE_GAP;
+  }
+
   private domainCenters(): Record<string, number> {
     const { model } = this.options;
     const centers: Record<string, number> = {};
-    for (const fieldId of model.fieldOrder) {
+    const fieldIds = [
+      ...model.fieldOrder.filter((fieldId) => fieldId !== 'chemistry'),
+      ...model.fieldOrder.filter((fieldId) => fieldId === 'chemistry')
+    ];
+    for (const fieldId of fieldIds) {
       const fieldDomains = model.domainOrder.filter((id) => model.fieldForDomain(id) === fieldId);
       const laneSpacing = fieldDomains.length > 14 ? 720 : fieldDomains.length > 8 ? 650 : 560;
       if (fieldId === 'mathematics' && fieldDomains.includes('set-theory')) {
@@ -259,6 +307,19 @@ export class LayoutManager {
         continue;
       }
 
+      if (fieldId === 'chemistry') {
+        for (const id of fieldDomains) {
+          const anchor = CHEMISTRY_LANE_ANCHORS[id];
+          const physicsCenter = anchor ? centers[anchor.physicsDomain] : undefined;
+          if (anchor && physicsCenter !== undefined) {
+            centers[id] = physicsCenter + anchor.offset;
+            continue;
+          }
+          centers[id] = 0;
+        }
+        continue;
+      }
+
       const buckets = new Map<number, string[]>();
       for (const id of fieldDomains) {
         const order = model.data.domains[id]?.order ?? 0;
@@ -274,19 +335,4 @@ export class LayoutManager {
     }
     return centers;
   }
-
-  private fieldBaseLevels(): Record<string, number> {
-    const { model } = this.options;
-    const bases: Record<string, number> = {};
-    let nextBase = 0;
-    for (const fieldId of model.fieldOrder) {
-      bases[fieldId] = nextBase;
-      const levels = model.data.nodes
-        .filter((node) => model.nodePrimaryField(node) === fieldId)
-        .map((node) => node.level);
-      nextBase += (levels.length ? Math.max(...levels) : 0) + 4;
-    }
-    return bases;
-  }
-
 }

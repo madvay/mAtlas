@@ -1,0 +1,628 @@
+nodes:
+- id: chemical_matter
+  label: Matter in chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 19
+  kind: structure
+  conceptType: Scope category
+  summary: Matter considered through composition, identity, amount, and transformation rather than only through bulk mechanical properties.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_substance
+  label: Chemical substance
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 20
+  kind: structure
+  conceptType: Material category
+  summary: Matter with a definite chemical identity and characteristic composition, including elemental substances and compounds.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: pure_substance
+  label: Pure substance
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 21
+  kind: structure
+  conceptType: Material category
+  summary: A macroscopic sample consisting of one chemical substance within the resolution and specification of the analysis.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_mixture
+  label: Chemical mixture
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 21
+  kind: structure
+  conceptType: Material system
+  summary: A material containing two or more chemical substances whose proportions can vary without defining a new single substance.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_species
+  label: Chemical species
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 21
+  kind: structure
+  conceptType: Entity category
+  summary: An ensemble of chemically identical molecular entities, ions, atoms, radicals, or related entities distinguished on the relevant time
+    scale.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: amount_of_substance
+  label: Amount of substance
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 20
+  kind: structure
+  conceptType: Base quantity
+  summary: The SI base quantity that counts specified elementary entities in proportion to the fixed Avogadro constant.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: mole
+  label: Mole
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 21
+  kind: structure
+  conceptType: SI unit
+  summary: The SI unit of amount of substance, defined by exactly $6.02214076\times10^{23}$ specified elementary entities.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molar_mass
+  label: Molar mass
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 22
+  kind: structure
+  conceptType: Intensive quantity
+  summary: Mass divided by amount of substance for a specified chemical entity or mixture.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_compound
+  label: Chemical compound
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 23
+  kind: structure
+  conceptType: Substance class
+  summary: A chemical substance composed of atoms of at least two elements in a definite stoichiometric relation.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_formula
+  label: Chemical formula
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 24
+  kind: structure
+  conceptType: Symbolic representation
+  summary: A notation that states elemental composition and, depending on its kind, may also encode connectivity, charge, or structure.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: empirical_formula
+  label: Empirical formula
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 25
+  kind: structure
+  conceptType: Composition representation
+  summary: A chemical formula giving the simplest whole-number ratio of elements in a compound.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: molecular_formula
+  label: Molecular formula
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 25
+  kind: structure
+  conceptType: Composition representation
+  summary: A formula giving the number of atoms of each element in one molecular entity without necessarily specifying their connectivity.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: conservation_mass_chemical_reaction
+  label: Mass conservation in chemical reactions
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 23
+  kind: structure
+  conceptType: Empirical conservation principle
+  summary: For a closed reacting system treated at chemical energies, total mass is conserved to the accuracy at which relativistic mass–energy
+    changes are negligible.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: law_definite_proportions
+  label: Law of definite proportions
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 24
+  kind: structure
+  conceptType: Composition law
+  summary: A specified pure compound has a fixed elemental mass composition, apart from isotopic variation, nonstoichiometry, and sample impurity.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: law_multiple_proportions
+  label: Law of multiple proportions
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 25
+  kind: structure
+  conceptType: Composition law
+  summary: When two elements form several stoichiometric compounds, fixed masses of one combine with masses of the other in ratios of small integers.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: stoichiometry
+  label: Stoichiometry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 26
+  kind: structure
+  conceptType: Quantitative framework
+  summary: Quantitative accounting of reactants, products, formula units, charge, and conserved elements in chemical transformations.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_equation
+  label: Chemical equation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 27
+  kind: structure
+  conceptType: Reaction representation
+  summary: A symbolic representation of a chemical transformation whose coefficients encode relative stoichiometric amounts and whose notation
+    may state phase, charge, and conditions.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: lavoisier_quantitative_combustion
+  label: Lavoisier’s quantitative combustion program
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  - chemistry-experiments-evidence
+  level: 22
+  kind: structure
+  conceptType: Historical experiment program
+  summary: Lavoisier used balances, sealed apparatus, and gas accounting to show that calcination and combustion involved uptake from air rather
+    than loss of a hypothetical material principle.
+  citations:
+  - wp-chem-lavoisier
+  - acs-lavoisier
+  sections:
+  - title: Historical qualification
+    body: Balance methods and conservation reasoning predated Lavoisier. His causal contribution was a sustained quantitative oxygen-based reconstruction
+      of combustion and chemical accounting, not one isolated proof of a timeless law.
+- id: proust_composition_measurements
+  label: Proust’s compound-composition measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  - chemistry-experiments-evidence
+  level: 23
+  kind: structure
+  conceptType: Historical measurement program
+  summary: Proust compared natural and prepared compounds, including copper carbonates, and argued that genuine compounds have fixed mass composition
+    rather than continuously variable proportions.
+  citations:
+  - wp-chem-definite-proportions
+  - openstax-chemistry-2e
+edges:
+- id: chem_chemical_matter_to_chemical_substance_classification
+  source: chemical_matter
+  target: chemical_substance
+  type: classification
+  label: includes identified substances
+  detail: Chemical substances are a chemically identified subclass of matter.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_matter_to_chemical_mixture_classification
+  source: chemical_matter
+  target: chemical_mixture
+  type: classification
+  label: includes mixtures
+  detail: Mixtures are material systems whose constituent proportions can vary.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_substance_to_pure_substance_classification
+  source: chemical_substance
+  target: pure_substance
+  type: classification
+  label: sampled as one substance
+  detail: A pure substance is a sample realization of a single chemical substance within an analytical specification.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_pure_substance_to_chemical_compound_classification
+  source: pure_substance
+  target: chemical_compound
+  type: classification
+  label: includes compounds
+  detail: Compounds form one principal class of pure substances; elemental substances form the other.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_pure_substance_to_chemical_element_classification
+  source: pure_substance
+  target: chemical_element
+  type: classification
+  label: includes elemental substances
+  detail: An elemental substance contains atoms of one chemical element, although isotopic composition and allotrope can vary.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_species_to_atom_classification
+  source: chemical_species
+  target: atom
+  type: classification
+  label: includes atomic species
+  detail: Atoms distinguished by element, isotope, electronic state, and charge where relevant are chemical species.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_species_to_ion_classification
+  source: chemical_species
+  target: ion
+  type: classification
+  label: includes ionic species
+  detail: Ions are charged chemical species, whether atomic or molecular.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_species_to_molecule_classification
+  source: chemical_species
+  target: molecule
+  type: classification
+  label: includes molecular species
+  detail: Molecular entities are a central class of chemical species.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_amount_of_substance_to_stoichiometry_theory_component
+  source: amount_of_substance
+  target: stoichiometry
+  type: theory-component
+  label: supplies entity-counting quantity
+  detail: Stoichiometric amounts are expressed through amount of substance for explicitly specified entities.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_mole_to_stoichiometry_theory_component
+  source: mole
+  target: stoichiometry
+  type: theory-component
+  label: supplies SI amount unit
+  detail: The mole makes stoichiometric amount ratios commensurable with macroscopic measurements.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_molar_mass_to_stoichiometry_theory_component
+  source: molar_mass
+  target: stoichiometry
+  type: theory-component
+  label: converts mass and amount
+  detail: Molar mass connects measured mass to amount of specified entities.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_formula_to_empirical_formula_classification
+  source: chemical_formula
+  target: empirical_formula
+  type: classification
+  label: has simplest-ratio form
+  detail: An empirical formula is the simplest elemental-ratio form of chemical formula.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_formula_to_molecular_formula_classification
+  source: chemical_formula
+  target: molecular_formula
+  type: classification
+  label: has molecular-count form
+  detail: A molecular formula records the atom count in one molecular entity.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_formula_to_stoichiometry_theory_component
+  source: chemical_formula
+  target: stoichiometry
+  type: theory-component
+  label: supplies formula ratios
+  detail: Formula subscripts establish elemental ratios used in stoichiometric accounting.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_compound_to_chemical_formula_state_description
+  source: chemical_compound
+  target: chemical_formula
+  type: state-description
+  label: has composition representation
+  detail: A compound can be represented by a formula appropriate to its molecular, ionic, network, or nonstoichiometric character.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_conservation_mass_chemical_reaction_to_chemical_equation_describes_governs
+  source: conservation_mass_chemical_reaction
+  target: chemical_equation
+  type: describes-governs
+  label: requires balanced mass accounting
+  detail: A balanced chemical equation preserves each nuclide or, in ordinary chemical bookkeeping, each element and net charge.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_law_definite_proportions_to_chemical_compound_describes_governs
+  source: law_definite_proportions
+  target: chemical_compound
+  type: describes-governs
+  label: constrains fixed composition
+  detail: The law describes stoichiometric compounds while allowing explicit qualifications for isotopes and nonstoichiometric solids.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_law_multiple_proportions_to_stoichiometry_theory_component
+  source: law_multiple_proportions
+  target: stoichiometry
+  type: theory-component
+  label: supports integral composition ratios
+  detail: Small-integer mass relations historically supported atom-count interpretations of stoichiometric formulas.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_stoichiometry_to_chemical_equation_describes_governs
+  source: stoichiometry
+  target: chemical_equation
+  type: describes-governs
+  label: sets reaction coefficients
+  detail: Stoichiometric conservation equations determine admissible coefficient ratios but do not by themselves establish a reaction mechanism.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_lavoisier_quantitative_combustion_to_conservation_mass_chemical_reaction_historically_motivated
+  source: lavoisier_quantitative_combustion
+  target: conservation_mass_chemical_reaction
+  type: historically-motivated
+  label: quantitative closed-system accounting
+  detail: Lavoisier’s balance and gas-accounting program made conservation-based bookkeeping operational in the new oxygen chemistry; it did not
+    create the abstract conservation idea from nothing.
+  citations:
+  - wp-chem-lavoisier
+  - acs-lavoisier
+- id: chem_proust_composition_measurements_to_law_definite_proportions_historically_motivated
+  source: proust_composition_measurements
+  target: law_definite_proportions
+  type: historically-motivated
+  label: reproducible fixed composition
+  detail: Proust’s comparative analyses materially supported acceptance of fixed composition as a criterion distinguishing compounds from mixtures.
+  citations:
+  - wp-chem-definite-proportions
+  - openstax-chemistry-2e
+- id: chem_chemical_mixture_to_solution_classification
+  source: chemical_mixture
+  target: solution
+  type: classification
+  label: includes homogeneous mixtures
+  detail: A solution is a macroscopically homogeneous mixture; not every mixture is a solution and phase separation can depend on conditions.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_substance_to_organic_compound_classification
+  source: chemical_substance
+  target: organic_compound
+  type: classification
+  label: includes conventionally organic substances
+  detail: Organic compounds form a historically bounded class of chemical substances organized around carbon frameworks.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_substance_to_inorganic_compound_classification
+  source: chemical_substance
+  target: inorganic_compound
+  type: classification
+  label: includes conventionally inorganic substances
+  detail: Inorganic compounds form a broad conventional class whose boundary with organic and organometallic chemistry is porous.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_species_to_biomolecule_classification
+  source: chemical_species
+  target: biomolecule
+  type: classification
+  label: includes biological molecular species
+  detail: Biomolecules are chemically identifiable species when protonation, composition, conformation, and association state are specified at
+    the relevant resolution.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_amount_of_substance_to_concentration_theory_component
+  source: amount_of_substance
+  target: concentration
+  type: theory-component
+  label: supplies amount-based composition
+  detail: Amount concentration and molality use amount of substance in their numerators while differing in the denominator and temperature dependence.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_mole_to_isotope_dilution_analysis_theory_component
+  source: mole
+  target: isotope_dilution_analysis
+  type: theory-component
+  label: supports amount-ratio calibration
+  detail: Isotope dilution infers amount from isotope ratios and a calibrated spike, with the mole supplying the SI amount unit.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_conservation_mass_chemical_reaction_to_process_mass_balance_describes_governs
+  source: conservation_mass_chemical_reaction
+  target: process_mass_balance
+  type: describes-governs
+  label: supports process material accounting
+  detail: Process balances apply conservation to flowing and accumulating systems while separating conserved elements from species generated or
+    consumed by reaction.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_stoichiometry_to_process_mass_balance_theory_component
+  source: stoichiometry
+  target: process_mass_balance
+  type: theory-component
+  label: supplies reaction source terms
+  detail: Stoichiometric coefficients determine species-generation ratios used in reactive process balances.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_stoichiometry_to_atom_economy_describes_governs
+  source: stoichiometry
+  target: atom_economy
+  type: describes-governs
+  label: defines product atom incorporation
+  detail: Atom economy is calculated from a balanced stoichiometric equation and does not by itself measure yield, selectivity, hazard, or energy
+    use.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_stoichiometry_to_quantitative_chemical_analysis_theory_component
+  source: stoichiometry
+  target: quantitative_chemical_analysis
+  type: theory-component
+  label: converts measured signals into chemical amounts
+  detail: Stoichiometric relations supply amount conversions in quantitative analysis after identity, reaction completeness,
+    calibration, interferences, and the measurement equation are established.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook

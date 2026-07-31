@@ -30,6 +30,12 @@ test('layout selector exposes concept and structure scales', () => {
   ]);
 });
 
+test('static scope navigation exposes all registered public fields', () => {
+  assert.match(html, /href="\/math\/"[^>]*data-scope-link="mathematics"[^>]*>Mathematics<\/a>/);
+  assert.match(html, /href="\/physics\/"[^>]*data-scope-link="physics"[^>]*>Physics<\/a>/);
+  assert.match(html, /href="\/chemistry\/"[^>]*data-scope-link="chemistry"[^>]*>Chemistry<\/a>/);
+});
+
 test('every filter subsection starts expanded and can be collapsed', () => {
   const toggles = [...html.matchAll(/<button[^>]*data-filter-section-toggle[^>]*>/g)].map((match) => match[0]);
   assert.equal(toggles.length, 5);

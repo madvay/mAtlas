@@ -1,0 +1,635 @@
+nodes:
+- id: quantum_chemistry
+  label: Quantum chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 30
+  kind: structure
+  conceptType: Disciplinary framework
+  summary: Application of quantum mechanics and electronic-structure approximations to chemical bonding, spectra, dynamics, and molecular properties.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: born_oppenheimer_approximation
+  label: Born–Oppenheimer approximation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 31
+  kind: structure
+  conceptType: Controlled mass-ratio approximation
+  summary: A separation of electronic and nuclear motion based on the much smaller electron-to-nuclear mass ratio, with nonadiabatic corrections
+    where electronic states couple.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: electronic_structure_calculation
+  label: Electronic-structure calculation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 32
+  kind: structure
+  conceptType: Computational problem class
+  summary: Approximate solution of the many-electron molecular or material Hamiltonian for energies, states, densities, and response properties.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: ab_initio_quantum_chemistry
+  label: Ab initio quantum chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 34
+  kind: structure
+  conceptType: Computational method class
+  summary: Electronic-structure methods derived from an explicit Hamiltonian without fitting the central result to the same target data, while
+    still using finite bases and approximations.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: potential_energy_surface
+  label: Potential-energy surface
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 35
+  kind: structure
+  conceptType: Effective energy landscape
+  summary: Electronic energy plus specified corrections as a function of nuclear coordinates on a chosen electronic state or coupled set of states.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: molecular_vibration
+  label: Molecular vibration
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 36
+  kind: structure
+  conceptType: Nuclear motion
+  summary: Quantized or classical oscillatory nuclear motion about molecular configurations, including normal modes and anharmonic coupling.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: molecular_rotation
+  label: Molecular rotation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 36
+  kind: structure
+  conceptType: Nuclear motion
+  summary: Overall rotational motion of a molecule, quantized for isolated molecules and coupled to vibration and electronic angular momentum.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: molecular_spectroscopy
+  label: Molecular spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 37
+  kind: structure
+  conceptType: Measurement framework
+  summary: Inference of molecular energies, structures, populations, and dynamics from frequency-resolved interaction with radiation or particles.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: rotational_spectroscopy
+  label: Rotational spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 38
+  kind: structure
+  conceptType: Spectroscopic method
+  summary: Measurement of transitions among rotational states, often in the microwave or millimetre-wave region, yielding moments of inertia and
+    precise molecular constants.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: vibrational_spectroscopy
+  label: Vibrational spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 38
+  kind: structure
+  conceptType: Spectroscopic method class
+  summary: Measurement of vibrational transitions and couplings through infrared absorption, Raman scattering, or related probes.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: infrared_spectroscopy
+  label: Infrared spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 39
+  kind: structure
+  conceptType: Spectroscopic method
+  summary: Measurement of wavelength-dependent infrared absorption or emission associated principally with vibrational and rotational transitions.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: raman_spectroscopy
+  label: Raman spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 39
+  kind: structure
+  conceptType: Inelastic-scattering method
+  summary: Measurement of frequency shifts in inelastically scattered light to probe vibrational, rotational, and other excitations.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: ultraviolet_visible_spectroscopy
+  label: Ultraviolet–visible spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 39
+  kind: structure
+  conceptType: Electronic spectroscopy method
+  summary: Measurement of absorption or reflectance in ultraviolet and visible ranges, commonly probing electronic transitions and coupled vibronic
+    structure.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: nuclear_magnetic_resonance_spectroscopy
+  label: Nuclear magnetic resonance spectroscopy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 40
+  kind: structure
+  conceptType: Magnetic-resonance method
+  summary: Measurement of nuclear-spin transitions and their chemical shifts, couplings, relaxation, and spatial encoding in a magnetic field.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: beer_lambert_law
+  label: Beer–Lambert law
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 40
+  kind: structure
+  conceptType: Attenuation relation
+  summary: In a homogeneous dilute regime, absorbance is proportional to optical path length and concentration, with deviations from interactions,
+    scattering, instrumental limits, or changing speciation.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: raman_scattering_observations
+  label: Raman’s inelastic-scattering observations
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  - chemistry-experiments-evidence
+  level: 40
+  kind: structure
+  conceptType: Canonical verifying experiment
+  summary: Raman and collaborators observed weak frequency-shifted components in light scattered by liquids and crystals, establishing the effect
+    used in Raman spectroscopy.
+  citations:
+  - wp-chem-raman-effect
+  - nobel-raman-1930
+- id: bloch_purcell_nmr_experiments
+  label: Bloch–Purcell nuclear-induction experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  - chemistry-experiments-evidence
+  level: 41
+  kind: structure
+  conceptType: Canonical verifying experiment program
+  summary: Independent 1945–1946 experiments detected nuclear magnetic resonance in condensed matter through induction and absorption methods,
+    creating practical NMR measurement frameworks.
+  citations:
+  - wp-physics-nuclear_spin
+  - nobel-nmr-1952
+edges:
+- id: chem_quantum_chemistry_to_born_oppenheimer_approximation_model_realization
+  source: quantum_chemistry
+  target: born_oppenheimer_approximation
+  type: model-realization
+  label: separates electronic and nuclear motion
+  detail: Most molecular electronic-structure work begins from an adiabatic separation whose accuracy depends on mass ratios and electronic-state
+    gaps.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_born_oppenheimer_approximation_to_electronic_structure_calculation_describes_governs
+  source: born_oppenheimer_approximation
+  target: electronic_structure_calculation
+  type: describes-governs
+  label: defines fixed-nuclei electronic problem
+  detail: At each nuclear geometry the approximation supplies an electronic eigenproblem, with nuclear dynamics then propagated on one or more
+    surfaces.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_ab_initio_quantum_chemistry_classification
+  source: electronic_structure_calculation
+  target: ab_initio_quantum_chemistry
+  type: classification
+  label: includes first-principles method family
+  detail: Ab initio methods form a broad class of electronic-structure calculations distinguished from empirical or semiempirical parametrizations.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_hartree_fock_method_model_realization
+  source: electronic_structure_calculation
+  target: hartree_fock_method
+  type: model-realization
+  label: single-determinant mean field
+  detail: Hartree–Fock approximates the many-electron state by an optimized Slater determinant and omits correlation beyond exchange.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_density_functional_theory_model_realization
+  source: electronic_structure_calculation
+  target: density_functional_theory
+  type: model-realization
+  label: density-based formulation
+  detail: Density-functional calculations replace the many-electron wavefunction as the basic variable with the density, while practical accuracy
+    depends on approximate functionals.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_configuration_interaction_method_model_realization
+  source: electronic_structure_calculation
+  target: configuration_interaction_method
+  type: model-realization
+  label: determinant expansion
+  detail: Configuration interaction expands a state in determinants or configuration-state functions; truncation controls cost but usually sacrifices
+    size extensivity.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_coupled_cluster_method_model_realization
+  source: electronic_structure_calculation
+  target: coupled_cluster_method
+  type: model-realization
+  label: exponential correlated ansatz
+  detail: Coupled-cluster methods use an exponential excitation operator and give systematically improvable, size-extensive approximations within
+    suitable regimes.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_born_oppenheimer_approximation_to_potential_energy_surface_model_realization
+  source: born_oppenheimer_approximation
+  target: potential_energy_surface
+  type: model-realization
+  label: adiabatic energy landscape
+  detail: Electronic eigenvalues parameterized by nuclear coordinates define adiabatic surfaces, supplemented by derivative couplings near nonadiabatic
+    regions.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_potential_energy_surface_to_molecular_vibration_describes_governs
+  source: potential_energy_surface
+  target: molecular_vibration
+  type: describes-governs
+  label: restoring-force landscape
+  detail: Curvature and anharmonic shape near minima govern vibrational frequencies and mode coupling.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_molecular_spectroscopy_to_rotational_spectroscopy_classification
+  source: molecular_spectroscopy
+  target: rotational_spectroscopy
+  type: classification
+  label: includes rotational transitions
+  detail: Rotational spectroscopy resolves transitions dominated by molecular rotation.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_molecular_spectroscopy_to_vibrational_spectroscopy_classification
+  source: molecular_spectroscopy
+  target: vibrational_spectroscopy
+  type: classification
+  label: includes vibrational transitions
+  detail: Vibrational spectroscopy probes normal modes, anharmonicity, and couplings.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_vibrational_spectroscopy_to_infrared_spectroscopy_classification
+  source: vibrational_spectroscopy
+  target: infrared_spectroscopy
+  type: classification
+  label: includes dipole-active absorption
+  detail: Infrared vibrational spectra depend on changes in dipole moment along molecular normal coordinates.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_vibrational_spectroscopy_to_raman_spectroscopy_classification
+  source: vibrational_spectroscopy
+  target: raman_spectroscopy
+  type: classification
+  label: includes polarizability scattering
+  detail: Raman vibrational spectra depend primarily on changes in molecular polarizability along normal coordinates.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_molecular_spectroscopy_to_ultraviolet_visible_spectroscopy_classification
+  source: molecular_spectroscopy
+  target: ultraviolet_visible_spectroscopy
+  type: classification
+  label: includes electronic absorption
+  detail: UV–visible spectra commonly probe electronic transitions broadened and structured by vibration, solvent, and aggregation.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_molecular_spectroscopy_to_nuclear_magnetic_resonance_spectroscopy_classification
+  source: molecular_spectroscopy
+  target: nuclear_magnetic_resonance_spectroscopy
+  type: classification
+  label: includes nuclear-spin resonance
+  detail: NMR is a molecular spectroscopy in which local electronic environments alter nuclear-spin resonance frequencies and couplings.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_beer_lambert_law_to_ultraviolet_visible_spectroscopy_describes_governs
+  source: beer_lambert_law
+  target: ultraviolet_visible_spectroscopy
+  type: describes-governs
+  label: relates absorbance and concentration
+  detail: Quantitative UV–visible analysis commonly uses Beer–Lambert behavior after checking baseline, linearity, path length, and chemical speciation.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_raman_spectroscopy_to_raman_scattering_observations_experimentally_verified_by
+  source: raman_spectroscopy
+  target: raman_scattering_observations
+  type: experimentally-verified-by
+  label: frequency-shifted scattered light
+  detail: The observed shifted spectral components established inelastic light scattering and supplied the measurable basis of Raman spectroscopy.
+  citations:
+  - wp-chem-raman-effect
+  - nobel-raman-1930
+- id: chem_nuclear_magnetic_resonance_spectroscopy_to_bloch_purcell_nmr_experiments_experimentally_verified_by
+  source: nuclear_magnetic_resonance_spectroscopy
+  target: bloch_purcell_nmr_experiments
+  type: experimentally-verified-by
+  label: nuclear resonance in condensed matter
+  detail: Bloch’s induction and Purcell’s absorption experiments detected coherent nuclear magnetic response and established complementary NMR
+    methods.
+  citations:
+  - wp-physics-nuclear_spin
+  - nobel-nmr-1952
+- id: chem_quantum_chemistry_to_molecular_structure_describes_governs
+  source: quantum_chemistry
+  target: molecular_structure
+  type: describes-governs
+  label: calculates electronic and nuclear energetics
+  detail: Quantum chemistry connects electronic states to equilibrium structures, response properties, spectra, and reaction paths through explicit
+    approximations.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_born_oppenheimer_approximation_to_molecular_vibration_effective_theory
+  source: born_oppenheimer_approximation
+  target: molecular_vibration
+  type: effective-theory
+  label: supports nuclear motion on an electronic surface
+  detail: Separating electronic and nuclear motion permits vibrational dynamics on potential-energy surfaces, with nonadiabatic coupling added
+    when separation fails.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_periodic_trend_describes_governs
+  source: electronic_structure_calculation
+  target: periodic_trend
+  type: describes-governs
+  label: explains trends through electronic states
+  detail: Electronic-structure calculations help decompose periodic trends while remaining dependent on Hamiltonian, basis, correlation, and relativistic
+    treatment.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_ab_initio_quantum_chemistry_to_hartree_fock_method_classification
+  source: ab_initio_quantum_chemistry
+  target: hartree_fock_method
+  type: classification
+  label: includes mean-field starting point
+  detail: Hartree–Fock is an ab initio mean-field method and a reference for many correlated wavefunction approaches.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_ab_initio_quantum_chemistry_to_configuration_interaction_method_classification
+  source: ab_initio_quantum_chemistry
+  target: configuration_interaction_method
+  type: classification
+  label: includes determinant expansion
+  detail: Configuration interaction expands a state in determinants or configuration state functions within a finite one-particle basis.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_ab_initio_quantum_chemistry_to_coupled_cluster_method_classification
+  source: ab_initio_quantum_chemistry
+  target: coupled_cluster_method
+  type: classification
+  label: includes exponential wavefunction method
+  detail: Coupled-cluster theory uses an exponential excitation operator and size-extensive truncation hierarchy.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_electronic_structure_calculation_to_density_functional_theory_classification
+  source: electronic_structure_calculation
+  target: density_functional_theory
+  type: classification
+  label: includes density-based methods
+  detail: Density-functional calculations infer ground-state properties from electron density with accuracy controlled by the chosen functional
+    and numerical model.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_potential_energy_surface_to_reaction_coordinate_state_description
+  source: potential_energy_surface
+  target: reaction_coordinate
+  type: state-description
+  label: defines energetic path coordinates
+  detail: Reaction coordinates trace selected directions on a multidimensional free-energy or potential-energy landscape and need not define a
+    unique trajectory.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_potential_energy_surface_to_transition_state_state_description
+  source: potential_energy_surface
+  target: transition_state
+  type: state-description
+  label: contains dividing-region saddle
+  detail: A first-order saddle often approximates a transition structure, while dynamical recrossing and entropic coordinates can shift the kinetic
+    bottleneck.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_rotational_spectroscopy_to_molecular_geometry_describes_governs
+  source: rotational_spectroscopy
+  target: molecular_geometry
+  type: describes-governs
+  label: constrains moments of inertia
+  detail: Rotational constants constrain principal moments of inertia and isotopic substitution can support geometry determination.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_ultraviolet_visible_spectroscopy_to_spectrophotometry_framework_specialization
+  source: ultraviolet_visible_spectroscopy
+  target: spectrophotometry
+  type: framework-specialization
+  label: realized by optical absorbance measurement
+  detail: UV–visible spectrophotometry measures wavelength-dependent transmission or absorbance and requires calibration, baseline, and scattering
+    controls.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_beer_lambert_law_to_quantitative_chemical_analysis_mathematical_formulation
+  source: beer_lambert_law
+  target: quantitative_chemical_analysis
+  type: mathematical-formulation
+  label: supports concentration calibration
+  detail: Absorbance can be proportional to path length and concentration in a validated regime; chemical equilibria, stray light, and scattering
+    can break linearity.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_raman_spectroscopy_to_photon_transformation_process
+  source: raman_spectroscopy
+  target: photon
+  type: transformation-process
+  label: produces frequency-shifted scattered photons
+  detail: Raman spectroscopy detects photons produced by inelastic light scattering whose frequency shifts encode molecular excitations; most incident photons scatter elastically and fluorescence can obscure the signal.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_potential_energy_surface_to_equation_of_motion_describes_governs
+  source: potential_energy_surface
+  target: equation_of_motion
+  type: describes-governs
+  label: supplies forces for nuclear motion
+  detail: Within an adiabatic electronic-state approximation, gradients of a molecular potential-energy surface supply forces in nuclear equations of motion; nonadiabatic transitions require coupled surfaces and additional terms.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_quantum_chemistry_to_ligand_field_theory_framework_specialization
+  source: quantum_chemistry
+  target: ligand_field_theory
+  type: framework-specialization
+  label: specializes electronic structure to coordinated metal centers
+  detail: Ligand-field theory is a reduced electronic-structure framework for coordination complexes that incorporates
+    symmetry and covalent mixing while omitting much of a full many-electron calculation.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_molecular_rotation_to_rotational_spectroscopy_experimentally_verified_by
+  source: molecular_rotation
+  target: rotational_spectroscopy
+  type: experimentally-verified-by
+  label: rotational-state structure tested by resolved spectra
+  detail: Resolved rotational transitions test a molecular rotational-level model and its moments of inertia, subject to selection rules, centrifugal distortion, state mixing, temperature, and isotopic composition.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook

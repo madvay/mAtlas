@@ -49,13 +49,13 @@ export function validate(context) {
     }
     if (!arrayOrEmpty(node?.citations).length) errors.push(`Node ${String(node?.id)} must have at least one citation.`);
     const primaryField = node?.primaryField ?? graph?.domains?.[node?.primaryDomain]?.field;
-    if (primaryField === 'physics') {
+    if (primaryField === 'physics' || primaryField === 'chemistry') {
       const citedSources = arrayOrEmpty(node?.citations).map((id) => graph?.sources?.[id]).filter(Boolean);
       if (!citedSources.some((source) => typeof source?.url === 'string' && source.url.includes('wikipedia.org'))) {
-        errors.push(`Physics node ${String(node?.id)} must cite a Wikipedia overview for navigation.`);
+        errors.push(`${primaryField === 'physics' ? 'Physics' : 'Chemistry'} node ${String(node?.id)} must cite a Wikipedia overview for navigation.`);
       }
       if (!citedSources.some((source) => typeof source?.url === 'string' && !source.url.includes('wikipedia.org') && !source.url.includes('ncatlab.org'))) {
-        errors.push(`Physics node ${String(node?.id)} must cite at least one authoritative source beyond Wikipedia and nLab.`);
+        errors.push(`${primaryField === 'physics' ? 'Physics' : 'Chemistry'} node ${String(node?.id)} must cite at least one authoritative source beyond Wikipedia and nLab.`);
       }
     }
   }
