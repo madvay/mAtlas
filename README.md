@@ -190,7 +190,7 @@ mAtlas - Copyright (c) 2026 Advay Mengle - https://atlas.madvay.com/
 
 The editable knowledge and editorial source files in `content/`, together
 with compiled or published content derived from them (including graph, schema,
-guided-view, page, directory, search-index, and SVG content), are licensed
+guided-view, page, directory, and SVG content), are licensed
 under the Creative Commons Attribution-ShareAlike 4.0 International License
 (CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/). Attribution
 should be given per the first line in this file. See also `content/LICENSE`.

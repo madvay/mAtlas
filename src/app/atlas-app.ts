@@ -24,10 +24,11 @@ import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
 import { StructureOverlayController } from '../ui/structure-overlay-controller.js';
 import { CompareController } from '../ui/compare-controller.js';
+import { SearchController } from '../ui/search-controller.js';
 import { LocationController } from './location-controller.js';
 import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
-import { rankNodeMatches } from '../core/search.js';
+import { NodeSearchIndex, type NodeSearchResult } from '../core/search.js';
 import { fetchAtlasJson } from './data-loader.js';
 
 export async function startAtlasApp(): Promise<void> {
@@ -62,6 +63,10 @@ export async function startAtlasApp(): Promise<void> {
   const nodeFieldIds = (node: GraphNode): string[] => model.nodeFieldIds(node);
   const nodeDomainLabels = (node: GraphNode): string[] => model.nodeDomainLabels(node);
   const nodeFieldLabels = (node: GraphNode): string[] => model.nodeFieldLabels(node);
+  const searchIndex = new NodeSearchIndex(graphData.nodes.filter((node) => node.kind === 'structure'), (node) => ({
+    fieldLabels: nodeFieldLabels(node),
+    domainLabels: nodeDomainLabels(node)
+  }));
   const knownStateIds = {
     fieldIds: model.knownFieldIds,
     domainIds: model.knownDomainIds,
@@ -143,6 +148,7 @@ export async function startAtlasApp(): Promise<void> {
 
   let viewsController: ViewsController | null = null;
   let comparisonController: CompareController | null = null;
+  let searchController: SearchController | null = null;
   let structureOverlayController: StructureOverlayController | null = null;
   let graphViewPreservesView = (_view: AtlasView): boolean => true;
   let syncFilterViewScope = (): void => {};
@@ -472,6 +478,7 @@ export async function startAtlasApp(): Promise<void> {
 
   comparisonController = new CompareController({
     model,
+    searchIndex,
     cy,
     math: mathRenderer,
     selectedEdgeTypes: () => state.selectedEdgeTypes,
@@ -750,31 +757,43 @@ export async function startAtlasApp(): Promise<void> {
     viewsController?.syncActiveView();
   }
 
+  let searchMatchElements = cy.collection();
+
   function clearSearch(clearInput = false): void {
     state.searchQuery = '';
-    cy.elements().removeClass('search-match');
-    if (clearInput) byId<HTMLInputElement>('searchInput').value = '';
+    if (searchMatchElements.nonempty()) {
+      searchMatchElements.removeClass('search-match');
+      searchMatchElements = cy.collection();
+    }
+    byId('searchButton').classList.remove('active');
+    if (clearInput) {
+      byId<HTMLInputElement>('searchInput').value = '';
+      searchController?.close();
+    }
   }
 
-  function performSearch(): void {
-    const raw = byId<HTMLInputElement>('searchInput').value.trim();
+  function performSearch(raw: string, result: NodeSearchResult = searchIndex.search(raw), preferredNodeId: string | null = null): void {
     clearSearch();
-    if (!raw) return;
-    state.searchQuery = raw.toLocaleLowerCase();
-    const rankedMatches = rankNodeMatches(graphData.nodes, raw, (node) => ({
-      fieldLabels: nodeFieldLabels(node),
-      domainLabels: nodeDomainLabels(node)
-    }));
-    const matches = rankedMatches.map((match) => match.node);
+    if (!result.normalizedQuery) return;
+    state.searchQuery = result.normalizedQuery;
+    const matches = result.matches.map((match) => match.node);
     if (!matches.length) {
       byId('status').textContent = `No concept matches “${raw}”.`;
       return;
     }
-    const matchIds = new Set(matches.map((node) => node.id));
-    cy.nodes().filter((node) => matchIds.has(node.id())).addClass('search-match');
-    const exact = matches[0];
-    if (!exact) return;
-    selectAndCenter(exact.id);
+    const nextSearchMatches = cy.collection();
+    for (const node of matches) {
+      const element = cy.getElementById(node.id);
+      if (element.nonempty()) nextSearchMatches.merge(element);
+    }
+    searchMatchElements = nextSearchMatches;
+    searchMatchElements.addClass('search-match');
+    byId('searchButton').classList.add('active');
+    const selected = preferredNodeId
+      ? matches.find((node) => node.id === preferredNodeId) ?? matches[0]
+      : matches[0];
+    if (!selected) return;
+    selectAndCenter(selected.id);
     byId('status').textContent = `${matches.length} search match${matches.length === 1 ? '' : 'es'} for “${raw}”.`;
   }
 
@@ -808,7 +827,7 @@ export async function startAtlasApp(): Promise<void> {
         <section class="help-card">
           <h3>Toolbar</h3>
           <ul>
-            <li><strong>Search</strong> marks all matches and selects the best match without filtering the graph.</li>
+            <li><strong>Search</strong> shows ranked suggestions as you type. Arrow keys choose a result; Enter marks every match and opens the chosen concept without filtering the graph.</li>
             <li><strong>Neighborhood</strong> toggles immediate-neighbor emphasis for the selected item.</li>
             <li><strong>Compare</strong> uses one A/B pair for two analyses: Overview contrasts structure, taxonomy, sources, direct relations, and shared neighbors; Connections finds and explains up to three short visible-graph paths while preserving authored edge direction.</li>
             <li><strong>Layered / Compact / Domains / Fields</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
@@ -967,13 +986,16 @@ export async function startAtlasApp(): Promise<void> {
     });
   });
   byId('focusButton').addEventListener('click', toggleNeighborhoodHighlight);
-  byId('searchButton').addEventListener('click', performSearch);
-  byId<HTMLInputElement>('searchInput').addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') performSearch();
+  searchController = new SearchController({
+    root: byId('searchCombobox'),
+    input: byId<HTMLInputElement>('searchInput'),
+    results: byId('searchResults'),
+    button: byId<HTMLButtonElement>('searchButton'),
+    index: searchIndex,
+    onSearch: (query, result, preferredNodeId) => performSearch(query, result, preferredNodeId),
+    onClear: () => clearSearch()
   });
-  byId<HTMLInputElement>('searchInput').addEventListener('input', (event) => {
-    if (!(event.currentTarget as HTMLInputElement).value) clearSearch();
-  });
+  searchController.initialize();
 
   byId('helpButton').addEventListener('click', () => byId<HTMLDialogElement>('helpDialog').showModal());
   byId('filtersToggle').addEventListener('click', () => togglePanel('filters'));
@@ -989,7 +1011,7 @@ export async function startAtlasApp(): Promise<void> {
     const typing = targetTag === 'input' || targetTag === 'textarea' || targetTag === 'select';
     if (event.key === '/' && !typing) {
       event.preventDefault();
-      byId<HTMLInputElement>('searchInput').focus();
+      searchController?.focus();
     } else if ((event.key === 'f' || event.key === 'F') && !typing) {
       fitVisibleGraph();
     } else if (event.key === 'Escape') {
@@ -998,10 +1020,7 @@ export async function startAtlasApp(): Promise<void> {
         state.detailsOpen = false;
         syncPanelUi();
       }
-      if (state.searchQuery || byId<HTMLInputElement>('searchInput').value) {
-        byId<HTMLInputElement>('searchInput').value = '';
-        clearSearch();
-      }
+      if (state.searchQuery || byId<HTMLInputElement>('searchInput').value) searchController?.clear();
     }
   });
 
@@ -1133,7 +1152,7 @@ export async function startAtlasApp(): Promise<void> {
       return;
     }
     applyLocationState({ initial: true });
-    if (initialSearchQuery) performSearch();
+    if (initialSearchQuery) searchController?.submit();
     syncNeighborhoodButton();
     scheduleFieldBands();
     document.body.classList.remove('atlas-loading');

@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { writeFile } from 'node:fs/promises';
 
 const SITE_ORIGIN = 'https://atlas.madvay.com';
 const appUrl = (pathname = '') => new URL(pathname, `${SITE_ORIGIN}/`).toString();
@@ -18,24 +18,6 @@ function buildOpenSearchXml() {
     '</OpenSearchDescription>',
     ''
   ].join('\n');
-}
-
-function buildSearchIndex(graphData) {
-  const concepts = graphData.nodes.filter((node) => node.kind === 'structure').map((node) => ({
-    id: node.id,
-    label: node.label,
-    summary: node.summary,
-    url: appUrl(conceptPath(node.id)),
-    conceptType: node.conceptType ?? null,
-    fields: node.fields ?? [node.primaryField].filter(Boolean),
-    domains: node.domains ?? [node.primaryDomain].filter(Boolean)
-  }));
-  return `${JSON.stringify({
-    version: 1,
-    generatedFrom: graphData.meta.version,
-    canonical: appUrl(),
-    concepts
-  })}\n`;
 }
 
 function buildRobotsTxt() {
@@ -141,12 +123,10 @@ export async function generateSeoAssets({
   domainImages = {},
   lastModified
 }) {
-  await mkdir(new URL('content/', distUrl), { recursive: true });
   await Promise.all([
     writeFile(new URL('robots.txt', distUrl), buildRobotsTxt()),
     writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, fieldImages, domainImages, lastModified)),
     writeFile(new URL('llms.txt', distUrl), buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath)),
-    writeFile(new URL('opensearch.xml', distUrl), buildOpenSearchXml()),
-    writeFile(new URL('content/search-index.json', distUrl), buildSearchIndex(graphData))
+    writeFile(new URL('opensearch.xml', distUrl), buildOpenSearchXml())
   ]);
 }

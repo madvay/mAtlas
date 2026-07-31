@@ -1,6 +1,6 @@
 import type cytoscape from 'cytoscape';
 import { byId, escapeHtml, queryAll } from '../core/dom.js';
-import { rankNodeMatches } from '../core/search.js';
+import type { NodeSearchIndex } from '../core/search.js';
 import { stripInlineMathText } from '../core/text.js';
 import { findConnectionPaths, type ConnectionPath } from '../graph/connection-path.js';
 import {
@@ -21,6 +21,7 @@ import { invalidateRender, renderHtml } from './render.js';
 
 interface CompareControllerOptions {
   model: GraphModel;
+  searchIndex: NodeSearchIndex;
   cy: cytoscape.Core;
   math: MathRenderer;
   selectedEdgeTypes: () => ReadonlySet<string>;
@@ -261,11 +262,11 @@ export class CompareController {
     if (direct?.kind === 'structure') return direct.id;
     const displayId = this.displayToId.get(value.toLocaleLowerCase());
     if (displayId) return displayId;
-    const matches = rankNodeMatches(this.nodes, value, (node) => ({
-      fieldLabels: this.options.model.nodeFieldLabels(node),
-      domainLabels: this.options.model.nodeDomainLabels(node)
-    }));
-    return matches[0]?.node.id ?? null;
+    const result = this.options.searchIndex.search(value, {
+      limit: 1,
+      predicate: (node) => node.kind === 'structure'
+    });
+    return result.matches[0]?.node.id ?? null;
   }
 
   private publishStateChange(previous: CompareState | null, historyMode: Exclude<HistoryMode, null>): void {

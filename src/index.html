@@ -172,12 +172,15 @@
       </div>
 
       <div class="toolbar" role="toolbar" aria-label="Graph controls">
-        <label class="search-box">
-          <span class="visually-hidden">Search concepts</span>
-          <input id="searchInput" list="conceptNames" type="search" placeholder="Search concepts…" autocomplete="off">
-          <datalist id="conceptNames"></datalist>
-        </label>
-        <button id="searchButton" class="button icon-button" aria-label="Search concepts" title="Find matching concepts and select the best match">
+        <div id="searchCombobox" class="search-combobox">
+          <label class="search-box">
+            <span class="visually-hidden">Search concepts</span>
+            <input id="searchInput" type="search" role="combobox" placeholder="Search concepts, domains, or IDs…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-autocomplete="list" aria-controls="searchResults" aria-expanded="false" aria-describedby="searchInstructions">
+          </label>
+          <div id="searchResults" class="search-results" role="listbox" aria-label="Concept search results" hidden></div>
+          <span id="searchInstructions" class="visually-hidden">Type to see ranked matches. Use the up and down arrow keys to choose a result, then press Enter to open it.</span>
+        </div>
+        <button id="searchButton" class="button icon-button" aria-label="Search concepts" title="Mark every match and open the chosen concept">
           <span class="material-symbols-outlined" aria-hidden="true">search</span>
         </button>
         <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>

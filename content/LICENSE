@@ -13,7 +13,7 @@ Attribution should be given as:
 mAtlas - Copyright (c) 2026 Advay Mengle - https://atlas.madvay.com/
 
 Compiled and published forms derived from this directory, including graph,
-schema, guided-view, page, directory, search-index, and SVG content, remain
+schema, guided-view, page, directory, and SVG content, remain
 subject to the same license. Software outside this directory is licensed
 separately under Apache License 2.0 as described by the repository LICENSE and
 NOTICE files.

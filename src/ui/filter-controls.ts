@@ -68,7 +68,6 @@ export class FilterControls {
     this.updateEdgeAllButtonLabel();
     this.updateFieldNavActiveState();
     this.syncViewScope();
-    this.buildDatalist();
     this.bindEvents();
   }
 
@@ -501,13 +500,6 @@ export class FilterControls {
     return domainId && model.knownDomainIds.has(domainId) ? domainId : null;
   }
 
-  private buildDatalist(): void {
-    renderHtml(byId('conceptNames'), this.options.model.data.nodes
-      .filter((node) => node.kind === 'structure')
-      .sort((left, right) => left.label.localeCompare(right.label))
-      .map((node) => `<option value="${escapeHtml(node.label)}"></option>`)
-      .join(''));
-  }
 
   private domainSuppressionButton(domainId: string, domainLabel: string, suppression: DomainSuppression): string {
     const ariaPressed = suppression === 'included' ? 'false' : suppression === 'excluded' ? 'mixed' : 'true';

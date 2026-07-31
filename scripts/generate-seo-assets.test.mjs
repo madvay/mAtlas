@@ -38,8 +38,7 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
     const sitemap = await readFile(new URL('sitemap.xml', distUrl), 'utf8');
     const robots = await readFile(new URL('robots.txt', distUrl), 'utf8');
     const llms = await readFile(new URL('llms.txt', distUrl), 'utf8');
-    const searchIndex = JSON.parse(await readFile(new URL('content/search-index.json', distUrl), 'utf8'));
-    assert.ok(searchIndex.concepts.length > 0);
+    await assert.rejects(readFile(new URL('content/search-index.json', distUrl), 'utf8'), { code: 'ENOENT' });
     await assert.rejects(readFile(new URL('data/search-index.json', distUrl), 'utf8'), { code: 'ENOENT' });
     assert.match(sitemap, /xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/);
     assert.ok(sitemap.includes('<loc>https://atlas.madvay.com/directory/</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/static/atlas.svg</image:loc></image:image>'));

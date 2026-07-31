@@ -11,7 +11,6 @@ const manifest = JSON.parse(await readFile(new URL('asset-manifest.json', dist),
 const sitemap = await readFile(new URL('sitemap.xml', dist), 'utf8');
 const llms = await readFile(new URL('llms.txt', dist), 'utf8');
 const openSearch = await readFile(new URL('opensearch.xml', dist), 'utf8');
-const searchIndex = JSON.parse(await readFile(new URL('content/search-index.json', dist), 'utf8'));
 const atlasSvg = await readFile(new URL('static/atlas.svg', dist), 'utf8');
 const directoryPage = await readFile(new URL('directory/index.html', dist), 'utf8');
 const conceptsIndex = await readFile(new URL('concepts/index.html', dist), 'utf8');
@@ -57,10 +56,8 @@ assertCacheRecovery(appIndex, 'The application root');
 if (!appIndex.includes('rel="search" type="application/opensearchdescription+xml"')) throw new Error('The application does not advertise OpenSearch discovery.');
 if (!appIndex.includes('class="skip-link"')) throw new Error('The application lacks a keyboard skip link.');
 if (!openSearch.includes('<OpenSearchDescription') || !openSearch.includes('?q={searchTerms}')) throw new Error('opensearch.xml is incomplete.');
-if (searchIndex.concepts?.length !== graphData.nodes.filter((node) => node.kind === 'structure').length) throw new Error('The public search index does not contain every concept.');
-if (searchIndex.concepts.some((concept) => !concept.id || !concept.label || !concept.url || !concept.summary)) throw new Error('The public search index contains incomplete concept records.');
-if (manifest.version !== 3) throw new Error('asset-manifest.json does not use the content-path-aware format.');
-for (const key of ['graph', 'schema', 'views', 'shareCodec', 'provenance', 'searchIndex']) {
+if (manifest.version !== 4) throw new Error('asset-manifest.json does not use the search-index-free content format.');
+for (const key of ['graph', 'schema', 'views', 'shareCodec', 'provenance']) {
   if (!manifest.assets?.[key]?.startsWith('content/')) throw new Error(`asset-manifest.json does not publish ${key} under content/.`);
 }
 const publishedShareCodec = JSON.parse(await readFile(new URL(manifest.assets.shareCodec, dist), 'utf8'));
@@ -85,6 +82,8 @@ if (Object.keys(manifest.assets?.fieldSvgs ?? {}).length !== Object.keys(graphDa
 if (Object.keys(manifest.assets?.domainSvgs ?? {}).length !== Object.keys(graphData.domains).length) throw new Error('asset-manifest.json does not expose one SVG path per domain.');
 if (manifest.assets?.directory !== 'directory/') throw new Error('asset-manifest.json does not expose the stable directory/ page.');
 if ('atlasPage' in (manifest.assets ?? {})) throw new Error('asset-manifest.json still exposes the retired atlasPage entry.');
+if ('searchIndex' in (manifest.assets ?? {})) throw new Error('asset-manifest.json still exposes the removed search index.');
+await assertMissing(new URL('content/search-index.json', dist), 'The removed public search index was still emitted.');
 await access(new URL(manifest.assets.views, dist));
 const publishedSchema = JSON.parse(await readFile(new URL(manifest.assets.schema, dist), 'utf8'));
 if (publishedSchema.$id !== 'https://atlas.madvay.com/content/schema.json') throw new Error('Published schema has the wrong canonical identifier.');
@@ -105,6 +104,8 @@ if (!appCss.includes('.material-symbols-outlined') || !/font-family:(?:\"Materia
 if (legacyIconPattern.test(materialSymbolAssets)) throw new Error('The built application still contains a legacy icon-font reference.');
 if (!appJs.includes('./content/') || appJs.includes('./data/')) throw new Error('The application bundle does not read runtime JSON exclusively from ./content/.');
 if (!appIndex.includes('id="mobileViewContext"')) throw new Error('The application template lacks the mobile guided-view context host.');
+if (!appIndex.includes('id="searchResults"') || !appIndex.includes('role="combobox"')) throw new Error('The application template lacks the accessible search suggestions UI.');
+if (appIndex.includes('id="conceptNames"')) throw new Error('The application still contains the retired empty search datalist.');
 if (!appIndex.includes('href="/directory/"')) throw new Error('The application omits the atlas directory link.');
 if (appIndex.includes('href="/static/atlas/"')) throw new Error('The application still links to the retired static atlas page.');
 if (!appIndex.includes('href="/static/atlas.svg"')) throw new Error('The application data panel omits the stable all-in SVG link.');

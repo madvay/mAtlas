@@ -194,7 +194,7 @@ await generateSeoAssets({
 });
 
 const manifest = {
-  version: 3,
+  version: 4,
   content: {
     schemaVersion: provenance.schemaVersion,
     contentVersion: provenance.contentVersion
@@ -212,7 +212,6 @@ const manifest = {
     fieldSvgs: Object.fromEntries(Object.entries(staticSvgs.fields).map(([fieldId, image]) => [fieldId, image.path])),
     domainSvgs: Object.fromEntries(Object.entries(staticSvgs.domains).map(([domainId, image]) => [domainId, image.path])),
     directory: 'directory/',
-    searchIndex: 'content/search-index.json',
     openSearch: 'opensearch.xml'
   }
 };
