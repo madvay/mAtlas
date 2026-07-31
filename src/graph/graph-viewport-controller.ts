@@ -47,7 +47,8 @@ export class GraphViewportController {
   fit(
     elements: cytoscape.CollectionReturnValue,
     padding = DEFAULT_FIT_PADDING,
-    onComplete: () => void = () => {}
+    onComplete: () => void = () => {},
+    applyViewport = true
   ): void {
     this.cancel();
     if (elements.empty()) {
@@ -74,6 +75,11 @@ export class GraphViewportController {
 
     const fitMinZoom = minimumZoomForFit(viewport.zoom, DEFAULT_INTERACTIVE_MIN_ZOOM, ABSOLUTE_MIN_ZOOM);
     if (cy.minZoom() !== fitMinZoom) cy.minZoom(fitMinZoom);
+
+    if (!applyViewport) {
+      onComplete();
+      return;
+    }
 
     const animate = this.options.animate?.() === true;
     if (!animate || !viewportChangeIsMeaningful(

@@ -190,6 +190,7 @@ export class FilterControls {
     byId<HTMLInputElement>('highResolutionToggle').checked = preferences.highResolution;
     byId<HTMLInputElement>('transitionsToggle').checked = preferences.transitions;
     byId<HTMLInputElement>('animateGraphToggle').checked = preferences.animateGraph;
+    byId<HTMLInputElement>('refitOnChangeToggle').checked = preferences.refitOnChange;
     byId<HTMLInputElement>('motionBlurToggle').checked = preferences.motionBlur;
     byId<HTMLInputElement>('formulaeInGraphToggle').checked = preferences.formulaeInGraph;
     byId<HTMLInputElement>('indicateOtherDomainsToggle').checked = preferences.indicateOtherDomains;
@@ -253,7 +254,7 @@ export class FilterControls {
       this.options.setPreferences({ ...DEFAULT_PREFERENCES });
       this.syncPreferences();
     });
-    for (const id of ['highResolution', 'transitions', 'animateGraph', 'motionBlur', 'formulaeInGraph', 'indicateOtherDomains', 'hideEdgesWhileMoving', 'allowNodeMovement', 'dimPrerequisites', 'highlightPrerequisites', 'experimentalFeatures'] as const) {
+    for (const id of ['highResolution', 'transitions', 'animateGraph', 'refitOnChange', 'motionBlur', 'formulaeInGraph', 'indicateOtherDomains', 'hideEdgesWhileMoving', 'allowNodeMovement', 'dimPrerequisites', 'highlightPrerequisites', 'experimentalFeatures'] as const) {
       byId<HTMLInputElement>(`${id}Toggle`).addEventListener('change', (event) => {
         this.options.setPreferences({ ...this.options.preferences(), [id]: (event.currentTarget as HTMLInputElement).checked });
       });

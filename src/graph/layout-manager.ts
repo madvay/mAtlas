@@ -9,6 +9,7 @@ interface LayoutManagerOptions {
   state: AppState;
   onStateChange: () => void;
   animateGraph: () => boolean;
+  refitOnChange: () => boolean;
   onLayoutStarted: (name: LayoutName, animated: boolean) => void;
   onLayoutPrepared: (name: LayoutName) => void;
   onLayoutSettled: () => void;
@@ -70,7 +71,7 @@ export class LayoutManager {
     }
 
     const animatePositions = this.options.animateGraph() && this.positionsChanged(nodes, positions);
-    const animated = animatePositions || (fitAfter && this.options.animateGraph());
+    const animated = animatePositions || (fitAfter && this.options.refitOnChange() && this.options.animateGraph());
     this.options.onLayoutStarted(name, animated);
 
     const run: ActiveLayoutRun = {

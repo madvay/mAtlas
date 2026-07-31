@@ -209,6 +209,11 @@ export async function startAtlasApp(): Promise<void> {
     padding?: number,
     onComplete?: () => void
   ): void => viewportController.fit(elements, padding, onComplete);
+  const refitGraphElements = (
+    elements: cytoscape.CollectionReturnValue,
+    padding?: number,
+    onComplete?: () => void
+  ): void => viewportController.fit(elements, padding, onComplete, preferences.refitOnChange);
 
   let layoutUiFrame = 0;
   function syncLayoutToolbar(): void {
@@ -281,6 +286,7 @@ export async function startAtlasApp(): Promise<void> {
     state,
     onStateChange: persistUiState,
     animateGraph: () => graphAnimationsReady && preferences.animateGraph,
+    refitOnChange: () => preferences.refitOnChange,
     onLayoutStarted: (name, animated) => {
       if (animated) structureOverlayController?.beginLayoutTransition(name);
       else structureOverlayController?.finishLayoutTransition();
@@ -291,7 +297,7 @@ export async function startAtlasApp(): Promise<void> {
       scheduleFieldBands();
       scheduleLayoutUiUpdate();
     },
-    fitVisible: fitGraphElements,
+    fitVisible: refitGraphElements,
     cancelFit: () => viewportController.cancel()
   });
 
@@ -364,8 +370,10 @@ export async function startAtlasApp(): Promise<void> {
     preferences: () => preferences,
     setPreferences: (next) => {
       const disableGraphAnimation = preferences.animateGraph && !next.animateGraph;
+      const disableRefit = preferences.refitOnChange && !next.refitOnChange;
       preferences = next;
       if (disableGraphAnimation) stopGraphAnimations();
+      else if (disableRefit) viewportController.cancel();
       writePreferences();
       applyRendererPreferences(cy, preferences);
       graphLabelLayer.setPreferences(preferences);

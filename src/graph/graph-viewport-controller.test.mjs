@@ -110,3 +110,27 @@ test('controller restores the normal interactive minimum on a closer fit', () =>
   assert.ok(graph.viewport().zoom > DEFAULT_INTERACTIVE_MIN_ZOOM);
   assert.equal(graph.minZoom(), DEFAULT_INTERACTIVE_MIN_ZOOM);
 });
+
+
+test('controller updates minimum zoom without moving the viewport when refitting is suppressed', () => {
+  const graph = mockGraph();
+  let completed = 0;
+  const controller = new GraphViewportController({
+    cy: graph.cy,
+    state: { layout: 'atlas' },
+    viewportInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
+    animate: () => true
+  });
+
+  controller.fit(
+    elementsWithBox({ x1: 0, y1: 0, w: 20_000, h: 10_000 }),
+    20,
+    () => { completed += 1; },
+    false
+  );
+
+  assert.equal(graph.viewport(), null);
+  assert.ok(graph.minZoom() < DEFAULT_INTERACTIVE_MIN_ZOOM);
+  assert.ok(graph.minZoom() >= ABSOLUTE_MIN_ZOOM);
+  assert.equal(completed, 1);
+});

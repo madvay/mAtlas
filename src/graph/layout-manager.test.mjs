@@ -58,6 +58,7 @@ test('interrupted animated layouts settle once and ignore stale stop callbacks',
       state: { layout: 'atlas' },
       onStateChange: () => {},
       animateGraph: () => true,
+      refitOnChange: () => true,
       onLayoutStarted: () => {},
       onLayoutPrepared: () => { prepared += 1; },
       onLayoutSettled: () => { settled += 1; },
@@ -83,6 +84,51 @@ test('interrupted animated layouts settle once and ignore stale stop callbacks',
     second.options.stop();
     assert.equal(prepared, 1);
     assert.equal(settled, 2);
+  } finally {
+    globalThis.document = originalDocument;
+    globalThis.HTMLSelectElement = originalHtmlSelectElement;
+  }
+});
+
+test('suppressed refitting does not mark a fit-only layout run as animated', () => {
+  const originalDocument = globalThis.document;
+  const originalHtmlSelectElement = globalThis.HTMLSelectElement;
+  globalThis.document = { getElementById: () => null };
+  globalThis.HTMLSelectElement = class {};
+  try {
+    const layouts = [];
+    const nodes = [makeNode('a', { x: 100, y: 50 })];
+    const nodeCollection = makeNodeCollection(nodes, layouts);
+    let startedAnimated = null;
+    let fitCalls = 0;
+    let settled = 0;
+    const manager = new LayoutManager({
+      cy: {
+        nodes: () => nodeCollection,
+        elements: () => ({ not: () => ({ filter: () => ({}) }) })
+      },
+      model: {},
+      state: { layout: 'atlas' },
+      onStateChange: () => {},
+      animateGraph: () => true,
+      refitOnChange: () => false,
+      onLayoutStarted: (_name, animated) => { startedAnimated = animated; },
+      onLayoutPrepared: () => {},
+      onLayoutSettled: () => { settled += 1; },
+      fitVisible: (_elements, _padding, onComplete) => {
+        fitCalls += 1;
+        onComplete();
+      },
+      cancelFit: () => {}
+    });
+    manager.atlasPositions = () => ({ a: { x: 100, y: 50 } });
+
+    manager.run('atlas', true);
+
+    assert.equal(startedAnimated, false);
+    assert.equal(layouts.length, 0);
+    assert.equal(fitCalls, 1);
+    assert.equal(settled, 1);
   } finally {
     globalThis.document = originalDocument;
     globalThis.HTMLSelectElement = originalHtmlSelectElement;

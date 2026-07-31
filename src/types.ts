@@ -156,6 +156,7 @@ export interface Preferences {
   highResolution: boolean;
   transitions: boolean;
   animateGraph: boolean;
+  refitOnChange: boolean;
   motionBlur: boolean;
   formulaeInGraph: boolean;
   indicateOtherDomains: boolean;
