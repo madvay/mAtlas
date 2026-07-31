@@ -63,6 +63,8 @@ test('static export uses the npm-managed browser and domain markers stay consist
   assert.match(exporter, /if \(!this\.state\.showEdgeLabels\) return/);
   assert.doesNotMatch(exporter, /showGraphEdgeLabels/);
   assert.match(exporter, /preferences\(\)\.dimPrerequisites/);
+  assert.match(exporter, /serializeFieldDomainStructure\(fieldId: string\)/);
+  assert.match(exporter, /Domain mode with prerequisites hidden/);
   assert.match(exporter, /serializePrimaryDomain\(domainId: string\)/);
   assert.match(exporter, /record && !record\.synthetic && nodeIds\.has\(record\.source\) && nodeIds\.has\(record\.target\)/);
   assert.match(exporter, /<metadata><rdf:RDF/);
@@ -70,6 +72,8 @@ test('static export uses the npm-managed browser and domain markers stay consist
   assert.match(exporter, /http:\/\/purl\.org\/dc\/elements\/1\.1\//);
   assert.match(exporter, /http:\/\/creativecommons\.org\/ns#/);
   assert.match(exporter, /<dc:creator>Advay Mengle<\/dc:creator>/);
+  assert.match(generator, /static\/fields\/\$\{encodeURIComponent\(fieldId\)\}\.svg/);
+  assert.match(generator, /atlas:static-svg-field/);
   assert.match(generator, /static\/domains\/\$\{encodeURIComponent\(domainId\)\}\.svg/);
   assert.doesNotMatch(exporter, /markerY[^\n]*<rect|stroke-opacity="0\.3"/);
   assert.doesNotMatch(styles, /\.graph-domain-markers\s*\{[^}]*?(?:background|box-shadow|contain):/s);

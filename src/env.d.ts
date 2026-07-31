@@ -20,6 +20,7 @@ interface AtlasSvgExportResult {
 
 interface AtlasStaticSvgExporter {
   serializeVisible(): AtlasSvgExportResult | null;
+  serializeFieldDomainStructure(fieldId: string): AtlasSvgExportResult | null;
   serializePrimaryDomain(domainId: string): AtlasSvgExportResult | null;
 }
 

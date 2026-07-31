@@ -689,7 +689,8 @@ body:not(.atlas-loading) .graph-loader {
 }
 
 
-.graph-loader.domain-graph-loader {
+.graph-loader.domain-graph-loader,
+.graph-loader.field-graph-loader {
   display: grid;
   grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   place-content: stretch;
@@ -698,7 +699,8 @@ body:not(.atlas-loading) .graph-loader {
   padding: clamp(12px, 2vw, 28px);
 }
 
-.domain-static-graph {
+.domain-static-graph,
+.field-static-graph {
   grid-area: 1 / 1;
   display: block;
   width: 100%;
@@ -708,7 +710,8 @@ body:not(.atlas-loading) .graph-loader {
   object-fit: contain;
 }
 
-.graph-loader.domain-graph-loader::before {
+.graph-loader.domain-graph-loader::before,
+.graph-loader.field-graph-loader::before {
   grid-area: 1 / 1;
   align-self: start;
   justify-self: end;
@@ -717,7 +720,8 @@ body:not(.atlas-loading) .graph-loader {
   background: rgba(251, 252, 254, 0.92);
 }
 
-.domain-graph-loading-label {
+.domain-graph-loading-label,
+.field-graph-loading-label {
   grid-area: 1 / 1;
   align-self: end;
   justify-self: end;

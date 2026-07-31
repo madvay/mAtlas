@@ -101,11 +101,28 @@ test('field and domain scope pages expose canonical routes and crawlable navigat
   const field = graphData.fields.mathematics;
   const domain = graphData.domains[domainId];
 
-  const fieldHtml = renderScopePage(templateHtml, graphData, 'mathematics');
+  const fieldImage = {
+    path: 'static/fields/mathematics.svg',
+    width: 1400,
+    height: 760,
+    nodeCount: 42,
+    edgeCount: 18
+  };
+  const fieldHtml = renderScopePage(templateHtml, graphData, 'mathematics', null, fieldImage);
   assert.ok(fieldHtml.includes(`<link rel="canonical" href="https://atlas.madvay.com/${field.path}/">`));
   assert.ok(fieldHtml.includes('<base href="../">'));
   assert.ok(fieldHtml.includes('<meta name="atlas:scope" content="mathematics">'));
   assert.ok(fieldHtml.includes(`href="/${field.path}/${encodeURIComponent(domainId)}/"`));
+  assert.ok(fieldHtml.includes(`<meta property="og:image" content="https://atlas.madvay.com/${fieldImage.path}">`));
+  assert.ok(fieldHtml.includes('<meta property="og:image:width" content="1400">'));
+  assert.ok(fieldHtml.includes('<meta property="og:image:height" content="760">'));
+  assert.ok(fieldHtml.includes(`<meta itemprop="thumbnailUrl" content="https://atlas.madvay.com/${fieldImage.path}">`));
+  assert.ok(fieldHtml.includes(`<link rel="image_src" href="https://atlas.madvay.com/${fieldImage.path}">`));
+  assert.ok(fieldHtml.includes(`<meta itemprop="image" content="https://atlas.madvay.com/${fieldImage.path}">`));
+  assert.ok(fieldHtml.includes(`<meta name="twitter:image" content="https://atlas.madvay.com/${fieldImage.path}">`));
+  assert.ok(fieldHtml.includes(`class="field-static-graph" src="/${fieldImage.path}" width="1400" height="760"`));
+  assert.ok(fieldHtml.includes('domain structure graph with prerequisites hidden'));
+  assert.ok(fieldHtml.includes('"primaryImageOfPage"'));
 
   const domainImage = {
     path: `static/domains/${encodeURIComponent(domainId)}.svg`,

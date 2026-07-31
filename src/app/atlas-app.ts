@@ -49,6 +49,14 @@ export async function startAtlasApp(): Promise<void> {
   const { fieldOrder, domainOrder, edgeTypeOrder, defaultEdgeTypeIds } = model;
   const staticAtlasSvgMode = new URL(window.location.href).searchParams.get('__staticAtlasSvg') === '1'
     || document.querySelector('meta[name="atlas:static-svg-build"][content="1"]') !== null;
+  const requestedStaticSvgFieldId = document.querySelector<HTMLMetaElement>('meta[name="atlas:static-svg-field"]')?.content?.trim() ?? '';
+  if (requestedStaticSvgFieldId && !model.knownFieldIds.has(requestedStaticSvgFieldId)) {
+    throw new Error(`Unknown static SVG field: ${requestedStaticSvgFieldId}`);
+  }
+  const staticSvgFieldId = requestedStaticSvgFieldId || null;
+  const staticSvgDomainIds = staticSvgFieldId
+    ? domainOrder.filter((domainId) => model.fieldForDomain(domainId) === staticSvgFieldId)
+    : domainOrder;
   const nodeRecord = model.nodeRecord;
   const nodeFieldIds = (node: GraphNode): string[] => model.nodeFieldIds(node);
   const nodeDomainLabels = (node: GraphNode): string[] => model.nodeDomainLabels(node);
@@ -93,8 +101,8 @@ export async function startAtlasApp(): Promise<void> {
   let preferences = staticAtlasSvgMode ? { ...DEFAULT_PREFERENCES } : readPreferences();
   const loadedUrlUiState: UrlUiState | null = staticAtlasSvgMode
     ? {
-        fields: fieldOrder,
-        domains: domainOrder,
+        fields: staticSvgFieldId ? [staticSvgFieldId] : fieldOrder,
+        domains: staticSvgDomainIds,
         edgeTypes: defaultEdgeTypeIds,
         excludedFields: [],
         excludedDomains: [],
@@ -105,8 +113,8 @@ export async function startAtlasApp(): Promise<void> {
         edgeLabels: true,
         junctions: true,
         edgeZoomActivation: false,
-        hidePrerequisites: false,
-        layout: 'atlas'
+        hidePrerequisites: staticSvgFieldId !== null,
+        layout: staticSvgFieldId ? 'domains' : 'atlas'
       }
     : readUrlUiStateFromLocation(window.location, knownStateIds, shareCodec);
   if (loadedUrlUiState === null) return;
@@ -828,6 +836,7 @@ export async function startAtlasApp(): Promise<void> {
   const publishStaticSvgExporter = (): void => {
     window.__atlasStaticSvgExporter = {
       serializeVisible: () => svgExporter.serializeVisible(),
+      serializeFieldDomainStructure: (fieldId: string) => svgExporter.serializeFieldDomainStructure(fieldId),
       serializePrimaryDomain: (domainId: string) => svgExporter.serializePrimaryDomain(domainId)
     };
     document.documentElement.dataset.atlasStaticSvg = 'ready';

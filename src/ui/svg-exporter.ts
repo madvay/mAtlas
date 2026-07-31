@@ -56,6 +56,24 @@ export class SvgExporter {
     });
   }
 
+  serializeFieldDomainStructure(fieldId: string): SvgExportResult | null {
+    const field = this.model.data.fields[fieldId];
+    if (!field) return null;
+    const visibleNodes = this.cy.nodes().not('.filter-hidden').filter((element) => element.style('display') !== 'none');
+    const visibleEdges = this.cy.edges().not('.filter-hidden').filter((element) => {
+      const edge = element as cytoscape.EdgeSingular;
+      return edge.style('display') !== 'none'
+        && !edge.source().hasClass('filter-hidden') && !edge.target().hasClass('filter-hidden');
+    });
+    return this.serialize({
+      nodes: visibleNodes,
+      edges: visibleEdges,
+      accessibleTitle: `${field.label} domain structure — ${this.model.data.meta.title}`,
+      accessibleDescription: `${field.label} field export from ${this.model.data.meta.title}, rendered in Domain mode with prerequisite closure hidden. The visible concept graph is dimmed beneath domain centroids and directed aggregate relations.`,
+      exportNote: `${field.label}: Domain mode with prerequisites hidden; aggregate arrow width represents directed relation count.`
+    });
+  }
+
   serializePrimaryDomain(domainId: string): SvgExportResult | null {
     const domain = this.model.data.domains[domainId];
     if (!domain) return null;

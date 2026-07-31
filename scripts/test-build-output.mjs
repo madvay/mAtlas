@@ -81,6 +81,7 @@ if (!manifest.assets?.provenance) throw new Error('asset-manifest.json does not 
 if (manifest.assets?.contentLicense !== 'CONTENT_LICENSE') throw new Error('asset-manifest.json does not expose the content license notice.');
 if (!manifest.assets?.css) throw new Error('asset-manifest.json does not include the application stylesheet.');
 if (manifest.assets?.atlasSvg !== 'static/atlas.svg') throw new Error('asset-manifest.json does not expose the stable static/atlas.svg path.');
+if (Object.keys(manifest.assets?.fieldSvgs ?? {}).length !== Object.keys(graphData.fields).length) throw new Error('asset-manifest.json does not expose one SVG path per field.');
 if (Object.keys(manifest.assets?.domainSvgs ?? {}).length !== Object.keys(graphData.domains).length) throw new Error('asset-manifest.json does not expose one SVG path per domain.');
 if (manifest.assets?.directory !== 'directory/') throw new Error('asset-manifest.json does not expose the stable directory/ page.');
 if ('atlasPage' in (manifest.assets ?? {})) throw new Error('asset-manifest.json still exposes the retired atlasPage entry.');
@@ -198,8 +199,43 @@ for (const view of viewsData.views) {
 
 for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)) {
   const field = graphData.fields[fieldId];
-  const html = await readFile(new URL(`${field.path}/index.html`, dist), 'utf8');
+  const path = `${field.path}/`;
+  const html = await readFile(new URL(`${path}index.html`, dist), 'utf8');
+  const encodedId = encodeURIComponent(fieldId);
+  const imagePath = manifest.assets.fieldSvgs?.[fieldId];
+  const expectedImagePath = `static/fields/${encodedId}.svg`;
+  if (imagePath !== expectedImagePath) throw new Error(`Field ${fieldId} has the wrong SVG manifest path: ${imagePath}.`);
+  const fieldSvg = await readFile(new URL(imagePath, dist), 'utf8');
+  const dimensions = svgDimensions(fieldSvg, imagePath);
+  assertSvgMetadata(fieldSvg, imagePath);
+  if (!fieldSvg.includes(`<title id="atlas-title">${field.label} domain structure — `)) throw new Error(`${imagePath} is not a field-specific Domain-mode export.`);
+  if (!fieldSvg.includes(`${field.label}: Domain mode with prerequisites hidden;`)) throw new Error(`${imagePath} does not declare its Hide Prerequisites export mode.`);
+  if (fieldSvg.includes('fill-opacity="0.46"')) throw new Error(`${imagePath} contains dependency-context nodes despite Hide Prerequisites mode.`);
+  const fieldDomainIds = (graphData.meta.domainOrder ?? Object.keys(graphData.domains))
+    .filter((domainId) => graphData.domains[domainId]?.field === fieldId);
+  const populatedDomain = fieldDomainIds.find((domainId) => graphData.nodes.some((node) =>
+    node.kind === 'structure' && (node.domains?.length ? node.domains : [node.primaryDomain]).includes(domainId)));
+  if (populatedDomain && !fieldSvg.includes(`${graphData.domains[populatedDomain].label} — `)) throw new Error(`${imagePath} lacks its Domain-mode aggregate labels.`);
+
   assertCacheRecovery(html, `Static field page ${fieldId}`);
+  if (!html.includes(`<meta name="atlas:scope" content="${fieldId}">`)) throw new Error(`Static field page for ${fieldId} lacks its field metadata.`);
+  if (!html.includes('<base href="../">')) throw new Error(`Static field page for ${fieldId} has the wrong base path.`);
+  if (!html.includes(`<link rel="canonical" href="https://atlas.madvay.com/${path}">`)) throw new Error(`Static field page for ${fieldId} has the wrong canonical URL.`);
+  if (!html.includes('<script id="taxonomy-page-jsonld" type="application/ld+json">')) throw new Error(`Static field page for ${fieldId} lacks taxonomy JSON-LD.`);
+  const imageUrl = `https://atlas.madvay.com/${imagePath}`;
+  if (!html.includes(`<meta property="og:image" content="${imageUrl}">`)) throw new Error(`Static field page for ${fieldId} lacks its Open Graph SVG.`);
+  if (!html.includes(`<meta property="og:image:width" content="${dimensions.width}">`) || !html.includes(`<meta property="og:image:height" content="${dimensions.height}">`)) throw new Error(`Static field page for ${fieldId} has incorrect SVG dimensions.`);
+  for (const metadata of [
+    `<meta itemprop="thumbnailUrl" content="${imageUrl}">`,
+    `<link rel="image_src" href="${imageUrl}">`,
+    `<meta itemprop="image" content="${imageUrl}">`,
+    `<meta name="twitter:image" content="${imageUrl}">`
+  ]) {
+    if (!html.includes(metadata)) throw new Error(`Static field page for ${fieldId} lacks image metadata: ${metadata}`);
+  }
+  if (!html.includes(`class="field-static-graph" src="/${imagePath}" width="${dimensions.width}" height="${dimensions.height}"`)) throw new Error(`Static field page for ${fieldId} does not show its generated SVG while loading.`);
+  if (!html.includes('"primaryImageOfPage"') || !html.includes(`"contentUrl": "${imageUrl}"`)) throw new Error(`Static field page for ${fieldId} lacks SVG structured data.`);
+  if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc><lastmod>`) || !sitemap.includes(`<image:loc>${imageUrl}</image:loc>`)) throw new Error(`The sitemap does not associate field ${fieldId} with its SVG.`);
 }
 
 for (const node of graphData.nodes.filter((candidate) => candidate.kind === 'structure')) {

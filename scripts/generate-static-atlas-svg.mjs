@@ -22,6 +22,15 @@ function domainSvgPath(domainId) {
   return `static/domains/${encodeURIComponent(domainId)}.svg`;
 }
 
+function fieldSvgPath(fieldId) {
+  return `static/fields/${encodeURIComponent(fieldId)}.svg`;
+}
+
+function fieldBuildPage(buildPage, fieldId) {
+  const marker = `<meta name="atlas:static-svg-field" content="${escapeHtmlAttribute(fieldId)}">`;
+  return buildPage.replace(STATIC_EXPORT_MARKER, `${STATIC_EXPORT_MARKER}\n  ${marker}`);
+}
+
 
 function escapeInlineScript(value) {
   return value.replaceAll('</script', '<\\/script').replaceAll('<!--', '<\\!--');
@@ -116,12 +125,7 @@ async function selfContainedBuildPage(distUrl) {
     .replace('</head>', `  ${fetchShim}\n</head>`);
 }
 
-async function openStaticExporter(distUrl) {
-  const buildPage = await selfContainedBuildPage(distUrl);
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-background-networking']
-  });
+async function prepareStaticExporterPage(browser, buildPage) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
   const diagnostics = [];
@@ -135,20 +139,35 @@ async function openStaticExporter(distUrl) {
       { timeout: BUILD_TIMEOUT_MS, polling: 50 }
     );
   } catch (error) {
-    await browser.close();
+    await page.close();
     const detail = diagnostics.length ? `\n${diagnostics.slice(-20).join('\n')}` : '';
     throw new Error(`The runtime SVG exporter did not become ready.${detail}`, { cause: error });
   }
-  return { browser, page };
+  return page;
+}
+
+async function openStaticExporter(distUrl) {
+  const buildPage = await selfContainedBuildPage(distUrl);
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-background-networking']
+  });
+  try {
+    const page = await prepareStaticExporterPage(browser, buildPage);
+    return { browser, page, buildPage };
+  } catch (error) {
+    await browser.close();
+    throw error;
+  }
 }
 
 async function serializeInPage(page, method, argument, label) {
   const result = await page.evaluate(({ method, argument }) => {
     const exporter = window.__atlasStaticSvgExporter;
     if (!exporter) throw new Error('Missing runtime SVG exporter.');
-    return method === 'domain'
-      ? exporter.serializePrimaryDomain(argument)
-      : exporter.serializeVisible();
+    if (method === 'domain') return exporter.serializePrimaryDomain(argument);
+    if (method === 'field') return exporter.serializeFieldDomainStructure(argument);
+    return exporter.serializeVisible();
   }, { method, argument });
   return validateSvgResult(result, label);
 }
@@ -166,12 +185,13 @@ export async function generateStaticAtlasSvg({ distUrl }) {
 }
 
 export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
-  const { browser, page } = await openStaticExporter(distUrl);
+  const { browser, page, buildPage } = await openStaticExporter(distUrl);
   try {
     const atlas = await serializeInPage(page, 'visible', '', 'the all-in atlas');
     await Promise.all([
       mkdir(new URL('static/', distUrl), { recursive: true }),
-      mkdir(new URL('static/domains/', distUrl), { recursive: true })
+      mkdir(new URL('static/domains/', distUrl), { recursive: true }),
+      mkdir(new URL('static/fields/', distUrl), { recursive: true })
     ]);
     await writeFile(new URL('static/atlas.svg', distUrl), atlas.svg);
 
@@ -188,6 +208,25 @@ export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
         edgeCount: result.edgeCount
       };
     }
+    const fields = {};
+    for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)) {
+      const fieldPage = await prepareStaticExporterPage(browser, fieldBuildPage(buildPage, fieldId));
+      try {
+        const result = await serializeInPage(fieldPage, 'field', fieldId, `field ${fieldId}`);
+        const path = fieldSvgPath(fieldId);
+        await writeFile(new URL(path, distUrl), result.svg);
+        fields[fieldId] = {
+          path,
+          width: result.width,
+          height: result.height,
+          nodeCount: result.nodeCount,
+          edgeCount: result.edgeCount
+        };
+      } finally {
+        await fieldPage.close();
+      }
+    }
+
     return {
       atlas: {
         svg: atlas.svg,
@@ -197,6 +236,7 @@ export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
         nodeCount: atlas.nodeCount,
         edgeCount: atlas.edgeCount
       },
+      fields,
       domains
     };
   } finally {

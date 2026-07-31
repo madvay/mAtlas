@@ -14,7 +14,11 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
   const directory = await mkdtemp(join(tmpdir(), 'atlas-seo-'));
   try {
     const distUrl = pathToFileURL(`${directory}/`);
+    const firstFieldId = graphData.meta.fieldOrder[0];
     const firstDomainId = graphData.meta.domainOrder[0];
+    const fieldImages = {
+      [firstFieldId]: { path: `static/fields/${encodeURIComponent(firstFieldId)}.svg`, width: 1400, height: 760 }
+    };
     const domainImages = {
       [firstDomainId]: { path: `static/domains/${encodeURIComponent(firstDomainId)}.svg`, width: 1200, height: 700 }
     };
@@ -27,6 +31,7 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
       viewsPath: 'content/views.test.json',
       atlasSvgPath: 'static/atlas.svg',
       directoryPath: 'directory/',
+      fieldImages,
       domainImages,
       lastModified: '2026-07-28'
     });
@@ -39,6 +44,8 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
     assert.match(sitemap, /xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/);
     assert.ok(sitemap.includes('<loc>https://atlas.madvay.com/directory/</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/static/atlas.svg</image:loc></image:image>'));
     assert.ok(sitemap.includes('<loc>https://atlas.madvay.com/static/atlas.svg</loc><lastmod>2026-07-28</lastmod>'));
+    const firstFieldUrl = `https://atlas.madvay.com/${graphData.fields[firstFieldId].path}/`;
+    assert.ok(sitemap.includes(`<loc>${firstFieldUrl}</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/${fieldImages[firstFieldId].path}</image:loc></image:image>`));
     const firstDomain = graphData.domains[firstDomainId];
     const firstDomainUrl = `https://atlas.madvay.com/${graphData.fields[firstDomain.field].path}/${encodeURIComponent(firstDomainId)}/`;
     assert.ok(sitemap.includes(`<loc>${firstDomainUrl}</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/${domainImages[firstDomainId].path}</image:loc></image:image>`));

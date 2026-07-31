@@ -165,6 +165,7 @@ await generateConceptPages({
   graphData,
   templateHtml: builtTemplate,
   distUrl: dist,
+  fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
   removedDomains
 });
@@ -187,6 +188,7 @@ await generateSeoAssets({
   viewsPath: `content/${viewsFile}`,
   atlasSvgPath: 'static/atlas.svg',
   directoryPath: 'directory/',
+  fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
   lastModified
 });
@@ -207,6 +209,7 @@ const manifest = {
     provenance: `content/${provenanceFile}`,
     contentLicense: 'CONTENT_LICENSE',
     atlasSvg: 'static/atlas.svg',
+    fieldSvgs: Object.fromEntries(Object.entries(staticSvgs.fields).map(([fieldId, image]) => [fieldId, image.path])),
     domainSvgs: Object.fromEntries(Object.entries(staticSvgs.domains).map(([domainId, image]) => [domainId, image.path])),
     directory: 'directory/',
     searchIndex: 'content/search-index.json',
@@ -214,4 +217,4 @@ const manifest = {
   }
 };
 await writeFile(new URL('asset-manifest.json', dist), `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, and directory/ into dist/.`);
+console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, and directory/ into dist/.`);
