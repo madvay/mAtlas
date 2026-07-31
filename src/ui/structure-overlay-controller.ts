@@ -18,6 +18,7 @@ interface StructureOverlayControllerOptions {
   activateNode: (nodeId: string) => void;
   activateEdge: (edgeId: string) => void;
   onSelectionChange: (target: SelectionTarget | null, mode: Exclude<HistoryMode, null>) => void;
+  clearGraphSelection: () => void;
   renderMathText: (value: unknown) => string;
 }
 
@@ -66,8 +67,9 @@ export class StructureOverlayController {
     const active = layout === 'domains' || layout === 'fields';
     const { cy, model } = this.options;
     if (!active && this.selection) {
+      const selected = this.selectedOverlayElement();
       this.selection = null;
-      cy.elements(OVERLAY_SELECTOR).unselect();
+      selected?.unselect();
       this.options.onSelectionChange(null, 'replace');
     }
     cy.batch(() => {
@@ -248,8 +250,9 @@ export class StructureOverlayController {
   }
 
   clearSelection(): void {
+    const selected = this.selectedOverlayElement();
     this.selection = null;
-    this.options.cy.elements(OVERLAY_SELECTOR).unselect();
+    selected?.unselect();
     this.syncConnectionEmphasis();
   }
 
@@ -259,7 +262,8 @@ export class StructureOverlayController {
   }
 
   private applyGroupSelection(id: string, element: cytoscape.SingularElementReturnValue, open: boolean): void {
-    this.options.cy.elements().unselect();
+    this.options.clearGraphSelection();
+    this.selectedOverlayElement()?.unselect();
     element.select();
     this.selection = { kind: 'group', id };
     this.syncConnectionEmphasis();
@@ -267,11 +271,21 @@ export class StructureOverlayController {
   }
 
   private applyConnectionSelection(id: string, element: cytoscape.SingularElementReturnValue, open: boolean): void {
-    this.options.cy.elements().unselect();
+    this.options.clearGraphSelection();
+    this.selectedOverlayElement()?.unselect();
     element.select();
     this.selection = { kind: 'connection', id };
     this.syncConnectionEmphasis();
     this.renderConnection(id, open);
+  }
+
+  private selectedOverlayElement(): cytoscape.SingularElementReturnValue | null {
+    if (!this.selection) return null;
+    const elementId = this.selection.kind === 'group'
+      ? this.groupElementId(this.selection.id)
+      : this.connectionElementId(this.selection.id);
+    const element = this.options.cy.getElementById(elementId);
+    return element && !element.empty() ? element : null;
   }
 
   private edgeIncluded(edge: GraphEdge, visibleNodeIds: ReadonlySet<string>): boolean {

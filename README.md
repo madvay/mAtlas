@@ -63,7 +63,7 @@ Validation is split into schema/shape, share-codec, reference, semantic, editori
 - `npm run validate:content:<layer>` runs one validation layer (`schema`, `share-codec`, `references`, `semantic`, `editorial`, `chemistry`, or `renderer`).
 - `npm run test:content` compiles the content contract and verifies normalized output, versions, hashes, and license provenance.
 - `npm run preview` serves the contents of `dist/` locally for review after building.
-- `npm run benchmark:renderer -- <options>` runs the repeatable Puppeteer renderer benchmark documented in [`docs/renderer-performance-benchmark.md`](docs/renderer-performance-benchmark.md), including explicit `--markers on|off` control.
+- `npm run benchmark:renderer -- <options>` runs the repeatable Puppeteer renderer benchmark documented in [`docs/renderer-performance-benchmark.md`](docs/renderer-performance-benchmark.md), including selection-interaction scenarios and explicit `--markers on|off` control.
 - `npm run math:mark` helps migrate legacy unmarked math to explicit `$...$` delimiters; its changes require editorial review.
 
 ## Architecture

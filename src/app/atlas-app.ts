@@ -167,11 +167,30 @@ export async function startAtlasApp(): Promise<void> {
   new IdleRenderController(cy, graphEl);
   const graphOverlayLayer = new GraphOverlayLayer(cy, graphEl, preferences);
   window.cy = cy;
+
+  let selectedGraphElement: cytoscape.SingularElementReturnValue | null = null;
+  const currentSelectedGraphElement = (): cytoscape.SingularElementReturnValue | null => {
+    if (!selectedGraphElement || selectedGraphElement.removed() || !selectedGraphElement.selected()) {
+      selectedGraphElement = null;
+    }
+    return selectedGraphElement;
+  };
+  const clearSelectedGraphElement = (): void => {
+    currentSelectedGraphElement()?.unselect();
+  };
+  cy.on('select unselect', (event) => {
+    const element = event.target as cytoscape.SingularElementReturnValue;
+    const known = model.nodeRecord.has(element.id()) || model.edgeRecord.has(element.id());
+    if (!known) return;
+    if (event.type === 'select') selectedGraphElement = element;
+    else if (selectedGraphElement?.id() === element.id()) selectedGraphElement = null;
+  });
+
   currentSelectionTarget = () => {
-    const selected = cy.$(':selected').first();
-    if (selected && !selected.empty()) {
-      if (selected.isNode() && model.nodeRecord.has(selected.id())) return { kind: 'node', id: selected.id() };
-      if (selected.isEdge() && model.edgeRecord.has(selected.id())) return { kind: 'edge', id: selected.id() };
+    const selected = currentSelectedGraphElement();
+    if (selected) {
+      if (model.nodeRecord.has(selected.id())) return { kind: 'node', id: selected.id() };
+      if (model.edgeRecord.has(selected.id())) return { kind: 'edge', id: selected.id() };
     }
     const structureSelection = structureOverlayController?.selectionTarget();
     if (structureSelection) return structureSelection;
@@ -328,7 +347,8 @@ export async function startAtlasApp(): Promise<void> {
     scheduleFieldBands,
     updateFiltersToggleCount,
     preferences: () => preferences,
-    activeView: () => locationController.activeView()
+    activeView: () => locationController.activeView(),
+    selectedElement: currentSelectedGraphElement
   });
   graphViewPreservesView = (view) => graphView.preservesView(view);
   updateGraphStatus = () => graphView.updateStatus();
@@ -540,7 +560,7 @@ export async function startAtlasApp(): Promise<void> {
     // any viewport animation that is still settling from the previous link.
     stopGraphAnimations();
     ensureNodeVisible(id);
-    cy.$(':selected').unselect();
+    clearSelectedGraphElement();
     element.select();
     setNeighborhoodHighlight(true, id, false);
     showNodeDetails(id);
@@ -568,7 +588,7 @@ export async function startAtlasApp(): Promise<void> {
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     stopGraphAnimations();
-    cy.$(':selected').unselect();
+    clearSelectedGraphElement();
     element.select();
     setNeighborhoodHighlight(true, id, false);
     showEdgeDetails(id);
@@ -588,7 +608,7 @@ export async function startAtlasApp(): Promise<void> {
 
   function clearSelection({ historyMode = 'push' }: { historyMode?: HistoryMode } = {}): void {
     structureOverlayController?.clearSelection();
-    cy.$(':selected').unselect();
+    clearSelectedGraphElement();
     setNeighborhoodHighlight(false, null, false);
     showEmptyDetails();
     viewsController?.syncSelection(null);
@@ -601,7 +621,7 @@ export async function startAtlasApp(): Promise<void> {
 
   function applySelectionFromLocation({ initial = false }: { initial?: boolean } = {}): void {
     const target = parseSelectionLocation({ includeTemplateSelection: initial });
-    const selected = cy.$(':selected').first();
+    const selected = currentSelectedGraphElement();
 
     if (!target) {
       if (selected && !selected.empty()) clearSelection({ historyMode: null });
@@ -901,6 +921,7 @@ export async function startAtlasApp(): Promise<void> {
       syncDocumentMetadata(target);
       writeLocationState(target, mode);
     },
+    clearGraphSelection: clearSelectedGraphElement,
     renderMathText
   });
   structureOverlayController.initialize();
@@ -924,7 +945,7 @@ export async function startAtlasApp(): Promise<void> {
 
     stopGraphAnimations();
     structureOverlayController?.clearSelection();
-    cy.$(':selected').unselect();
+    clearSelectedGraphElement();
     graphView.clearInteractionHighlights();
     clearHover();
     viewsController?.syncSelection(null);

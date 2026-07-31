@@ -105,6 +105,22 @@ test('selection navigation replaces an in-flight viewport animation', async () =
   assert.match(appSource, /function stopGraphAnimations\(\): void \{[\s\S]*cy\.stop\(true, false\)/);
 });
 
+
+
+test('selection restyling is incremental and avoids graph-wide edge bypass writes', async () => {
+  const graphView = await readFile(new URL('../src/graph/graph-view-controller.ts', import.meta.url), 'utf8');
+  const graphStyles = await readFile(new URL('../src/graph/create-graph.ts', import.meta.url), 'utf8');
+  const appSource = await readFile(new URL('../src/app/atlas-app.ts', import.meta.url), 'utf8');
+
+  assert.doesNotMatch(graphView, /cy\.edges\(\)\.not\('\[semanticConnection = 1\]'\)\.forEach/);
+  assert.doesNotMatch(graphView, /edge\.style\('(opacity|events)'/);
+  assert.match(graphView, /this\.neighborhoodEmphasized\.diff\(neighborhood\)/);
+  assert.match(graphView, /this\.prerequisiteHighlighted\.diff\(next\)/);
+  assert.match(graphView, /statusNeighborhoodIndicator/);
+  assert.match(graphStyles, /selector: 'edge'[\s\S]*opacity: 0\.32[\s\S]*events: 'yes'/);
+  assert.doesNotMatch(appSource, /cy\.\$\(':selected'\)/);
+  assert.match(appSource, /let selectedGraphElement:/);
+});
 test('the canvas renderer parks its perpetual frame loop while idle', async () => {
   const controller = await readFile(new URL('../src/graph/idle-render-controller.ts', import.meta.url), 'utf8');
   const appSource = await readFile(new URL('../src/app/atlas-app.ts', import.meta.url), 'utf8');

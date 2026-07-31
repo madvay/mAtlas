@@ -8,13 +8,6 @@ import { renderHtml } from '../ui/render.js';
 import { viewCoreNodes, viewRequiredNodeIds } from '../state/view-state.js';
 import { edgeInteractionEnabled } from './edge-interaction.js';
 
-const EDGE_OPACITY_HIDDEN = 0;
-const EDGE_OPACITY_FULL = 0.32;
-const EDGE_OPACITY_DEPENDENCY_CONTEXT_DIMMED = 0.46;
-const EDGE_OPACITY_NEIGHBORHOOD_DIMMED = 0.14;
-const EDGE_EVENTS_ENABLED = 'yes' as const;
-const EDGE_EVENTS_DISABLED = 'no' as const;
-
 function sameNodeIds(a: ReadonlySet<string>, b: ReadonlySet<string>): boolean {
   if (a.size !== b.size) return false;
   for (const id of a) {
@@ -34,13 +27,21 @@ export interface GraphViewControllerOptions {
   updateFiltersToggleCount: () => void;
   preferences: () => Preferences;
   activeView: () => AtlasView | null;
+  selectedElement: () => cytoscape.SingularElementReturnValue | null;
 }
 
 export class GraphViewController {
   private lastLabelZoom: number | null = null;
   private lastVisibleNodeIds: ReadonlySet<string> | null = null;
+  private neighborhoodDimmed: cytoscape.CollectionReturnValue;
+  private neighborhoodEmphasized: cytoscape.CollectionReturnValue;
+  private prerequisiteHighlighted: cytoscape.CollectionReturnValue;
 
-  constructor(private readonly options: GraphViewControllerOptions) {}
+  constructor(private readonly options: GraphViewControllerOptions) {
+    this.neighborhoodDimmed = options.cy.collection();
+    this.neighborhoodEmphasized = options.cy.collection();
+    this.prerequisiteHighlighted = options.cy.collection();
+  }
 
   updateSemanticLabelSizes(force = false): void {
     const { cy, model, labelSizer } = this.options;
@@ -61,7 +62,12 @@ export class GraphViewController {
   }
 
   refreshEdgeStyles(): void {
-    this.updateEdgeStyles();
+    // Ordinary edge opacity and event state are stylesheet-driven. Structure
+    // overlays are rebuilt dynamically, so clear only their possible stale
+    // bypasses rather than rewriting every edge in the graph.
+    const structureConnections = this.options.cy.edges('[semanticConnection = 1]');
+    structureConnections.removeStyle('opacity');
+    structureConnections.removeStyle('events');
   }
 
   applyFilters({ relayout = false }: { relayout?: boolean } = {}): void {
@@ -84,7 +90,9 @@ export class GraphViewController {
     this.lastVisibleNodeIds = visibleNodeIds;
 
     cy.batch(() => {
-      cy.elements().removeClass('filter-hidden dependency-faded dependency-context prerequisite-undimmed prerequisite-highlight cross-field-edge');
+      this.clearNeighborhoodClasses();
+      this.clearPrerequisiteHighlights();
+      cy.elements().removeClass('filter-hidden dependency-faded dependency-context prerequisite-undimmed cross-field-edge');
 
       cy.nodes().forEach((element) => {
         const nodeVisibility = visibility.nodeVisibility.get(element.id()) ?? 'hidden';
@@ -118,11 +126,10 @@ export class GraphViewController {
     });
 
     if (state.neighborhoodActive) this.applyNeighborhoodHighlight(false);
-    this.syncSelectedPrerequisiteHighlight({ updateEdgeStyles: false });
+    this.syncSelectedPrerequisiteHighlight();
     this.updateStatus();
     this.options.scheduleFieldBands();
     this.options.updateFiltersToggleCount();
-    this.updateEdgeStyles();
     if (relayout || (state.layout === 'breadthfirst' && compactVisibilityChanged)) {
       this.options.runLayout(state.layout, true);
     }
@@ -156,11 +163,11 @@ export class GraphViewController {
   }
 
   syncNeighborhoodButton(): void {
-    const { cy, state } = this.options;
+    const { state } = this.options;
     const button = byId<HTMLButtonElement>('focusButton');
-    const selected = cy.$(':selected').first();
+    const selected = this.options.selectedElement();
     const hasSelection = Boolean(selected && !selected.empty()
-      && (selected.isNode() ? this.options.model.nodeRecord.has(selected.id()) : this.options.model.edgeRecord.has(selected.id())));
+      && (this.options.model.nodeRecord.has(selected.id()) || this.options.model.edgeRecord.has(selected.id())));
     button.disabled = !hasSelection;
     button.setAttribute('aria-pressed', String(state.neighborhoodActive));
     button.classList.toggle('active', state.neighborhoodActive);
@@ -173,10 +180,10 @@ export class GraphViewController {
 
   applyNeighborhoodHighlight(fitAfter = false): void {
     const { cy, state } = this.options;
-    cy.elements().removeClass('neighborhood-dim neighborhood-emphasis');
     if (!state.neighborhoodActive || !state.neighborhoodElementId) {
+      cy.batch(() => this.clearNeighborhoodClasses());
       this.syncNeighborhoodButton();
-      this.updateStatus();
+      this.syncNeighborhoodStatusIndicator();
       return;
     }
 
@@ -184,18 +191,17 @@ export class GraphViewController {
     if (!selected || selected.empty() || selected.hasClass('filter-hidden') || !this.options.model.nodeRecord.has(selected.id())) {
       state.neighborhoodActive = false;
       state.neighborhoodElementId = null;
+      cy.batch(() => this.clearNeighborhoodClasses());
       this.syncNeighborhoodButton();
-      this.updateStatus();
+      this.syncNeighborhoodStatusIndicator();
       return;
     }
 
     const neighborhood = this.neighborhoodFor(selected).not('.filter-hidden');
-    this.visibleElements().not(neighborhood).addClass('neighborhood-dim');
-    neighborhood.addClass('neighborhood-emphasis');
-    cy.nodes('.search-match').removeClass('neighborhood-dim');
+    cy.batch(() => this.applyNeighborhoodClasses(neighborhood));
     if (fitAfter) this.options.fitVisible(neighborhood, 90);
     this.syncNeighborhoodButton();
-    this.updateStatus();
+    this.syncNeighborhoodStatusIndicator();
   }
 
   setNeighborhoodHighlight(active: boolean, elementId: string | null = null, fitAfter = false): void {
@@ -215,11 +221,10 @@ export class GraphViewController {
   }
 
   toggleNeighborhoodHighlight(): void {
-    const selected = this.options.cy.$(':selected').first();
+    const selected = this.options.selectedElement();
     if (!selected || selected.empty()) return;
-    const known = selected.isNode()
-      ? this.options.model.nodeRecord.has(selected.id())
-      : this.options.model.edgeRecord.has(selected.id());
+    const known = this.options.model.nodeRecord.has(selected.id())
+      || this.options.model.edgeRecord.has(selected.id());
     if (!known) return;
     this.setNeighborhoodHighlight(!this.options.state.neighborhoodActive, selected.id(), false);
   }
@@ -232,54 +237,47 @@ export class GraphViewController {
       this.applyFilters({ relayout: false });
       return;
     }
-    cy.elements().removeClass('neighborhood-dim neighborhood-emphasis prerequisite-highlight');
+    cy.batch(() => {
+      this.clearNeighborhoodClasses();
+      this.clearPrerequisiteHighlights();
+    });
     this.syncNeighborhoodButton();
-    this.updateEdgeStyles();
-    this.updateStatus();
+    this.syncNeighborhoodStatusIndicator();
   }
 
-  syncSelectedPrerequisiteHighlight({ updateEdgeStyles = true }: { updateEdgeStyles?: boolean } = {}): void {
+  syncSelectedPrerequisiteHighlight(): void {
     const { cy, model, state } = this.options;
-    const refreshEdgeStyles = (): void => {
-      if (!updateEdgeStyles) return;
-      this.updateEdgeStyles();
-    };
+    const next = cy.collection();
+    const selected = this.options.selectedElement();
 
-    cy.elements('.prerequisite-highlight').removeClass('prerequisite-highlight');
-    if (!this.options.preferences().highlightPrerequisites) {
-      refreshEdgeStyles();
-      return;
-    }
-
-    const selected = cy.$('node:selected').first();
-    if (!selected || selected.empty() || selected.hasClass('filter-hidden')) {
-      refreshEdgeStyles();
-      return;
-    }
-
-    const closure = model.transitivePrerequisiteElementIds(
-      [selected.id()],
-      (edge) => state.selectedEdgeTypes.has(edge.type)
-        && (!model.isCrossFieldEdge(edge) || this.crossFieldEdgeAllowed(edge)),
-      (nodeId) => {
-        const node = model.nodeRecord.get(nodeId);
-        return !node || !model.nodeExcludedByTaxonomy(node, state);
-      }
-    );
-    closure.nodeIds.delete(selected.id());
-
-    cy.batch(() => {
+    if (this.options.preferences().highlightPrerequisites
+      && selected && !selected.empty() && selected.isNode() && !selected.hasClass('filter-hidden')) {
+      const closure = model.transitivePrerequisiteElementIds(
+        [selected.id()],
+        (edge) => state.selectedEdgeTypes.has(edge.type)
+          && (!model.isCrossFieldEdge(edge) || this.crossFieldEdgeAllowed(edge)),
+        (nodeId) => {
+          const node = model.nodeRecord.get(nodeId);
+          return !node || !model.nodeExcludedByTaxonomy(node, state);
+        }
+      );
+      closure.nodeIds.delete(selected.id());
       for (const nodeId of closure.nodeIds) {
         const node = cy.getElementById(nodeId);
-        if (node && !node.empty() && !node.hasClass('filter-hidden')) node.addClass('prerequisite-highlight');
+        if (node && !node.empty() && !node.hasClass('filter-hidden')) next.merge(node);
       }
       for (const edgeId of closure.edgeIds) {
         const edge = cy.getElementById(edgeId);
-        if (edge && !edge.empty() && !edge.hasClass('filter-hidden')) edge.addClass('prerequisite-highlight');
+        if (edge && !edge.empty() && !edge.hasClass('filter-hidden')) next.merge(edge);
       }
-    });
+    }
 
-    refreshEdgeStyles();
+    const diff = this.prerequisiteHighlighted.diff(next);
+    cy.batch(() => {
+      diff.left.removeClass('prerequisite-highlight');
+      diff.right.addClass('prerequisite-highlight');
+    });
+    this.prerequisiteHighlighted = next;
   }
 
   updateStatus(): void {
@@ -313,9 +311,7 @@ export class GraphViewController {
     const junctionText = state.showJunctions
       ? `<span class="status-item" title="Visible junctions"><span class="material-symbols-outlined">change_history</span>${visibleJunctions.length}</span>`
       : `<span class="status-item" title="Collapsed constructions"><span class="material-symbols-outlined">change_history</span>${collapsedConstructions}</span>`;
-    const suffix = state.neighborhoodActive
-      ? '<span class="status-item" title="Neighborhood highlighted"><span class="material-symbols-outlined">star</span></span>'
-      : '';
+    const suffix = `<span id="statusNeighborhoodIndicator" class="status-item" title="Neighborhood highlighted"${state.neighborhoodActive ? '' : ' hidden'}><span class="material-symbols-outlined">star</span></span>`;
     const crossFieldCount = visibleEdges.filter('.cross-field-edge').length;
     const crossFieldText = crossFieldCount
       ? `<span class="status-item" title="Cross-field relations"><span class="material-symbols-outlined">swap_horiz</span>${crossFieldCount}</span>`
@@ -331,49 +327,43 @@ export class GraphViewController {
       ${crossFieldText}${suffix}`);
   }
 
-  updateEdgeStyles(): void {
+  private applyNeighborhoodClasses(neighborhood: cytoscape.CollectionReturnValue): void {
     const { cy } = this.options;
-    // Structure-overlay connections own their opacity through stylesheet state
-    // (base dim, selected edge, or incident-edge emphasis). Always clear any
-    // stale bypass left by an earlier graph-view pass because overlays can be
-    // rebuilt independently of ordinary graph state.
-    const structureConnections = cy.edges('[semanticConnection = 1]');
-    structureConnections.removeStyle('opacity');
-    structureConnections.removeStyle('events');
+    if (this.neighborhoodDimmed.empty() && this.neighborhoodEmphasized.empty()) {
+      const dimmed = this.visibleElements()
+        .difference(neighborhood)
+        .difference(cy.nodes('.search-match'));
+      dimmed.addClass('neighborhood-dim');
+      neighborhood.addClass('neighborhood-emphasis');
+      this.neighborhoodDimmed = dimmed;
+      this.neighborhoodEmphasized = neighborhood;
+      return;
+    }
 
-    cy.edges().not('[semanticConnection = 1]').forEach((edge) => {
-      if (edge.hasClass('structure-source-edge')) {
-        edge.style('opacity', EDGE_OPACITY_HIDDEN);
-        edge.style('events', EDGE_EVENTS_DISABLED);
-        return;
-      }
-      if (edge.hasClass('filter-hidden')) {
-        edge.style('opacity', EDGE_OPACITY_HIDDEN);
-        edge.style('events', EDGE_EVENTS_DISABLED);
-        return;
-      }
-      if (edge.hasClass('connection-emphasis')) {
-        edge.style('opacity', EDGE_OPACITY_FULL);
-        edge.style('events', EDGE_EVENTS_ENABLED);
-        return;
-      }
-      if (edge.hasClass('connection-dim')) {
-        edge.style('opacity', 0.06);
-        edge.style('events', EDGE_EVENTS_DISABLED);
-        return;
-      }
-      const prerequisiteHighlighted = edge.hasClass('prerequisite-highlight');
-      const baseOpacity = edge.hasClass('dependency-context') && this.options.preferences().dimPrerequisites
-        ? EDGE_OPACITY_DEPENDENCY_CONTEXT_DIMMED
-        : edge.hasClass('neighborhood-dim') ? EDGE_OPACITY_NEIGHBORHOOD_DIMMED : EDGE_OPACITY_FULL;
-      if (prerequisiteHighlighted) {
-        edge.style('opacity', EDGE_OPACITY_FULL);
-        edge.style('events', EDGE_EVENTS_ENABLED);
-      } else {
-        edge.style('opacity', baseOpacity);
-        edge.style('events', EDGE_EVENTS_ENABLED);
-      }
-    });
+    const diff = this.neighborhoodEmphasized.diff(neighborhood);
+    const newlyDimmed = diff.left.difference(cy.nodes('.search-match'));
+    diff.left.removeClass('neighborhood-emphasis');
+    newlyDimmed.addClass('neighborhood-dim');
+    diff.right.removeClass('neighborhood-dim').addClass('neighborhood-emphasis');
+    this.neighborhoodDimmed = this.neighborhoodDimmed.union(newlyDimmed).difference(diff.right);
+    this.neighborhoodEmphasized = neighborhood;
+  }
+
+  private clearNeighborhoodClasses(): void {
+    this.neighborhoodDimmed.removeClass('neighborhood-dim');
+    this.neighborhoodEmphasized.removeClass('neighborhood-emphasis');
+    this.neighborhoodDimmed = this.options.cy.collection();
+    this.neighborhoodEmphasized = this.options.cy.collection();
+  }
+
+  private clearPrerequisiteHighlights(): void {
+    this.prerequisiteHighlighted.removeClass('prerequisite-highlight');
+    this.prerequisiteHighlighted = this.options.cy.collection();
+  }
+
+  private syncNeighborhoodStatusIndicator(): void {
+    const indicator = document.getElementById('statusNeighborhoodIndicator');
+    if (indicator) indicator.hidden = !this.options.state.neighborhoodActive;
   }
 
   private crossFieldEdgeAllowed(record: GraphEdge): boolean {

@@ -36,8 +36,9 @@ test('structure group selection isolates incident links and clearing restores ev
 
 test('structure-edge opacity remains stylesheet-owned across zoom, filter, and deselection passes', () => {
   assert.doesNotMatch(graphView, /style\('opacity',\s*edge\.selected\(\)\s*\?\s*1\s*:\s*0\.84\)/);
-  assert.match(graphView, /cy\.edges\('\[semanticConnection = 1\]'\)[\s\S]*removeStyle\('opacity'\)[\s\S]*removeStyle\('events'\)/);
-  assert.match(graphView, /cy\.edges\(\)\.not\('\[semanticConnection = 1\]'\)\.forEach/);
+  assert.match(graphView, /const structureConnections = this\.options\.cy\.edges\('\[semanticConnection = 1\]'\);[\s\S]*removeStyle\('opacity'\)[\s\S]*removeStyle\('events'\)/);
+  assert.doesNotMatch(graphView, /cy\.edges\(\)\.not\('\[semanticConnection = 1\]'\)\.forEach/);
+  assert.match(graphStyles, /selector: 'edge'[\s\S]*opacity: 0\.32[\s\S]*events: 'yes'/);
   assert.match(controller, /this\.restoreSelection\(\);\s*this\.syncConnectionEmphasis\(\);/);
   assert.match(controller, /syncConnectionEmphasis[\s\S]*removeStyle\('opacity'\)[\s\S]*removeClass\(`\$\{CONNECTION_EMPHASIS_CLASS\} \$\{CONNECTION_HIDDEN_CLASS\}`\)/);
 });
@@ -46,9 +47,9 @@ test('layout-mode transitions clear incompatible selection, neighborhood, prereq
   assert.match(atlasApp, /interactionModeForLayout[\s\S]*layout === 'domains' \|\| layout === 'fields' \? layout : 'concepts'/);
   assert.match(atlasApp, /resetInteractionForLayout\(name\);[\s\S]*prepareForLayout\(name\)/);
   assert.match(atlasApp, /if \(layoutChanged\) resetInteractionForLayout\(next\.layout, \{ updateLocation: false \}\)/);
-  assert.match(atlasApp, /structureOverlayController\?\.clearSelection\(\);[\s\S]*cy\.\$\(':selected'\)\.unselect\(\);[\s\S]*graphView\.clearInteractionHighlights\(\);/);
+  assert.match(atlasApp, /structureOverlayController\?\.clearSelection\(\);[\s\S]*clearSelectedGraphElement\(\);[\s\S]*graphView\.clearInteractionHighlights\(\);/);
   assert.match(atlasApp, /nextMode === 'concepts'\) showEmptyDetails\(\);[\s\S]*showIntroductionForLayout\(nextLayout, false\)/);
-  assert.match(graphView, /clearInteractionHighlights\(\)[\s\S]*state\.neighborhoodActive = false;[\s\S]*state\.neighborhoodElementId = null;[\s\S]*crossFieldVisibility === 'contextual'[\s\S]*this\.applyFilters\(\{ relayout: false \}\)[\s\S]*removeClass\('neighborhood-dim neighborhood-emphasis prerequisite-highlight'\)/);
+  assert.match(graphView, /clearInteractionHighlights\(\)[\s\S]*state\.neighborhoodActive = false;[\s\S]*state\.neighborhoodElementId = null;[\s\S]*crossFieldVisibility === 'contextual'[\s\S]*this\.applyFilters\(\{ relayout: false \}\)[\s\S]*this\.clearNeighborhoodClasses\(\);[\s\S]*this\.clearPrerequisiteHighlights\(\)/);
   assert.match(controller, /showIntroductionForLayout\(layout: LayoutName/);
 });
 

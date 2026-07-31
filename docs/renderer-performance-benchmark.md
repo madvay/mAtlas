@@ -4,10 +4,15 @@
 
 The benchmark covers:
 
+- repeated node-to-node selection changes;
+- repeated node selection followed by background deselection;
+- repeated edge-to-edge selection changes;
 - repeated animated **Layered ↔ Compact** layout changes;
 - repeated animated viewport pans as a control workload;
 - DOM size, event-listener count, and JavaScript heap after forced garbage collection;
 - main-thread, script, style, layout, frame, missed-frame, and long-task measurements.
+
+Selection scenarios report the synchronous event-handler duration separately from the wider main-thread measurement window. For selection work, use synchronous-handler and main-thread task time as the primary metrics.
 
 The layout animation has a deliberately fixed duration, so compare CPU work and frame consistency rather than elapsed animation time.
 
@@ -40,6 +45,7 @@ npm run benchmark:renderer -- \
   --warmup 3 \
   --rounds 5 \
   --cpu 4 \
+  --selection-duration 120 \
   --markers on \
   --output renderer-markers-on.json
 ```
@@ -79,6 +85,18 @@ unrelated variance = after-off − before-off
 ```
 
 `before-off` and `after-off` should be close. A substantial difference means the compared repository states contain another performance-relevant change.
+
+## Selection performance
+
+The selection scenarios are designed to expose graph-size-dependent refresh work:
+
+- `node-switch` changes directly between visible high-degree concept nodes;
+- `node-clear` selects a concept node and then taps the graph background;
+- `edge-switch` changes directly between ordinary visible edges.
+
+The benchmark prints `Synchronous handler ms` for the immediate click/tap work and also records the surrounding main-thread, script, style, layout, frame, and long-task costs. Adjust the post-action observation window with `--selection-duration`; the default is 120 ms.
+
+When selection is the change under test, treat synchronous-handler and main-thread time as primary, use pan and layout as regression controls, and separately verify that the idle renderer is parked.
 
 ## Repeatability
 

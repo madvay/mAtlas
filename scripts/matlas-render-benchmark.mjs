@@ -12,12 +12,16 @@ function usage(exitCode = 0) {
     --target before=http://127.0.0.1:4173 \\
     --target after=http://127.0.0.1:4174 \\
     [--runs 10] [--warmup 3] [--rounds 3] [--cpu 4] \\
-    [--markers on|off] [--duration 700] [--viewport 1720x911] \\
+    [--markers on|off] [--duration 700] [--selection-duration 120] \\
+    [--viewport 1720x911] \\
     [--output benchmark.json]
 
-The script benchmarks two renderer-sensitive workloads:
-  layout  Repeated Layered <-> Compact animated layout changes.
-  pan     Repeated animated viewport pans as a control case.
+The script benchmarks interaction-sensitive workloads:
+  node-switch  Repeated node-to-node selection changes.
+  node-clear   Repeated node selection and background deselection.
+  edge-switch  Repeated edge-to-edge selection changes.
+  layout       Repeated Layered <-> Compact animated layout changes.
+  pan          Repeated animated viewport pans as a control case.
 
 Run both builds from local HTTP servers. The benchmark fixes preferences to:
   Animate graph = on, Refit on change = off, Transitions = off,
@@ -31,7 +35,8 @@ Options:
   --rounds N               Alternating target rounds (default 3).
   --cpu N                  Chrome CPU throttle factor (default 4; use 1 for native speed).
   --markers on|off         Force secondary-domain markers on or off (default on).
-  --duration MS            Measurement window per action (default 700 ms).
+  --duration MS            Layout/pan measurement window per action (default 700 ms).
+  --selection-duration MS  Selection measurement window per action (default 120 ms).
   --viewport WIDTHxHEIGHT  Fixed viewport (default 1720x911).
   --device-scale-factor N  Fixed DPR (default 1).
   --headed                 Show Chrome instead of headless mode.
@@ -50,6 +55,7 @@ function parseArgs(argv) {
     cpu: 4,
     markers: true,
     duration: 700,
+    selectionDuration: 120,
     viewport: { width: 1720, height: 911 },
     deviceScaleFactor: 1,
     headed: false,
@@ -77,6 +83,7 @@ function parseArgs(argv) {
       if (value !== 'on' && value !== 'off') throw new Error('--markers must be on or off');
       options.markers = value === 'on';
     } else if (arg === '--duration') options.duration = Number(next());
+    else if (arg === '--selection-duration') options.selectionDuration = Number(next());
     else if (arg === '--device-scale-factor') options.deviceScaleFactor = Number(next());
     else if (arg === '--viewport') {
       const match = next().match(/^(\d+)x(\d+)$/i);
@@ -86,7 +93,7 @@ function parseArgs(argv) {
     else if (arg === '--output') options.output = next();
     else throw new Error(`Unknown argument: ${arg}`);
   }
-  for (const key of ['runs', 'warmup', 'rounds', 'cpu', 'duration', 'deviceScaleFactor']) {
+  for (const key of ['runs', 'warmup', 'rounds', 'cpu', 'duration', 'selectionDuration', 'deviceScaleFactor']) {
     if (!Number.isFinite(options[key]) || options[key] < (key === 'warmup' ? 0 : 1)) {
       throw new Error(`Invalid --${key.replaceAll(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`);
     }
@@ -254,19 +261,46 @@ async function runMeasuredAction(page, client, { scenario, target, duration }) {
     const started = performance.now();
     const cy = window.cy;
     if (!cy) throw new Error('window.cy is unavailable');
+    let syncActionMs = 0;
     if (scenarioName === 'layout') {
       const select = document.getElementById('layoutSelect');
       if (!(select instanceof HTMLSelectElement)) throw new Error('#layoutSelect is unavailable');
+      const actionStarted = performance.now();
       select.value = actionTarget;
       select.dispatchEvent(new Event('change', { bubbles: true }));
+      syncActionMs = performance.now() - actionStarted;
     } else if (scenarioName === 'pan') {
       const current = cy.pan();
+      const actionStarted = performance.now();
       const animation = cy.animation({
         pan: { x: current.x + actionTarget, y: current.y },
         duration: 500,
         easing: 'linear'
       });
       animation.play();
+      syncActionMs = performance.now() - actionStarted;
+    } else if (scenarioName === 'node-switch' || scenarioName === 'node-clear') {
+      const candidates = cy.nodes('[kind = "structure"]').not('.filter-hidden')
+        .sort((a, b) => b.connectedEdges().not('.filter-hidden').length - a.connectedEdges().not('.filter-hidden').length);
+      if (candidates.empty()) throw new Error('No visible concept nodes are available');
+      const node = candidates[actionTarget % candidates.length];
+      const actionStarted = performance.now();
+      node.emit('tap');
+      syncActionMs = performance.now() - actionStarted;
+      if (scenarioName === 'node-clear') {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        const clearStarted = performance.now();
+        cy.emit('tap');
+        syncActionMs += performance.now() - clearStarted;
+      }
+    } else if (scenarioName === 'edge-switch') {
+      const candidates = cy.edges().not('.filter-hidden')
+        .filter((edge) => Number(edge.data('semanticConnection')) !== 1);
+      if (candidates.empty()) throw new Error('No visible concept edges are available');
+      const edge = candidates[actionTarget % candidates.length];
+      const actionStarted = performance.now();
+      edge.emit('tap');
+      syncActionMs = performance.now() - actionStarted;
     } else {
       throw new Error(`Unknown scenario: ${scenarioName}`);
     }
@@ -279,7 +313,8 @@ async function runMeasuredAction(page, client, { scenario, target, duration }) {
       elapsedMs,
       longTaskCount: longTasks.length,
       longTaskMs: longTasks.reduce((sum, value) => sum + value, 0),
-      longTaskMaxMs: Math.max(0, ...longTasks)
+      longTaskMaxMs: Math.max(0, ...longTasks),
+      syncActionMs
     };
   }, { scenarioName: scenario, actionTarget: target, windowMs: duration });
   const after = metricMap(await client.send('Performance.getMetrics'));
@@ -288,6 +323,7 @@ async function runMeasuredAction(page, client, { scenario, target, duration }) {
     longTaskCount: result.longTaskCount,
     longTaskMs: result.longTaskMs,
     longTaskMaxMs: result.longTaskMaxMs,
+    syncActionMs: result.syncActionMs,
     taskMs: deltaMs(before, after, 'TaskDuration'),
     scriptMs: deltaMs(before, after, 'ScriptDuration'),
     styleMs: deltaMs(before, after, 'RecalcStyleDuration'),
@@ -299,7 +335,9 @@ async function runMeasuredAction(page, client, { scenario, target, duration }) {
 
 async function warmup(page, scenario, count, duration) {
   for (let i = 0; i < count; i += 1) {
-    const target = scenario === 'layout' ? (i % 2 === 0 ? 'breadthfirst' : 'atlas') : (i % 2 === 0 ? 240 : -240);
+    const target = scenario === 'layout'
+      ? (i % 2 === 0 ? 'breadthfirst' : 'atlas')
+      : scenario === 'pan' ? (i % 2 === 0 ? 240 : -240) : i;
     await runMeasuredAction(page, { send: async () => ({ metrics: [] }) }, { scenario, target, duration });
   }
 }
@@ -320,17 +358,18 @@ async function benchmarkTarget(target, options) {
     await preparePage(page, target.url, options.markers);
     const inventory = await pageInventory(page, client);
     const scenarios = {};
-    for (const scenario of ['layout', 'pan']) {
-      await warmup(page, scenario, options.warmup, options.duration);
+    for (const scenario of ['node-switch', 'node-clear', 'edge-switch', 'layout', 'pan']) {
+      const duration = scenario === 'layout' || scenario === 'pan' ? options.duration : options.selectionDuration;
+      await warmup(page, scenario, options.warmup, duration);
       const runs = [];
       for (let i = 0; i < options.runs; i += 1) {
         const actionTarget = scenario === 'layout'
           ? (i % 2 === 0 ? 'breadthfirst' : 'atlas')
-          : (i % 2 === 0 ? 240 : -240);
+          : scenario === 'pan' ? (i % 2 === 0 ? 240 : -240) : i;
         runs.push(await runMeasuredAction(page, client, {
           scenario,
           target: actionTarget,
-          duration: options.duration
+          duration
         }));
       }
       scenarios[scenario] = { runs, summary: summarizeRuns(runs) };
@@ -372,6 +411,7 @@ function printInventory(results) {
 
 function printScenario(results, scenario) {
   const metrics = [
+    ['syncActionMs', 'Synchronous handler ms', false],
     ['taskMs', 'Main-thread task ms', false],
     ['scriptMs', 'Script ms', false],
     ['styleMs', 'Style recalc ms', false],
@@ -383,7 +423,14 @@ function printScenario(results, scenario) {
     ['estimatedMissedFrames', 'Estimated missed frames', false],
     ['longTaskMs', 'Long-task total ms', false]
   ];
-  console.log(`\n${scenario === 'layout' ? 'Layered <-> Compact layout animation' : 'Animated viewport pan control'} (median per action)`);
+  const titles = {
+    'node-switch': 'Node-to-node selection',
+    'node-clear': 'Node selection + background deselection',
+    'edge-switch': 'Edge-to-edge selection',
+    layout: 'Layered <-> Compact layout animation',
+    pan: 'Animated viewport pan control'
+  };
+  console.log(`\n${titles[scenario] ?? scenario} (median per action)`);
   for (const [key, label, higherIsBetter] of metrics) {
     const values = results.map((result) => result.scenarios[scenario].summary[key]?.median ?? 0);
     const comparison = results.length === 2 ? pctChange(values[0], values[1]) : null;
@@ -416,16 +463,19 @@ async function main() {
     const inventoryKeys = Object.keys(rounds[0].inventory);
     const inventory = Object.fromEntries(inventoryKeys.map((key) => [key, median(rounds.map((round) => round.inventory[key]))]));
     const scenarios = {};
-    for (const scenario of ['layout', 'pan']) {
+    for (const scenario of ['node-switch', 'node-clear', 'edge-switch', 'layout', 'pan']) {
       const runs = rounds.flatMap((round) => round.scenarios[scenario].runs);
       scenarios[scenario] = { runs, summary: summarizeRuns(runs) };
     }
     return { label: target.label, url: target.url, inventory, scenarios, rounds };
   });
   printInventory(results);
+  printScenario(results, 'node-switch');
+  printScenario(results, 'node-clear');
+  printScenario(results, 'edge-switch');
   printScenario(results, 'layout');
   printScenario(results, 'pan');
-  console.log('\nInterpretation: use layout main-thread/style/layout/frame metrics as the primary result. Pan is a regression control; a replacement marker renderer should not materially worsen it. Prefer medians across several rounds, and close other applications while running.');
+  console.log('\nInterpretation: selection synchronous-handler and main-thread metrics are primary for interaction changes. Pan verifies viewport responsiveness, layout verifies no large regression, and idle CPU must be checked separately. Prefer medians across several alternating rounds.');
   const report = {
     generatedAt: new Date().toISOString(),
     options: { ...options, targets: options.targets },

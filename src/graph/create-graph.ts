@@ -102,7 +102,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
       'text-max-width': '120px', 'text-background-color': '#ffffff', 'text-background-opacity': 0.88,
       'text-background-padding': '3px', 'text-border-width': 1, 'text-border-color': '#e2e8f0',
       'text-border-opacity': 0.85, 'text-rotation': 'autorotate', 'source-distance-from-node': 4,
-      'target-distance-from-node': 5, 'overlay-opacity': 0
+      'target-distance-from-node': 5, 'overlay-opacity': 0, opacity: 0.32, events: 'yes'
     }
   },
   {
@@ -117,19 +117,23 @@ export const graphStyles: cytoscape.StylesheetJson = [
   { selector: '.hover-dim', style: { opacity: 0.18 } },
   { selector: 'node.neighborhood-dim', style: { opacity: 0.46 } },
   { selector: 'edge.neighborhood-dim', style: { display: 'none' } },
-  { selector: '.neighborhood-emphasis', style: { opacity: 1 } },
+  { selector: 'node.neighborhood-emphasis', style: { opacity: 1 } },
+  { selector: 'edge.neighborhood-emphasis', style: { opacity: 0.32 } },
   { selector: 'node.neighborhood-emphasis', style: { 'border-width': 4, 'border-color': '#f59e0b' } },
   { selector: '.search-match', style: { 'border-width': 5, 'border-color': '#facc15', 'background-opacity': 1 } },
   { selector: 'node.comparison-a', style: { 'border-width': 5, 'border-color': '#7c3aed', 'background-opacity': 1 } },
   { selector: 'node.comparison-b', style: { 'border-width': 5, 'border-color': '#0891b2', 'border-style': 'dashed', 'background-opacity': 1 } },
   { selector: 'node.comparison-shared', style: { 'border-width': 4, 'border-color': '#65a30d', 'background-opacity': 1 } },
-  { selector: 'edge.comparison-direct', style: { display: 'element', opacity: 1, width: 5, 'z-index': 997 } },
-  { selector: '.hover-emphasis', style: { opacity: 1 } },
+  { selector: 'edge.comparison-direct', style: { display: 'element', opacity: 0.32, width: 5, 'z-index': 997 } },
+  { selector: 'node.hover-emphasis', style: { opacity: 1 } },
+  { selector: 'edge.hover-emphasis', style: { opacity: 0.32 } },
   { selector: 'node.dependency-faded', style: { 'background-opacity': 0.46 } },
   { selector: 'edge.dependency-context', style: { opacity: 0.46 } },
   { selector: 'node.dependency-faded.prerequisite-undimmed', style: { 'background-opacity': 0.92 } },
-  { selector: 'edge.dependency-context.prerequisite-undimmed', style: { opacity: 1 } },
-  { selector: 'node.dependency-faded.hover-emphasis, edge.dependency-context.hover-emphasis', style: { opacity: 0.68 } },
+  { selector: 'edge.dependency-context.prerequisite-undimmed', style: { opacity: 0.32 } },
+  { selector: 'node.dependency-faded.hover-emphasis', style: { opacity: 0.68 } },
+  { selector: 'edge.dependency-context.hover-emphasis', style: { opacity: 0.46 } },
+  { selector: 'edge.dependency-context.prerequisite-undimmed.hover-emphasis', style: { opacity: 0.32 } },
   {
     selector: 'node.prerequisite-highlight',
     style: {
@@ -140,7 +144,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: 'edge.prerequisite-highlight',
     style: {
-      display: 'element', opacity: 1, width: 4, 'line-color': '#7dd3fc',
+      display: 'element', opacity: 0.32, width: 4, 'line-color': '#7dd3fc',
       'target-arrow-color': '#7dd3fc', 'z-index': 998
     }
   },
@@ -148,7 +152,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
   { selector: 'node.connection-dim', style: { opacity: 0.2 } },
   { selector: 'edge.connection-dim', style: { opacity: 0.06, events: 'no' } },
   { selector: 'node.connection-emphasis', style: { opacity: 1, 'border-width': 4, 'border-color': '#2563eb', 'z-index': 997 } },
-  { selector: 'edge.connection-emphasis', style: { display: 'element', opacity: 1, width: 5, 'line-color': '#2563eb', 'target-arrow-color': '#2563eb', 'z-index': 997 } },
+  { selector: 'edge.connection-emphasis', style: { display: 'element', opacity: 0.32, width: 5, 'line-color': '#2563eb', 'target-arrow-color': '#2563eb', 'z-index': 997 } },
   { selector: 'node.connection-endpoint', style: { 'border-width': 6, 'border-color': '#1d4ed8', 'background-opacity': 1 } },
   { selector: 'node:selected', style: { 'border-width': 5, 'border-color': '#0f172a', 'background-opacity': 1 } },
   { selector: 'edge:selected', style: { width: 5, 'z-index': 999 } },
