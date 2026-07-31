@@ -144,7 +144,7 @@ export class DetailsController {
     if (!matches.length) return '';
     return `<section class="detail-section"><h3>Stories</h3><div class="detail-view-list">${matches.map(({ view, sequenceIndex }) => `
       <a class="detail-view-link" href="${escapeHtml(this.options.viewNodeUrl(view.id, nodeId))}">
-        <span class="material-symbols-outlined" aria-hidden="true">explore</span>
+        <span class="material-symbols-outlined" aria-hidden="true">library_books</span>
         <span class="detail-view-copy"><strong>${this.options.math.renderText(view.title)}</strong><span>Start at step ${sequenceIndex + 1} of ${view.nodeSequence?.length ?? 0}</span></span>
       </a>`).join('')}</div></section>`;
   }
@@ -236,7 +236,7 @@ export class DetailsController {
   private renderHeaderActions(itemId: string, itemKind: 'node' | 'edge'): string {
     return `<div class="detail-header-actions" data-item-id="${escapeHtml(itemId)}" data-item-kind="${itemKind}">
       <a href="#" class="detail-header-action" id="detailShareButton" aria-label="Copy permalink" title="Copy permalink">
-        <span class="material-symbols-outlined" aria-hidden="true">share</span>
+        <span class="material-symbols-outlined" aria-hidden="true">link</span>
       </a>
       ${itemKind === 'node' ? `<a href="#" class="detail-header-action" id="detailCompareButton" aria-label="Compare concept" title="Compare concept">
         <span class="material-symbols-outlined" aria-hidden="true">compare_arrows</span>

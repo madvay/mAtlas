@@ -581,7 +581,7 @@ export class CompareController {
       <div class="domain-badges">${fields}${domains}</div>
       ${metadata.length ? `<dl class="concept-metadata">${metadata.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>` : ''}
       ${definingRows.length ? `<div class="compare-defining-features">${definingRows.map(([label, values]) => `<div><h4>${escapeHtml(label)}</h4><ul>${values.map((value) => `<li class="math-rich">${this.options.math.renderText(value)}</li>`).join('')}</ul></div>`).join('')}</div>` : ''}
-      <p class="compare-source-count"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>${node.citations.length} source record${node.citations.length === 1 ? '' : 's'}</p>
+      <p class="compare-source-count"><span class="material-symbols-outlined" aria-hidden="true">source</span>${node.citations.length} source record${node.citations.length === 1 ? '' : 's'}</p>
     </article>`;
   }
 

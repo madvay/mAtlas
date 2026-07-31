@@ -190,7 +190,7 @@ export class ViewsController {
     return `<div class="view-banner-desktop view-banner-copy">
       <details class="view-context-details"${this.bannerDetailsOpen ? ' open' : ''}>
         <summary>
-          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">explore</span>
+          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">library_books</span>
           <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${this.options.math.renderText(view.title)}</strong></span>
           <span class="material-symbols-outlined view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
@@ -213,7 +213,7 @@ export class ViewsController {
     return `<div class="view-compact-context ${className}">
       <details class="view-context-details">
         <summary>
-          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">explore</span>
+          <span class="material-symbols-outlined view-context-icon" aria-hidden="true">library_books</span>
           <span class="view-context-heading"><span class="kicker">${kind}</span><strong>${this.options.math.renderText(view.title)}</strong></span>
           <span class="material-symbols-outlined view-context-chevron" aria-hidden="true">expand_more</span>
         </summary>
