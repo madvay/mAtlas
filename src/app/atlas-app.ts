@@ -9,6 +9,7 @@ import { LabelSizer } from '../graph/label-sizer.js';
 import { applyRendererPreferences, createGraph } from '../graph/create-graph.js';
 import { LayoutManager } from '../graph/layout-manager.js';
 import { GraphViewController } from '../graph/graph-view-controller.js';
+import { suppressAutomaticSelectionForCurrentTap } from '../graph/edge-interaction.js';
 import { GraphViewportController } from '../graph/graph-viewport-controller.js';
 import { compactLayoutWouldHelp } from '../graph/layout-suggestion.js';
 import { GraphOverlayLayer } from '../graph/graph-overlay-layer.js';
@@ -332,7 +333,6 @@ export async function startAtlasApp(): Promise<void> {
   graphViewPreservesView = (view) => graphView.preservesView(view);
   updateGraphStatus = () => graphView.updateStatus();
   const updateSemanticLabelSizes = (force = false): void => graphView.updateSemanticLabelSizes(force);
-  const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
   const applyFilters = (options: { relayout?: boolean } = {}): void => {
     // Install structure substrate styling before any filter class changes can
     // reveal a newly included concept. This covers URL-restored structure
@@ -362,7 +362,6 @@ export async function startAtlasApp(): Promise<void> {
     persist: persistUiState,
     applyFilters,
     runLayout,
-    scheduleEdgeZoomStyles,
     activeView: () => locationController.activeView(),
     exitView: () => exitActiveView(),
     exitCoreNodeScope: () => exitActiveCoreNodeScope(),
@@ -460,7 +459,7 @@ export async function startAtlasApp(): Promise<void> {
     activateEdge: (edgeId) => activateEdge(edgeId, { center: true, zoomIn: true, historyMode: 'push' }),
     openFilters: () => setPanelOpen('filters', true),
     fitElements: fitGraphElements,
-    refreshEdgeStyles: () => graphView.refreshEdgeZoomStyles(),
+    refreshEdgeStyles: () => graphView.refreshEdgeStyles(),
     onCompareStateChange: (nextState, mode) => {
       compareState = nextState;
       writeLocationState(currentSelectionTarget(), mode);
@@ -1000,6 +999,11 @@ export async function startAtlasApp(): Promise<void> {
       structureOverlayController?.selectConnectionElement(target);
       return;
     }
+    if (!graphView.edgeInteractionEnabled()) {
+      suppressAutomaticSelectionForCurrentTap(target);
+      clearGraphBackgroundInteraction();
+      return;
+    }
     if (structureOverlayController?.active()) return;
     activateEdge(target.id(), { center: false, historyMode: 'push' });
   });
@@ -1020,14 +1024,18 @@ export async function startAtlasApp(): Promise<void> {
       return;
     }
     if (structureOverlayController?.active()) return;
+    if (!graphView.edgeInteractionEnabled()) return;
     const pointer = { x: event.renderedPosition.x, y: event.renderedPosition.y };
     activateEdge(target.id(), { center: true, zoomIn: true, pointer, historyMode: 'push' });
   });
-  cy.on('tap', (event) => {
-    if (event.target !== cy) return;
+  function clearGraphBackgroundInteraction(): void {
     clearSelection({ historyMode: 'push' });
     clearSearch(true);
     setPanelOpen('details', false);
+  }
+  cy.on('tap', (event) => {
+    if (event.target !== cy) return;
+    clearGraphBackgroundInteraction();
   });
   byId('status').addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
@@ -1038,7 +1046,6 @@ export async function startAtlasApp(): Promise<void> {
   });
   cy.on('zoom', () => {
     scheduleFieldBands();
-    scheduleEdgeZoomStyles();
   });
   cy.on('pan position', scheduleFieldBands);
   cy.on('mouseover', 'node', (event) => {

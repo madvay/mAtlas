@@ -28,6 +28,7 @@
     "src/graph/structure-overlay-geometry.ts",
     "src/graph/layout-suggestion.ts",
     "src/graph/viewport-fit-core.ts",
+    "src/graph/edge-interaction.ts",
     "src/graph/graph-viewport-controller.ts",
     "src/graph/layout-manager.ts",
     "src/graph/create-graph.ts",

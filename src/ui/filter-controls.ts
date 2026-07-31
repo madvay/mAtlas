@@ -50,7 +50,6 @@ export interface FilterControlsOptions {
   persist: () => void;
   applyFilters: (options?: { relayout?: boolean }) => void;
   runLayout: (name: LayoutName, fitAfter: boolean) => void;
-  scheduleEdgeZoomStyles: () => void;
   preferences: () => Preferences;
   setPreferences: (preferences: Preferences) => void;
   activeView: () => AtlasView | null;
@@ -280,7 +279,6 @@ export class FilterControls {
     byId<HTMLInputElement>('edgeZoomToggle').addEventListener('change', (event) => {
       this.options.state.edgeZoomActivation = (event.currentTarget as HTMLInputElement).checked;
       this.commit(false);
-      this.options.scheduleEdgeZoomStyles();
     });
     byId<HTMLInputElement>('showPrimaryOnlyToggle').addEventListener('change', (event) => {
       this.options.state.showPrimaryOnly = (event.currentTarget as HTMLInputElement).checked;

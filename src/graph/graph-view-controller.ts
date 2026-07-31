@@ -6,11 +6,10 @@ import type { LabelSizer } from './label-sizer.js';
 import { isCrossFieldEdgeAllowed, resolveFilterVisibility } from './visibility-policy.js';
 import { renderHtml } from '../ui/render.js';
 import { viewCoreNodes, viewRequiredNodeIds } from '../state/view-state.js';
+import { edgeInteractionEnabled } from './edge-interaction.js';
 
-const EDGE_ZOOM_ACTIVATION_THRESHOLD = 0.65;
 const EDGE_OPACITY_HIDDEN = 0;
-const EDGE_OPACITY_ZOOMED_OUT = 0.32;
-const EDGE_OPACITY_FULL = EDGE_OPACITY_ZOOMED_OUT;
+const EDGE_OPACITY_FULL = 0.32;
 const EDGE_OPACITY_DEPENDENCY_CONTEXT_DIMMED = 0.46;
 const EDGE_OPACITY_NEIGHBORHOOD_DIMMED = 0.14;
 const EDGE_EVENTS_ENABLED = 'yes' as const;
@@ -39,8 +38,6 @@ export interface GraphViewControllerOptions {
 
 export class GraphViewController {
   private lastLabelZoom: number | null = null;
-  private edgeZoomStyleFrame = 0;
-  private lastEdgeZoomActive: boolean | null = null;
   private lastVisibleNodeIds: ReadonlySet<string> | null = null;
 
   constructor(private readonly options: GraphViewControllerOptions) {}
@@ -59,17 +56,12 @@ export class GraphViewController {
     });
   }
 
-  scheduleEdgeZoomStyles(): void {
-    if (this.edgeZoomStyleFrame) return;
-    this.edgeZoomStyleFrame = window.requestAnimationFrame(() => {
-      this.edgeZoomStyleFrame = 0;
-      this.updateEdgeZoomStyles();
-    });
+  edgeInteractionEnabled(): boolean {
+    return edgeInteractionEnabled(this.options.state.edgeZoomActivation, this.options.cy.zoom());
   }
 
-  refreshEdgeZoomStyles(): void {
-    this.lastEdgeZoomActive = null;
-    this.updateEdgeZoomStyles();
+  refreshEdgeStyles(): void {
+    this.updateEdgeStyles();
   }
 
   applyFilters({ relayout = false }: { relayout?: boolean } = {}): void {
@@ -130,8 +122,7 @@ export class GraphViewController {
     this.updateStatus();
     this.options.scheduleFieldBands();
     this.options.updateFiltersToggleCount();
-    this.lastEdgeZoomActive = null;
-    this.updateEdgeZoomStyles();
+    this.updateEdgeStyles();
     if (relayout || (state.layout === 'breadthfirst' && compactVisibilityChanged)) {
       this.options.runLayout(state.layout, true);
     }
@@ -243,8 +234,7 @@ export class GraphViewController {
     }
     cy.elements().removeClass('neighborhood-dim neighborhood-emphasis prerequisite-highlight');
     this.syncNeighborhoodButton();
-    this.lastEdgeZoomActive = null;
-    this.updateEdgeZoomStyles();
+    this.updateEdgeStyles();
     this.updateStatus();
   }
 
@@ -252,8 +242,7 @@ export class GraphViewController {
     const { cy, model, state } = this.options;
     const refreshEdgeStyles = (): void => {
       if (!updateEdgeStyles) return;
-      this.lastEdgeZoomActive = null;
-      this.updateEdgeZoomStyles();
+      this.updateEdgeStyles();
     };
 
     cy.elements('.prerequisite-highlight').removeClass('prerequisite-highlight');
@@ -342,19 +331,15 @@ export class GraphViewController {
       ${crossFieldText}${suffix}`);
   }
 
-  updateEdgeZoomStyles(): void {
-    const { cy, state } = this.options;
+  updateEdgeStyles(): void {
+    const { cy } = this.options;
     // Structure-overlay connections own their opacity through stylesheet state
     // (base dim, selected edge, or incident-edge emphasis). Always clear any
-    // stale bypass left by an earlier graph-view pass before the zoom-state
-    // short circuit, because overlays can be rebuilt without changing zoom.
+    // stale bypass left by an earlier graph-view pass because overlays can be
+    // rebuilt independently of ordinary graph state.
     const structureConnections = cy.edges('[semanticConnection = 1]');
     structureConnections.removeStyle('opacity');
     structureConnections.removeStyle('events');
-
-    const activeAtZoom = state.edgeZoomActivation && cy.zoom() >= EDGE_ZOOM_ACTIVATION_THRESHOLD;
-    if (this.lastEdgeZoomActive === activeAtZoom) return;
-    this.lastEdgeZoomActive = activeAtZoom;
 
     cy.edges().not('[semanticConnection = 1]').forEach((edge) => {
       if (edge.hasClass('structure-source-edge')) {
@@ -383,16 +368,10 @@ export class GraphViewController {
         : edge.hasClass('neighborhood-dim') ? EDGE_OPACITY_NEIGHBORHOOD_DIMMED : EDGE_OPACITY_FULL;
       if (prerequisiteHighlighted) {
         edge.style('opacity', EDGE_OPACITY_FULL);
-        edge.style('events', !state.edgeZoomActivation || activeAtZoom ? EDGE_EVENTS_ENABLED : EDGE_EVENTS_DISABLED);
-      } else if (!state.edgeZoomActivation) {
-        edge.style('opacity', baseOpacity);
-        edge.style('events', EDGE_EVENTS_ENABLED);
-      } else if (activeAtZoom) {
-        edge.style('opacity', baseOpacity);
         edge.style('events', EDGE_EVENTS_ENABLED);
       } else {
-        edge.style('opacity', EDGE_OPACITY_ZOOMED_OUT);
-        edge.style('events', EDGE_EVENTS_DISABLED);
+        edge.style('opacity', baseOpacity);
+        edge.style('events', EDGE_EVENTS_ENABLED);
       }
     });
   }
