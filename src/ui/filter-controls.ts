@@ -14,6 +14,34 @@ import { DEFAULT_PREFERENCES } from '../state/preferences.js';
 import { renderHtml } from './render.js';
 import { publicViewKind, viewCoreNodes } from '../state/view-state.js';
 
+export function fieldNavScopeLabel(
+  fieldLabel: string,
+  selectedDomainCount: number,
+  totalDomainCount: number,
+  active: boolean
+): string {
+  return active && selectedDomainCount < totalDomainCount
+    ? `${fieldLabel} (${selectedDomainCount} of ${totalDomainCount})`
+    : fieldLabel;
+}
+
+export function fieldNavActiveScopeId(
+  selectedDomains: ReadonlySet<string>,
+  domainOrder: readonly string[],
+  fieldForDomain: (domainId: string) => string
+): string | null {
+  if (selectedDomains.size === domainOrder.length
+    && domainOrder.every((domainId) => selectedDomains.has(domainId))) return 'global';
+  if (selectedDomains.size === 0) return null;
+
+  const [firstDomainId] = selectedDomains;
+  if (!firstDomainId) return null;
+  const fieldId = fieldForDomain(firstDomainId);
+  return [...selectedDomains].every((domainId) => fieldForDomain(domainId) === fieldId)
+    ? fieldId
+    : null;
+}
+
 export interface FilterControlsOptions {
   model: GraphModel;
   state: AppState;
@@ -179,11 +207,24 @@ export class FilterControls {
   }
 
   updateFieldNavActiveState(): void {
+    const { model, state } = this.options;
     const activeScope = this.activeScopeLinkId();
     queryAll<HTMLAnchorElement>('[data-scope-link]').forEach((link) => {
-      link.classList.toggle('active', link.dataset.scopeLink === activeScope);
-      if (link.dataset.scopeLink === activeScope) link.setAttribute('aria-current', 'page');
+      const scopeId = link.dataset.scopeLink ?? '';
+      const active = scopeId === activeScope;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
+
+      if (scopeId === 'global') {
+        link.textContent = 'All fields';
+        return;
+      }
+      const field = model.data.fields[scopeId];
+      if (!field) return;
+      const fieldDomains = model.domainOrder.filter((domainId) => model.fieldForDomain(domainId) === scopeId);
+      const selectedDomainCount = fieldDomains.filter((domainId) => state.selectedDomains.has(domainId)).length;
+      link.textContent = fieldNavScopeLabel(field.label, selectedDomainCount, fieldDomains.length, active);
     });
     const exclusiveDomainId = this.exclusiveDomainId();
     queryAll<HTMLAnchorElement>('[data-domain-link]').forEach((link) => {
@@ -447,15 +488,11 @@ export class FilterControls {
 
   private activeScopeLinkId(): string | null {
     const { model, state } = this.options;
-    if (state.selectedDomains.size === model.domainOrder.length) return 'global';
-    const exclusiveDomainId = this.exclusiveDomainId();
-    if (exclusiveDomainId) return model.fieldForDomain(exclusiveDomainId);
-    for (const fieldId of model.fieldOrder) {
-      const fieldDomains = model.domainOrder.filter((domainId) => model.fieldForDomain(domainId) === fieldId);
-      if (fieldDomains.length === state.selectedDomains.size
-        && fieldDomains.every((domainId) => state.selectedDomains.has(domainId))) return fieldId;
-    }
-    return null;
+    return fieldNavActiveScopeId(
+      state.selectedDomains,
+      model.domainOrder,
+      (domainId) => model.fieldForDomain(domainId)
+    );
   }
 
   private exclusiveDomainId(): string | null {
