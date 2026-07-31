@@ -62,14 +62,14 @@ test('static taxonomy images retain a visible looping horizontal shimmer while t
 
 test('static export uses the npm-managed browser and domain markers stay consistent', async () => {
   const generator = await readFile(new URL('../scripts/generate-static-atlas-svg.mjs', import.meta.url), 'utf8');
-  const labelLayer = await readFile(new URL('../src/graph/graph-math-label-layer.ts', import.meta.url), 'utf8');
+  const overlayLayer = await readFile(new URL('../src/graph/graph-overlay-layer.ts', import.meta.url), 'utf8');
   const exporter = await readFile(new URL('../src/ui/svg-exporter.ts', import.meta.url), 'utf8');
   const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
   const fieldBands = await readFile(new URL('../src/ui/field-band-controller.ts', import.meta.url), 'utf8');
 
   assert.match(generator, /import puppeteer from 'puppeteer'/);
   assert.doesNotMatch(generator, /CHROME_BIN|spawnSync|browserCandidates/);
-  assert.match(labelLayer, /graph-domain-markers/);
+  assert.match(overlayLayer, /graph-domain-markers/);
   assert.match(exporter, /<circle cx=/);
   assert.doesNotMatch(exporter, /katex|foreignObject|renderText|svgCssText/i);
   assert.match(exporter, /if \(!this\.state\.showEdgeLabels\) return/);

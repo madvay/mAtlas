@@ -6,6 +6,7 @@ import { isCrossFieldEdgeAllowed } from '../graph/visibility-policy.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, GraphEdge, GraphNode, HistoryMode, LayoutName, Point, SelectionTarget } from '../types.js';
 import { renderHtml } from './render.js';
+import { stripInlineMathText } from '../core/text.js';
 
 interface StructureOverlayControllerOptions {
   model: GraphModel;
@@ -133,7 +134,7 @@ export class StructureOverlayController {
     const estimatedFitZoom = estimateStructureFitZoom(sourceBounds, { width: cy.width(), height: cy.height() });
     const metricsByGroup = new Map(this.mapData.groups.map((group) => [
       group.id,
-      structureNodeVisualMetrics(scale, group.conceptCount, group.label, estimatedFitZoom)
+      structureNodeVisualMetrics(scale, group.conceptCount, stripInlineMathText(group.label), estimatedFitZoom)
     ]));
     const displayPositions = deconflictStructurePositions(
       this.mapData.groups.map((group) => ({

@@ -158,7 +158,6 @@ export interface Preferences {
   animateGraph: boolean;
   refitOnChange: boolean;
   motionBlur: boolean;
-  formulaeInGraph: boolean;
   indicateOtherDomains: boolean;
   hideEdgesWhileMoving: boolean;
   allowNodeMovement: boolean;

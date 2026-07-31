@@ -120,7 +120,7 @@ for (const id of ['layeredLayoutButton', 'compactLayoutButton']) {
 if (!appJs.includes('prohibitedDomains') || !appJs.includes('data-suppression')) throw new Error('The application bundle lacks prohibited-domain state or its tri-state control.');
 if (!appCss.includes('.mobile-view-context') || !appCss.includes('.view-banner-mobile')) throw new Error('The application stylesheet lacks the thin-screen guided-view surfaces.');
 if (!appCss.includes('.view-sequence-controls') || !appCss.includes('.filter-section-toggle')) throw new Error('The application stylesheet lacks guided-sequence or collapsible-filter controls.');
-if (!appCss.includes('.graph-math-label-layer') || !appCss.includes('.graph-math-edge-label')) throw new Error('The application stylesheet lacks the selective KaTeX graph-label layer.');
+if (!appCss.includes('.graph-overlay-layer') || !appCss.includes('.graph-overlay-viewport')) throw new Error('The application stylesheet lacks the graph overlay layer.');
 if (!viewIndex.includes('Stories &amp; Views')) throw new Error('The static stories and views directory was not generated.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/views/</loc>')) throw new Error('The sitemap omits the view directory.');
 if (!sitemap.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')) throw new Error('The sitemap lacks the image sitemap namespace.');

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applyRendererPreferences, graphStyles } from '../../.test-build/graph/create-graph.js';
+import { applyRendererPreferences, createGraphElements, graphStyles } from '../../.test-build/graph/create-graph.js';
 
 function fakeGraph() {
   const renderer = { forcedPixelRatio: 1.5, motionBlurEnabled: false, motionBlur: false, hideEdgesOnViewport: true };
@@ -42,7 +42,7 @@ test('renderer preferences change the live renderer and immediately redraw both 
     const fixture = fakeGraph();
     fixture.graph.owner = fixture;
     applyRendererPreferences(fixture.graph, {
-      version: 1, highResolution: true, transitions: true, motionBlur: true, formulaeInGraph: false,
+      version: 1, highResolution: true, transitions: true, motionBlur: true,
       indicateOtherDomains: true, hideEdgesWhileMoving: false, allowNodeMovement: false, dimPrerequisites: true, highlightPrerequisites: false
     });
     assert.equal(fixture.renderer.forcedPixelRatio, null);
@@ -57,7 +57,7 @@ test('renderer preferences change the live renderer and immediately redraw both 
       && value === 'edge.structure-source-edge'));
 
     applyRendererPreferences(fixture.graph, {
-      version: 1, highResolution: false, transitions: false, motionBlur: false, formulaeInGraph: true,
+      version: 1, highResolution: false, transitions: false, motionBlur: false,
       indicateOtherDomains: true, hideEdgesWhileMoving: true, allowNodeMovement: true, dimPrerequisites: false, highlightPrerequisites: true
     });
     assert.equal(fixture.renderer.forcedPixelRatio, 1.5);
@@ -92,4 +92,33 @@ test('structure modes use text-only centroid labels and disable source-node even
   const emphasizedConnectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1].structure-connection-emphasis')?.style;
   assert.equal(connectionStyle?.opacity, 0.09);
   assert.equal(emphasizedConnectionStyle?.opacity, 1);
+});
+
+
+test('graph nodes and edges always use lightweight Unicode math labels', () => {
+  const model = {
+    data: {
+      nodes: [{
+        id: 'node', label: 'The $\\alpha$-$G$ action', primaryDomain: 'domain',
+        kind: 'structure', level: 1, summary: 'Summary'
+      }],
+      domains: { domain: { color: '#123456' } },
+      edgeTypes: { relation: { label: 'Relation', color: '#654321' } }
+    },
+    allEdges: [{
+      id: 'edge', source: 'node', target: 'node', type: 'relation',
+      label: '$x^2\\to y_1$', detail: 'Detail'
+    }],
+    nodeDomainIds() { return ['domain']; },
+    nodePrimaryField() { return 'field'; },
+    nodeFieldIds() { return ['field']; },
+    nodeDomainLabels() { return ['Domain']; }
+  };
+  const labels = { semanticSize() { return 13; } };
+
+  const elements = createGraphElements(model, labels);
+  const node = elements.find((element) => element.group === 'nodes');
+  const edge = elements.find((element) => element.group === 'edges');
+  assert.equal(node.data.canvasLabel, 'The 𝛼-𝐺 action');
+  assert.equal(edge.data.canvasLabel, '𝑥²→ 𝑦₁');
 });

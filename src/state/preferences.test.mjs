@@ -12,7 +12,6 @@ test('preferences have performance-conscious defaults and their own storage name
     animateGraph: false,
     refitOnChange: true,
     motionBlur: false,
-    formulaeInGraph: false,
     indicateOtherDomains: true,
     hideEdgesWhileMoving: true,
     allowNodeMovement: false,
@@ -20,13 +19,12 @@ test('preferences have performance-conscious defaults and their own storage name
     highlightPrerequisites: false,
     experimentalFeatures: false
   });
-  assert.equal(parsePreferences('{bad').formulaeInGraph, false);
+  assert.deepEqual(parsePreferences('{bad'), DEFAULT_PREFERENCES);
 });
 
 test('preferences restore valid booleans and default missing values', () => {
-  const preferences = parsePreferences(JSON.stringify({ version: 1, highResolution: true, formulaeInGraph: false }));
+  const preferences = parsePreferences(JSON.stringify({ version: 1, highResolution: true }));
   assert.equal(preferences.highResolution, true);
-  assert.equal(preferences.formulaeInGraph, false);
   assert.equal(preferences.transitions, true);
   assert.equal(preferences.animateGraph, false);
   assert.equal(preferences.refitOnChange, true);

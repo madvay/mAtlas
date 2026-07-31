@@ -31,7 +31,7 @@
     "src/graph/graph-viewport-controller.ts",
     "src/graph/layout-manager.ts",
     "src/graph/create-graph.ts",
-    "src/graph/graph-math-label-layer.ts",
+    "src/graph/graph-overlay-layer.ts",
     "src/app/location-controller.ts",
     "src/app/data-loader.ts",
     "src/graph/visibility-policy.ts",

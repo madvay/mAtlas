@@ -11,7 +11,7 @@ import { LayoutManager } from '../graph/layout-manager.js';
 import { GraphViewController } from '../graph/graph-view-controller.js';
 import { GraphViewportController } from '../graph/graph-viewport-controller.js';
 import { compactLayoutWouldHelp } from '../graph/layout-suggestion.js';
-import { GraphMathLabelLayer } from '../graph/graph-math-label-layer.js';
+import { GraphOverlayLayer } from '../graph/graph-overlay-layer.js';
 import { IdleRenderController } from '../graph/idle-render-controller.js';
 import { MathRenderer } from '../ui/math-renderer.js';
 import { DetailsController } from '../ui/details-controller.js';
@@ -164,7 +164,7 @@ export async function startAtlasApp(): Promise<void> {
 
   const cy = createGraph(graphEl, model, labelSizer, preferences);
   new IdleRenderController(cy, graphEl);
-  const graphLabelLayer = new GraphMathLabelLayer(cy, graphEl, mathRenderer, preferences);
+  const graphOverlayLayer = new GraphOverlayLayer(cy, graphEl, preferences);
   window.cy = cy;
   currentSelectionTarget = () => {
     const selected = cy.$(':selected').first();
@@ -376,7 +376,7 @@ export async function startAtlasApp(): Promise<void> {
       else if (disableRefit) viewportController.cancel();
       writePreferences();
       applyRendererPreferences(cy, preferences);
-      graphLabelLayer.setPreferences(preferences);
+      graphOverlayLayer.setPreferences(preferences);
       graphView.applyFilters({ relayout: false });
       structureOverlayController?.refresh();
       syncExperimentalButtons();
@@ -396,7 +396,7 @@ export async function startAtlasApp(): Promise<void> {
       state.selectedDomains = new Set(defaults.domains);
     }
     locationController.deactivateView();
-    graphLabelLayer.setNodeSequence([]);
+    graphOverlayLayer.setNodeSequence([]);
     buildFilters();
     syncPreferenceControls();
     updateFieldNavActiveState();
@@ -856,7 +856,7 @@ export async function startAtlasApp(): Promise<void> {
       <section class="help-card">
         <h3>Panels, preferences, and export</h3>
         <p>Filters and Details slide over the graph rather than resizing or relaying it during their animation. The fullscreen button hides both and restores their previous open state. On narrow screens, Filters enters from the left and Details rises from the bottom.</p>
-        <p>Preferences affect rendering and interaction performance, formula display, domain markers, node movement, and prerequisite emphasis. They are stored only in this browser and are not included in shared URLs. SVG export writes the current visible graph as a standalone vector document with labels, annotations, domain markers, emphasis, metadata, selection state, and active Story sequence badges.</p>
+        <p>Preferences affect rendering and interaction performance, domain markers, node movement, and prerequisite emphasis. They are stored only in this browser and are not included in shared URLs. SVG export writes the current visible graph as a standalone vector document with labels, annotations, domain markers, emphasis, metadata, selection state, and active Story sequence badges.</p>
       </section>
 
       <section class="help-card help-shortcuts">
@@ -915,7 +915,7 @@ export async function startAtlasApp(): Promise<void> {
     isMobileLayout: () => panelController.isMobileLayout(),
     detailsOpen: () => state.detailsOpen,
     math: mathRenderer,
-    setNodeSequenceBadges: (nodeIds) => graphLabelLayer.setNodeSequence(nodeIds)
+    setNodeSequenceBadges: (nodeIds) => graphOverlayLayer.setNodeSequence(nodeIds)
   });
   viewsController.initialize();
   resetInteractionForLayout = (nextLayout, { updateLocation = true } = {}): void => {

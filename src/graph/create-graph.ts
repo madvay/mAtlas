@@ -1,7 +1,7 @@
 import cytoscape from 'cytoscape';
 import type { GraphModel } from '../model/graph-model.js';
 import { stableStringHash } from '../core/hash.js';
-import { hasInlineMathText, stripInlineMathText } from '../core/text.js';
+import { stripInlineMathText } from '../core/text.js';
 import type { LabelSizer } from './label-sizer.js';
 import { DEFAULT_INTERACTIVE_MIN_ZOOM } from './viewport-fit-core.js';
 import type { Preferences } from '../types.js';
@@ -19,15 +19,13 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer): cyto
     if (!primaryDomain) throw new Error(`Node ${node.id} has an unknown primary domain: ${node.primaryDomain}`);
     const domainIds = model.nodeDomainIds(node);
     const displayLabel = stripInlineMathText(node.label);
-    const hasMathLabel = hasInlineMathText(node.label);
     elements.push({
       group: 'nodes',
       data: {
         id: node.id,
         label: node.label,
         displayLabel,
-        canvasLabel: hasMathLabel ? '' : displayLabel,
-        hasMathLabel: hasMathLabel ? 1 : 0,
+        canvasLabel: displayLabel,
         labelFontSize: labels.semanticSize(node, 1, displayLabel),
         kind: node.kind,
         primaryField: model.nodePrimaryField(node),
@@ -49,7 +47,6 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer): cyto
     const type = model.data.edgeTypes[edge.type];
     if (!type) throw new Error(`Edge ${edge.id} has an unknown type: ${edge.type}`);
     const displayLabel = stripInlineMathText(edge.label);
-    const hasMathLabel = hasInlineMathText(edge.label);
     elements.push({
       group: 'edges',
       data: {
@@ -62,8 +59,7 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer): cyto
         lineStyle: type.lineStyle ?? 'solid',
         label: edge.label,
         displayLabel,
-        canvasLabel: hasMathLabel ? '' : displayLabel,
-        hasMathLabel: hasMathLabel ? 1 : 0,
+        canvasLabel: displayLabel,
         detail: edge.detail,
         synthetic: edge.synthetic ? 1 : 0,
         junctionId: edge.junctionId ?? '',

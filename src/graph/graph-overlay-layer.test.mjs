@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { GraphMathLabelLayer } from '../../.test-build/graph/graph-math-label-layer.js';
+import { GraphOverlayLayer } from '../../.test-build/graph/graph-overlay-layer.js';
 
 class FakeElement {
   constructor() {
@@ -8,7 +8,6 @@ class FakeElement {
     this.style = {};
     this.hidden = false;
     this.className = '';
-    this.innerHTML = '';
     this.textContent = '';
     this.removed = false;
   }
@@ -49,23 +48,24 @@ function installDom() {
 
 function nodeFixture() {
   const data = {
-    hasMathLabel: 1,
     kind: 'structure',
-    label: '$G$-action',
-    labelFontSize: 13
+    multiDomain: 1,
+    domainColors: ['#111111', '#222222', '#333333']
   };
   const position = { x: 40, y: 25 };
+  const classes = new Set();
+  let opacity = '1';
   return {
     data(key) { return data[key]; },
     isNode() { return true; },
-    isEdge() { return false; },
     position() { return { ...position }; },
-    hasClass() { return false; },
-    style(name) { return name === 'display' ? 'element' : name === 'opacity' ? '1' : ''; },
-    selected() { return false; },
+    hasClass(name) { return classes.has(name); },
+    style(name) { return name === 'display' ? 'element' : name === 'opacity' ? opacity : ''; },
     empty() { return false; },
     boundingBox() { return { x1: position.x - 82, y2: position.y + 29 }; },
-    moveTo(x, y) { position.x = x; position.y = y; }
+    moveTo(x, y) { position.x = x; position.y = y; },
+    setOpacity(value) { opacity = String(value); },
+    addClass(name) { classes.add(name); }
   };
 }
 
@@ -76,7 +76,6 @@ function graphFixture(node) {
     on(events, handler) {
       for (const event of events.split(/\s+/)) handlers.set(event, handler);
     },
-    edges() { return { forEach() {} }; },
     nodes() { return { forEach(callback) { callback(node); } }; },
     getElementById(id) { return id === 'node' ? node : { empty() { return true; } }; },
     pan() { return { ...viewport.pan }; },
@@ -86,7 +85,25 @@ function graphFixture(node) {
   };
 }
 
-test('zoom updates one viewport transform without resizing every KaTeX label', () => {
+function preferences(overrides = {}) {
+  return {
+    version: 1,
+    highResolution: true,
+    transitions: true,
+    animateGraph: false,
+    refitOnChange: true,
+    motionBlur: false,
+    indicateOtherDomains: true,
+    hideEdgesWhileMoving: true,
+    allowNodeMovement: false,
+    dimPrerequisites: true,
+    highlightPrerequisites: false,
+    experimentalFeatures: false,
+    ...overrides
+  };
+}
+
+test('zoom updates one overlay viewport transform and marker geometry follows nodes', () => {
   const dom = installDom();
   try {
     const node = nodeFixture();
@@ -95,34 +112,59 @@ test('zoom updates one viewport transform without resizing every KaTeX label', (
       inserted: null,
       insertAdjacentElement(_position, element) { this.inserted = element; }
     };
-    new GraphMathLabelLayer(cy, graphContainer, { renderText: (value) => `<b>${value}</b>` });
+    new GraphOverlayLayer(cy, graphContainer, preferences());
     dom.flush();
 
     const viewport = graphContainer.inserted.children[0];
-    const label = viewport.children[0];
+    const marker = viewport.children[0];
     assert.equal(viewport.style.transform, 'translate3d(10px, 20px, 0) scale(1)');
-    assert.equal(label.style.left, '40px');
-    assert.equal(label.style.top, '25px');
-    assert.equal(label.style.fontSize, '13px');
+    assert.equal(marker.className, 'graph-domain-markers');
+    assert.equal(marker.children.length, 2);
+    assert.equal(marker.style.left, '116px');
+    assert.equal(marker.style.top, '50px');
 
-    const geometryBeforeZoom = { ...label.style };
     cy.setViewport({ x: -30, y: 18 }, 1.75);
     cy.emit('zoom');
     dom.flush();
-
     assert.equal(viewport.style.transform, 'translate3d(-30px, 18px, 0) scale(1.75)');
-    assert.deepEqual(label.style, geometryBeforeZoom);
 
     node.moveTo(55, 70);
     cy.emit('position');
     dom.flush();
-    assert.equal(label.style.left, '55px');
-    assert.equal(label.style.top, '70px');
+    assert.equal(marker.style.left, '131px');
+    assert.equal(marker.style.top, '95px');
   } finally {
     dom.restore();
   }
 });
 
+test('domain marker visibility follows preferences without affecting Story badges', () => {
+  const dom = installDom();
+  try {
+    const node = nodeFixture();
+    const cy = graphFixture(node);
+    const graphContainer = {
+      inserted: null,
+      insertAdjacentElement(_position, element) { this.inserted = element; }
+    };
+    const layer = new GraphOverlayLayer(cy, graphContainer, preferences());
+    layer.setNodeSequence(['node']);
+    dom.flush();
+
+    const viewport = graphContainer.inserted.children[0];
+    const marker = viewport.children[0];
+    const badge = viewport.children[1];
+    assert.equal(marker.hidden, false);
+    assert.equal(badge.hidden, false);
+
+    layer.setPreferences(preferences({ indicateOtherDomains: false }));
+    dom.flush();
+    assert.equal(marker.hidden, true);
+    assert.equal(badge.hidden, false);
+  } finally {
+    dom.restore();
+  }
+});
 
 test('Story sequence badges are numbered, positioned at node bottom-left, and cleared', () => {
   const dom = installDom();
@@ -133,7 +175,7 @@ test('Story sequence badges are numbered, positioned at node bottom-left, and cl
       inserted: null,
       insertAdjacentElement(_position, element) { this.inserted = element; }
     };
-    const layer = new GraphMathLabelLayer(cy, graphContainer, { renderText: (value) => String(value) });
+    const layer = new GraphOverlayLayer(cy, graphContainer, preferences());
     dom.flush();
     layer.setNodeSequence(['node']);
     dom.flush();
