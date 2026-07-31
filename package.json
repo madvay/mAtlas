@@ -23,6 +23,7 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/dev.mjs",
     "preview": "node scripts/serve.mjs dist",
+    "benchmark:renderer": "node scripts/matlas-render-benchmark.mjs",
     "test": "npm run test:content && npm run typecheck && node scripts/test-unit.mjs && npm run build && npm run test:build-output",
     "build:pages": "npm run build && node scripts/prepare-pages.mjs",
     "test:unit": "npm run content:build && node scripts/test-unit.mjs",
