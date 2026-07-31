@@ -35,12 +35,13 @@ test('the retained renderer avoids framework and removed-layout runtime dependen
   assert.doesNotMatch(notices, /cytoscape-cose-bilkent|cose-base|layout-base/i);
 });
 
-test('graph nodes avoid per-node encoded images and startup hides the unfit viewport', async () => {
+test('graph nodes use shared native marker images and startup hides the unfit viewport', async () => {
   const graphSource = await readFile(new URL('../src/graph/create-graph.ts', import.meta.url), 'utf8');
   const html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
   const appSource = await readFile(new URL('../src/app/atlas-app.ts', import.meta.url), 'utf8');
 
-  assert.doesNotMatch(graphSource, /data:image\/svg\+xml|domainRailImage/);
+  assert.match(graphSource, /secondaryDomainMarkerImages/);
+  assert.doesNotMatch(graphSource, /domainRailImage/);
   assert.match(graphSource, /hideEdgesOnViewport:\s*preferences\.hideEdgesWhileMoving/);
   assert.match(graphSource, /applyRendererPreferences\(cy, preferences\);\s*return cy;/);
   assert.match(html, /<body class="atlas-loading">/);
@@ -69,7 +70,8 @@ test('static export uses the npm-managed browser and domain markers stay consist
 
   assert.match(generator, /import puppeteer from 'puppeteer'/);
   assert.doesNotMatch(generator, /CHROME_BIN|spawnSync|browserCandidates/);
-  assert.match(overlayLayer, /graph-domain-markers/);
+  assert.doesNotMatch(overlayLayer, /graph-domain-markers|domainMarkers|buildDomainMarkers/);
+  assert.match(overlayLayer, /Story sequence badges/);
   assert.match(exporter, /<circle cx=/);
   assert.doesNotMatch(exporter, /katex|foreignObject|renderText|svgCssText/i);
   assert.match(exporter, /if \(!this\.state\.showEdgeLabels\) return/);
@@ -88,8 +90,7 @@ test('static export uses the npm-managed browser and domain markers stay consist
   assert.match(generator, /atlas:static-svg-field/);
   assert.match(generator, /static\/domains\/\$\{encodeURIComponent\(domainId\)\}\.svg/);
   assert.doesNotMatch(exporter, /markerY[^\n]*<rect|stroke-opacity="0\.3"/);
-  assert.doesNotMatch(styles, /\.graph-domain-markers\s*\{[^}]*?(?:background|box-shadow|contain):/s);
-  assert.doesNotMatch(styles, /\.graph-domain-markers\s*>\s*span\s*\{[^}]*border:/s);
+  assert.doesNotMatch(styles, /graph-domain-markers/);
   assert.doesNotMatch(styles, /will-change:\s*transform/);
   assert.match(fieldBands, /container\.hidden = true/);
   assert.match(fieldBands, /container\.hidden = false/);

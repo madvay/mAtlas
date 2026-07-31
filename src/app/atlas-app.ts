@@ -164,7 +164,7 @@ export async function startAtlasApp(): Promise<void> {
 
   const cy = createGraph(graphEl, model, labelSizer, preferences);
   new IdleRenderController(cy, graphEl);
-  const graphOverlayLayer = new GraphOverlayLayer(cy, graphEl, preferences);
+  const graphOverlayLayer = new GraphOverlayLayer(cy, graphEl);
   window.cy = cy;
   currentSelectionTarget = () => {
     const selected = cy.$(':selected').first();
@@ -376,7 +376,6 @@ export async function startAtlasApp(): Promise<void> {
       else if (disableRefit) viewportController.cancel();
       writePreferences();
       applyRendererPreferences(cy, preferences);
-      graphOverlayLayer.setPreferences(preferences);
       graphView.applyFilters({ relayout: false });
       structureOverlayController?.refresh();
       syncExperimentalButtons();
