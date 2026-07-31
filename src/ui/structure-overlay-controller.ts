@@ -1,6 +1,7 @@
 import type cytoscape from 'cytoscape';
 import { byId, escapeHtml } from '../core/dom.js';
 import { buildSemanticMap, type SemanticMapConnection, type SemanticMapData, type SemanticMapGroup, type SemanticMapScale } from '../graph/semantic-map-core.js';
+import { deconflictStructurePositions, estimateStructureFitZoom, structureEdgeVisualMetrics, structureNodeGap, structureNodeVisualMetrics } from '../graph/structure-overlay-geometry.js';
 import { isCrossFieldEdgeAllowed } from '../graph/visibility-policy.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, GraphEdge, GraphNode } from '../types.js';
@@ -23,22 +24,7 @@ type OverlaySelection =
   | { kind: 'connection'; id: string };
 
 const OVERLAY_SELECTOR = '[semanticOverlay = 1]';
-
-function nodeDimensions(count: number): { width: number; height: number } {
-  const factor = Math.log2(count + 1);
-  return {
-    width: Math.round(Math.min(250, Math.max(176, 158 + factor * 18))),
-    height: Math.round(Math.min(104, Math.max(72, 64 + factor * 8)))
-  };
-}
-
-function edgeWidth(count: number): number {
-  return Math.min(14, 2.4 + Math.log2(count + 1) * 1.7);
-}
-
-function curveDistance(connection: SemanticMapConnection): number {
-  return connection.source.localeCompare(connection.target) <= 0 ? 82 : -82;
-}
+const CONNECTION_EMPHASIS_CLASS = 'structure-connection-emphasis';
 
 export class StructureOverlayController {
   private mapData: SemanticMapData = { groups: [], connections: [] };
@@ -92,10 +78,29 @@ export class StructureOverlayController {
       }
     });
 
+    const sourceElements = cy.nodes().not('.filter-hidden').filter((element) => {
+      const record = model.nodeRecord.get(element.id());
+      return Boolean(record && record.kind === 'structure');
+    });
+    const sourceBounds = sourceElements.boundingBox({ includeLabels: false, includeOverlays: false });
+    const estimatedFitZoom = estimateStructureFitZoom(sourceBounds, { width: cy.width(), height: cy.height() });
+    const metricsByGroup = new Map(this.mapData.groups.map((group) => [
+      group.id,
+      structureNodeVisualMetrics(scale, group.conceptCount, group.label, estimatedFitZoom)
+    ]));
+    const displayPositions = deconflictStructurePositions(
+      this.mapData.groups.map((group) => ({
+        id: group.id,
+        anchor: group.position,
+        width: metricsByGroup.get(group.id)?.width ?? 0,
+        height: metricsByGroup.get(group.id)?.height ?? 0
+      })),
+      structureNodeGap(scale, estimatedFitZoom)
+    );
     const elements: cytoscape.ElementDefinition[] = [];
     for (const group of this.mapData.groups) {
-      const dimensions = nodeDimensions(group.conceptCount);
-      const fieldColor = model.data.fields[group.fieldId]?.color ?? group.color;
+      const metrics = metricsByGroup.get(group.id);
+      if (!metrics) continue;
       elements.push({
         group: 'nodes',
         data: {
@@ -104,22 +109,25 @@ export class StructureOverlayController {
           semanticGroup: 1,
           semanticGroupId: group.id,
           semanticScale: scale,
-          label: `${group.label}\n${group.conceptCount} concept${group.conceptCount === 1 ? '' : 's'}`,
-          canvasLabel: `${group.label}\n${group.conceptCount} concept${group.conceptCount === 1 ? '' : 's'}`,
+          label: group.label,
+          canvasLabel: metrics.labelLines.join('\n'),
           color: group.color,
-          fieldColor,
-          nodeWidth: dimensions.width,
-          nodeHeight: dimensions.height,
-          textWidth: dimensions.width - 28,
+          nodeWidth: metrics.width,
+          nodeHeight: metrics.height,
+          labelFontSize: metrics.fontSize,
+          textOutlineWidth: metrics.textOutlineWidth,
+          selectedTextOutlineWidth: metrics.selectedTextOutlineWidth,
+          textWidth: metrics.textWidth,
           conceptCount: group.conceptCount
         },
-        position: group.position,
+        position: displayPositions.get(group.id) ?? group.position,
         locked: true,
         grabbable: false
       });
     }
     for (const connection of this.mapData.connections) {
       const sourceGroup = this.group(connection.source);
+      const metrics = structureEdgeVisualMetrics(scale, connection.count, estimatedFitZoom);
       elements.push({
         group: 'edges',
         data: {
@@ -131,9 +139,11 @@ export class StructureOverlayController {
           semanticConnectionId: connection.id,
           relationCount: connection.count,
           label: String(connection.count),
-          canvasLabel: String(connection.count),
-          edgeWidth: edgeWidth(connection.count),
-          curveDistance: curveDistance(connection),
+          canvasLabel: '',
+          edgeWidth: metrics.width,
+          selectedEdgeWidth: metrics.selectedWidth,
+          arrowSize: metrics.arrowSize,
+          curveDistance: metrics.curveDistance,
           structureColor: sourceGroup?.color ?? '#64748b',
           lineStyle: 'solid'
         }
@@ -151,6 +161,7 @@ export class StructureOverlayController {
     });
 
     this.restoreSelection();
+    this.syncConnectionEmphasis();
   }
 
   selectGroupElement(element: cytoscape.SingularElementReturnValue): void {
@@ -159,6 +170,7 @@ export class StructureOverlayController {
     this.options.cy.elements().unselect();
     element.select();
     this.selection = { kind: 'group', id };
+    this.syncConnectionEmphasis();
     this.renderGroup(id, true);
   }
 
@@ -168,11 +180,13 @@ export class StructureOverlayController {
     this.options.cy.elements().unselect();
     element.select();
     this.selection = { kind: 'connection', id };
+    this.syncConnectionEmphasis();
     this.renderConnection(id, true);
   }
 
   clearSelection(): void {
     this.selection = null;
+    this.syncConnectionEmphasis();
   }
 
   private edgeIncluded(edge: GraphEdge, visibleNodeIds: ReadonlySet<string>): boolean {
@@ -202,20 +216,37 @@ export class StructureOverlayController {
     else this.renderConnection(this.selection.id, false);
   }
 
+  private syncConnectionEmphasis(): void {
+    const edges = this.options.cy.edges('[semanticConnection = 1]');
+    // Cytoscape bypass styles outrank stylesheet selectors. Clear any stale
+    // opacity/event bypass whenever overlay state is reconciled so the base
+    // dim, selected-edge, and incident-edge selectors are authoritative.
+    edges.removeStyle('opacity');
+    edges.removeStyle('events');
+    edges.removeClass(CONNECTION_EMPHASIS_CLASS);
+    if (this.selection?.kind !== 'group') return;
+    const selectedGroupElementId = this.groupElementId(this.selection.id);
+    edges.forEach((edge) => {
+      if (edge.source().id() === selectedGroupElementId || edge.target().id() === selectedGroupElementId) {
+        edge.addClass(CONNECTION_EMPHASIS_CLASS);
+      }
+    });
+  }
+
   private renderIntroduction(open: boolean): void {
     const noun = this.options.state.layout === 'fields' ? 'field' : 'domain';
     const relationCount = this.mapData.connections.reduce((sum, connection) => sum + connection.count, 0);
     renderHtml(byId('detailTitle'), `${noun === 'field' ? 'Field' : 'Domain'} structure`);
     renderHtml(byId('detailEditLink'), '');
     renderHtml(byId('detailBody'), `
-      <p>The visible concept graph is grouped by primary ${noun}. Concept nodes remain selectable underneath the overlay; aggregate arrows preserve direction and their width represents relation count.</p>
+      <p>The visible concept graph is grouped by primary ${noun}. Dimmed concept nodes provide positional context but are intentionally non-interactive. Aggregate arrows preserve direction and their width represents relation count; they remain subdued until a field or domain label is selected.</p>
       <dl class="structure-overlay-stats">
         <div><dt>Visible concepts</dt><dd>${this.mapData.groups.reduce((sum, group) => sum + group.conceptCount, 0)}</dd></div>
         <div><dt>${noun}s</dt><dd>${this.mapData.groups.length}</dd></div>
         <div><dt>Cross-${noun} relations</dt><dd>${relationCount}</dd></div>
         <div><dt>Directed links</dt><dd>${this.mapData.connections.length}</dd></div>
       </dl>
-      <p class="muted">Select a centroid or aggregate arrow for its detailed statistics.</p>`);
+      <p class="muted">Select a field or domain label to bring all of its incident arrows to full strength, or select one aggregate arrow for its detailed statistics.</p>`);
     this.markStructureDetails();
     if (open) this.options.openPanel();
   }
@@ -232,7 +263,7 @@ export class StructureOverlayController {
     renderHtml(byId('detailTitle'), `${escapeHtml(group.label)} — ${noun} structure`);
     renderHtml(byId('detailEditLink'), '');
     renderHtml(byId('detailBody'), `
-      <p>This centroid is the mean Layered position of the currently visible concepts whose primary ${noun} is <strong>${escapeHtml(group.label)}</strong>.</p>
+      <p>This label is anchored at the mean Layered position of the currently visible concepts whose primary ${noun} is <strong>${escapeHtml(group.label)}</strong>, with deterministic collision avoidance when large labels would overlap.</p>
       <dl class="structure-overlay-stats">
         <div><dt>Concepts</dt><dd>${group.conceptCount}</dd></div>
         <div><dt>Internal relations</dt><dd>${group.internalRelations}</dd></div>
@@ -274,7 +305,7 @@ export class StructureOverlayController {
     renderHtml(byId('detailTitle'), `${escapeHtml(source?.label ?? connection.source)} → ${escapeHtml(target?.label ?? connection.target)}`);
     renderHtml(byId('detailEditLink'), '');
     renderHtml(byId('detailBody'), `
-      <p>This aggregate arrow preserves the direction of every underlying relation. Its thickness and label encode the number of currently visible relations.</p>
+      <p>This aggregate arrow preserves the direction of every underlying relation. Its thickness encodes the number of currently visible relations.</p>
       <dl class="structure-overlay-stats">
         <div><dt>Relations</dt><dd>${connection.count}</dd></div>
         <div><dt>Relation types</dt><dd>${typeCounts.length}</dd></div>

@@ -329,16 +329,19 @@ export class GraphViewController {
 
   updateEdgeZoomStyles(): void {
     const { cy, state } = this.options;
+    // Structure-overlay connections own their opacity through stylesheet state
+    // (base dim, selected edge, or incident-edge emphasis). Always clear any
+    // stale bypass left by an earlier graph-view pass before the zoom-state
+    // short circuit, because overlays can be rebuilt without changing zoom.
+    const structureConnections = cy.edges('[semanticConnection = 1]');
+    structureConnections.removeStyle('opacity');
+    structureConnections.removeStyle('events');
+
     const activeAtZoom = state.edgeZoomActivation && cy.zoom() >= EDGE_ZOOM_ACTIVATION_THRESHOLD;
     if (this.lastEdgeZoomActive === activeAtZoom) return;
     this.lastEdgeZoomActive = activeAtZoom;
 
-    cy.edges().forEach((edge) => {
-      if (Number(edge.data('semanticConnection')) === 1) {
-        edge.style('opacity', edge.selected() ? 1 : 0.84);
-        edge.style('events', EDGE_EVENTS_ENABLED);
-        return;
-      }
+    cy.edges().not('[semanticConnection = 1]').forEach((edge) => {
       if (edge.hasClass('structure-source-edge')) {
         edge.style('opacity', EDGE_OPACITY_HIDDEN);
         edge.style('events', EDGE_EVENTS_DISABLED);

@@ -159,34 +159,41 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: 'node.structure-source-node',
     style: {
-      label: '', opacity: 0.18, 'background-opacity': 0.72,
-      'border-width': 1, 'border-color': '#ffffff', 'z-index': 1
+      label: '', opacity: 0.1, 'background-opacity': 0.64,
+      'border-width': 1, 'border-color': '#ffffff', 'z-index': 1,
+      events: 'no', 'transition-property': 'none', 'transition-duration': 0
     }
   },
   {
-    selector: 'node.structure-source-node:selected',
-    style: {
-      opacity: 0.82, 'background-opacity': 0.92,
-      'border-width': 5, 'border-color': '#0f172a', 'z-index': 995
-    }
+    selector: 'node.structure-source-junction',
+    style: { display: 'none', 'transition-property': 'none', 'transition-duration': 0 }
   },
-  { selector: 'node.structure-source-junction', style: { display: 'none' } },
-  { selector: 'edge.structure-source-edge', style: { display: 'none', events: 'no' } },
+  {
+    selector: 'edge.structure-source-edge',
+    style: { display: 'none', events: 'no', 'transition-property': 'none', 'transition-duration': 0 }
+  },
   {
     selector: 'node[semanticGroup = 1]',
     style: {
-      shape: 'round-rectangle', width: 'data(nodeWidth)', height: 'data(nodeHeight)',
-      'background-color': 'data(color)', 'background-opacity': 0.96,
-      'border-width': 4, 'border-color': 'data(fieldColor)',
-      label: 'data(canvasLabel)', color: '#ffffff', 'font-size': 15, 'font-weight': 800,
+      shape: 'rectangle', width: 'data(nodeWidth)', height: 'data(nodeHeight)',
+      'background-opacity': 0, 'border-width': 0,
+      label: 'data(canvasLabel)', color: 'data(color)',
+      'font-size': 'data(labelFontSize)', 'font-weight': 800,
       'text-wrap': 'wrap', 'text-max-width': 'data(textWidth)',
       'text-halign': 'center', 'text-valign': 'center',
+      'text-outline-color': '#ffffff', 'text-outline-opacity': 0.92,
+      'text-outline-width': 'data(textOutlineWidth)',
       opacity: 1, 'z-index': 1000, events: 'yes'
     }
   },
   {
     selector: 'node[semanticGroup = 1]:selected',
-    style: { 'border-width': 7, 'border-color': '#0f172a', 'background-opacity': 1, 'z-index': 1002 }
+    style: {
+      'background-opacity': 0, 'border-width': 0,
+      'text-outline-color': '#ffffff',
+      'text-outline-width': 'data(selectedTextOutlineWidth)',
+      opacity: 1, 'z-index': 1002
+    }
   },
   {
     selector: 'edge[semanticConnection = 1]',
@@ -199,13 +206,17 @@ export const graphStyles: cytoscape.StylesheetJson = [
       'text-background-color': '#ffffff', 'text-background-opacity': 0.94,
       'text-background-padding': '4px', 'text-border-width': 1,
       'text-border-color': '#cbd5e1', 'text-border-opacity': 0.9,
-      'text-rotation': 'autorotate', opacity: 0.84, events: 'yes', 'z-index': 999
+      'text-rotation': 'autorotate', opacity: 0.18, events: 'yes', 'z-index': 999
     }
+  },
+  {
+    selector: 'edge[semanticConnection = 1].structure-connection-emphasis',
+    style: { opacity: 1, 'z-index': 1000 }
   },
   {
     selector: 'edge[semanticConnection = 1]:selected',
     style: {
-      width: 'mapData(relationCount, 1, 100, 6, 18)', opacity: 1,
+      width: 'data(selectedEdgeWidth)', opacity: 1,
       'line-color': '#0f172a', 'target-arrow-color': '#0f172a', 'z-index': 1001
     }
   }
@@ -260,6 +271,15 @@ export function applyRendererPreferences(cy: cytoscape.Core, preferences: Prefer
     .style('transition-duration', preferences.transitions ? 120 : 0)
     .selector('edge').style('transition-property', preferences.transitions ? 'opacity, width, line-color, target-arrow-color' : 'none')
     .style('transition-duration', preferences.transitions ? 120 : 0)
+    // These selectors must follow the generic transition rules: Cytoscape's
+    // stylesheet cascade is order-based, so an earlier structure-specific rule
+    // would be overwritten when renderer preferences are applied.
+    .selector('node.structure-source-node, node.structure-source-junction')
+    .style('transition-property', 'none')
+    .style('transition-duration', 0)
+    .selector('edge.structure-source-edge')
+    .style('transition-property', 'none')
+    .style('transition-duration', 0)
     .update();
   cy.resize();
   cy.forceRender();

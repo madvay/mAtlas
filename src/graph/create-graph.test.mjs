@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applyRendererPreferences } from '../../.test-build/graph/create-graph.js';
+import { applyRendererPreferences, graphStyles } from '../../.test-build/graph/create-graph.js';
 
 function fakeGraph() {
   const renderer = { forcedPixelRatio: 1.5, motionBlurEnabled: false, motionBlur: false, hideEdgesOnViewport: true };
@@ -51,6 +51,10 @@ test('renderer preferences change the live renderer and immediately redraw both 
     assert.equal(fixture.renderer.hideEdgesOnViewport, false);
     assert.deepEqual(fixture.movement, [['autoungrabify', true], 'ungrabify', 'panify']);
     assert.ok(fixture.declarations.some(([name, value]) => name === 'transition-duration' && value === 120));
+    assert.ok(fixture.declarations.some(([name, value]) => name === 'selector'
+      && value === 'node.structure-source-node, node.structure-source-junction'));
+    assert.ok(fixture.declarations.some(([name, value]) => name === 'selector'
+      && value === 'edge.structure-source-edge'));
 
     applyRendererPreferences(fixture.graph, {
       version: 1, highResolution: false, transitions: false, motionBlur: false, formulaeInGraph: true,
@@ -66,4 +70,26 @@ test('renderer preferences change the live renderer and immediately redraw both 
   } finally {
     globalThis.window = previousWindow;
   }
+});
+
+
+test('structure modes use text-only centroid labels and disable source-node events', () => {
+  const sourceStyle = graphStyles.find((entry) => entry.selector === 'node.structure-source-node')?.style;
+  const centroidStyle = graphStyles.find((entry) => entry.selector === 'node[semanticGroup = 1]')?.style;
+  assert.equal(sourceStyle?.events, 'no');
+  assert.equal(sourceStyle?.label, '');
+  assert.equal(sourceStyle?.['transition-property'], 'none');
+  assert.equal(sourceStyle?.['transition-duration'], 0);
+  assert.equal(centroidStyle?.shape, 'rectangle');
+  assert.equal(centroidStyle?.['background-opacity'], 0);
+  assert.equal(centroidStyle?.['border-width'], 0);
+  assert.equal(centroidStyle?.color, 'data(color)');
+  assert.equal(centroidStyle?.['text-outline-color'], '#ffffff');
+  assert.equal(centroidStyle?.width, 'data(nodeWidth)');
+  assert.equal(centroidStyle?.height, 'data(nodeHeight)');
+  assert.equal(centroidStyle?.['font-size'], 'data(labelFontSize)');
+  const connectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1]')?.style;
+  const emphasizedConnectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1].structure-connection-emphasis')?.style;
+  assert.equal(connectionStyle?.opacity, 0.18);
+  assert.equal(emphasizedConnectionStyle?.opacity, 1);
 });
