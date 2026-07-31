@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild-wasm';
 import { generateSeoAssets } from './generate-seo-assets.mjs';
+import { getFileLastModifiedData, formatIsoTimestamp } from './git-last-modified.mjs';
 import { generateConceptPages } from './generate-concept-pages.mjs';
 import { generateViewPages } from './generate-view-pages.mjs';
 import { generateStaticAtlasSvgs } from './generate-static-atlas-svg.mjs';
@@ -39,7 +40,7 @@ function buildCommitSha() {
 function buildLastModifiedDate() {
   const sourceDateEpoch = Number(process.env.SOURCE_DATE_EPOCH);
   if (Number.isFinite(sourceDateEpoch) && sourceDateEpoch > 0) {
-    return new Date(sourceDateEpoch * 1000).toISOString().slice(0, 10);
+    return formatIsoTimestamp(new Date(sourceDateEpoch * 1000));
   }
   const git = spawnSync('git', [
     'log', '-1', '--format=%cI', '--',
@@ -54,8 +55,35 @@ function buildLastModifiedDate() {
   const timestamp = git.status === 0 ? git.stdout.trim() : '';
   const parsed = timestamp ? new Date(timestamp) : null;
   return parsed && Number.isFinite(parsed.getTime())
-    ? parsed.toISOString().slice(0, 10)
-    : new Date().toISOString().slice(0, 10);
+    ? formatIsoTimestamp(parsed)
+    : formatIsoTimestamp(new Date());
+}
+
+function buildSitemapDates(graphData, rootPath) {
+  const domainLastModified = new Map();
+  const conceptLastModified = new Map();
+
+  const domainIds = graphData.meta?.domainOrder ?? Object.keys(graphData.domains ?? {});
+  for (const domainId of domainIds) {
+    const domain = graphData.domains?.[domainId];
+    if (!domain || typeof domain.field !== 'string') {
+      continue;
+    }
+
+    const filePath = `content/concepts/${domain.field}/${domainId}.yaml`;
+    const { domainLastModified: domainTimestamp, conceptLastModified: conceptTimestamps } = getFileLastModifiedData(filePath, rootPath);
+    if (domainTimestamp) {
+      domainLastModified.set(domainId, domainTimestamp);
+    }
+    for (const [conceptId, conceptTimestamp] of conceptTimestamps.entries()) {
+      const previous = conceptLastModified.get(conceptId);
+      if (!previous || conceptTimestamp > previous) {
+        conceptLastModified.set(conceptId, conceptTimestamp);
+      }
+    }
+  }
+
+  return { domainLastModified, conceptLastModified };
 }
 
 const buildSha = buildCommitSha();
@@ -179,6 +207,7 @@ await generateDirectoryPage({
   directoryPath: 'directory/',
   lastModified
 });
+const { domainLastModified, conceptLastModified } = buildSitemapDates(graphData, rootPath);
 await generateSeoAssets({
   graphData,
   viewsData,
@@ -190,7 +219,9 @@ await generateSeoAssets({
   directoryPath: 'directory/',
   fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
-  lastModified
+  lastModified,
+  domainLastModified,
+  conceptLastModified
 });
 
 const manifest = {
