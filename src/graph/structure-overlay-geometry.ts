@@ -177,7 +177,7 @@ export function structureEdgeVisualMetrics(
 ): StructureEdgeVisualMetrics {
   const zoom = clamp(estimatedFitZoom, MIN_FIT_ZOOM, MAX_FIT_ZOOM);
   const count = Math.max(1, relationCount);
-  const renderedWidth = clamp(2.4 + Math.log2(count + 1) * 1.35, 3.2, 13.5);
+  const renderedWidth = clamp(2.4 + Math.log2(count + 1) * 1.35, 3.2, 13.5) * 0.6;
   const renderedCurveDistance = scale === 'fields' ? 72 : 46;
   return {
     width: renderedWidth / zoom,
