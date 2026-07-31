@@ -45,6 +45,17 @@ function localYamlPartUrl(baseUrl, file, label) {
   return url;
 }
 
+function contentYamlUrl(baseUrl, file, label) {
+  if (typeof file !== 'string' || !/^[A-Za-z0-9./-]+\.ya?ml$/u.test(file)) {
+    throw new Error(`${label} must reference a .yaml/.yml file inside content/.`);
+  }
+  const url = new URL(file, baseUrl);
+  if (!url.href.startsWith(contentSourceDirectory.href)) {
+    throw new Error(`${label} must resolve inside content/.`);
+  }
+  return url;
+}
+
 function normalizeJson(value) {
   return Buffer.from(`${JSON.stringify(value, null, 2)}\n`);
 }
@@ -180,6 +191,15 @@ async function loadStructuredGraphFromYaml(indexUrl) {
   if (typeof index.sources !== 'string') {
     throw new Error('content/concepts/index.yaml sources must be a YAML filename.');
   }
+  if (typeof index.layout !== 'string') {
+    throw new Error('content/concepts/index.yaml layout must be a YAML filename.');
+  }
+  const layoutUrl = contentYamlUrl(indexUrl, index.layout, 'content/concepts/index.yaml layout');
+  const layoutBytes = await readFile(layoutUrl);
+  const layout = parseYamlBytes(layoutBytes, contentRelativeLabel(layoutUrl));
+  if (!layout || typeof layout !== 'object' || Array.isArray(layout)) {
+    throw new Error('content/layout.yaml must be a YAML object.');
+  }
   const sourcesUrl = localYamlPartUrl(indexUrl, index.sources, 'content/concepts/index.yaml sources');
   const sourcePart = parseYamlBytes(await readFile(sourcesUrl), contentRelativeLabel(sourcesUrl));
   if (!sourcePart || typeof sourcePart !== 'object' || Array.isArray(sourcePart)) {
@@ -271,11 +291,14 @@ async function loadStructuredGraphFromYaml(indexUrl) {
       domains: domainsList.map,
       fields: fieldsList.map,
       edgeTypes: edgeTypesList.map,
+      layout,
       sources: sourcePart.sources,
       nodes,
       edges
     },
-    removedDomains
+    removedDomains,
+    layoutBytes,
+    layoutUrl
   };
 }
 
@@ -317,9 +340,9 @@ async function loadJsonOrYaml(url, label) {
     return { data: parseJson(bytes, contentRelativeLabel(url)), bytes };
   }
   if (label === 'graph') {
-    const { graph, removedDomains } = await loadStructuredGraphFromYaml(url);
+    const { graph, removedDomains, layoutBytes, layoutUrl } = await loadStructuredGraphFromYaml(url);
     const { bytes } = await writeIntermediateJson('structures.json', graph);
-    return { data: graph, bytes, removedDomains };
+    return { data: graph, bytes, removedDomains, layoutBytes, layoutUrl };
   }
   const data = await loadViewsFromYaml(url);
   const { bytes } = await writeIntermediateJson('views.json', data);
@@ -351,6 +374,7 @@ export async function loadSourceContent() {
     shareCodec: shareCodecResult.data,
     shareCodecBytes: shareCodecResult.bytes,
     removedDomains: graphResult.removedDomains ?? [],
-    urls: { graphUrl, schemaUrl, viewsUrl, shareCodecUrl }
+    layoutBytes: graphResult.layoutBytes,
+    urls: { graphUrl, schemaUrl, viewsUrl, shareCodecUrl, layoutUrl: graphResult.layoutUrl }
   };
 }

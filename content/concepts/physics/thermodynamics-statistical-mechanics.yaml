@@ -499,7 +499,6 @@ nodes:
       - thermodynamics-statistical-mechanics
       - condensed-matter-physics
       - chemical-thermodynamics-equilibrium
-      - materials-polymer-chemistry
     level: 30
     kind: structure
     conceptType: Collective thermodynamic phenomenon

@@ -20,7 +20,18 @@ function managerFor(nodes) {
     'molecular-structure-bonding': { field: 'chemistry', order: 202 }
   };
   const model = {
-    data: { nodes, domains },
+    data: {
+      nodes,
+      domains,
+      layout: {
+        verticalBands: [{ id: 'science', fields: ['physics', 'chemistry'] }],
+        domainLanes: {
+          'atomic-molecular-physics': 0,
+          'atomic-structure-periodicity': 200,
+          'molecular-structure-bonding': 500
+        }
+      }
+    },
     fieldOrder: ['physics', 'chemistry'],
     domainOrder: Object.keys(domains),
     fieldForDomain: (domainId) => domains[domainId].field,
@@ -52,6 +63,24 @@ test('Layered shares authored level rows across Physics and Chemistry', () => {
   assert.equal(positions.chemistry_atom.y, positions.physics_atom.y);
   assert.equal(positions.chemistry_molecule.y, 35 * 180);
   assert.ok(Math.abs(positions.chemistry_atom.x - positions.physics_atom.x) <= 300);
+});
+
+test('Layered derives cross-band offsets from authored data rather than field names', () => {
+  const manager = managerFor([
+    node('formal', 'mathematics', 'formal-domain', 10),
+    node('science', 'physics', 'atomic-molecular-physics', 2)
+  ]);
+  manager.options.model.data.domains['formal-domain'] = { field: 'mathematics', order: 0 };
+  manager.options.model.data.layout = {
+    verticalBands: [
+      { id: 'formal', fields: ['mathematics'] },
+      { id: 'science', fields: ['physics'], after: 'formal', gap: 3 }
+    ],
+    domainLanes: { 'formal-domain': -100, 'atomic-molecular-physics': 100 }
+  };
+  const positions = manager.atlasPositions();
+  assert.equal(positions.formal.y, 10 * 180);
+  assert.equal(positions.science.y, 13 * 180);
 });
 
 function makeNode(id, position = { x: 0, y: 0 }) {

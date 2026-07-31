@@ -2,10 +2,10 @@ meta:
   title: Atlas of Fundamental Concepts
   # Content version must be updated on each change, fix for fixes, minor for content additions,
   # major for breaking schema change (i.e. content major == schema major version).
-  version: 1.9.0
-  description: A source-backed visual atlas connecting mathematics, physics, and chemistry from formal structures and physical law through chemical composition, bonding, reactivity, measurement, materials, living systems, environmental processes, and industrial practice.
+  version: 2.0.0
+  description: A source-backed visual atlas connecting mathematics, physics, and fundamental chemistry from formal structures and physical law through chemical composition, bonding, reactivity, measurement, and radiochemical processes.
   direction: Smaller levels generally indicate less structure or composition; larger values generally indicate specialization, composition, effective description, collective organization, or emergence. Mathematics occupies the upper formal band. Physics and Chemistry share the lower scientific band. The order is ontological and structural, not pedagogical difficulty.
-  scope: Mathematics; physics from classical and relativistic foundations through quantum, particle, nuclear, atomic, statistical, and condensed-matter organization; and chemistry from composition, atomic periodicity, molecular structure, thermodynamics, kinetics, and measurement through inorganic, organic, electrochemical, radiochemical, materials, biochemical, environmental, and industrial systems.
+  scope: Mathematics; physics from classical and relativistic foundations through quantum, particle, nuclear, atomic, statistical, and condensed-matter organization; and chemistry from composition, atomic periodicity, molecular structure, thermodynamics, kinetics, measurement, inorganic and organic reactivity, electrochemistry, radiochemistry, and experimental evidence.
   license: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
   licenseUrl: https://creativecommons.org/licenses/by-sa/4.0/
   attribution: mAtlas - Copyright (c) 2026 Advay Mengle - https://atlas.madvay.com/
@@ -254,31 +254,12 @@ domains:
     color: "#7e22ce"
     order: 211
     field: chemistry
-  - id: materials-polymer-chemistry
-    label: Materials & polymer chemistry
-    color: "#4d7c0f"
-    order: 212
-    field: chemistry
-  - id: biochemistry-chemical-biology
-    label: Biochemistry & chemical biology
-    color: "#047857"
-    order: 213
-    field: chemistry
-  - id: environmental-atmospheric-chemistry
-    label: Environmental & atmospheric chemistry
-    color: "#0f766e"
-    order: 214
-    field: chemistry
-  - id: industrial-process-chemistry
-    label: Industrial & process chemistry
-    color: "#475569"
-    order: 215
-    field: chemistry
   - id: chemistry-experiments-evidence
     label: Chemical experiments & evidence
     color: "#991b1b"
-    order: 216
+    order: 212
     field: chemistry
+layout: ../layout.yaml
 removedDomains:
   - id: foundation
     path: math/foundation

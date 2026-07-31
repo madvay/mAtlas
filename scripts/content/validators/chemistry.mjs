@@ -15,10 +15,6 @@ export const CHEMISTRY_DOMAINS = Object.freeze([
   'analytical-chemistry',
   'electrochemistry',
   'radiochemistry',
-  'materials-polymer-chemistry',
-  'biochemistry-chemical-biology',
-  'environmental-atmospheric-chemistry',
-  'industrial-process-chemistry',
   'chemistry-experiments-evidence'
 ]);
 
@@ -38,10 +34,6 @@ const LEVEL_RANGES = Object.freeze({
   'analytical-chemistry': [26, 37],
   electrochemistry: [29, 39],
   radiochemistry: [27, 38],
-  'materials-polymer-chemistry': [36, 45],
-  'biochemistry-chemical-biology': [35, 46],
-  'environmental-atmospheric-chemistry': [36, 41],
-  'industrial-process-chemistry': [37, 42]
 });
 
 const REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS = Object.freeze({
@@ -60,9 +52,6 @@ const REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS = Object.freeze({
   schrodinger_equation: 'quantum-chemistry-spectroscopy',
   thermodynamic_system: 'chemical-thermodynamics-equilibrium',
   thermodynamic_equilibrium: 'chemical-thermodynamics-equilibrium',
-  phase_transition: 'materials-polymer-chemistry',
-  crystalline_solid: 'materials-polymer-chemistry',
-  semiconductor: 'materials-polymer-chemistry',
   electron: 'atomic-structure-periodicity',
   photon: 'quantum-chemistry-spectroscopy',
   atomic_spectrum: 'analytical-chemistry',
@@ -125,8 +114,8 @@ export function validate(context) {
 
   const chemistryPrimary = nodes.filter((node) => primaryField(node, graph) === 'chemistry');
   const chemistryMembers = nodes.filter((node) => nodeFields(node, graph).includes('chemistry'));
-  if (chemistryPrimary.length < 320) errors.push(`Chemistry must contain at least 320 primary concepts; found ${chemistryPrimary.length}.`);
-  if (chemistryMembers.length < 390) errors.push(`Chemistry must include at least 390 primary or shared concepts; found ${chemistryMembers.length}.`);
+  if (chemistryPrimary.length < 225) errors.push(`Chemistry must contain at least 225 primary concepts; found ${chemistryPrimary.length}.`);
+  if (chemistryMembers.length < 300) errors.push(`Chemistry must include at least 300 primary or shared concepts; found ${chemistryMembers.length}.`);
 
   for (const node of chemistryPrimary) {
     if (!nodeFields(node, graph).includes('chemistry')) errors.push(`Chemistry node ${node.id} omits Chemistry from fields.`);
@@ -151,9 +140,9 @@ export function validate(context) {
   const chemistryInternalEdges = chemistrySourceEdges.filter((item) => nodeFields(nodeById.get(item?.target), graph).includes('chemistry'));
   const crossDomainEdges = chemistryInternalEdges.filter((item) => nodeById.get(item.source)?.primaryDomain !== nodeById.get(item.target)?.primaryDomain);
   const crossFieldEdges = chemistrySourceEdges.filter((item) => primaryField(nodeById.get(item?.target), graph) !== 'chemistry');
-  if (chemistrySourceEdges.length < 475) errors.push(`Chemistry must author at least 475 outgoing relations; found ${chemistrySourceEdges.length}.`);
-  if (crossDomainEdges.length < 190) errors.push(`Chemistry must contain at least 190 cross-domain relations; found ${crossDomainEdges.length}.`);
-  if (crossFieldEdges.length < 30) errors.push(`Chemistry must contain at least 30 cross-field relations; found ${crossFieldEdges.length}.`);
+  if (chemistrySourceEdges.length < 310) errors.push(`Chemistry must author at least 310 outgoing relations; found ${chemistrySourceEdges.length}.`);
+  if (crossDomainEdges.length < 100) errors.push(`Chemistry must contain at least 100 cross-domain relations; found ${crossDomainEdges.length}.`);
+  if (crossFieldEdges.length < 25) errors.push(`Chemistry must contain at least 25 cross-field relations; found ${crossFieldEdges.length}.`);
 
   for (const edge of chemistrySourceEdges) {
     const sources = citedSources(edge, graph);
@@ -163,7 +152,7 @@ export function validate(context) {
   }
   for (const domainId of SUBSTANTIVE_DOMAINS) {
     const outbound = crossDomainEdges.filter((edge) => nodeById.get(edge.source)?.primaryDomain === domainId);
-    if (outbound.length < 3) errors.push(`Chemistry domain ${domainId} must author at least three cross-domain relations; found ${outbound.length}.`);
+    if (outbound.length < 2) errors.push(`Chemistry domain ${domainId} must author at least two cross-domain relations; found ${outbound.length}.`);
   }
 
   const degrees = new Map(nodes.map((node) => [node.id, 0]));
@@ -175,12 +164,12 @@ export function validate(context) {
   if (isolates.length) errors.push(`Chemistry contains isolated primary concepts: ${isolates.map((node) => node.id).join(', ')}.`);
   const substantiveNodes = chemistryPrimary.filter((node) => !arrayOrEmpty(node.domains).includes(EVIDENCE_DOMAIN));
   const multiplyLinked = substantiveNodes.filter((node) => (degrees.get(node.id) ?? 0) >= 2).length;
-  if (multiplyLinked / Math.max(1, substantiveNodes.length) < 0.8) {
-    errors.push(`At least 80% of substantive Chemistry concepts must have two or more incident relations; found ${multiplyLinked}/${substantiveNodes.length}.`);
+  if (multiplyLinked / Math.max(1, substantiveNodes.length) < 0.75) {
+    errors.push(`At least 75% of substantive Chemistry concepts must have two or more incident relations; found ${multiplyLinked}/${substantiveNodes.length}.`);
   }
 
   const evidenceNodes = chemistryMembers.filter((node) => arrayOrEmpty(node?.domains).includes(EVIDENCE_DOMAIN));
-  if (evidenceNodes.length < 36) errors.push(`Chemistry must retain at least 36 evidence-program concepts; found ${evidenceNodes.length}.`);
+  if (evidenceNodes.length < 25) errors.push(`Chemistry must retain at least 25 evidence-program concepts; found ${evidenceNodes.length}.`);
   const evidenceIds = new Set(evidenceNodes.map((node) => node.id));
   for (const node of evidenceNodes) {
     if (node.primaryDomain === EVIDENCE_DOMAIN) errors.push(`Evidence concept ${node.id} must be primary in a substantive domain.`);

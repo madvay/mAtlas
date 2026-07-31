@@ -2485,14 +2485,4 @@ edges:
       - nlab-ordinary_differential_equation
       - wp-chem-chemical-kinetics
       - openstax-chemistry-2e
-  - id: ordinary_differential_equation_to_michaelis_menten_kinetics
-    source: ordinary_differential_equation
-    target: michaelis_menten_kinetics
-    type: mathematical-formulation
-    label: formulates the full enzyme mechanism
-    detail: A coupled ODE system formulates the enzyme mechanism before steady-state or rapid-equilibrium reduction; the familiar algebraic rate expression therefore holds only under stated kinetic assumptions.
-    citations:
-      - wp-ordinary_differential_equation
-      - nlab-ordinary_differential_equation
-      - wp-chem-biochemistry
-      - ncbi-molecular-biology-cell
+  

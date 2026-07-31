@@ -552,17 +552,6 @@ edges:
   - wp-chem-stoichiometry
   - openstax-chemistry-2e
   - iupac-gold-book
-- id: chem_chemical_species_to_biomolecule_classification
-  source: chemical_species
-  target: biomolecule
-  type: classification
-  label: includes biological molecular species
-  detail: Biomolecules are chemically identifiable species when protonation, composition, conformation, and association state are specified at
-    the relevant resolution.
-  citations:
-  - wp-chem-stoichiometry
-  - openstax-chemistry-2e
-  - iupac-gold-book
 - id: chem_amount_of_substance_to_concentration_theory_component
   source: amount_of_substance
   target: concentration
@@ -579,38 +568,6 @@ edges:
   type: theory-component
   label: supports amount-ratio calibration
   detail: Isotope dilution infers amount from isotope ratios and a calibrated spike, with the mole supplying the SI amount unit.
-  citations:
-  - wp-chem-stoichiometry
-  - openstax-chemistry-2e
-  - iupac-gold-book
-- id: chem_conservation_mass_chemical_reaction_to_process_mass_balance_describes_governs
-  source: conservation_mass_chemical_reaction
-  target: process_mass_balance
-  type: describes-governs
-  label: supports process material accounting
-  detail: Process balances apply conservation to flowing and accumulating systems while separating conserved elements from species generated or
-    consumed by reaction.
-  citations:
-  - wp-chem-stoichiometry
-  - openstax-chemistry-2e
-  - iupac-gold-book
-- id: chem_stoichiometry_to_process_mass_balance_theory_component
-  source: stoichiometry
-  target: process_mass_balance
-  type: theory-component
-  label: supplies reaction source terms
-  detail: Stoichiometric coefficients determine species-generation ratios used in reactive process balances.
-  citations:
-  - wp-chem-stoichiometry
-  - openstax-chemistry-2e
-  - iupac-gold-book
-- id: chem_stoichiometry_to_atom_economy_describes_governs
-  source: stoichiometry
-  target: atom_economy
-  type: describes-governs
-  label: defines product atom incorporation
-  detail: Atom economy is calculated from a balanced stoichiometric equation and does not by itself measure yield, selectivity, hazard, or energy
-    use.
   citations:
   - wp-chem-stoichiometry
   - openstax-chemistry-2e

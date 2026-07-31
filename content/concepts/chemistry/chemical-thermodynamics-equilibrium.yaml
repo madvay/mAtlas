@@ -452,18 +452,6 @@ edges:
   - openstax-chemistry-2e
   - iupac-green-book
   - nist-chemistry-webbook
-- id: chem_enthalpy_to_process_energy_balance_theory_component
-  source: enthalpy
-  target: process_energy_balance
-  type: theory-component
-  label: accounts for flowing material energy
-  detail: Enthalpy differences account for sensible, latent, and reaction contributions in steady-flow energy balances when reference states are
-    consistent.
-  citations:
-  - wp-chem-chemical-thermodynamics
-  - openstax-chemistry-2e
-  - iupac-green-book
-  - nist-chemistry-webbook
 - id: chem_chemical_potential_to_chemical_activity_mathematical_formulation
   source: chemical_potential
   target: chemical_activity
@@ -494,17 +482,6 @@ edges:
   label: relates reaction free energy and voltage
   detail: For a reversible electrochemical reaction, Gibbs-energy change relates to cell potential and transferred charge with an explicitly stated
     sign convention.
-  citations:
-  - wp-chem-chemical-thermodynamics
-  - openstax-chemistry-2e
-  - iupac-green-book
-  - nist-chemistry-webbook
-- id: chem_reaction_enthalpy_to_process_energy_balance_theory_component
-  source: reaction_enthalpy
-  target: process_energy_balance
-  type: theory-component
-  label: supplies reaction heat term
-  detail: Reaction enthalpy contributes to process heat release or demand together with sensible heat, phase change, mixing, and nonideal effects.
   citations:
   - wp-chem-chemical-thermodynamics
   - openstax-chemistry-2e
@@ -579,25 +556,3 @@ edges:
   - openstax-chemistry-2e
   - iupac-green-book
   - nist-chemistry-webbook
-- id: chem_chemical_thermodynamics_to_metabolism_describes_governs
-  source: chemical_thermodynamics
-  target: metabolism
-  type: describes-governs
-  label: constrains feasible reaction directions and coupling
-  detail: Chemical potentials and reaction free energies constrain metabolic direction and coupling, while enzymes,
-    regulation, compartmentation, transport, and nonequilibrium flux determine realized pathways.
-  citations:
-  - wp-chem-biochemistry
-  - ncbi-molecular-biology-cell
-  - pubchem-docs
-- id: chem_chemical_equilibrium_to_haber_bosch_process_describes_governs
-  source: chemical_equilibrium
-  target: haber_bosch_process
-  type: describes-governs
-  label: constrains ammonia conversion
-  detail: Reaction equilibrium constrains ammonia yield as temperature, pressure, and composition change; catalysts
-    alter approach rate, while separation and recycle determine plant conversion and throughput.
-  citations:
-  - wp-chem-chemical-industry
-  - doe-new-chemistry-roadmap
-  - doe-catalysts

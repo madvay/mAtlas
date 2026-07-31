@@ -1,0 +1,56 @@
+# Authored geometry for the Layered layout.  Vertical bands retain authored
+# concept levels within a band; their offsets are derived from the preceding
+# band.  Every active field and domain must appear exactly once.
+verticalBands:
+  - id: formal
+    fields: [mathematics]
+  - id: scientific
+    fields: [physics, chemistry]
+    after: formal
+    gap: 4
+domainLanes:
+  set-theory: 0
+  order: -5760
+  logic: -5040
+  computability-theory: -4320
+  category-theory: -3600
+  combinatorics: -2880
+  universal-algebra: -2160
+  algebra: -1440
+  representation-theory: -720
+  number-theory: 720
+  algebraic-geometry: 1440
+  topology: 2160
+  algebraic-topology: 2880
+  differential-geometry: 3600
+  homological-algebra: 4320
+  analysis: 5040
+  dynamical-systems: 5760
+  probability: 6480
+  measure: 7200
+  physical-foundations: -3600
+  classical-mechanics: -2880
+  relativity: -2160
+  cosmology: -1440
+  electromagnetism: -720
+  quantum-mechanics: 0
+  thermodynamics-statistical-mechanics: 720
+  quantum-field-theory: 1440
+  particle-physics: 2160
+  nuclear-physics: 2880
+  atomic-molecular-physics: 2880
+  condensed-matter-physics: 3600
+  experiments-observations: 4320
+  chemical-foundations: 1980
+  atomic-structure-periodicity: 2680
+  molecular-structure-bonding: 3230
+  quantum-chemistry-spectroscopy: 2330
+  chemical-thermodynamics-equilibrium: 720
+  solutions-interfaces: 1260
+  chemical-kinetics-dynamics: 1780
+  inorganic-coordination-chemistry: 2630
+  organic-chemistry: 1830
+  analytical-chemistry: 3380
+  electrochemistry: 140
+  radiochemistry: 2880
+  chemistry-experiments-evidence: 4320

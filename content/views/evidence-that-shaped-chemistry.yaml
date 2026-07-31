@@ -22,10 +22,6 @@ settings:
     - analytical-chemistry
     - electrochemistry
     - radiochemistry
-    - materials-polymer-chemistry
-    - biochemistry-chemical-biology
-    - environmental-atmospheric-chemistry
-    - industrial-process-chemistry
     - chemistry-experiments-evidence
   edgeTypes:
     - historically-motivated
@@ -51,7 +47,3 @@ nodeSequence:
   - faraday_electrolysis_experiments
   - langmuir_adsorption_experiments
   - libby_radiocarbon_validation
-  - ziegler_natta_polymerization_experiments
-  - meselson_stahl_experiment
-  - antarctic_ozone_hole_observations
-  - haber_high_pressure_ammonia_experiments

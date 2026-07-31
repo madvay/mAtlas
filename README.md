@@ -2,7 +2,7 @@
 
 [![Deploy GitHub Pages](https://github.com/madvay/mAtlas/actions/workflows/pages.yml/badge.svg)](https://github.com/madvay/mAtlas/actions/workflows/pages.yml)
 
-An interactive, source-backed graph connecting concepts across fields of knowledge. The current release joins mathematics and physics to a broad Chemistry field spanning composition, atomic periodicity, bonding, spectroscopy, thermodynamics, solutions and interfaces, kinetics, inorganic and organic chemistry, measurement, electrochemistry, radiochemistry, materials and polymers, biochemistry, environmental chemistry, and industrial processes.
+An interactive, source-backed graph connecting concepts across fields of knowledge, combining mathematics, physics, and chemistry. The atlas is designed to support both human exploration and machine consumption. It is built from a single canonical graph dataset with a unified schema, rather than a collection of isolated applications.
 
 The atlas is one graph rather than a collection of isolated applications. Fields overlap on one global vertical scale, while domains occupy horizontal lanes that may be deliberately adjacent across fields; justified cross-field relations connect the resulting structure.
 
@@ -114,7 +114,7 @@ Existing mathematics concepts inherit the mathematics field through their domain
 
 A concept may belong to several fields. Boundary entities and frameworks—including atoms, ions, molecules, bonds, isotopes, quantum mechanics, spectroscopy, thermodynamics, and crystalline solids—remain single Physics-primary nodes with added Chemistry field and domain memberships. Chemistry-primary concepts represent genuinely chemical organizations, models, measurements, and practices rather than duplicating those entities.
 
-Chemistry's domain order is a stable navigation and lane order, not a claim that each domain derives from the prior one. Chemical foundations, atomic periodicity, and molecular bonding align with atomic and molecular physics; thermodynamic, solution/interfacial, kinetic, and quantum/spectroscopic frameworks overlap as peer cores; inorganic, organic, analytical, electrochemical, and radiochemical work form overlapping branch layers; materials, biochemical, environmental, and industrial systems extend selected branches. Historical experiments retain their substantive primary domain and also belong to `chemistry-experiments-evidence`.
+Chemistry's domain order is a stable navigation and lane order, not a claim that each domain derives from the prior one. Chemical foundations, atomic periodicity, and molecular bonding align with atomic and molecular physics; thermodynamic, solution/interfacial, kinetic, and quantum/spectroscopic frameworks overlap as peer cores; inorganic, organic, analytical, electrochemical, and radiochemical work form overlapping branch layers. Historical experiments retain their substantive primary domain and also belong to `chemistry-experiments-evidence`. Layered-layout coordinates and cross-field vertical bands are authored in `content/layout.yaml`, validated during content compilation, and loaded into the graph rather than encoded in the renderer.
 
 ### Relations
 

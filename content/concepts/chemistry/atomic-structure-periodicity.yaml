@@ -464,17 +464,6 @@ edges:
   - wp-chem-periodic-table
   - openstax-chemistry-2e
   - iupac-periodic-table
-- id: chem_periodic_trend_to_materials_chemistry_describes_governs
-  source: periodic_trend
-  target: materials_chemistry
-  type: describes-governs
-  label: guides composition–property hypotheses
-  detail: Periodic trends guide materials-composition hypotheses, but bonding, structure, defects, processing, kinetics,
-    and collective behavior require direct calculation and experiment.
-  citations:
-  - wp-chem-periodic-table
-  - openstax-chemistry-2e
-  - iupac-periodic-table
 - id: chem_chemical_valence_to_functional_group_describes_governs
   source: chemical_valence
   target: functional_group

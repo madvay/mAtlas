@@ -436,16 +436,6 @@ edges:
   - wp-chem-electrochemistry
   - openstax-chemistry-2e
   - iupac-gold-book
-- id: chem_electrolysis_to_chloralkali_process_framework_specialization
-  source: electrolysis
-  target: chloralkali_process
-  type: framework-specialization
-  label: industrial brine electrolysis
-  detail: Chloralkali production specializes electrolysis to coupled chloride oxidation and water reduction while preventing product recombination.
-  citations:
-  - wp-chem-electrochemistry
-  - openstax-chemistry-2e
-  - iupac-gold-book
 - id: chem_voltaic_pile_experiments_to_electrochemical_cell_historically_motivated
   source: voltaic_pile_experiments
   target: electrochemical_cell
@@ -474,16 +464,6 @@ edges:
   citations:
   - wp-chem-nernst-equation
   - nobel-nernst-1920
-- id: chem_redox_reaction_to_metabolism_composition
-  source: redox_reaction
-  target: metabolism
-  type: composition
-  label: forms metabolic electron-transfer network
-  detail: Metabolism contains coupled redox reactions mediated by cofactors, gradients, and enzyme-controlled pathways.
-  citations:
-  - wp-chem-electrochemistry
-  - openstax-chemistry-2e
-  - iupac-gold-book
 - id: chem_electrode_to_chemical_interface_composition
   source: electrode
   target: chemical_interface
@@ -525,17 +505,6 @@ edges:
   - wp-chem-electrochemistry
   - openstax-chemistry-2e
   - iupac-gold-book
-- id: chem_redox_reaction_to_photosynthesis_chemistry_theory_component
-  source: redox_reaction
-  target: photosynthesis_chemistry
-  type: theory-component
-  label: supplies light-driven electron-transfer steps
-  detail: Coupled oxidation–reduction reactions supply electron transfer in photosynthetic chemistry, linked to
-    photon absorption, proton transfer, membrane transport, and carbon fixation.
-  citations:
-  - wp-chem-biochemistry
-  - ncbi-molecular-biology-cell
-  - pubchem-docs
 - id: chem_redox_reaction_to_cyclic_voltammetry_experimentally_verified_by
   source: redox_reaction
   target: cyclic_voltammetry
