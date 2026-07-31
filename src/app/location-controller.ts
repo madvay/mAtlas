@@ -8,8 +8,7 @@ import {
   viewTaxonomyDefaults
 } from '../state/view-state.js';
 import { stripInlineMathText, summarizePlainText } from '../core/text.js';
-import { CONNECTION_FROM_PARAM, copyConnectionQueryState } from '../state/connection-state.js';
-import { setComparisonParam } from '../model/concept-comparison.js';
+import { writeCompareState, type CompareState } from '../state/compare-state.js';
 import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, AtlasView, HistoryMode, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 
@@ -21,7 +20,7 @@ export interface LocationControllerOptions {
   domainOrder: readonly string[];
   edgeTypeOrder: readonly string[];
   shareCodec: ShareCodecConfig;
-  getComparisonNodeIds?: () => readonly string[];
+  getCompareState?: () => CompareState | null;
 }
 
 export interface TaxonomyScope {
@@ -247,7 +246,7 @@ export class LocationController {
 
   addUiState(url: URL): void {
     addShareUiStateToParams(url.searchParams, this.options.getState(), this.options.shareCodec);
-    setComparisonParam(url.searchParams, this.options.getComparisonNodeIds?.() ?? []);
+    writeCompareState(url.searchParams, this.options.getCompareState?.() ?? null);
   }
 
   githubEditUrl(itemId: string): string {
@@ -321,7 +320,6 @@ export class LocationController {
         url.hash = '';
       }
     }
-    this.preserveConnectionQuery(url);
     if (url.href === window.location.href) return;
 
     try {
@@ -390,15 +388,6 @@ export class LocationController {
     this.setHeadMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description);
   }
 
-  private preserveConnectionQuery(url: URL): void {
-    const current = new URL(window.location.href);
-    copyConnectionQueryState(current.searchParams, url.searchParams);
-    if (!url.searchParams.has(CONNECTION_FROM_PARAM)) return;
-    url.searchParams.delete('node');
-    url.searchParams.delete('edge');
-    url.searchParams.set('selection', 'none');
-  }
-
   private urlForActiveViewSelection(target: SelectionTarget | null): URL {
     const view = this.activeView();
     if (!view) return this.scopeUrl(this.namedScopeForState(), this.runtimeGlobalRootUrl);
@@ -415,7 +404,7 @@ export class LocationController {
     } else if (!(target.kind === 'node' && target.id === sequence[0])) {
       url.searchParams.set(target.kind, target.id);
     }
-    setComparisonParam(url.searchParams, this.options.getComparisonNodeIds?.() ?? []);
+    writeCompareState(url.searchParams, this.options.getCompareState?.() ?? null);
     return url;
   }
 

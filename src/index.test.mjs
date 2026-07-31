@@ -61,21 +61,21 @@ test('experimental features is an opt-in browser preference', () => {
   assert.doesNotMatch(html, /id="experimentalFeaturesToggle"[^>]*checked/);
 });
 
-test('Connect, Compare, and Semantic Map toolbar buttons are hidden by default', () => {
-  assert.match(html, /id="connectionButton"[^>]*hidden/);
+test('Compare and Semantic Map toolbar buttons are hidden by default', () => {
   assert.match(html, /id="compareButton"[^>]*hidden/);
   assert.match(html, /id="semanticMapButton"[^>]*hidden/);
 });
 
-test('connection explorer exposes endpoint search and direction-preserving traversal', () => {
-  assert.match(html, /id="connectionButton"[^>]*aria-haspopup="dialog"[^>]*aria-pressed="false"/);
-  assert.match(html, /id="connectionDialog"[^>]*class="[^"]*connection-dialog/);
-  assert.match(html, /id="connectionFrom"[^>]*list="conceptNames"/);
-  assert.match(html, /id="connectionTo"[^>]*list="conceptNames"/);
-  const traversal = html.match(/<select id="connectionDirection"[\s\S]*?<\/select>/)?.[0] ?? '';
+test('Compare integrates overview and direction-preserving connection analysis', () => {
+  assert.doesNotMatch(html, /id="connectionButton"/);
+  assert.doesNotMatch(html, /id="connectionDialog"/);
+  assert.match(html, /id="compareButton"[^>]*aria-haspopup="dialog"[^>]*aria-pressed="false"/);
+  assert.match(html, /data-compare-mode="overview"/);
+  assert.match(html, /data-compare-mode="connections"/);
+  const traversal = html.match(/<select id="compareDirection"[\s\S]*?<\/select>/)?.[0] ?? '';
   assert.match(traversal, /value="either">Either direction; preserve arrow meaning/);
-  assert.match(traversal, /value="forward">Follow authored arrows only/);
-  assert.match(html, /id="connectionError"[^>]*role="alert"[^>]*aria-live="polite"/);
+  assert.match(traversal, /value="forward">Follow A → B arrows only/);
+  assert.match(html, /id="compareCopySequenceButton"/);
 });
 
 test('modal dialogs are siblings rather than nested inside another closed dialog', () => {

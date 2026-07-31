@@ -1,8 +1,6 @@
 import type { GraphEdge, GraphNode } from '../types.js';
 import type { GraphModel } from './graph-model.js';
 
-export const COMPARISON_QUERY_PARAM = 'compare';
-
 export interface ComparisonRelation {
   edgeId: string;
   edgeTypeId: string;
@@ -41,37 +39,6 @@ export interface ConceptComparisonAnalysis {
   directRelations: DirectComparisonRelation[];
   sharedNeighbors: SharedNeighborComparison[];
   relationTypeCounts: RelationTypeComparison[];
-}
-
-export function parseComparisonParam(
-  params: URLSearchParams,
-  nodeRecord: ReadonlyMap<string, GraphNode>
-): readonly [string, string] | null {
-  const raw = params.get(COMPARISON_QUERY_PARAM)?.trim();
-  if (!raw) return null;
-  const parts = raw.split(',').map((value) => value.trim()).filter(Boolean);
-  if (parts.length !== 2) return null;
-  const [leftId, rightId] = parts;
-  if (!leftId || !rightId || leftId === rightId) return null;
-  const left = nodeRecord.get(leftId);
-  const right = nodeRecord.get(rightId);
-  if (left?.kind !== 'structure' || right?.kind !== 'structure') return null;
-  return [left.id, right.id];
-}
-
-export function parseComparisonFromLocation(
-  location: Pick<Location, 'href'>,
-  nodeRecord: ReadonlyMap<string, GraphNode>
-): readonly [string, string] | null {
-  return parseComparisonParam(new URL(location.href).searchParams, nodeRecord);
-}
-
-export function setComparisonParam(params: URLSearchParams, nodeIds: readonly string[]): void {
-  if (nodeIds.length === 2 && nodeIds[0] && nodeIds[1] && nodeIds[0] !== nodeIds[1]) {
-    params.set(COMPARISON_QUERY_PARAM, `${nodeIds[0]},${nodeIds[1]}`);
-  } else {
-    params.delete(COMPARISON_QUERY_PARAM);
-  }
 }
 
 function intersectOrdered(left: readonly string[], right: readonly string[]): string[] {

@@ -1,9 +1,8 @@
 import type cytoscape from 'cytoscape';
 import { byId, escapeHtml, queryAll as $$ } from '../core/dom.js';
 import { GraphModel } from '../model/graph-model.js';
-import { parseComparisonFromLocation } from '../model/concept-comparison.js';
+import { readCompareStateFromLocation, type CompareState } from '../state/compare-state.js';
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
-import { readConnectionQueryState } from '../state/connection-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
 import { viewCoreNodes, viewNodeSequence } from '../state/view-state.js';
 import { LabelSizer } from '../graph/label-sizer.js';
@@ -22,7 +21,6 @@ import { PanelController } from '../ui/panel-controller.js';
 import { TooltipController } from '../ui/tooltip-controller.js';
 import { FilterControls } from '../ui/filter-controls.js';
 import { ViewsController } from '../ui/views-controller.js';
-import { ConnectionController } from '../ui/connection-controller.js';
 import { SemanticMapController } from '../ui/semantic-map-controller.js';
 import { CompareController } from '../ui/compare-controller.js';
 import { LocationController } from './location-controller.js';
@@ -47,7 +45,7 @@ export async function startAtlasApp(): Promise<void> {
   if (!(graphEl instanceof HTMLElement)) throw new Error('Missing #graph element.');
 
   const model = new GraphModel(graphData);
-  let comparisonNodeIds: readonly string[] = parseComparisonFromLocation(window.location, model.nodeRecord) ?? [];
+  let compareState: CompareState | null = readCompareStateFromLocation(window.location, model.nodeRecord);
   const { fieldOrder, domainOrder, edgeTypeOrder, defaultEdgeTypeIds } = model;
   const staticAtlasSvgMode = new URL(window.location.href).searchParams.get('__staticAtlasSvg') === '1'
     || document.querySelector('meta[name="atlas:static-svg-build"][content="1"]') !== null;
@@ -69,7 +67,7 @@ export async function startAtlasApp(): Promise<void> {
     domainOrder,
     edgeTypeOrder,
     shareCodec,
-    getComparisonNodeIds: () => comparisonNodeIds
+    getCompareState: () => compareState
   });
   const scopedDefaultFieldIds = locationController.scopedDefaultFieldIds();
   const scopedDefaultDomainIds = locationController.scopedDefaultDomainIds();
@@ -135,7 +133,6 @@ export async function startAtlasApp(): Promise<void> {
   if (initialView) locationController.setActiveView(initialView.id);
 
   let viewsController: ViewsController | null = null;
-  let connectionController: ConnectionController | null = null;
   let comparisonController: CompareController | null = null;
   let graphViewPreservesView = (_view: AtlasView): boolean => true;
   let syncFilterViewScope = (): void => {};
@@ -204,10 +201,8 @@ export async function startAtlasApp(): Promise<void> {
 
   function syncExperimentalToolbarButtons(): void {
     const showExperimental = preferences.experimentalFeatures;
-    const connectionButton = document.getElementById('connectionButton');
     const compareButton = document.getElementById('compareButton');
     const semanticMapButton = document.getElementById('semanticMapButton');
-    if (connectionButton) connectionButton.hidden = !showExperimental;
     if (compareButton) compareButton.hidden = !showExperimental;
     if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
   }
@@ -281,7 +276,6 @@ export async function startAtlasApp(): Promise<void> {
   const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
   const applyFilters = (options: { relayout?: boolean } = {}): void => {
     graphView.applyFilters(options);
-    connectionController?.refresh();
     comparisonController?.refresh();
     scheduleLayoutUiUpdate();
   };
@@ -318,9 +312,9 @@ export async function startAtlasApp(): Promise<void> {
       graphView.applyFilters({ relayout: false });
       if (previousPreferences.experimentalFeatures !== preferences.experimentalFeatures) {
         const showExperimental = preferences.experimentalFeatures;
-        const connectionButton = document.getElementById('connectionButton');
+        const compareButton = document.getElementById('compareButton');
         const semanticMapButton = document.getElementById('semanticMapButton');
-        if (connectionButton) connectionButton.hidden = !showExperimental;
+        if (compareButton) compareButton.hidden = !showExperimental;
         if (semanticMapButton) semanticMapButton.hidden = !showExperimental;
       }
     }
@@ -400,12 +394,16 @@ export async function startAtlasApp(): Promise<void> {
     selectedEdgeTypes: () => state.selectedEdgeTypes,
     currentSelection: () => currentSelectionTarget(),
     activateNode: (nodeId) => activateNode(nodeId, { center: true, zoomIn: true, historyMode: 'push' }),
-    onComparisonChange: (nodeIds, mode) => {
-      comparisonNodeIds = [...nodeIds];
+    activateEdge: (edgeId) => activateEdge(edgeId, { center: true, zoomIn: true, historyMode: 'push' }),
+    openFilters: () => setPanelOpen('filters', true),
+    fitElements: fitGraphElements,
+    refreshEdgeStyles: () => graphView.refreshEdgeZoomStyles(),
+    onCompareStateChange: (nextState, mode) => {
+      compareState = nextState;
       writeLocationState(currentSelectionTarget(), mode);
     }
   });
-  comparisonController.initialize(comparisonNodeIds);
+  comparisonController.initialize(compareState);
 
   function showNodeDetails(id: string): void {
     detailsController.showNode(id);
@@ -419,23 +417,6 @@ export async function startAtlasApp(): Promise<void> {
     detailsController.showEmpty();
     syncDocumentMetadata(null);
   }
-
-  connectionController = new ConnectionController({
-    cy,
-    model,
-    math: mathRenderer,
-    currentSelection: () => currentSelectionTarget(),
-    openDetails: openDetailsPanel,
-    openFilters: () => setPanelOpen('filters', true),
-    fitElements: fitGraphElements,
-    prepareHighlight: () => {
-      cy.$(':selected').unselect();
-      setNeighborhoodHighlight(false, null, false);
-    },
-    refreshEdgeStyles: () => graphView.refreshEdgeZoomStyles(),
-    activateNode: (nodeId) => { activateNode(nodeId, { center: true, zoomIn: true, historyMode: 'push' }); },
-    activateEdge: (edgeId) => { activateEdge(edgeId, { center: true, zoomIn: true, historyMode: 'push' }); }
-  });
 
   function ensureNodeVisible(id: string): void {
     const element = cy.getElementById(id);
@@ -489,7 +470,6 @@ export async function startAtlasApp(): Promise<void> {
     pointer,
     historyMode = 'push'
   }: { center?: boolean; zoomIn?: boolean; pointer?: { x: number; y: number }; historyMode?: HistoryMode } = {}): boolean {
-    connectionController?.clear();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     // A second details-panel navigation must replace, rather than queue behind,
@@ -520,7 +500,6 @@ export async function startAtlasApp(): Promise<void> {
     zoomIn = false,
     historyMode = 'push'
   }: { center?: boolean; zoomIn?: boolean; pointer?: { x: number; y: number }; historyMode?: HistoryMode } = {}): boolean {
-    connectionController?.clear();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
     cy.stop(true, false);
@@ -543,7 +522,6 @@ export async function startAtlasApp(): Promise<void> {
   }
 
   function clearSelection({ historyMode = 'push' }: { historyMode?: HistoryMode } = {}): void {
-    connectionController?.clear();
     cy.$(':selected').unselect();
     setNeighborhoodHighlight(false, null, false);
     showEmptyDetails();
@@ -560,16 +538,8 @@ export async function startAtlasApp(): Promise<void> {
     const selected = cy.$(':selected').first();
 
     if (!target) {
-      const connection = readConnectionQueryState(new URL(window.location.href).searchParams, model.knownNodeIds);
-      if (selected && !selected.empty()) {
-        if (connection) {
-          cy.$(':selected').unselect();
-          setNeighborhoodHighlight(false, null, false);
-        } else {
-          clearSelection({ historyMode: null });
-        }
-      }
-      if (initial && !connection) showEmptyDetails();
+      if (selected && !selected.empty()) clearSelection({ historyMode: null });
+      if (initial) showEmptyDetails();
       return;
     }
 
@@ -674,14 +644,13 @@ export async function startAtlasApp(): Promise<void> {
 
   function applyLocationState({ initial = false } = {}): void {
     if (!initial) applyUiStateFromLocation();
-    comparisonNodeIds = parseComparisonFromLocation(window.location, model.nodeRecord) ?? [];
-    comparisonController?.syncFromLocation(comparisonNodeIds);
+    compareState = readCompareStateFromLocation(window.location, model.nodeRecord);
+    comparisonController?.syncFromLocation(compareState);
     const target = parseSelectionLocation({ includeTemplateSelection: initial });
     writeLocationState(target, 'replace');
     applySelectionFromLocation({ initial });
     syncDocumentMetadata(target);
     viewsController?.syncActiveView();
-    connectionController?.syncFromLocation({ fit: initial });
   }
 
   function clearSearch(clearInput = false): void {
@@ -744,8 +713,7 @@ export async function startAtlasApp(): Promise<void> {
           <ul>
             <li><strong>Search</strong> marks all matches and selects the best match without filtering the graph.</li>
             <li><strong>Neighborhood</strong> toggles immediate-neighbor emphasis for the selected item.</li>
-            <li><strong>Connect</strong> finds up to three short paths between two concepts using the currently visible relation graph, while preserving whether each step follows or opposes the authored arrow.</li>
-            <li><strong>Compare</strong> opens a side-by-side analysis of two concepts, including direct relations, shared adjacent concepts, relation counts, taxonomy, and source overlap.</li>
+            <li><strong>Compare</strong> uses one A/B pair for two analyses: Overview contrasts structure, taxonomy, sources, direct relations, and shared neighbors; Connections finds and explains up to three short visible-graph paths while preserving authored edge direction.</li>
             <li><strong>Layered / Compact</strong> changes the same layout setting as the Display menu. A brief amber pulse on Compact means the current Layered graph is unusually wide and sparse.</li>
             <li><strong>Fit</strong> fits all currently visible nodes, labels, field boundaries, and field titles into the unobscured viewport.</li>
             <li><strong>Structure map</strong> compresses the current graph into field- or domain-scale nodes, weighted directed connections, and ranked bridge concepts. Double-click a field to descend to its domains or a domain to open its concepts.</li>
@@ -798,7 +766,7 @@ export async function startAtlasApp(): Promise<void> {
         <section class="help-card">
           <h3>Details and sources</h3>
           <p>Details gives the selected item’s summary, data, axioms, induced structures, notes, domain memberships, relations, stories and views, and source links. In a relation such as “Builds toward,” the destination is shown first and the edge annotation follows as <em>via [annotation]</em>. Relation links can navigate to concepts currently hidden by filters without silently changing a prohibited-domain setting.</p>
-          <p>The compare action pins a concept into the comparison workspace. The edit action opens the corresponding source file on GitHub. The share action copies a permalink containing the item selection and the current independently versioned <code>filter=</code> and <code>disp=</code> states.</p>
+          <p>The compare action pins a concept into the shared Overview/Connections workspace. Connections can fit an active path and copy its node sequence for Story authoring. The edit action opens the corresponding source file on GitHub. The share action copies a permalink containing the item selection and the current independently versioned <code>filter=</code> and <code>disp=</code> states.</p>
         </section>
         <section class="help-card">
           <h3>Stories and views</h3>
@@ -862,7 +830,6 @@ export async function startAtlasApp(): Promise<void> {
     setNodeSequenceBadges: (nodeIds) => graphLabelLayer.setNodeSequence(nodeIds)
   });
   viewsController.initialize();
-  connectionController.initialize();
   buildHelp();
 
   byId('fitButton').addEventListener('click', fitVisibleGraph);

@@ -1,80 +1,97 @@
-# Product spec: Concept Compare
+# Product spec: Unified Concept Compare
 
-## Decision
+## Product decision
 
-Add a relationship-aware comparison workspace for two concepts.
+Concept comparison and connection discovery are two views of the same user inquiry: understanding the relationship between concept A and concept B. They therefore use one pair selector, one toolbar entry, one URL state, and one modal workspace.
 
-This is the highest-value addition after excluding in-app Story/View authoring and concept-to-concept pathfinding. The atlas already answers “what is this?” and “what is connected nearby?” It does not answer the equally common question “how are these two concepts alike, different, and related?” Graph proximity alone cannot answer that reliably because layout distance is editorial, domains overlap, and relation types are directional and semantically distinct.
+The standalone Connect control and dialog are removed. Its pathfinding behavior becomes the **Connections** tab inside **Compare**.
 
 ## Users and jobs
 
-- A student distinguishes neighboring concepts that are commonly confused.
-- A researcher checks whether two objects share formal context, source material, or adjacent constructions.
-- A professor prepares a concise contrast for teaching or discussion.
-- An explorer moves from visual proximity to an explicit account of the recorded relationship.
-- A Story/View author checks candidate concepts before placing them in a narrative.
+- A student distinguishes two concepts and then sees how the visible atlas connects them.
+- A researcher checks direct assertions, shared context, and alternative routes without maintaining duplicate endpoint state.
+- A professor moves between a concise contrast and a teachable relation sequence.
+- A Story author copies a selected route as a valid YAML `nodeSequence`.
+- An explorer changes filters and sees both pair analyses recompute against the same graph state.
 
-## Product behavior
+## Entry and pair selection
 
-### Entry points
+- The sole toolbar entry is **Compare**.
+- Every structure-concept Details header can add that concept to Compare.
+- Inputs A and B accept identifiers, exact labels, datalist values, and ranked atlas search.
+- Subjects must be distinct structure nodes; construction junctions cannot be endpoints.
+- Swap and Clear operate on the shared pair.
 
-- A Compare toolbar button opens the workspace.
-- A Compare action appears in every concept Details header.
-- Opening Compare from a concept pins that concept into the first available slot.
+## Analysis tabs
 
-### Concept selection
+### Overview
 
-- Two searchable concept inputs are labeled A and B.
-- Search accepts a rendered label, graph identifier, taxonomy context, or descriptive text using the atlas search ranking.
-- The two concepts must be distinct structure nodes; construction junctions cannot be comparison subjects.
-- Users can swap or clear the pair.
+Overview retains the original Concept Compare behavior:
 
-### Comparison output
+1. side-by-side summaries, taxonomy, metadata, defining carrier/data/axiom fields, and source counts;
+2. shared fields, domains, and citation records;
+3. direct authored relations of enabled types, preserving source and target;
+4. incident relation counts by type; and
+5. shared adjacent structure concepts with endpoint-specific relation wording.
 
-The workspace shows:
+Renderer-only synthetic edges are excluded to avoid double-counting collapsed construction junctions.
 
-1. Side-by-side summaries, taxonomy memberships, type/scale/status metadata, defining carrier/data/axiom fields when present, and source counts.
-2. Shared fields and domains.
-3. Shared citation records.
-4. Every direct authored relation of a currently enabled relation type, preserving source/target direction.
-5. Incident relation counts by relation type for each concept.
-6. Shared adjacent structure concepts, with the endpoint-specific relationship wording for A and B.
+### Connections
 
-Renderer-only synthetic edges are excluded from analysis so hidden construction junctions are not double-counted.
+Connections retains the complete Connection Explorer behavior inside the same workspace:
 
-### Graph integration
+- up to three shortest deterministic loopless paths;
+- a maximum of twelve relations per path;
+- either-direction traversal by default, with every backward traversal explicitly labeled;
+- forward-only A-to-B traversal using authored source-to-target assertions;
+- only nodes and edges visible under the current filters;
+- automatic recomputation after filter changes;
+- alternative-path selection;
+- graph dimming and path emphasis;
+- endpoint emphasis and explicit Fit path action;
+- concept summaries and relation type/label for every step;
+- ordinary concept and edge activation from the route explanation;
+- filter actions for hidden endpoints or no-path states;
+- one-click fallback from forward-only to either-direction search; and
+- Story-ready YAML `nodeSequence` copy.
 
-- A and B receive distinct graph outlines.
-- Shared adjacent concepts receive a third outline.
-- Direct relations are emphasized without replacing their semantic edge color.
-- Comparison emphasis survives filter, layout, selection, and panel changes.
+Path traversal never invents an inverse relation and does not claim that route order is logical derivation.
 
-### URL and sharing
+## Graph behavior
 
-- A complete pair is encoded as `compare=<left-id>,<right-id>`.
-- The parameter coexists with concept routes, View/Story routes, selection, `filter=`, and `disp=`.
-- Selection and filter rewrites preserve the comparison pair.
-- Invalid, duplicate, missing, or junction identifiers are discarded on location normalization.
-- Copy comparison link copies the complete current URL.
+Overview applies distinct A and B outlines, a shared-neighbor outline, and direct-edge emphasis.
 
-## Scope boundaries
+Connections replaces those marks with the selected route presentation: non-path visible elements are dimmed, route nodes and edges are emphasized, and endpoints receive stronger emphasis. Switching tabs deterministically replaces one presentation with the other. Ordinary selection and Details navigation remain available without destroying the pair.
 
-- No automatic prose claiming conceptual equivalence, superiority, or historical causation.
-- No semantic similarity score; the dataset does not support a defensible scalar metric.
-- No shortest-path computation.
-- No Story/View authoring or conversion of a comparison into a Story.
-- No persistence outside the URL.
-- No comparison of edges, junctions, or more than two concepts in this iteration.
+## URL contract
 
-## Success criteria
+Unified state uses:
 
-- A user can start a comparison from any concept in at most two actions.
-- Every directional relation shown matches the authored edge source, target, and endpoint labels.
-- Changing relation filters immediately recomputes direct relations, shared neighbors, and counts.
-- A copied URL restores the pair and graph emphasis.
-- The feature works on desktop and narrow layouts without changing the graph layout.
-- Existing content, URL codec, View/Story, selection, layout, and export tests remain green.
+- `compare=<left-id>,<right-id>`
+- `compareMode=connections` when the Connections tab is active
+- `compareDirection=forward` for forward-only traversal
+- `comparePath=<zero-based-index>` for a non-default alternative
 
-## Future extensions
+Overview, either-direction traversal, and the first path are defaults and are omitted. Invalid, duplicate, missing, or junction endpoints clear the complete compare state. Compare state coexists with selection, Views/Stories, `filter=`, and `disp=`.
 
-Potential later work includes comparison of more than two concepts, explicit section-by-section schema alignment, citation-kind grouping, export to a teaching handout, and optional comparison blocks inside authored Stories/Views.
+The old standalone `connectFrom`, `connectTo`, `connectDir`, and `connectPath` parameters are removed without a compatibility layer because the product is unpublished.
+
+## Accessibility and responsive behavior
+
+- Compare exposes dialog and pressed states.
+- Overview and Connections are ordinary ARIA tabs.
+- Traversal meaning is stated in text rather than color.
+- Alternative paths use buttons with `aria-pressed`.
+- All inputs, tabs, selectors, route links, and actions are keyboard operable.
+- On narrow screens, the analysis toolbar stacks and path alternatives become a single column.
+
+## Acceptance criteria
+
+1. No standalone Connect button or dialog remains.
+2. One A/B pair drives both Overview and Connections.
+3. All prior comparison analysis remains available.
+4. All prior path search, direction, alternative, fit, inspection, filter, permalink, and sequence-copy behavior remains available.
+5. The active tab and connection options restore from the unified compare URL state.
+6. Filter changes recompute the active analysis.
+7. Switching tabs replaces graph emphasis cleanly.
+8. Unit, type, content, production-build, and generated-output tests pass.

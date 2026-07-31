@@ -183,9 +183,6 @@
         <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
           <span class="material-icons" aria-hidden="true">highlight_alt</span>
         </button>
-        <button id="connectionButton" class="button connection-button" hidden aria-haspopup="dialog" aria-pressed="false" title="Find and explain paths between two concepts">
-          <span class="material-icons" aria-hidden="true">route</span><span class="connection-button-label">Connect</span>
-        </button>
         <button id="compareButton" class="button icon-button" hidden aria-haspopup="dialog" aria-pressed="false" aria-label="Compare concepts" title="Compare two concepts">
           <span class="material-icons" aria-hidden="true">compare_arrows</span>
         </button>
@@ -348,35 +345,6 @@
     </div>
   </div>
 
-  <dialog id="connectionDialog" class="help-dialog connection-dialog">
-    <form id="connectionForm" class="dialog-card">
-      <div class="dialog-header">
-        <div>
-          <div class="kicker">Relationship discovery</div>
-          <h2>Connect two concepts</h2>
-        </div>
-        <button type="button" class="icon-button" aria-label="Close" data-connection-close>×</button>
-      </div>
-      <div class="dialog-content connection-form-content">
-        <p>Find short paths using only the concepts and relation types visible under the current filters.</p>
-        <div class="connection-inputs">
-          <label><span>From</span><input id="connectionFrom" list="conceptNames" type="search" autocomplete="off" placeholder="Concept name or identifier" required></label>
-          <button id="connectionSwap" type="button" class="icon-button connection-swap" aria-label="Swap endpoints" title="Swap endpoints"><span class="material-icons" aria-hidden="true">swap_vert</span></button>
-          <label><span>To</span><input id="connectionTo" list="conceptNames" type="search" autocomplete="off" placeholder="Concept name or identifier" required></label>
-        </div>
-        <label class="connection-direction"><span>Traversal</span><select id="connectionDirection" class="select">
-          <option value="either">Either direction; preserve arrow meaning</option>
-          <option value="forward">Follow authored arrows only</option>
-        </select></label>
-        <p id="connectionError" class="form-error" role="alert" aria-live="polite"></p>
-      </div>
-      <div class="dialog-actions">
-        <button type="button" class="button" data-connection-close>Cancel</button>
-        <button type="submit" class="button primary">Find connections</button>
-      </div>
-    </form>
-  </dialog>
-
   <dialog id="semanticMapDialog" class="help-dialog semantic-map-dialog">
     <div class="dialog-card">
       <div class="dialog-header semantic-map-header">
@@ -447,12 +415,31 @@
         </label>
         <datalist id="compareConceptNames"></datalist>
       </div>
-      <div id="compareStatus" class="compare-status" role="status" aria-live="polite">Choose two concepts to compare.</div>
-      <div id="compareContent" class="dialog-content compare-content"></div>
+      <div class="compare-analysis-toolbar">
+        <div class="compare-mode-tabs" role="tablist" aria-label="Pair analysis">
+          <button id="compareOverviewTab" type="button" class="compare-mode-tab active" data-compare-mode="overview" role="tab" aria-controls="compareContent" aria-selected="true">Overview</button>
+          <button id="compareConnectionsTab" type="button" class="compare-mode-tab" data-compare-mode="connections" role="tab" aria-controls="compareContent" aria-selected="false" tabindex="-1">Connections</button>
+        </div>
+        <label id="compareDirectionControl" class="compare-direction" hidden>
+          <span>Traversal</span>
+          <select id="compareDirection" class="select">
+            <option value="either">Either direction; preserve arrow meaning</option>
+            <option value="forward">Follow A → B arrows only</option>
+          </select>
+        </label>
+      </div>
+      <div id="compareStatus" class="compare-status" role="status" aria-live="polite">Choose two concepts to compare or connect.</div>
+      <div id="compareContent" class="dialog-content compare-content" role="tabpanel"></div>
       <div class="dialog-actions compare-dialog-actions">
         <button id="compareClearButton" type="button" class="button">Clear</button>
+        <button id="compareFitPathButton" type="button" class="button" hidden>
+          <span class="material-icons" aria-hidden="true">fit_screen</span> Fit path
+        </button>
+        <button id="compareCopySequenceButton" type="button" class="button" hidden>
+          <span class="material-icons" aria-hidden="true">content_copy</span> Copy Story sequence
+        </button>
         <button id="compareCopyButton" type="button" class="button">
-          <span class="material-icons" aria-hidden="true">link</span> Copy comparison link
+          <span class="material-icons" aria-hidden="true">link</span> Copy link
         </button>
         <button class="button primary" value="close">Close</button>
       </div>

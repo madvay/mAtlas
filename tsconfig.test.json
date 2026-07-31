@@ -36,6 +36,9 @@
     "src/state/taxonomy-selection.ts",
     "src/ui/view-surface.ts",
     "src/ui/filter-controls.ts",
-    "src/ui/views-controller.ts"
+    "src/ui/views-controller.ts",
+    "src/model/concept-comparison.ts",
+    "src/state/compare-state.ts",
+    "src/graph/connection-path.ts"
   ]
 }

@@ -2,13 +2,19 @@ import type cytoscape from 'cytoscape';
 import { byId, escapeHtml, queryAll } from '../core/dom.js';
 import { rankNodeMatches } from '../core/search.js';
 import { stripInlineMathText } from '../core/text.js';
+import { findConnectionPaths, type ConnectionPath } from '../graph/connection-path.js';
 import {
   analyzeConceptComparison,
-  setComparisonParam,
   type ComparisonRelation,
   type ConceptComparisonAnalysis
 } from '../model/concept-comparison.js';
 import type { GraphModel } from '../model/graph-model.js';
+import {
+  sameCompareState,
+  writeCompareState,
+  type CompareMode,
+  type CompareState
+} from '../state/compare-state.js';
 import type { GraphNode, HistoryMode, SelectionTarget } from '../types.js';
 import type { MathRenderer } from './math-renderer.js';
 import { invalidateRender, renderHtml } from './render.js';
@@ -20,17 +26,21 @@ interface CompareControllerOptions {
   selectedEdgeTypes: () => ReadonlySet<string>;
   currentSelection: () => SelectionTarget | null;
   activateNode: (nodeId: string) => void;
-  onComparisonChange: (nodeIds: readonly string[], mode: Exclude<HistoryMode, null>) => void;
+  activateEdge: (edgeId: string) => void;
+  openFilters: () => void;
+  fitElements: (elements: cytoscape.CollectionReturnValue, padding?: number) => void;
+  refreshEdgeStyles: () => void;
+  onCompareStateChange: (state: CompareState | null, mode: Exclude<HistoryMode, null>) => void;
 }
 
 type ComparisonSlots = [string | null, string | null];
 
-function samePair(left: readonly string[] | null, right: readonly string[] | null): boolean {
-  return Boolean(left && right && left.length === 2 && right.length === 2 && left[0] === right[0] && left[1] === right[1]);
-}
-
 export class CompareController {
   private slots: ComparisonSlots = [null, null];
+  private mode: CompareMode = 'overview';
+  private direction: CompareState['direction'] = 'either';
+  private pathIndex = 0;
+  private paths: ConnectionPath[] = [];
   private readonly displayToId = new Map<string, string>();
   private readonly idToDisplay = new Map<string, string>();
   private readonly nodes: GraphNode[];
@@ -41,10 +51,10 @@ export class CompareController {
       .sort((a, b) => stripInlineMathText(a.label).localeCompare(stripInlineMathText(b.label)) || a.id.localeCompare(b.id));
   }
 
-  initialize(initialNodeIds: readonly string[]): void {
+  initialize(initialState: CompareState | null): void {
     this.buildConceptOptions();
     this.bindControls();
-    this.syncFromLocation(initialNodeIds);
+    this.syncFromLocation(initialState);
   }
 
   open(preferredNodeId?: string): void {
@@ -59,24 +69,45 @@ export class CompareController {
     }, 0);
   }
 
-  syncFromLocation(nodeIds: readonly string[]): void {
-    this.slots = nodeIds.length === 2 && this.isStructureNode(nodeIds[0]) && this.isStructureNode(nodeIds[1]) && nodeIds[0] !== nodeIds[1]
-      ? [nodeIds[0], nodeIds[1]]
-      : [null, null];
-    this.setStatus(this.completePair() ? 'Comparison ready.' : 'Choose two concepts to compare.');
+  syncFromLocation(state: CompareState | null): void {
+    if (state) {
+      this.slots = [state.nodeIds[0], state.nodeIds[1]];
+      this.mode = state.mode;
+      this.direction = state.direction;
+      this.pathIndex = state.pathIndex;
+    } else {
+      this.slots = [null, null];
+      this.mode = 'overview';
+      this.direction = 'either';
+      this.pathIndex = 0;
+    }
     this.refresh();
   }
 
-  refresh(): void {
+  refresh({ fitPath = false }: { fitPath?: boolean } = {}): void {
+    this.computePaths();
     this.syncInputs();
-    this.renderComparison();
+    this.syncModeControls();
+    this.renderActiveAnalysis();
     this.applyGraphHighlights();
     this.syncToolbarButton();
+    this.syncActionButtons();
+    if (fitPath) this.fitActivePath();
   }
 
   private completePair(): readonly [string, string] | null {
     const [left, right] = this.slots;
     return left && right && left !== right ? [left, right] : null;
+  }
+
+  private currentState(): CompareState | null {
+    const pair = this.completePair();
+    return pair ? {
+      nodeIds: pair,
+      mode: this.mode,
+      direction: this.mode === 'connections' ? this.direction : 'either',
+      pathIndex: this.mode === 'connections' ? this.pathIndex : 0
+    } : null;
   }
 
   private currentStructureSelection(): string | null {
@@ -89,13 +120,13 @@ export class CompareController {
   }
 
   private includePreferredNode(nodeId: string): void {
-    const previous = this.completePair();
+    const previous = this.currentState();
     if (this.slots[0] === nodeId || this.slots[1] === nodeId) return;
     if (!this.slots[0]) this.slots = [nodeId, this.slots[1]];
     else if (!this.slots[1]) this.slots = [this.slots[0], nodeId];
     else this.slots = [nodeId, this.slots[0]];
-    this.publishComparisonChange(previous);
-    this.setStatus(this.completePair() ? 'Comparison ready.' : 'Choose the second concept.');
+    this.pathIndex = 0;
+    this.publishStateChange(previous, 'push');
   }
 
   private buildConceptOptions(): void {
@@ -116,38 +147,72 @@ export class CompareController {
     byId('compareButton').addEventListener('click', () => this.open());
     this.bindInput(byId<HTMLInputElement>('compareLeftInput'), 0);
     this.bindInput(byId<HTMLInputElement>('compareRightInput'), 1);
+
     byId('compareSwapButton').addEventListener('click', () => {
-      const previous = this.completePair();
+      const previous = this.currentState();
       this.slots = [this.slots[1], this.slots[0]];
-      this.publishComparisonChange(previous);
-      this.refresh();
+      this.pathIndex = 0;
+      this.publishStateChange(previous, 'push');
+      this.refresh({ fitPath: this.mode === 'connections' });
     });
     byId('compareClearButton').addEventListener('click', () => {
-      const previous = this.completePair();
+      const previous = this.currentState();
       this.slots = [null, null];
-      this.publishComparisonChange(previous);
-      this.setStatus('Comparison cleared.');
+      this.mode = 'overview';
+      this.direction = 'either';
+      this.pathIndex = 0;
+      this.publishStateChange(previous, 'push');
       this.refresh();
     });
-    byId('compareCopyButton').addEventListener('click', async () => {
-      const pair = this.completePair();
-      if (!pair) {
-        this.setStatus('Choose two concepts before copying a comparison link.', true);
+
+    const modeButtons = queryAll<HTMLButtonElement>('[data-compare-mode]');
+    modeButtons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        const nextMode: CompareMode = button.dataset.compareMode === 'connections' ? 'connections' : 'overview';
+        if (nextMode === this.mode) return;
+        const previous = this.currentState();
+        this.mode = nextMode;
+        this.pathIndex = 0;
+        this.publishStateChange(previous, 'replace');
+        this.refresh({ fitPath: nextMode === 'connections' });
+      });
+      button.addEventListener('keydown', (event) => {
+        const nextIndex = event.key === 'ArrowRight' ? (index + 1) % modeButtons.length
+          : event.key === 'ArrowLeft' ? (index + modeButtons.length - 1) % modeButtons.length
+            : event.key === 'Home' ? 0
+              : event.key === 'End' ? modeButtons.length - 1
+                : -1;
+        if (nextIndex < 0) return;
+        event.preventDefault();
+        modeButtons[nextIndex]?.focus();
+        modeButtons[nextIndex]?.click();
+      });
+    });
+
+    byId<HTMLSelectElement>('compareDirection').addEventListener('change', (event) => {
+      const previous = this.currentState();
+      this.direction = (event.currentTarget as HTMLSelectElement).value === 'forward' ? 'forward' : 'either';
+      this.pathIndex = 0;
+      this.publishStateChange(previous, 'replace');
+      this.refresh({ fitPath: true });
+    });
+
+    byId('compareFitPathButton').addEventListener('click', () => this.fitActivePath());
+    byId('compareCopySequenceButton').addEventListener('click', () => {
+      const path = this.activePath();
+      if (!path) return;
+      const yaml = `nodeSequence:\n${path.nodeIds.map((nodeId) => `  - ${nodeId}`).join('\n')}`;
+      void this.copyText(yaml, byId<HTMLButtonElement>('compareCopySequenceButton'), 'Copied sequence');
+    });
+    byId('compareCopyButton').addEventListener('click', () => {
+      const state = this.currentState();
+      if (!state) {
+        this.setStatus('Choose two concepts before copying a link.', true);
         return;
       }
       const url = new URL(window.location.href);
-      setComparisonParam(url.searchParams, pair);
-      const button = byId<HTMLButtonElement>('compareCopyButton');
-      const originalHtml = button.innerHTML;
-      try {
-        await navigator.clipboard.writeText(url.toString());
-        invalidateRender(button);
-        button.textContent = 'Copied';
-      } catch {
-        window.prompt('Copy comparison link:', url.toString());
-      } finally {
-        window.setTimeout(() => renderHtml(button, originalHtml), 1200);
-      }
+      writeCompareState(url.searchParams, state);
+      void this.copyText(url.toString(), byId<HTMLButtonElement>('compareCopyButton'), 'Copied link');
     });
   }
 
@@ -162,12 +227,12 @@ export class CompareController {
   }
 
   private commitInput(index: 0 | 1, rawValue: string): void {
-    const previous = this.completePair();
+    const previous = this.currentState();
     const value = rawValue.trim();
     if (!value) {
       this.slots[index] = null;
-      this.publishComparisonChange(previous);
-      this.setStatus('Choose two concepts to compare.');
+      this.pathIndex = 0;
+      this.publishStateChange(previous, 'push');
       this.refresh();
       return;
     }
@@ -185,14 +250,15 @@ export class CompareController {
       return;
     }
     this.slots[index] = nodeId;
-    this.publishComparisonChange(previous);
-    this.setStatus(this.completePair() ? 'Comparison ready.' : 'Choose the second concept.');
-    this.refresh();
+    this.pathIndex = 0;
+    this.publishStateChange(previous, 'push');
+    this.refresh({ fitPath: this.mode === 'connections' });
   }
 
   private resolveNodeId(value: string): string | null {
-    const directId = this.options.model.nodeRecord.get(value);
-    if (directId?.kind === 'structure') return directId.id;
+    const bracketedId = value.match(/\[([^\]]+)\]\s*$/)?.[1];
+    const direct = this.options.model.nodeRecord.get(bracketedId ?? value);
+    if (direct?.kind === 'structure') return direct.id;
     const displayId = this.displayToId.get(value.toLocaleLowerCase());
     if (displayId) return displayId;
     const matches = rankNodeMatches(this.nodes, value, (node) => ({
@@ -202,56 +268,153 @@ export class CompareController {
     return matches[0]?.node.id ?? null;
   }
 
-  private publishComparisonChange(previous: readonly string[] | null): void {
-    const next = this.completePair();
-    if (samePair(previous, next) || (!previous && !next)) return;
-    this.options.onComparisonChange(next ?? [], 'push');
+  private publishStateChange(previous: CompareState | null, historyMode: Exclude<HistoryMode, null>): void {
+    const next = this.currentState();
+    if (sameCompareState(previous, next)) return;
+    this.options.onCompareStateChange(next, historyMode);
+  }
+
+  private computePaths(): void {
+    const pair = this.completePair();
+    if (!pair || this.mode !== 'connections') {
+      this.paths = [];
+      return;
+    }
+    const visibleNodes = this.options.cy.nodes().not('.filter-hidden');
+    const nodeIds = new Set(visibleNodes.map((node) => node.id()));
+    const edges = this.options.cy.edges().not('.filter-hidden')
+      .map((edge) => this.options.model.edgeRecord.get(edge.id()))
+      .filter((edge): edge is NonNullable<typeof edge> => Boolean(edge));
+    this.paths = findConnectionPaths({
+      sourceId: pair[0],
+      targetId: pair[1],
+      nodeIds,
+      edges,
+      direction: this.direction,
+      maxPaths: 3,
+      maxDepth: 12
+    });
+    if (this.pathIndex >= this.paths.length) {
+      const previous = this.currentState();
+      this.pathIndex = 0;
+      this.publishStateChange(previous, 'replace');
+    }
+  }
+
+  private activePath(): ConnectionPath | null {
+    return this.paths[this.pathIndex] ?? this.paths[0] ?? null;
   }
 
   private syncInputs(): void {
     byId<HTMLInputElement>('compareLeftInput').value = this.slots[0] ? this.idToDisplay.get(this.slots[0]) ?? this.slots[0] : '';
     byId<HTMLInputElement>('compareRightInput').value = this.slots[1] ? this.idToDisplay.get(this.slots[1]) ?? this.slots[1] : '';
     byId<HTMLButtonElement>('compareSwapButton').disabled = !this.slots[0] && !this.slots[1];
-    byId<HTMLButtonElement>('compareClearButton').disabled = !this.slots[0] && !this.slots[1];
-    byId<HTMLButtonElement>('compareCopyButton').disabled = !this.completePair();
+  }
+
+  private syncModeControls(): void {
+    queryAll<HTMLButtonElement>('[data-compare-mode]').forEach((button) => {
+      const active = button.dataset.compareMode === this.mode;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-selected', String(active));
+      button.setAttribute('tabindex', active ? '0' : '-1');
+    });
+    const directionControl = byId<HTMLElement>('compareDirectionControl');
+    directionControl.hidden = this.mode !== 'connections';
+    byId<HTMLSelectElement>('compareDirection').value = this.direction;
   }
 
   private syncToolbarButton(): void {
     const button = byId<HTMLButtonElement>('compareButton');
+    const active = Boolean(this.completePair());
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+    button.title = active ? 'Open the active concept analysis' : 'Compare or connect two concepts';
+  }
+
+  private syncActionButtons(): void {
     const pair = this.completePair();
-    button.classList.toggle('active', Boolean(pair));
-    button.setAttribute('aria-pressed', String(Boolean(pair)));
-    button.title = pair ? 'Open the active concept comparison' : 'Compare two concepts';
+    const path = this.activePath();
+    byId<HTMLButtonElement>('compareClearButton').disabled = !this.slots[0] && !this.slots[1];
+    byId<HTMLButtonElement>('compareCopyButton').disabled = !pair;
+    byId<HTMLButtonElement>('compareFitPathButton').hidden = this.mode !== 'connections';
+    byId<HTMLButtonElement>('compareFitPathButton').disabled = !path;
+    byId<HTMLButtonElement>('compareCopySequenceButton').hidden = this.mode !== 'connections';
+    byId<HTMLButtonElement>('compareCopySequenceButton').disabled = !path;
   }
 
   private applyGraphHighlights(): void {
     const { cy } = this.options;
-    cy.elements().removeClass('comparison-a comparison-b comparison-shared comparison-direct');
-    const [leftId, rightId] = this.slots;
-    if (leftId) cy.getElementById(leftId).addClass('comparison-a');
-    if (rightId) cy.getElementById(rightId).addClass('comparison-b');
-    const pair = this.completePair();
-    if (!pair) return;
-    const analysis = analyzeConceptComparison(this.options.model, pair[0], pair[1], this.options.selectedEdgeTypes());
-    if (!analysis) return;
-    for (const neighbor of analysis.sharedNeighbors) cy.getElementById(neighbor.nodeId).addClass('comparison-shared');
-    for (const relation of analysis.directRelations) cy.getElementById(relation.edgeId).addClass('comparison-direct');
-  }
-
-  private renderComparison(): void {
+    cy.elements().removeClass('comparison-a comparison-b comparison-shared comparison-direct connection-dim connection-emphasis connection-endpoint');
     const pair = this.completePair();
     if (!pair) {
+      this.options.refreshEdgeStyles();
+      return;
+    }
+
+    if (this.mode === 'overview') {
+      cy.getElementById(pair[0]).addClass('comparison-a');
+      cy.getElementById(pair[1]).addClass('comparison-b');
+      const analysis = analyzeConceptComparison(this.options.model, pair[0], pair[1], this.options.selectedEdgeTypes());
+      if (analysis) {
+        for (const neighbor of analysis.sharedNeighbors) cy.getElementById(neighbor.nodeId).addClass('comparison-shared');
+        for (const relation of analysis.directRelations) cy.getElementById(relation.edgeId).addClass('comparison-direct');
+      }
+      this.options.refreshEdgeStyles();
+      return;
+    }
+
+    const path = this.activePath();
+    if (!path) {
+      this.options.refreshEdgeStyles();
+      return;
+    }
+    const nodeIds = new Set(path.nodeIds);
+    const edgeIds = new Set(path.steps.map((step) => step.edgeId));
+    const visible = cy.elements().not('.filter-hidden');
+    visible.addClass('connection-dim');
+    const pathElements = visible.filter((element) => element.isNode() ? nodeIds.has(element.id()) : edgeIds.has(element.id()));
+    pathElements.removeClass('connection-dim').addClass('connection-emphasis');
+    cy.getElementById(path.nodeIds[0] ?? '').addClass('connection-endpoint');
+    cy.getElementById(path.nodeIds[path.nodeIds.length - 1] ?? '').addClass('connection-endpoint');
+    this.options.refreshEdgeStyles();
+  }
+
+  private fitActivePath(): void {
+    if (this.mode !== 'connections') return;
+    const path = this.activePath();
+    if (!path) return;
+    const nodeIds = new Set(path.nodeIds);
+    const edgeIds = new Set(path.steps.map((step) => step.edgeId));
+    const elements = this.options.cy.elements().not('.filter-hidden').filter((element) =>
+      element.isNode() ? nodeIds.has(element.id()) : edgeIds.has(element.id()));
+    if (!elements.empty()) this.options.fitElements(elements, 110);
+  }
+
+  private renderActiveAnalysis(): void {
+    const pair = this.completePair();
+    if (!pair) {
+      this.setStatus('Choose two concepts to compare or connect.');
       renderHtml(byId('compareContent'), `
         <div class="compare-empty">
           <span class="material-icons" aria-hidden="true">compare_arrows</span>
           <h3>Choose two concepts</h3>
-          <p>The comparison uses the currently enabled relation types and remains shareable in the URL once both concepts are chosen.</p>
+          <p>Overview contrasts their recorded structure and neighborhood. Connections finds short paths through the currently visible graph.</p>
         </div>`);
+      return;
+    }
+
+    if (this.mode === 'connections') {
+      this.renderConnections(pair);
       return;
     }
     const analysis = analyzeConceptComparison(this.options.model, pair[0], pair[1], this.options.selectedEdgeTypes());
     if (!analysis) return;
+    this.setStatus('Overview uses the relation types currently enabled in Filters.');
     renderHtml(byId('compareContent'), this.renderAnalysis(analysis));
+    this.bindAnalysisLinks();
+  }
+
+  private bindAnalysisLinks(): void {
     queryAll<HTMLButtonElement>('[data-compare-node-id]').forEach((button) => {
       button.addEventListener('click', () => {
         const nodeId = button.dataset.compareNodeId;
@@ -259,6 +422,104 @@ export class CompareController {
         byId<HTMLDialogElement>('compareDialog').close();
         this.options.activateNode(nodeId);
       });
+    });
+  }
+
+  private renderConnections(pair: readonly [string, string]): void {
+    const sourceElement = this.options.cy.getElementById(pair[0]);
+    const targetElement = this.options.cy.getElementById(pair[1]);
+    const sourceVisible = !sourceElement.empty() && !sourceElement.hasClass('filter-hidden');
+    const targetVisible = !targetElement.empty() && !targetElement.hasClass('filter-hidden');
+    if (!sourceVisible || !targetVisible) {
+      this.setStatus('One or both concepts are hidden by the current filters.', true);
+      renderHtml(byId('compareContent'), `<section class="connection-summary">
+        <p>Connections use only concepts and relations admitted by the current field, domain, relation, and display filters.</p>
+        <button type="button" class="button connection-open-filters">Open filters</button>
+      </section>`);
+      this.bindConnectionActions();
+      return;
+    }
+
+    if (!this.paths.length) {
+      const directed = this.direction === 'forward' ? ' while following authored arrows only' : '';
+      this.setStatus('No visible path of twelve or fewer relations was found.', true);
+      renderHtml(byId('compareContent'), `<section class="connection-summary">
+        <p>No path was found${directed}. The search does not silently re-enable hidden concepts or relation types.</p>
+        <div class="connection-empty-actions">
+          ${this.direction === 'forward' ? '<button type="button" class="button connection-use-either">Search either direction</button>' : ''}
+          <button type="button" class="button connection-open-filters">Open filters</button>
+        </div>
+      </section>`);
+      this.bindConnectionActions();
+      return;
+    }
+
+    const activePath = this.activePath();
+    if (!activePath) return;
+    this.setStatus(`${this.paths.length} path${this.paths.length === 1 ? '' : 's'} found · showing path ${this.pathIndex + 1}.`);
+    const alternatives = this.paths.length > 1 ? `<div class="connection-alternatives" role="group" aria-label="Alternative connection paths">
+      ${this.paths.map((path, index) => `<button type="button" class="connection-alternative${index === this.pathIndex ? ' active' : ''}" data-connection-path="${index}" aria-pressed="${index === this.pathIndex}">Path ${index + 1}<span>${path.steps.length} relation${path.steps.length === 1 ? '' : 's'}</span></button>`).join('')}
+    </div>` : '';
+
+    const sequence = activePath.nodeIds.map((nodeId, index) => {
+      const node = this.options.model.nodeRecord.get(nodeId);
+      if (!node) return '';
+      const incoming = index > 0 ? activePath.steps[index - 1] : null;
+      const relation = incoming ? this.options.model.edgeRecord.get(incoming.edgeId) : null;
+      const type = relation ? this.options.model.data.edgeTypes[relation.type] : null;
+      const relationHtml = relation && type ? `<li class="connection-relation">
+        <button type="button" class="connection-edge-link" data-connection-edge="${escapeHtml(relation.id)}">
+          <span class="connection-direction-symbol" aria-hidden="true">${incoming?.followsArrow ? '↓' : '↑'}</span>
+          <span><strong>${this.options.math.renderText(type.label)}</strong><span>${this.options.math.renderText(relation.label)}</span></span>
+        </button>
+        <span class="connection-direction-note">${incoming?.followsArrow ? 'authored direction' : 'opposite the authored arrow'}</span>
+      </li>` : '';
+      return `${relationHtml}<li class="connection-node${index === 0 || index === activePath.nodeIds.length - 1 ? ' endpoint' : ''}">
+        <button type="button" class="text-button connection-node-link" data-connection-node="${escapeHtml(node.id)}">${this.options.math.renderText(node.label)}</button>
+        <span>${this.options.math.renderText(node.summary)}</span>
+      </li>`;
+    }).join('');
+
+    renderHtml(byId('compareContent'), `<section class="connection-summary">
+      <p>${activePath.steps.length} visible relation${activePath.steps.length === 1 ? '' : 's'} · ${this.direction === 'forward' ? 'following authored arrows' : 'either traversal direction'}</p>
+      ${alternatives}
+    </section>
+    <ol class="connection-path">${sequence}</ol>
+    <p class="connection-method muted">Paths are ranked first by relation count, then deterministically by concept and edge identifiers. Traversing an edge backwards does not invert its authored meaning and does not imply logical derivation.</p>`);
+    this.bindConnectionActions();
+  }
+
+  private bindConnectionActions(): void {
+    queryAll<HTMLElement>('[data-connection-path]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const previous = this.currentState();
+        this.pathIndex = Number.parseInt(button.dataset.connectionPath ?? '0', 10) || 0;
+        this.publishStateChange(previous, 'replace');
+        this.refresh({ fitPath: true });
+      });
+    });
+    queryAll<HTMLElement>('[data-connection-node]').forEach((button) => {
+      button.addEventListener('click', () => {
+        byId<HTMLDialogElement>('compareDialog').close();
+        this.options.activateNode(button.dataset.connectionNode ?? '');
+      });
+    });
+    queryAll<HTMLElement>('[data-connection-edge]').forEach((button) => {
+      button.addEventListener('click', () => {
+        byId<HTMLDialogElement>('compareDialog').close();
+        this.options.activateEdge(button.dataset.connectionEdge ?? '');
+      });
+    });
+    document.querySelector('.connection-open-filters')?.addEventListener('click', () => {
+      byId<HTMLDialogElement>('compareDialog').close();
+      this.options.openFilters();
+    });
+    document.querySelector('.connection-use-either')?.addEventListener('click', () => {
+      const previous = this.currentState();
+      this.direction = 'either';
+      this.pathIndex = 0;
+      this.publishStateChange(previous, 'replace');
+      this.refresh({ fitPath: true });
     });
   }
 
@@ -380,5 +641,18 @@ export class CompareController {
     const status = byId('compareStatus');
     status.textContent = message;
     status.classList.toggle('error', error);
+  }
+
+  private async copyText(text: string, button: HTMLButtonElement, confirmation: string): Promise<void> {
+    const originalHtml = button.innerHTML;
+    try {
+      await navigator.clipboard.writeText(text);
+      invalidateRender(button);
+      button.textContent = confirmation;
+    } catch {
+      window.prompt('Copy:', text);
+    } finally {
+      window.setTimeout(() => renderHtml(button, originalHtml), 1200);
+    }
   }
 }

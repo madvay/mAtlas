@@ -2647,6 +2647,60 @@ body:not(.atlas-loading) .graph-loader {
   border-color: #3b82f6;
 }
 
+.compare-analysis-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 18px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.compare-mode-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: #f8fafc;
+}
+
+.compare-mode-tab {
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 12px;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.compare-mode-tab.active {
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 16%);
+}
+
+.compare-direction {
+  display: grid;
+  gap: 4px;
+  min-width: min(360px, 50%);
+  color: #475569;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+}
+
+.compare-direction .select {
+  min-height: 36px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
 .compare-status {
   min-height: 22px;
   padding: 5px 20px 6px;
@@ -2928,6 +2982,7 @@ body:not(.atlas-loading) .graph-loader {
   }
 
   .compare-controls,
+  .compare-analysis-toolbar,
   .compare-status,
   .compare-content,
   .compare-dialog-actions {
@@ -2949,102 +3004,7 @@ body:not(.atlas-loading) .graph-loader {
   }
 }
 
-/* Connection explorer */
-.connection-button,
-.connection-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.connection-button .material-icons {
-  font-size: 18px;
-}
-
-.connection-button.active {
-  border-color: #2563eb;
-  background: #dbeafe;
-  color: #1e3a8a;
-}
-
-.connection-dialog {
-  width: min(650px, calc(100vw - 28px));
-}
-
-.connection-form-content > p:first-child {
-  margin-top: 0;
-  color: var(--muted);
-}
-
-.connection-inputs {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: end;
-  gap: 10px;
-}
-
-.connection-inputs label,
-.connection-direction {
-  display: grid;
-  gap: 5px;
-  color: #475569;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .045em;
-}
-
-.connection-inputs input {
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 38px;
-  border: 1px solid var(--line-strong);
-  border-radius: 7px;
-  padding: 7px 9px;
-  color: var(--text);
-  background: var(--panel);
-  font: inherit;
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-.connection-swap {
-  margin-bottom: 2px;
-}
-
-.connection-direction {
-  margin-top: 14px;
-}
-
-.connection-direction .select {
-  min-height: 38px;
-  text-transform: none;
-  letter-spacing: normal;
-  font-weight: 500;
-}
-
-.form-error {
-  min-height: 1.3em;
-  margin: 9px 0 0 !important;
-  color: #b91c1c;
-  font-size: 12px !important;
-}
-
-.connection-title-arrow {
-  color: #64748b;
-  padding: 0 3px;
-}
-
-.connection-actions .detail-header-action {
-  cursor: pointer;
-}
-
-.connection-actions .copied {
-  border-color: #16a34a;
-  color: #15803d;
-  background: #f0fdf4;
-}
-
+/* Connection analysis inside Compare */
 .connection-summary {
   border: 1px solid #bfdbfe;
   border-radius: 9px;
@@ -3183,30 +3143,14 @@ body:not(.atlas-loading) .graph-loader {
   font-size: 10px;
 }
 
-@media (max-width: 900px) {
-  .connection-button-label {
-    display: none;
-  }
-
-  .connection-button {
-    width: 34px;
-    padding: 0;
-    justify-content: center;
-  }
-}
-
 @media (max-width: 620px) {
-  .connection-inputs {
-    grid-template-columns: 1fr auto;
+  .compare-analysis-toolbar {
+    align-items: stretch;
+    flex-direction: column;
   }
 
-  .connection-inputs label:last-child {
-    grid-column: 1 / -1;
-  }
-
-  .connection-swap {
-    grid-column: 2;
-    grid-row: 1;
+  .compare-direction {
+    min-width: 0;
   }
 
   .connection-alternatives {

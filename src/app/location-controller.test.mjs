@@ -350,26 +350,6 @@ test('clearing selection preserves the view route with an explicit empty selecti
   }
 });
 
-test('filter and display location writes preserve an active connection inquiry', () => {
-  const browser = installBrowser('https://atlas.madvay.com/?connectFrom=blackbody&connectTo=quantum&connectDir=forward');
-  try {
-    const state = matchingState();
-    state.layout = 'breadthfirst';
-    const controller = controllerFor(state);
-    controller.write(null, 'replace');
-
-    const written = new URL(browser.writtenUrl());
-    assert.equal(written.searchParams.get('connectFrom'), 'blackbody');
-    assert.equal(written.searchParams.get('connectTo'), 'quantum');
-    assert.equal(written.searchParams.get('connectDir'), 'forward');
-    assert.equal(written.searchParams.get('selection'), 'none');
-    assert.equal(written.searchParams.has('node'), false);
-    assert.equal(written.searchParams.has('edge'), false);
-  } finally {
-    browser.restore();
-  }
-});
-  
 test('comparison workspace state survives selection and filter URL rewrites', () => {
   const browser = installBrowser('https://atlas.madvay.com/concepts/blackbody/');
   try {
@@ -383,13 +363,16 @@ test('comparison workspace state survives selection and filter URL rewrites', ()
       domainOrder: ['experiments'],
       edgeTypeOrder: ['motivated', 'verified'],
       shareCodec,
-      getComparisonNodeIds: () => ['blackbody', 'quantum']
+      getCompareState: () => ({ nodeIds: ['blackbody', 'quantum'], mode: 'connections', direction: 'forward', pathIndex: 1 })
     });
 
     controller.write({ kind: 'node', id: 'quantum' }, 'replace');
     const written = new URL(browser.writtenUrl());
     assert.equal(written.pathname, '/concepts/quantum/');
     assert.equal(written.searchParams.get('compare'), 'blackbody,quantum');
+    assert.equal(written.searchParams.get('compareMode'), 'connections');
+    assert.equal(written.searchParams.get('compareDirection'), 'forward');
+    assert.equal(written.searchParams.get('comparePath'), '1');
     assert.ok(written.searchParams.get('filter'));
     assert.ok(written.searchParams.get('disp'));
   } finally {

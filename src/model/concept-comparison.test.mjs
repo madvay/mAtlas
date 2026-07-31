@@ -1,10 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  analyzeConceptComparison,
-  parseComparisonParam,
-  setComparisonParam
-} from '../../.test-build/model/concept-comparison.js';
+import { analyzeConceptComparison } from '../../.test-build/model/concept-comparison.js';
 import { GraphModel } from '../../.test-build/model/graph-model.js';
 
 const data = {
@@ -43,20 +39,6 @@ const data = {
 };
 
 const model = new GraphModel(data);
-
-test('comparison URL state accepts exactly two distinct structure nodes', () => {
-  assert.deepEqual(parseComparisonParam(new URLSearchParams('compare=a,b'), model.nodeRecord), ['a', 'b']);
-  assert.equal(parseComparisonParam(new URLSearchParams('compare=a,a'), model.nodeRecord), null);
-  assert.equal(parseComparisonParam(new URLSearchParams('compare=a,j'), model.nodeRecord), null);
-  assert.equal(parseComparisonParam(new URLSearchParams('compare=a,missing'), model.nodeRecord), null);
-
-  const params = new URLSearchParams('q=x');
-  setComparisonParam(params, ['a', 'b']);
-  assert.equal(params.get('compare'), 'a,b');
-  setComparisonParam(params, []);
-  assert.equal(params.has('compare'), false);
-  assert.equal(params.get('q'), 'x');
-});
 
 test('comparison analysis reports direct relations, common context, and shared neighbors', () => {
   const result = analyzeConceptComparison(model, 'a', 'b', new Set(['specializes', 'uses']));
