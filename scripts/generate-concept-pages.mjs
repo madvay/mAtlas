@@ -63,6 +63,7 @@ function renderScopeStaticGraph(graphData, fieldId, domainId, image) {
   const scopeClass = domain ? 'domain' : 'field';
   return `<div id="graphLoader" class="graph-loader ${scopeClass}-graph-loader" role="status" aria-live="polite">
           <img class="${scopeClass}-static-graph" src="${escapeHtml(imageUrl)}" width="${image.width}" height="${image.height}" alt="${escapeHtml(alt)}" decoding="async" fetchpriority="high">
+          <span class="static-graph-shimmer" aria-hidden="true"></span>
           <span class="${scopeClass}-graph-loading-label">Preparing the interactive atlas…</span>
         </div>`;
 }

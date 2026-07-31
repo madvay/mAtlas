@@ -121,6 +121,7 @@ test('field and domain scope pages expose canonical routes and crawlable navigat
   assert.ok(fieldHtml.includes(`<meta itemprop="image" content="https://atlas.madvay.com/${fieldImage.path}">`));
   assert.ok(fieldHtml.includes(`<meta name="twitter:image" content="https://atlas.madvay.com/${fieldImage.path}">`));
   assert.ok(fieldHtml.includes(`class="field-static-graph" src="/${fieldImage.path}" width="1400" height="760"`));
+  assert.ok(fieldHtml.includes('<span class="static-graph-shimmer" aria-hidden="true"></span>'));
   assert.ok(fieldHtml.includes('domain structure graph with prerequisites hidden'));
   assert.ok(fieldHtml.includes('"primaryImageOfPage"'));
 
@@ -147,6 +148,7 @@ test('field and domain scope pages expose canonical routes and crawlable navigat
   assert.ok(domainHtml.includes(`<meta itemprop="image" content="https://atlas.madvay.com/${domainImage.path}">`));
   assert.ok(domainHtml.includes(`<meta name="twitter:image" content="https://atlas.madvay.com/${domainImage.path}">`));
   assert.ok(domainHtml.includes(`class="domain-static-graph" src="/${domainImage.path}" width="1200" height="700"`));
+  assert.ok(domainHtml.includes('<span class="static-graph-shimmer" aria-hidden="true"></span>'));
   assert.ok(domainHtml.includes('"primaryImageOfPage"'));
   const member = graphData.nodes.find((node) => node.kind === 'structure' && (node.domains ?? [node.primaryDomain]).includes(domainId));
   assert.ok(member && domainHtml.includes(`href="/concepts/${encodeURIComponent(member.id)}/"`));

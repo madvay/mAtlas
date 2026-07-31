@@ -48,13 +48,16 @@ test('graph nodes avoid per-node encoded images and startup hides the unfit view
   assert.match(appSource, /classList\.remove\('atlas-loading'\)/);
 });
 
-test('static taxonomy images retain a looping horizontal glow while the interactive graph loads', async () => {
+test('static taxonomy images retain a visible looping horizontal shimmer while the interactive graph loads', async () => {
   const styles = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
-  assert.match(styles, /\.graph-loader\.domain-graph-loader::after,[\s\S]*\.graph-loader\.field-graph-loader::after/);
-  assert.match(styles, /linear-gradient\([\s\S]*rgba\(255, 255, 255, 0\.78\)[\s\S]*background-size: 240% 100%/);
-  assert.match(styles, /animation: static-graph-glow 2\.4s linear infinite/);
-  assert.match(styles, /@keyframes static-graph-glow[\s\S]*background-position: 120% 0[\s\S]*background-position: -120% 0/);
-  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*\.graph-loader\.domain-graph-loader::after,[\s\S]*animation: none/s);
+  const generator = await readFile(new URL('../scripts/generate-concept-pages.mjs', import.meta.url), 'utf8');
+  assert.match(generator, /class="static-graph-shimmer" aria-hidden="true"/);
+  assert.match(styles, /\.static-graph-shimmer \{[\s\S]*position: absolute[\s\S]*inset-block: -12%[\s\S]*width: 38%/);
+  assert.match(styles, /linear-gradient\([\s\S]*rgba\(191, 219, 254, 0\.34\)[\s\S]*rgba\(255, 255, 255, 1\)/);
+  assert.match(styles, /box-shadow: 0 0 42px 14px rgba\(219, 234, 254, 0\.68\)/);
+  assert.match(styles, /animation: static-graph-shimmer 1\.8s ease-in-out infinite/);
+  assert.match(styles, /@keyframes static-graph-shimmer[\s\S]*translate3d\(-165%, 0, 0\)[\s\S]*translate3d\(365%, 0, 0\)/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*\.static-graph-shimmer[\s\S]*animation: none/s);
 });
 
 test('static export uses the npm-managed browser and domain markers stay consistent', async () => {

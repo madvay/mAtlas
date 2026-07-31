@@ -234,6 +234,7 @@ for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)
     if (!html.includes(metadata)) throw new Error(`Static field page for ${fieldId} lacks image metadata: ${metadata}`);
   }
   if (!html.includes(`class="field-static-graph" src="/${imagePath}" width="${dimensions.width}" height="${dimensions.height}"`)) throw new Error(`Static field page for ${fieldId} does not show its generated SVG while loading.`);
+  if (!html.includes('<span class="static-graph-shimmer" aria-hidden="true"></span>')) throw new Error(`Static field page for ${fieldId} lacks the visible loading shimmer.`);
   if (!html.includes('"primaryImageOfPage"') || !html.includes(`"contentUrl": "${imageUrl}"`)) throw new Error(`Static field page for ${fieldId} lacks SVG structured data.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc><lastmod>`) || !sitemap.includes(`<image:loc>${imageUrl}</image:loc>`)) throw new Error(`The sitemap does not associate field ${fieldId} with its SVG.`);
 }
@@ -289,6 +290,7 @@ for (const domainId of graphData.meta.domainOrder ?? Object.keys(graphData.domai
     if (!html.includes(metadata)) throw new Error(`Static domain page for ${domainId} lacks image metadata: ${metadata}`);
   }
   if (!html.includes(`class="domain-static-graph" src="/${imagePath}" width="${dimensions.width}" height="${dimensions.height}"`)) throw new Error(`Static domain page for ${domainId} does not show its generated SVG while loading.`);
+  if (!html.includes('<span class="static-graph-shimmer" aria-hidden="true"></span>')) throw new Error(`Static domain page for ${domainId} lacks the visible loading shimmer.`);
   if (!html.includes('"primaryImageOfPage"') || !html.includes(`"contentUrl": "${imageUrl}"`)) throw new Error(`Static domain page for ${domainId} lacks SVG structured data.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc>`)) throw new Error(`The sitemap omits domain ${domainId}.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc><lastmod>`) || !sitemap.includes(`<image:loc>${imageUrl}</image:loc>`)) throw new Error(`The sitemap does not associate domain ${domainId} with its SVG.`);
