@@ -223,6 +223,15 @@ export const graphStyles: cytoscape.StylesheetJson = [
       width: 'data(selectedEdgeWidth)', opacity: 1,
       'line-color': '#0f172a', 'target-arrow-color': '#0f172a', 'z-index': 1001
     }
+  },
+  {
+    selector: '[semanticOverlay = 1].structure-overlay-pending',
+    style: {
+      opacity: 0,
+      events: 'no',
+      'transition-property': 'none',
+      'transition-duration': 0
+    }
   }
 ];
 

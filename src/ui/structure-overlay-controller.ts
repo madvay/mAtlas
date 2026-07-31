@@ -25,12 +25,14 @@ type OverlaySelection =
   | { kind: 'connection'; id: string };
 
 const OVERLAY_SELECTOR = '[semanticOverlay = 1]';
+const OVERLAY_PENDING_CLASS = 'structure-overlay-pending';
 const CONNECTION_EMPHASIS_CLASS = 'structure-connection-emphasis';
 const CONNECTION_HIDDEN_CLASS = 'structure-connection-hidden';
 
 export class StructureOverlayController {
   private mapData: SemanticMapData = { groups: [], connections: [] };
   private selection: OverlaySelection | null = null;
+  private layoutTransitionPending = false;
 
   constructor(private readonly options: StructureOverlayControllerOptions) {}
 
@@ -43,6 +45,20 @@ export class StructureOverlayController {
 
   active(): boolean {
     return this.options.state.layout === 'domains' || this.options.state.layout === 'fields';
+  }
+
+  beginLayoutTransition(layout: LayoutName): void {
+    this.layoutTransitionPending = layout === 'domains' || layout === 'fields';
+    if (this.layoutTransitionPending) {
+      this.options.cy.elements(OVERLAY_SELECTOR).addClass(OVERLAY_PENDING_CLASS);
+    } else {
+      this.options.cy.elements(OVERLAY_SELECTOR).removeClass(OVERLAY_PENDING_CLASS);
+    }
+  }
+
+  finishLayoutTransition(): void {
+    this.layoutTransitionPending = false;
+    this.options.cy.elements(OVERLAY_SELECTOR).removeClass(OVERLAY_PENDING_CLASS);
   }
 
   prepareForLayout(layout: LayoutName): void {
@@ -74,6 +90,7 @@ export class StructureOverlayController {
         cy.edges().removeClass('structure-source-edge');
       });
       this.selection = null;
+      this.layoutTransitionPending = false;
       return;
     }
 
@@ -180,7 +197,10 @@ export class StructureOverlayController {
       });
     }
 
-    if (elements.length) cy.add(elements);
+    if (elements.length) {
+      const added = cy.add(elements);
+      if (this.layoutTransitionPending) added.addClass(OVERLAY_PENDING_CLASS);
+    }
 
     this.restoreSelection();
     this.syncConnectionEmphasis();

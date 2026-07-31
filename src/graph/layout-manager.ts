@@ -8,9 +8,18 @@ interface LayoutManagerOptions {
   model: GraphModel;
   state: AppState;
   onStateChange: () => void;
+  animateGraph: () => boolean;
+  onLayoutStarted: (name: LayoutName, animated: boolean) => void;
   onLayoutPrepared: (name: LayoutName) => void;
   onLayoutSettled: () => void;
-  fitVisible: (elements: cytoscape.CollectionReturnValue, padding?: number) => void;
+  fitVisible: (elements: cytoscape.CollectionReturnValue, padding?: number, onComplete?: () => void) => void;
+  cancelFit: () => void;
+}
+
+interface ActiveLayoutRun {
+  id: number;
+  layout: cytoscape.Layouts | null;
+  settled: boolean;
 }
 
 interface AtlasBlock {
@@ -26,9 +35,13 @@ interface AtlasBlock {
 }
 
 export class LayoutManager {
+  private activeRun: ActiveLayoutRun | null = null;
+  private nextRunId = 1;
+
   constructor(private readonly options: LayoutManagerOptions) {}
 
   run(name: LayoutName = this.options.state.layout, fitAfter = true): void {
+    this.cancel();
     const { cy, state } = this.options;
     const layoutChanged = state.layout !== name;
     state.layout = name;
@@ -36,30 +49,111 @@ export class LayoutManager {
     if (select instanceof HTMLSelectElement) select.value = name;
     if (layoutChanged) this.options.onStateChange();
     const layered = name === 'atlas' || name === 'domains' || name === 'fields';
+    let nodes: cytoscape.CollectionReturnValue;
+    let positions: Record<string, Point>;
     if (layered) {
-      const positions = this.atlasPositions();
-      cy.nodes().positions((node) => positions[node.id()] ?? node.position());
-      this.options.onLayoutPrepared(name);
+      nodes = cy.nodes().not('[semanticOverlay = 1]');
+      positions = this.atlasPositions();
+    } else {
       const visible = cy.elements().not('.filter-hidden');
-      if (fitAfter) this.options.fitVisible(visible);
-      this.options.onLayoutSettled();
+      nodes = visible.nodes().not('[semanticOverlay = 1]');
+      const visibleNodeIds = new Set<string>();
+      nodes.forEach((node) => {
+        visibleNodeIds.add(node.id());
+      });
+      positions = compactHierarchyPositions(
+        this.options.model.data.nodes,
+        visibleNodeIds,
+        this.options.model.data.domains,
+        this.options.model.domainOrder
+      );
+    }
+
+    const animatePositions = this.options.animateGraph() && this.positionsChanged(nodes, positions);
+    const animated = animatePositions || (fitAfter && this.options.animateGraph());
+    this.options.onLayoutStarted(name, animated);
+
+    const run: ActiveLayoutRun = {
+      id: this.nextRunId++,
+      layout: null,
+      settled: false
+    };
+    this.activeRun = run;
+    const prepared = (): void => this.finishPositioning(run, name, fitAfter);
+
+    if (!animatePositions) {
+      nodes.positions((node) => positions[node.id()] ?? node.position());
+      prepared();
       return;
     }
 
-    const visible = cy.elements().not('.filter-hidden');
-    const visibleNodeIds = new Set<string>();
-    visible.nodes().forEach((node) => {
-      visibleNodeIds.add(node.id());
+    const presetPositions: Record<string, cytoscape.Position> = {};
+    nodes.forEach((node) => {
+      const position = positions[node.id()] ?? node.position();
+      presetPositions[node.id()] = { x: position.x, y: position.y };
     });
-    const positions = compactHierarchyPositions(
-      this.options.model.data.nodes,
-      visibleNodeIds,
-      this.options.model.data.domains,
-      this.options.model.domainOrder
-    );
-    visible.nodes().positions((node) => positions[node.id()] ?? node.position());
+    nodes.stop(true, false);
+    const layout = nodes.layout({
+      name: 'preset',
+      positions: presetPositions,
+      animate: true,
+      animationDuration: 500,
+      animationEasing: 'ease-in-out',
+      fit: false,
+      stop: prepared
+    });
+    run.layout = layout;
+    layout.run();
+  }
+
+  cancel(): void {
+    const run = this.activeRun;
+    if (!run) {
+      this.options.cancelFit();
+      this.options.cy.nodes().stop(true, false);
+      return;
+    }
+    this.activeRun = null;
+    run.layout?.stop();
+    this.options.cy.nodes().stop(true, false);
+    this.options.cancelFit();
+    this.settle(run);
+  }
+
+  private positionsChanged(nodes: cytoscape.CollectionReturnValue, positions: Record<string, Point>): boolean {
+    let changed = false;
+    nodes.forEach((node) => {
+      if (changed) return;
+      const target = positions[node.id()];
+      if (!target) return;
+      const current = node.position();
+      if (Math.hypot(current.x - target.x, current.y - target.y) > 0.5) changed = true;
+    });
+    return changed;
+  }
+
+  private finishPositioning(run: ActiveLayoutRun, name: LayoutName, fitAfter: boolean): void {
+    if (this.activeRun?.id !== run.id) return;
+    run.layout = null;
     this.options.onLayoutPrepared(name);
-    if (fitAfter) this.options.fitVisible(visible);
+    if (!fitAfter) {
+      this.finishRun(run);
+      return;
+    }
+    const visible = this.options.cy.elements().not('.filter-hidden')
+      .filter((element) => element.style('display') !== 'none');
+    this.options.fitVisible(visible, undefined, () => this.finishRun(run));
+  }
+
+  private finishRun(run: ActiveLayoutRun): void {
+    if (this.activeRun?.id !== run.id) return;
+    this.activeRun = null;
+    this.settle(run);
+  }
+
+  private settle(run: ActiveLayoutRun): void {
+    if (run.settled) return;
+    run.settled = true;
     this.options.onLayoutSettled();
   }
 

@@ -197,12 +197,18 @@ export async function startAtlasApp(): Promise<void> {
   const toggleMaximizedGraph = (): void => panelController.toggleMaximized();
   const openDetailsPanel = (): void => panelController.openDetails();
   const updateFiltersToggleCount = (): void => panelController.updateFiltersToggleCount();
+  let graphAnimationsReady = false;
   const viewportController = new GraphViewportController({
     cy,
     state,
-    viewportInsets: () => panelController.viewportInsets()
+    viewportInsets: () => panelController.viewportInsets(),
+    animate: () => graphAnimationsReady && preferences.animateGraph
   });
-  const fitGraphElements = (elements: cytoscape.CollectionReturnValue, padding?: number): void => viewportController.fit(elements, padding);
+  const fitGraphElements = (
+    elements: cytoscape.CollectionReturnValue,
+    padding?: number,
+    onComplete?: () => void
+  ): void => viewportController.fit(elements, padding, onComplete);
 
   let layoutUiFrame = 0;
   function syncLayoutToolbar(): void {
@@ -274,13 +280,27 @@ export async function startAtlasApp(): Promise<void> {
     model,
     state,
     onStateChange: persistUiState,
+    animateGraph: () => graphAnimationsReady && preferences.animateGraph,
+    onLayoutStarted: (name, animated) => {
+      if (animated) structureOverlayController?.beginLayoutTransition(name);
+      else structureOverlayController?.finishLayoutTransition();
+    },
     onLayoutPrepared: () => structureOverlayController?.refresh(),
     onLayoutSettled: () => {
+      structureOverlayController?.finishLayoutTransition();
       scheduleFieldBands();
       scheduleLayoutUiUpdate();
     },
-    fitVisible: fitGraphElements
+    fitVisible: fitGraphElements,
+    cancelFit: () => viewportController.cancel()
   });
+
+  function stopGraphAnimations(): void {
+    layoutManager.cancel();
+    viewportController.cancel();
+    cy.stop(true, false);
+    cy.nodes().stop(true, false);
+  }
 
   function runLayout(name: LayoutName = state.layout, fitAfter = true): void {
     resetInteractionForLayout(name);
@@ -343,7 +363,9 @@ export async function startAtlasApp(): Promise<void> {
     renderMathText,
     preferences: () => preferences,
     setPreferences: (next) => {
+      const disableGraphAnimation = preferences.animateGraph && !next.animateGraph;
       preferences = next;
+      if (disableGraphAnimation) stopGraphAnimations();
       writePreferences();
       applyRendererPreferences(cy, preferences);
       graphLabelLayer.setPreferences(preferences);
@@ -509,7 +531,7 @@ export async function startAtlasApp(): Promise<void> {
     if (!element || element.empty()) return false;
     // A second details-panel navigation must replace, rather than queue behind,
     // any viewport animation that is still settling from the previous link.
-    cy.stop(true, false);
+    stopGraphAnimations();
     ensureNodeVisible(id);
     cy.$(':selected').unselect();
     element.select();
@@ -538,7 +560,7 @@ export async function startAtlasApp(): Promise<void> {
     structureOverlayController?.clearSelection();
     const element = cy.getElementById(id);
     if (!element || element.empty()) return false;
-    cy.stop(true, false);
+    stopGraphAnimations();
     cy.$(':selected').unselect();
     element.select();
     setNeighborhoodHighlight(true, id, false);
@@ -893,7 +915,7 @@ export async function startAtlasApp(): Promise<void> {
     if (nextMode === activeLayoutInteractionMode) return;
     activeLayoutInteractionMode = nextMode;
 
-    cy.stop(true, false);
+    stopGraphAnimations();
     structureOverlayController?.clearSelection();
     cy.$(':selected').unselect();
     graphView.clearInteractionHighlights();
@@ -1068,6 +1090,7 @@ export async function startAtlasApp(): Promise<void> {
   window.requestAnimationFrame(() => {
     const visible = visibleGraphElements();
     if (!visible.empty()) fitGraphElements(visible);
+    graphAnimationsReady = true;
     updateSemanticLabelSizes(true);
     if (staticAtlasSvgMode) {
       window.requestAnimationFrame(publishStaticSvgExporter);

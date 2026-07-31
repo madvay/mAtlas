@@ -98,7 +98,8 @@ test('static export uses the npm-managed browser and domain markers stay consist
 test('selection navigation replaces an in-flight viewport animation', async () => {
   const appSource = await readFile(new URL('../src/app/atlas-app.ts', import.meta.url), 'utf8');
   const activators = appSource.slice(appSource.indexOf('function activateNode'), appSource.indexOf('function clearSelection'));
-  assert.equal((activators.match(/cy\.stop\(true, false\)/g) ?? []).length, 2);
+  assert.equal((activators.match(/stopGraphAnimations\(\)/g) ?? []).length, 2);
+  assert.match(appSource, /function stopGraphAnimations\(\): void \{[\s\S]*cy\.stop\(true, false\)/);
 });
 
 test('the canvas renderer parks its perpetual frame loop while idle', async () => {
