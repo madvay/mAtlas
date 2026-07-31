@@ -11,6 +11,8 @@ The benchmark covers:
 
 The layout animation has a deliberately fixed duration, so compare CPU work and frame consistency rather than elapsed animation time.
 
+Static inventory distinguishes legacy DOM marker containers/dots, the single canvas marker layer, and Cytoscape-native marker nodes so renderer migrations remain directly comparable.
+
 ## Prepare the builds
 
 Build and serve each repository state on a different origin:

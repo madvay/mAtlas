@@ -3,6 +3,7 @@ import { byId, escapeHtml } from '../core/dom.js';
 import { stripInlineMathText } from '../core/text.js';
 import type { AppState, GraphNode, LineStyle, Point, Preferences } from '../types.js';
 import type { GraphModel } from '../model/graph-model.js';
+import { DOMAIN_MARKER_RADIUS, DOMAIN_MARKER_STEP, domainMarkerTopLeft } from '../graph/domain-marker-geometry.js';
 
 export interface SvgExportResult {
   svg: string;
@@ -307,12 +308,10 @@ export class SvgExporter {
         parts.push(`<rect x="${x}" y="${y}" width="${nodeWidth}" height="${nodeHeight}" rx="8" fill="${escapeHtml(fill)}" fill-opacity="${backgroundOpacity}" stroke="${borderColor}" stroke-width="${borderWidth}" opacity="${opacity}"/>`);
         const additionalDomains = structureSource ? [] : this.model.nodeDomainIds(record).slice(1);
         if (additionalDomains.length) {
-          const markerWidth = additionalDomains.length * 12 - 3;
-          const markerX = x + nodeWidth - markerWidth;
-          const markerY = y + nodeHeight - 9;
+          const markerOrigin = domainMarkerTopLeft(position, additionalDomains.length);
           additionalDomains.forEach((domainId, index) => {
             const color = data.domains[domainId]?.color ?? '#64748b';
-            parts.push(`<circle cx="${markerX + 4.5 + index * 12}" cy="${markerY + 4.5}" r="4.5" fill="${escapeHtml(color)}" opacity="${opacity}"/>`);
+            parts.push(`<circle cx="${markerOrigin.x + DOMAIN_MARKER_RADIUS + index * DOMAIN_MARKER_STEP}" cy="${markerOrigin.y + DOMAIN_MARKER_RADIUS}" r="${DOMAIN_MARKER_RADIUS}" fill="${escapeHtml(color)}" opacity="${opacity}"/>`);
           });
         }
       }

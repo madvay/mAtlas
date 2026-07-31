@@ -198,6 +198,7 @@ async function pageInventory(page, client) {
         documentElements: document.querySelectorAll('*').length,
         markerContainers: document.querySelectorAll('.graph-domain-markers').length,
         markerDots: document.querySelectorAll('.graph-domain-markers span').length,
+        markerCanvases: document.querySelectorAll('.graph-domain-marker-canvas').length,
         storyBadges: document.querySelectorAll('.graph-sequence-badge').length,
         cytoscapeNodes: cy?.nodes().length ?? 0,
         cytoscapeEdges: cy?.edges().length ?? 0,
@@ -355,6 +356,7 @@ function printInventory(results) {
     ['domCounterNodes', 'DOM counter nodes', 0],
     ['markerContainers', 'Marker containers', 0],
     ['markerDots', 'Marker dot elements', 0],
+    ['markerCanvases', 'Marker canvases', 0],
     ['nativeMarkerNodes', 'Native marker nodes', 0],
     ['visibleNativeMarkerNodes', 'Visible native markers', 0],
     ['heapUsedMiB', 'Used JS heap MiB', 2],
@@ -423,7 +425,7 @@ async function main() {
   printInventory(results);
   printScenario(results, 'layout');
   printScenario(results, 'pan');
-  console.log('\nInterpretation: use layout main-thread/style/layout/frame metrics as the primary result. Pan is a regression control; the native-marker version should not materially worsen it. Prefer medians across several rounds, and close other applications while running.');
+  console.log('\nInterpretation: use layout main-thread/style/layout/frame metrics as the primary result. Pan is a regression control; a replacement marker renderer should not materially worsen it. Prefer medians across several rounds, and close other applications while running.');
   const report = {
     generatedAt: new Date().toISOString(),
     options: { ...options, targets: options.targets },
