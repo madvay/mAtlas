@@ -90,6 +90,6 @@ test('structure modes use text-only centroid labels and disable source-node even
   assert.equal(centroidStyle?.['font-size'], 'data(labelFontSize)');
   const connectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1]')?.style;
   const emphasizedConnectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1].structure-connection-emphasis')?.style;
-  assert.equal(connectionStyle?.opacity, 0.18);
+  assert.equal(connectionStyle?.opacity, 0.09);
   assert.equal(emphasizedConnectionStyle?.opacity, 1);
 });

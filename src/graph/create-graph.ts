@@ -159,7 +159,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: 'node.structure-source-node',
     style: {
-      label: '', opacity: 0.1, 'background-opacity': 0.64,
+      label: '', opacity: 0.25, 'background-opacity': 1,
       'border-width': 1, 'border-color': '#ffffff', 'z-index': 1,
       events: 'no', 'transition-property': 'none', 'transition-duration': 0
     }
@@ -206,7 +206,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
       'text-background-color': '#ffffff', 'text-background-opacity': 0.94,
       'text-background-padding': '4px', 'text-border-width': 1,
       'text-border-color': '#cbd5e1', 'text-border-opacity': 0.9,
-      'text-rotation': 'autorotate', opacity: 0.18, events: 'yes', 'z-index': 999
+      'text-rotation': 'autorotate', opacity: 0.09, events: 'yes', 'z-index': 999
     }
   },
   {
