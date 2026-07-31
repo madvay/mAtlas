@@ -1,0 +1,1185 @@
+nodes:
+- id: solution
+  label: Solution
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 26
+  kind: structure
+  conceptType: Homogeneous material system
+  summary: A macroscopically homogeneous phase containing two or more components whose molecular-scale mixing persists over the observation time.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: solvent
+  label: Solvent
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 27
+  kind: structure
+  conceptType: Solution component role
+  summary: A component assigned as the dissolving medium, often by abundance or phase convention; the designation is contextual rather than an
+    intrinsic substance property.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: solute
+  label: Solute
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 27
+  kind: structure
+  conceptType: Solution component role
+  summary: A component treated as dissolved in a solvent, with the role depending on composition and convention.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: concentration
+  label: Chemical concentration
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 28
+  kind: structure
+  conceptType: Composition quantity
+  summary: A specified measure of component amount relative to solution volume, mass, solvent amount, or another denominator.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chemical_activity
+  label: Chemical activity
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 29
+  kind: structure
+  conceptType: Effective composition
+  summary: A dimensionless effective composition defined through chemical potential relative to a stated standard state.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: activity_coefficient
+  label: Activity coefficient
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 30
+  kind: structure
+  conceptType: Nonideality factor
+  summary: The factor relating activity to a selected concentration or fraction scale, thereby encoding departures from the corresponding ideal
+    reference.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: ideal_solution
+  label: Ideal solution
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 29
+  kind: structure
+  conceptType: Reference model
+  summary: A solution model in which each component follows ideal mixing chemical potentials over the full composition range.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: raoult_law
+  label: Raoult’s law
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 30
+  kind: structure
+  conceptType: Vapor–liquid relation
+  summary: For an ideal liquid solution, a component’s partial vapor pressure equals its liquid mole fraction times the pure-component vapor pressure.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: henry_law
+  label: Henry’s law
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 30
+  kind: structure
+  conceptType: Dilute-solution relation
+  summary: At infinite dilution, a solute’s fugacity or partial pressure is proportional to an explicitly defined solution composition measure.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: colligative_property
+  label: Colligative property
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 31
+  kind: structure
+  conceptType: Dilute-solution property class
+  summary: A solution property whose leading ideal-dilute change depends on the number of solute particles rather than their chemical identity.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: osmosis
+  label: Osmosis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 31
+  kind: structure
+  conceptType: Transport process
+  summary: Net solvent transport across a selectively permeable boundary driven by a chemical-potential difference.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: osmotic_pressure
+  label: Osmotic pressure
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Solution thermodynamic property
+  summary: The pressure difference required to stop osmotic solvent flow under specified temperature and composition conditions.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: electrolyte_solution
+  label: Electrolyte solution
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 29
+  kind: structure
+  conceptType: Ionic solution
+  summary: A solution containing mobile ions that carries electric current and exhibits long-range electrostatic nonideality.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: electrolytic_dissociation
+  label: Electrolytic dissociation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 30
+  kind: structure
+  conceptType: Speciation process
+  summary: Formation or separation of ionic species when an electrolyte dissolves, with the equilibrium extent depending on solvent, concentration,
+    and interactions.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: bronsted_lowry_acid_base
+  label: Brønsted–Lowry acid–base chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 30
+  kind: structure
+  conceptType: Reaction framework
+  summary: A framework in which acids donate protons and bases accept them, so conjugate pairs differ by one proton.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: ph
+  label: $pH$
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Acidity measure
+  summary: The negative base-ten logarithm of hydrogen-ion activity under a defined standard state and measurement convention.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: buffer_solution
+  label: Buffer solution
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 33
+  kind: structure
+  conceptType: Composition-controlled system
+  summary: A solution containing coupled acid–base species that reduces $pH$ change over a finite added-acid or added-base range.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: solubility_equilibrium
+  label: Solubility equilibrium
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 33
+  kind: structure
+  conceptType: Heterogeneous equilibrium
+  summary: Equilibrium between a dissolved species and a separate phase, expressed through activities and a phase-specific equilibrium condition.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: acid_base_equilibrium
+  label: Acid–base equilibrium
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 31
+  kind: structure
+  conceptType: Proton-transfer equilibrium
+  summary: An equilibrium among acids, bases, solvent, and their conjugates whose position is expressed through activities and conditional equilibrium
+    constants.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: acid_dissociation_constant
+  label: Acid dissociation constant
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Equilibrium constant
+  summary: The thermodynamic equilibrium constant for a specified acid-dissociation reaction, distinguished from concentration quotients and condition-dependent
+    apparent constants.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: lewis_acid_base
+  label: Lewis acid–base chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 31
+  kind: structure
+  conceptType: Electron-pair reaction framework
+  summary: A framework in which a Lewis acid accepts an electron pair and a Lewis base donates one to form an adduct or participate in a reaction.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: amphoterism
+  label: Amphoterism
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Context-dependent reactivity
+  summary: The capacity of a species or material to behave as an acid in one reaction and as a base in another under the chosen acid–base framework.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chemical_interface
+  label: Chemical interface
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 29
+  kind: structure
+  conceptType: Boundary region
+  summary: The finite transition region between phases in which composition, structure, free energy, electric potential, and reaction environment
+    differ from their bulk values.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: surface_chemistry
+  label: Surface chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 30
+  kind: structure
+  conceptType: Interfacial chemical field
+  summary: Study of composition, structure, adsorption, reaction, charge, and transport at solid, liquid, and gas interfaces.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: surface_tension
+  label: Surface tension
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 31
+  kind: structure
+  conceptType: Interfacial thermodynamic quantity
+  summary: The reversible work per added area of a liquid interface under specified conditions, equivalently a tangential force per unit length
+    for a simple interface.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: adsorption
+  label: Adsorption
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 31
+  kind: structure
+  conceptType: Interfacial accumulation process
+  summary: Enrichment or depletion of one or more components in an interfacial layer relative to adjoining bulk phases; it is distinct from absorption
+    into a bulk phase.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: adsorption_isotherm
+  label: Adsorption isotherm
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Interfacial equilibrium relation
+  summary: A constant-temperature relation between adsorbed amount or surface coverage and an explicitly defined bulk pressure, activity, or concentration.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: langmuir_adsorption_model
+  label: Langmuir adsorption model
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 33
+  kind: structure
+  conceptType: Idealized surface model
+  summary: A saturating single-site adsorption model based on equivalent independent sites and monolayer occupancy, with applicability limited
+    when heterogeneity or lateral interactions matter.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: colloid
+  label: Colloid
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Dispersed material system
+  summary: A dispersed system whose particles or domains are large compared with molecules yet sufficiently small for interfacial and Brownian
+    effects to dominate settling and bulk separation.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: surfactant
+  label: Surfactant
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 32
+  kind: structure
+  conceptType: Interfacially active substance
+  summary: A substance that preferentially accumulates at an interface and changes its free energy, often through molecules containing chemically
+    distinct solvophilic and solvophobic regions.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: micelle
+  label: Micelle
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  level: 33
+  kind: structure
+  conceptType: Self-assembled aggregate
+  summary: A dynamic aggregate of surfactant molecules formed above condition-dependent association thresholds, with structure set by molecular
+    geometry, solvent, concentration, temperature, and additives.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: langmuir_adsorption_experiments
+  label: Langmuir’s adsorption and monolayer experiments
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  - chemistry-experiments-evidence
+  level: 34
+  kind: structure
+  conceptType: Historical verifying experiment program
+  summary: Langmuir measured gas uptake and surface films, relating saturation to approximately monomolecular coverage and establishing a quantitative
+    site-occupancy model for idealized adsorption.
+  citations:
+  - wp-chem-langmuir-adsorption
+  - nobel-langmuir-1932
+- id: arrhenius_electrolyte_conductivity
+  label: Arrhenius’s electrolyte-conductivity studies
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  - chemistry-experiments-evidence
+  level: 29
+  kind: structure
+  conceptType: Historical motivating measurement program
+  summary: Arrhenius connected conductivity and dilution behavior with the presence and changing fraction of independently mobile ions in electrolyte
+    solutions.
+  citations:
+  - wp-chem-arrhenius
+  - nobel-arrhenius-1903
+- id: vanthoff_osmotic_pressure_measurements
+  label: van ’t Hoff osmotic-pressure comparisons
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  - chemistry-experiments-evidence
+  level: 33
+  kind: structure
+  conceptType: Historical verifying measurement program
+  summary: van ’t Hoff compared dilute-solution osmotic data with an ideal-gas-like concentration relation, helping establish solution thermodynamics
+    while revealing abnormal particle counts for electrolytes.
+  citations:
+  - wp-chem-osmotic-pressure
+  - nobel-vanthoff-1901
+edges:
+- id: chem_solution_to_ideal_solution_model_realization
+  source: solution
+  target: ideal_solution
+  type: model-realization
+  label: ideal mixing reference
+  detail: The ideal-solution model provides a baseline from which excess properties and activity coefficients quantify nonideality.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_ideal_solution_to_raoult_law_describes_governs
+  source: ideal_solution
+  target: raoult_law
+  type: describes-governs
+  label: ideal vapor-pressure relation
+  detail: Raoult behavior follows from ideal liquid chemical potentials with an appropriate vapor model.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solution_to_henry_law_mathematical_limit
+  source: solution
+  target: henry_law
+  type: mathematical-limit
+  label: infinite-dilution relation
+  detail: Henry’s law is the limiting linear relation for a specified solute as its concentration approaches zero.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solution_to_colligative_property_state_description
+  source: solution
+  target: colligative_property
+  type: state-description
+  label: has particle-count-dependent shifts
+  detail: Ideal-dilute vapor-pressure lowering, boiling-point elevation, freezing-point depression, and osmotic pressure depend on solute particle
+    amount.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_osmosis_to_osmotic_pressure_state_description
+  source: osmosis
+  target: osmotic_pressure
+  type: state-description
+  label: opposed by pressure difference
+  detail: Osmotic pressure is defined by the external pressure needed to bring solvent chemical potentials into balance across a selective membrane.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solution_to_electrolyte_solution_classification
+  source: solution
+  target: electrolyte_solution
+  type: classification
+  label: includes ionic solutions
+  detail: Electrolyte solutions contain mobile ions and require charge-neutral, electrostatic, and speciation constraints.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_electrolytic_dissociation_to_ion_transformation_process
+  source: electrolytic_dissociation
+  target: ion
+  type: transformation-process
+  label: forms solvated mobile ions
+  detail: Electrolytic dissociation or ionization forms solvated ionic species whose equilibrium populations, mobilities, pairing, and reactions determine electrolyte behavior.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_bronsted_lowry_acid_base_to_ph_state_description
+  source: bronsted_lowry_acid_base
+  target: ph
+  type: state-description
+  label: quantified by hydrogen-ion activity
+  detail: $pH$ summarizes one thermodynamic coordinate of acid–base state and does not alone specify total acidity or buffering capacity.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_activity_to_solubility_equilibrium_describes_governs
+  source: chemical_activity
+  target: solubility_equilibrium
+  type: describes-governs
+  label: sets saturation condition
+  detail: Solubility products and more general phase-equilibrium expressions are written in activities rather than raw concentrations.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_acid_base_equilibrium_to_ph_describes_governs
+  source: acid_base_equilibrium
+  target: ph
+  type: describes-governs
+  label: sets hydrogen-ion activity
+  detail: Mass balance, charge balance, equilibrium constants, and activities jointly determine $pH$; a concentration alone is not generally sufficient.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_lewis_acid_base_to_coordination_complex_describes_governs
+  source: lewis_acid_base
+  target: coordination_complex
+  type: describes-governs
+  label: forms donor–acceptor adducts
+  detail: Metal–ligand coordination can be described as Lewis-acid acceptance of ligand electron-pair density, while full bonding may include
+    covalency and back-donation.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_adsorption_isotherm_to_langmuir_adsorption_model_model_realization
+  source: adsorption_isotherm
+  target: langmuir_adsorption_model
+  type: model-realization
+  label: has ideal single-site form
+  detail: The Langmuir relation is one model realization of an adsorption isotherm and should not be inferred solely from a visually saturating
+    curve.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_surface_chemistry_to_heterogeneous_catalysis_theory_component
+  source: surface_chemistry
+  target: heterogeneous_catalysis
+  type: theory-component
+  label: provides active-site environment
+  detail: Heterogeneous catalytic turnover depends on adsorption, surface reaction, desorption, site distributions, and transport between bulk
+    phases and the interface.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_interface_to_colloid_composition
+  source: chemical_interface
+  target: colloid
+  type: composition
+  label: dominates dispersed particles
+  detail: Colloids contain extensive interfaces whose charge, solvation, adsorption, and curvature help determine stability and aggregation.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_surfactant_to_micelle_emergence
+  source: surfactant
+  target: micelle
+  type: emergence
+  label: self-assembles above association range
+  detail: Micellar populations emerge over a concentration range from competing solvophobic, packing, electrostatic, and mixing contributions
+    rather than at a perfectly sharp universal threshold.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_colloid_to_micelle_classification
+  source: colloid
+  target: micelle
+  type: classification
+  label: includes association colloids
+  detail: Micelles are dynamic association colloids, distinct from irreversible particles and from molecularly dispersed surfactant.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_langmuir_adsorption_model_to_langmuir_adsorption_experiments_experimentally_verified_by
+  source: langmuir_adsorption_model
+  target: langmuir_adsorption_experiments
+  type: experimentally-verified-by
+  label: tested through saturating monolayer uptake
+  detail: Langmuir’s measurements supported a finite-site monolayer description for selected systems while later work documented surface heterogeneity,
+    interactions, and multilayer regimes.
+  citations:
+  - wp-chem-langmuir-adsorption
+  - nobel-langmuir-1932
+- id: chem_arrhenius_electrolyte_conductivity_to_electrolytic_dissociation_historically_motivated
+  source: arrhenius_electrolyte_conductivity
+  target: electrolytic_dissociation
+  type: historically-motivated
+  label: dilution-dependent ionic conduction
+  detail: Conductivity and colligative anomalies helped motivate the proposal that dissolved electrolytes contain ions before electrolysis, though
+    the early degree-of-dissociation model was later revised for strong electrolytes.
+  citations:
+  - wp-chem-arrhenius
+  - nobel-arrhenius-1903
+- id: chem_osmotic_pressure_to_vanthoff_osmotic_pressure_measurements_experimentally_verified_by
+  source: osmotic_pressure
+  target: vanthoff_osmotic_pressure_measurements
+  type: experimentally-verified-by
+  label: dilute ideal relation
+  detail: Dilute nonelectrolyte data supported the proportionality of osmotic pressure to temperature and particle concentration within its ideal
+    regime.
+  citations:
+  - wp-chem-osmotic-pressure
+  - nobel-vanthoff-1901
+- id: chem_chemical_activity_to_equilibrium_constant_theory_component
+  source: chemical_activity
+  target: equilibrium_constant
+  type: theory-component
+  label: forms thermodynamic reaction quotient
+  detail: Thermodynamic equilibrium constants are products of activities raised to stoichiometric powers under a stated reaction convention.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_activity_to_nernst_equation_theory_component
+  source: chemical_activity
+  target: nernst_equation
+  type: theory-component
+  label: sets concentration dependence
+  detail: The Nernst equation uses an activity-based reaction quotient; raw concentrations are only approximations under validated conditions.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_electrolyte_solution_to_electrochemical_cell_composition
+  source: electrolyte_solution
+  target: electrochemical_cell
+  type: composition
+  label: forms ionic conduction path
+  detail: Electrochemical cells require an ion-conducting medium and electronic paths while controlling mixing and junction potentials.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_buffer_solution_to_enzyme_couples_interacts
+  source: buffer_solution
+  target: enzyme
+  type: couples-interacts
+  label: controls proton activity around enzymes
+  detail: Buffers constrain bulk proton activity but can also bind, inhibit, change ionic strength, or fail to reproduce microenvironmental $pH$.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solubility_equilibrium_to_crystallization_process_describes_governs
+  source: solubility_equilibrium
+  target: crystallization_process
+  type: describes-governs
+  label: sets saturation and supersaturation
+  detail: Crystallization requires supersaturation relative to solubility equilibrium, while nucleation and growth determine the observed kinetics
+    and product form.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solubility_equilibrium_to_contaminant_fate_describes_governs
+  source: solubility_equilibrium
+  target: contaminant_fate
+  type: describes-governs
+  label: constrains dissolved availability
+  detail: Solubility and speciation bound dissolved concentrations but do not alone determine transport, sorption, degradation, or biological
+    uptake.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_interface_to_electrochemical_double_layer_framework_specialization
+  source: chemical_interface
+  target: electrochemical_double_layer
+  type: framework-specialization
+  label: charged electrode–electrolyte interface
+  detail: The electrochemical double layer is an interfacial charge and solvation structure whose model depends on potential, composition, surface,
+    and time scale.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_interface_to_biomembrane_composition
+  source: chemical_interface
+  target: biomembrane
+  type: composition
+  label: forms membrane boundaries
+  detail: Biomembranes are chemically complex interfaces containing lipids, proteins, carbohydrates, ions, and structured water.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_adsorption_to_chromatography_theory_component
+  source: adsorption
+  target: chromatography
+  type: theory-component
+  label: provides stationary-phase retention
+  detail: Many chromatographic separations depend on repeated adsorption or partition equilibria coupled to transport and dispersion.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_adsorption_to_heterogeneous_catalysis_theory_component
+  source: adsorption
+  target: heterogeneous_catalysis
+  type: theory-component
+  label: populates reactive surface sites
+  detail: Catalytic cycles at solid surfaces couple adsorption and desorption with reaction, site competition, reconstruction, and transport.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_bronsted_lowry_acid_base_to_electrolytic_dissociation_describes_governs
+  source: bronsted_lowry_acid_base
+  target: electrolytic_dissociation
+  type: describes-governs
+  label: describes proton-transfer ionization
+  detail: Brønsted–Lowry donor–acceptor equilibria describe proton-transfer ionization in solution, while non-protolytic
+    electrolyte dissociation requires other descriptions.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_interface_to_composite_material_composition
+  source: chemical_interface
+  target: composite_material
+  type: composition
+  label: forms load- and charge-transfer boundaries
+  detail: Interfaces between matrix, reinforcement, fillers, coatings, or pores are structural components of composites
+    and can dominate adhesion, transport, corrosion, and failure.
+  citations:
+  - wp-chem-polymer-chemistry
+  - iupac-purple-book
+  - nist-polymers-processing
+- id: chem_acid_base_equilibrium_to_titration_experimentally_verified_by
+  source: acid_base_equilibrium
+  target: titration
+  type: experimentally-verified-by
+  label: tested across a neutralization curve
+  detail: A calibrated titration curve tests acid–base equilibrium and buffering models over changing composition,
+    subject to activity effects, side reactions, electrode response, and endpoint interpretation.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_surface_chemistry_to_nanomaterial_describes_governs
+  source: surface_chemistry
+  target: nanomaterial
+  type: describes-governs
+  label: describes size-amplified interfacial behavior
+  detail: Surface chemistry describes adsorption, charge, ligand exchange, passivation, dissolution, and catalysis
+    that can dominate nanoscale materials because of their large interfacial contribution.
+  citations:
+  - wp-chem-polymer-chemistry
+  - iupac-purple-book
+  - nist-polymers-processing
+- id: chem_acid_base_equilibrium_to_amino_acid_describes_governs
+  source: acid_base_equilibrium
+  target: amino_acid
+  type: describes-governs
+  label: sets protonation microstates
+  detail: Coupled acid–base equilibria set amino-acid charge and microstate populations as functions of activity,
+    environment, ionic strength, neighboring groups, and conformation.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_surface_chemistry_to_chemical_interface_describes_governs
+  source: surface_chemistry
+  target: chemical_interface
+  type: describes-governs
+  label: describes composition and reaction at phase boundaries
+  detail: Surface chemistry describes adsorption, interfacial structure, charge, transport, and reaction at a chemical
+    interface, with the chosen dividing surface and operating conditions stated.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_bronsted_lowry_acid_base_to_acid_base_equilibrium_describes_governs
+  source: bronsted_lowry_acid_base
+  target: acid_base_equilibrium
+  type: describes-governs
+  label: describes conjugate proton-transfer equilibria
+  detail: Brønsted–Lowry donor and acceptor pairs describe proton-transfer equilibria; Lewis acidity, solvent leveling,
+    ion pairing, and coupled reactions can require a broader treatment.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_acid_base_equilibrium_to_buffer_solution_describes_governs
+  source: acid_base_equilibrium
+  target: buffer_solution
+  type: describes-governs
+  label: governs finite buffering response
+  detail: Coupled acid–base equilibria govern buffer composition and response, while dilution, activity, temperature,
+    side reactions, and finite reagent inventory limit simple formulas.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solution_to_concentration_state_description
+  source: solution
+  target: concentration
+  type: state-description
+  label: assigned a stated composition scale
+  detail: A solution can be described by concentration only after the amount basis, volume convention, temperature,
+    components, and reference frame are stated; concentration is not chemical activity.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solution_to_chemical_activity_state_description
+  source: solution
+  target: chemical_activity
+  type: state-description
+  label: assigned thermodynamic effective composition
+  detail: A solution has activities defined relative to chosen standard states and composition scales; activity
+    is inferred through a thermodynamic model or measurement rather than counted directly.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_activity_to_activity_coefficient_state_description
+  source: chemical_activity
+  target: activity_coefficient
+  type: state-description
+  label: parameterized by a nonideality coefficient
+  detail: An activity coefficient parameterizes the ratio between activity and a stated composition measure under
+    a chosen standard-state convention; its value is model, scale, state, and mixture dependent.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_acid_base_equilibrium_to_acid_dissociation_constant_state_description
+  source: acid_base_equilibrium
+  target: acid_dissociation_constant
+  type: state-description
+  label: assigned a conditional dissociation constant
+  detail: An acid–base equilibrium can be summarized by a thermodynamic or conditional dissociation constant only
+    with reaction, standard state, solvent, temperature, ionic medium, and activity convention specified.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_bronsted_lowry_acid_base_to_amphoterism_describes_governs
+  source: bronsted_lowry_acid_base
+  target: amphoterism
+  type: describes-governs
+  label: permits context-dependent donor and acceptor roles
+  detail: Brønsted–Lowry chemistry describes amphiprotic species that donate or accept a proton depending on reaction
+    partner, solvent, composition, and coupled equilibria.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_interface_to_surface_tension_state_description
+  source: chemical_interface
+  target: surface_tension
+  type: state-description
+  label: assigned reversible interfacial free energy per area
+  detail: A fluid interface has a surface or interfacial tension defined under specified temperature, pressure,
+    composition, curvature, and dividing-surface conditions; gradients can drive nonequilibrium flow.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_adsorption_to_adsorption_isotherm_state_description
+  source: adsorption
+  target: adsorption_isotherm
+  type: state-description
+  label: represented by uptake at fixed temperature
+  detail: Adsorption can be represented by an isotherm relating equilibrium uptake to bulk activity or pressure
+    at fixed temperature; hysteresis, heterogeneity, reactions, transport, and metastability require qualification.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_surfactant_to_chemical_interface_couples_interacts
+  source: surfactant
+  target: chemical_interface
+  type: couples-interacts
+  label: adsorbs and changes interfacial free energy
+  detail: Surfactant molecules adsorb at selected interfaces and alter interfacial free energy and structure; coverage,
+    aggregation, charge, salt, solvent, temperature, and nonequilibrium transport control the effect.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solvent_to_solution_composition
+  source: solvent
+  target: solution
+  type: composition
+  label: forms the designated medium component
+  detail: A solvent is the component or medium chosen as the reference for a solution; the designation can depend
+    on composition, phase, and convention rather than molecular identity alone.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_solute_to_solution_composition
+  source: solute
+  target: solution
+  type: composition
+  label: forms a dissolved component
+  detail: A solute is a component treated as dissolved in a chosen solvent or medium; multicomponent and concentrated
+    systems can make the designation conventional.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_acid_base_equilibrium_to_acid_deposition_chemistry_describes_governs
+  source: acid_base_equilibrium
+  target: acid_deposition_chemistry
+  type: describes-governs
+  label: governs neutralization and buffering
+  detail: Acid–base equilibria govern speciation, neutralization, and buffering after acidic deposition, coupled
+    to oxidation, transport, mineral dissolution, biology, and hydrology.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_solubility_equilibrium_to_aquatic_chemistry_describes_governs
+  source: solubility_equilibrium
+  target: aquatic_chemistry
+  type: describes-governs
+  label: constrains mineral saturation and dissolved species
+  detail: Solubility equilibria constrain mineral saturation and dissolved composition in water, while activity,
+    complexation, redox, kinetics, colloids, and biology can prevent simple equilibrium behavior.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_adsorption_to_contaminant_fate_theory_component
+  source: adsorption
+  target: contaminant_fate
+  type: theory-component
+  label: supplies interfacial partitioning pathways
+  detail: Adsorption supplies reversible or effectively irreversible partitioning pathways in contaminant fate,
+    coupled to transport, competition, reactions, aging, desorption, and surface heterogeneity.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book
+- id: chem_chemical_activity_to_solvent_extraction_process_theory_component
+  source: chemical_activity
+  target: solvent_extraction_process
+  type: theory-component
+  label: supplies phase-partition driving forces
+  detail: Chemical activities and complexation equilibria supply thermodynamic driving forces for solvent extraction,
+    while kinetics, hydrodynamics, entrainment, phase disengagement, and solvent degradation affect operation.
+  citations:
+  - wp-chem-chemical-industry
+  - doe-new-chemistry-roadmap
+  - doe-catalysts
+- id: chem_concentration_to_rate_law_theory_component
+  source: concentration
+  target: rate_law
+  type: theory-component
+  label: supplies a kinetic state variable
+  detail: Concentrations supply commonly used kinetic variables, while activities, surface coverages, particle numbers,
+    or spatial fields can be required outside dilute well-mixed regimes.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-solubility-data
+  - iupac-gold-book

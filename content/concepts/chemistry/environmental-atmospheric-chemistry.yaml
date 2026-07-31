@@ -1,0 +1,474 @@
+nodes:
+- id: environmental_chemistry
+  label: Environmental chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 36
+  kind: structure
+  conceptType: Applied chemical field
+  summary: Study of chemical sources, transformations, transport, partitioning, exposure, and sinks in air, water, soil, organisms, and engineered
+    environments.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: atmospheric_chemistry
+  label: Atmospheric chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 36
+  kind: structure
+  conceptType: Environmental subfield
+  summary: Chemistry of atmospheric gases, particles, clouds, radiation-driven reactions, emissions, transport, and deposition.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: atmospheric_photochemistry
+  label: Atmospheric photochemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 37
+  kind: structure
+  conceptType: Photochemical reaction network
+  summary: Sunlight-driven production and loss of radicals and trace species that control atmospheric oxidation and composition.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: tropospheric_ozone_chemistry
+  label: Tropospheric ozone chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 39
+  kind: structure
+  conceptType: Photochemical pollutant system
+  summary: Net ozone production and loss in the lower atmosphere through nitrogen-oxide, volatile-organic, carbon-monoxide, methane, radical,
+    sunlight, and deposition chemistry.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: stratospheric_ozone_cycle
+  label: Stratospheric ozone cycle
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 39
+  kind: structure
+  conceptType: Atmospheric reaction network
+  summary: Photochemical formation and destruction of ozone in the stratosphere, modified by catalytic radical cycles and transport.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: ozone_depletion_chemistry
+  label: Stratospheric ozone depletion
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 40
+  kind: structure
+  conceptType: Atmospheric perturbation
+  summary: Reduction of stratospheric ozone through catalytic halogen chemistry, especially after heterogeneous activation on polar stratospheric
+    particles.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: greenhouse_gas_chemistry
+  label: Greenhouse-gas chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 39
+  kind: structure
+  conceptType: Atmosphere–radiation interface
+  summary: Chemical production, removal, transformation, and spectroscopic properties of gases that alter infrared radiative transfer.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: carbon_cycle_chemistry
+  label: Carbon-cycle chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 40
+  kind: structure
+  conceptType: Biogeochemical network
+  summary: Chemical exchange and transformation of carbon among atmosphere, ocean, rocks, soils, organisms, and anthropogenic reservoirs.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: nitrogen_cycle_chemistry
+  label: Nitrogen-cycle chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 40
+  kind: structure
+  conceptType: Biogeochemical network
+  summary: Redox and transfer network interconverting nitrogen species across atmosphere, water, soil, organisms, and industry.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: acid_deposition_chemistry
+  label: Acid-deposition chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 40
+  kind: structure
+  conceptType: Atmospheric–aquatic process
+  summary: Oxidation of sulfur and nitrogen emissions to acidic species followed by wet or dry deposition and neutralization in receiving environments.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: aerosol_chemistry
+  label: Atmospheric aerosol chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 39
+  kind: structure
+  conceptType: Multiphase atmospheric system
+  summary: Composition, formation, aging, water uptake, heterogeneous reaction, and optical behavior of atmospheric particles.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: aquatic_chemistry
+  label: Aquatic chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 38
+  kind: structure
+  conceptType: Environmental subfield
+  summary: Speciation, redox, acid–base, complexation, sorption, precipitation, and reaction in natural and engineered waters.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: contaminant_fate
+  label: Chemical contaminant fate
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 40
+  kind: structure
+  conceptType: Environmental process model
+  summary: The conditional distribution and transformation of a contaminant through reaction, transport, phase partitioning, degradation, and
+    biological uptake.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: persistent_organic_pollutant
+  label: Persistent organic pollutant
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 41
+  kind: structure
+  conceptType: Contaminant class
+  summary: An organic chemical resistant to degradation that can undergo long-range transport, bioaccumulate, and produce adverse effects under
+    regulatory criteria.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: green_chemistry
+  label: Green chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  level: 38
+  kind: structure
+  conceptType: Design framework
+  summary: Design of chemical products and processes to reduce or eliminate hazardous substances and waste at the source across the product life
+    cycle.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: antarctic_ozone_hole_observations
+  label: Antarctic ozone-hole observations
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: environmental-atmospheric-chemistry
+  domains:
+  - environmental-atmospheric-chemistry
+  - chemistry-experiments-evidence
+  level: 41
+  kind: structure
+  conceptType: Canonical verifying observation program
+  summary: British Antarctic Survey measurements revealed large recurring springtime losses of total ozone over Halley and connected them to changing
+    chlorine- and nitrogen-oxide chemistry.
+  citations:
+  - wp-chem-ozone-hole
+  - farman-1985-ozone
+  - bas-ozone-hole
+edges:
+- id: chem_environmental_chemistry_to_atmospheric_chemistry_classification
+  source: environmental_chemistry
+  target: atmospheric_chemistry
+  type: classification
+  label: includes atmospheric systems
+  detail: Atmospheric chemistry couples reaction networks to radiation, transport, clouds, emissions, and deposition.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_atmospheric_photochemistry_to_tropospheric_ozone_chemistry_describes_governs
+  source: atmospheric_photochemistry
+  target: tropospheric_ozone_chemistry
+  type: describes-governs
+  label: drives lower-atmosphere ozone
+  detail: Photolysis and radical cycling determine whether nitrogen oxides and organic compounds produce or consume tropospheric ozone.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_atmospheric_photochemistry_to_stratospheric_ozone_cycle_describes_governs
+  source: atmospheric_photochemistry
+  target: stratospheric_ozone_cycle
+  type: describes-governs
+  label: drives ozone formation and loss
+  detail: Oxygen photolysis forms ozone while catalytic radical families accelerate loss beyond the uncatalyzed Chapman cycle.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_ozone_depletion_chemistry_to_stratospheric_ozone_cycle_describes_governs
+  source: ozone_depletion_chemistry
+  target: stratospheric_ozone_cycle
+  type: describes-governs
+  label: describes halogen-driven perturbation of ozone cycling
+  detail: Ozone-depletion chemistry describes how anthropogenic chlorine and bromine perturb stratospheric ozone cycling, with polar heterogeneous activation producing severe seasonal loss.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_atmospheric_chemistry_to_greenhouse_gas_chemistry_classification
+  source: atmospheric_chemistry
+  target: greenhouse_gas_chemistry
+  type: classification
+  label: includes radiatively active gases
+  detail: Atmospheric lifetimes and transformations determine greenhouse-gas abundance, while molecular spectra determine radiative interaction.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_environmental_chemistry_to_carbon_cycle_chemistry_classification
+  source: environmental_chemistry
+  target: carbon_cycle_chemistry
+  type: classification
+  label: includes carbon reservoirs and fluxes
+  detail: Carbon-cycle chemistry links combustion, carbonate equilibria, photosynthesis, respiration, weathering, and ocean exchange.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_environmental_chemistry_to_nitrogen_cycle_chemistry_classification
+  source: environmental_chemistry
+  target: nitrogen_cycle_chemistry
+  type: classification
+  label: includes nitrogen redox network
+  detail: Nitrogen fixation, nitrification, denitrification, assimilation, combustion, and deposition connect chemical reservoirs.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_atmospheric_chemistry_to_acid_deposition_chemistry_describes_governs
+  source: atmospheric_chemistry
+  target: acid_deposition_chemistry
+  type: describes-governs
+  label: describes oxidation and partitioning into acidic deposition
+  detail: Atmospheric chemistry describes how sulfur dioxide and nitrogen oxides are oxidized and partitioned into wet and dry acidic deposition, with impacts depending on transport and buffering capacity.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_atmospheric_chemistry_to_aerosol_chemistry_classification
+  source: atmospheric_chemistry
+  target: aerosol_chemistry
+  type: classification
+  label: includes particle-phase chemistry
+  detail: Aerosol particles provide surfaces, liquid phases, optical effects, cloud nuclei, and sinks or sources for gases.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_environmental_chemistry_to_aquatic_chemistry_classification
+  source: environmental_chemistry
+  target: aquatic_chemistry
+  type: classification
+  label: includes water chemistry
+  detail: Aquatic chemistry couples equilibrium speciation to kinetics, interfaces, organisms, sediments, and hydrologic transport.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_environmental_chemistry_to_contaminant_fate_describes_governs
+  source: environmental_chemistry
+  target: contaminant_fate
+  type: describes-governs
+  label: models transport and transformation
+  detail: Fate models require substance properties, environmental conditions, reaction pathways, emissions, and compartment exchange.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_ozone_depletion_chemistry_to_antarctic_ozone_hole_observations_experimentally_verified_by
+  source: ozone_depletion_chemistry
+  target: antarctic_ozone_hole_observations
+  type: experimentally-verified-by
+  label: large recurring spring ozone losses
+  detail: Ground-based records established a severe seasonal phenomenon whose magnitude required chlorine-activated polar chemistry beyond earlier
+    smooth global trends.
+  citations:
+  - wp-chem-ozone-hole
+  - farman-1985-ozone
+  - bas-ozone-hole
+- id: chem_aerosol_chemistry_to_colloid_model_realization
+  source: aerosol_chemistry
+  target: colloid
+  type: model-realization
+  label: atmospheric dispersed particles
+  detail: Aerosols are evolving colloidal populations with gas–particle partitioning, liquid water, interfacial reactions, optics, and deposition.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_green_chemistry_to_organic_synthesis_describes_governs
+  source: green_chemistry
+  target: organic_synthesis
+  type: describes-governs
+  label: constrains synthetic design by hazard and lifecycle
+  detail: Green-chemistry principles guide synthetic route selection through hazard, waste, atom use, solvents,
+    energy, feedstocks, catalysis, degradation, and accident prevention rather than yield alone.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_contaminant_fate_to_chemical_sampling_experimentally_verified_by
+  source: contaminant_fate
+  target: chemical_sampling
+  type: experimentally-verified-by
+  label: tested by representative environmental samples
+  detail: Spatially and temporally representative sampling can test contaminant-fate predictions when phase distribution,
+    preservation, transport, transformation, and detection bias are controlled.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_persistent_organic_pollutant_to_gas_chromatography_experimentally_verified_by
+  source: persistent_organic_pollutant
+  target: gas_chromatography
+  type: experimentally-verified-by
+  label: separated and measured by validated gas chromatography
+  detail: Volatile or derivatized persistent pollutants can be separated by gas chromatography, usually with selective
+    detection or mass spectrometry and matrix-matched quality controls.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_environmental_chemistry_to_corrosion_describes_governs
+  source: environmental_chemistry
+  target: corrosion
+  type: describes-governs
+  label: describes chemical exposure and transformation
+  detail: Environmental chemistry describes how water, oxygen, ions, pollutants, biofilms, temperature, flow, deposits,
+    and local interfaces affect corrosion pathways and rates.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_contaminant_fate_to_isotope_tracer_experimentally_verified_by
+  source: contaminant_fate
+  target: isotope_tracer
+  type: experimentally-verified-by
+  label: tested by source- and pathway-sensitive labels
+  detail: Natural-abundance or introduced isotope tracers can test contaminant sources and transformations, provided
+    fractionation, mixing, exchange, background, and transport are included in the inference.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_carbon_cycle_chemistry_to_radiocarbon_dating_theory_component
+  source: carbon_cycle_chemistry
+  target: radiocarbon_dating
+  type: theory-component
+  label: supplies atmospheric and reservoir calibration
+  detail: Carbon-cycle exchange and reservoir effects supply calibration corrections needed to convert measured
+    radiocarbon activity into calendar-age constraints.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_greenhouse_gas_chemistry_to_infrared_spectroscopy_experimentally_verified_by
+  source: greenhouse_gas_chemistry
+  target: infrared_spectroscopy
+  type: experimentally-verified-by
+  label: absorption bands tested by infrared spectra
+  detail: Infrared spectra test molecular absorption positions and strengths used in radiative calculations, with
+    pressure, temperature, line shape, overlap, abundance, and atmospheric profile treated separately.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry

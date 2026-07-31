@@ -33,8 +33,8 @@ npm run content:build
 npm run test:content
 ```
 
-Validation is split into schema/shape, share-codec, reference, semantic, editorial, and
-renderer-compatibility layers. Compilation writes normalized files, including `share-codec.json`, and a
+Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and
+renderer-compatibility layers. The Chemistry layer enforces source diversity, evidence-level direction, shared-node ownership, and graph-connectivity floors. Compilation writes normalized files, including `share-codec.json`, and a
 hash-based `provenance.json` plus build-only `removed-domains.json` to `.build/content/`. Published hashed JSON files
 are produced only from that compiled directory and are served under the public
 `/content/` namespace; `/data/` is not emitted. YAML sources are assembled into

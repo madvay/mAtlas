@@ -771,7 +771,7 @@ export async function startAtlasApp(): Promise<void> {
     renderHtml(byId('helpContent'), `
       <section class="help-intro">
         <h3>What the atlas shows</h3>
-        <p>Each solid node is one concept, even when it belongs to several domains. In <strong>Layered</strong> layout, authored vertical levels generally move from less structure to more structure: carriers and primitive objects appear above concepts obtained by adding data, axioms, limits, approximations, or physical assumptions. Horizontal position groups primary domains; field boundaries and titles identify the large mathematics and physics regions. Horizontal distance is organizational, not a quantitative measure.</p>
+        <p>Each solid node is one concept, even when it belongs to several domains or fields. In <strong>Layered</strong> layout, authored vertical levels generally move from less structure to more structure: carriers and primitive objects appear above concepts obtained by adding data, axioms, limits, approximations, physical assumptions, composition, specialization, or collective organization. Mathematics occupies the upper formal band; Physics and Chemistry share the lower scientific band, preserving their relative levels. Outlines show the extent of each field’s primary nodes. Horizontal position groups related primary domains, including across fields. Horizontal distance is organizational, not a quantitative measure.</p>
         <p>A node’s fill and lane use its <strong>primary domain</strong>. Small colored markers show additional domains. The Details panel lists every field and domain membership.</p>
       </section>
 
@@ -818,7 +818,7 @@ export async function startAtlasApp(): Promise<void> {
         </section>
         <section class="help-card">
           <h3>Layouts</h3>
-          <p><strong>Layered</strong> uses the authored global levels and primary-domain lanes. It preserves the atlas’s editorial hierarchy and displays field boundaries.</p>
+          <p><strong>Layered</strong> uses authored levels and primary-domain lanes. Mathematics is above the shared Physics–Chemistry band; within that band, Physics and Chemistry retain their authored relative levels. Field outlines may overlap.</p>
           <p><strong>Compact</strong> uses only the nodes currently visible. Empty authored levels consume no rows, and each row is ordered deterministically by primary-domain order and then canonical node order. Changing filters recomputes the same layout for the same visible set.</p>
           <p><strong>Domains</strong> and <strong>Fields</strong> use Layered geometry as a semantic substrate. Concept labels and detailed edges are suppressed while full-opacity centroid nodes summarize the visible primary domains or fields. Curved arrow thickness records the number of visible directed relations; selecting a centroid isolates its incident arrows, while selecting a centroid or aggregate relation opens its statistics in Details.</p>
         </section>

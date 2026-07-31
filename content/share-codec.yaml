@@ -19,6 +19,7 @@ formatVersion: 1
 fields:
   - id: mathematics
   - id: physics
+  - id: chemistry
 
 domains:
   - id: set-theory
@@ -53,6 +54,23 @@ domains:
   - id: dynamical-systems
   - id: thermodynamics-statistical-mechanics
   - id: condensed-matter-physics
+  - id: chemical-foundations
+  - id: atomic-structure-periodicity
+  - id: molecular-structure-bonding
+  - id: quantum-chemistry-spectroscopy
+  - id: chemical-thermodynamics-equilibrium
+  - id: solutions-interfaces
+  - id: chemical-kinetics-dynamics
+  - id: inorganic-coordination-chemistry
+  - id: organic-chemistry
+  - id: analytical-chemistry
+  - id: electrochemistry
+  - id: radiochemistry
+  - id: materials-polymer-chemistry
+  - id: biochemistry-chemical-biology
+  - id: environmental-atmospheric-chemistry
+  - id: industrial-process-chemistry
+  - id: chemistry-experiments-evidence
 
 edgeTypes:
   - id: add-data

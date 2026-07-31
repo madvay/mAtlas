@@ -2,15 +2,16 @@
 
 [![Deploy GitHub Pages](https://github.com/madvay/mAtlas/actions/workflows/pages.yml/badge.svg)](https://github.com/madvay/mAtlas/actions/workflows/pages.yml)
 
-An interactive, source-backed graph connecting concepts across fields of knowledge. The current release combines the existing mathematics atlas with an initial physics spine running from foundational physical concepts through classical mechanics, relativity, quantum mechanics, quantum field theory, the Standard Model, particles, nuclei, atoms, ions, and molecules.
+An interactive, source-backed graph connecting concepts across fields of knowledge. The current release joins mathematics and physics to a broad Chemistry field spanning composition, atomic periodicity, bonding, spectroscopy, thermodynamics, solutions and interfaces, kinetics, inorganic and organic chemistry, measurement, electrochemistry, radiochemistry, materials and polymers, biochemistry, environmental chemistry, and industrial processes.
 
-The atlas is one graph rather than a collection of isolated applications. Fields occupy vertically stacked, subtly bounded bands; domains form horizontal lanes within each field; and justified cross-field relations connect the bands.
+The atlas is one graph rather than a collection of isolated applications. Fields overlap on one global vertical scale, while domains occupy horizontal lanes that may be deliberately adjacent across fields; justified cross-field relations connect the resulting structure.
 
 ## Public routes
 
 - `/` — global atlas
 - `/math/` — mathematics scope
 - `/physics/` — physics scope
+- `/chemistry/` — chemistry scope
 - `/concepts/<id>/` — canonical concept pages
 - `/concepts/` — HTML/JavaScript compatibility redirect to `/directory/`
 - `/views/` — static directory of curated stories and views
@@ -54,12 +55,12 @@ npm test
 
 `npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export and `/directory/` semantic atlas directory. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
 
-Validation is split into schema/shape, share-codec, reference, semantic, editorial, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, and every view object's identifiers and settings.
+Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, every view object's identifiers and settings, Chemistry evidence levels, shared-node ownership, and minimum cross-domain and cross-field connectivity.
 
 ## Additional scripts
 
 - `npm run clean` removes generated build artifacts such as `.build/`, `dist/`, and `.pages/`.
-- `npm run validate:content:<layer>` runs one validation layer (`schema`, `share-codec`, `references`, `semantic`, `editorial`, or `renderer`).
+- `npm run validate:content:<layer>` runs one validation layer (`schema`, `share-codec`, `references`, `semantic`, `editorial`, `chemistry`, or `renderer`).
 - `npm run test:content` compiles the content contract and verifies normalized output, versions, hashes, and license provenance.
 - `npm run preview` serves the contents of `dist/` locally for review after building.
 - `npm run benchmark:renderer -- <options>` runs the repeatable Puppeteer renderer benchmark documented in [`docs/renderer-performance-benchmark.md`](docs/renderer-performance-benchmark.md), including explicit `--markers on|off` control.
@@ -106,12 +107,14 @@ Each domain belongs to one field. Each concept declares:
 - `primaryField` and `fields`
 - `primaryDomain` and `domains`
 - `conceptType`
-- `level`, used for vertical placement within the field band
+- `level`, used for vertical placement on the global cross-field scale
 - common descriptive fields and optional generic `sections`
 
-Existing mathematics concepts inherit the mathematics field through their domains. Physics concepts use the generalized detail-section model so theories, laws, fields, particles, systems, processes, states, and phenomena can coexist without forcing them into the mathematics-specific carrier/data/axiom schema.
+Existing mathematics concepts inherit the mathematics field through their domains. Physics and Chemistry concepts use the generalized detail-section model so theories, laws, fields, particles, substances, systems, processes, states, measurements, and phenomena can coexist without forcing them into the mathematics-specific carrier/data/axiom schema.
 
-A concept may eventually belong to several fields. Boundary concepts such as atoms and molecules should remain single nodes with multiple memberships once chemistry is added, unless distinct disciplinary concepts genuinely require separate nodes.
+A concept may belong to several fields. Boundary entities and frameworks—including atoms, ions, molecules, bonds, isotopes, quantum mechanics, spectroscopy, thermodynamics, and crystalline solids—remain single Physics-primary nodes with added Chemistry field and domain memberships. Chemistry-primary concepts represent genuinely chemical organizations, models, measurements, and practices rather than duplicating those entities.
+
+Chemistry's domain order is a stable navigation and lane order, not a claim that each domain derives from the prior one. Chemical foundations, atomic periodicity, and molecular bonding align with atomic and molecular physics; thermodynamic, solution/interfacial, kinetic, and quantum/spectroscopic frameworks overlap as peer cores; inorganic, organic, analytical, electrochemical, and radiochemical work form overlapping branch layers; materials, biochemical, environmental, and industrial systems extend selected branches. Historical experiments retain their substantive primary domain and also belong to `chemistry-experiments-evidence`.
 
 ### Relations
 
@@ -133,7 +136,7 @@ The original mathematical relation types remain. The multi-field model adds rela
 - state descriptions
 - transformations and processes
 
-Relations are not treated as one undifferentiated “built from” ordering. This is essential in physics: special relativity and quantum mechanics jointly constrain relativistic QFT, general relativity is parallel to the Standard Model rather than downstream from it, and classical limits are marked as approximations rather than derivations.
+Relations are not treated as one undifferentiated “built from” ordering. This is essential in physics and chemistry: special relativity and quantum mechanics jointly constrain relativistic QFT, while chemical classifications, state descriptions, mechanisms, transformations, measurements, and model realizations carry distinct claims. Classical limits are marked as approximations rather than derivations, and an experimental edge records scoped evidence rather than proof.
 
 ## User interface and URL state
 
@@ -176,7 +179,7 @@ The browser escapes prose and sends only delimited formulas to KaTeX. `npm run m
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact now places the complete atlas at its root, including `/math/`, `/physics/`, `/directory/`, `/concepts/`, `/views/`, and `/static/atlas.svg`.
+`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/directory/`, `/concepts/`, `/views/`, and `/static/atlas.svg`.
 
 ## License
 

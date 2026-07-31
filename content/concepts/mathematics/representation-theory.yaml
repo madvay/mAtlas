@@ -671,3 +671,15 @@ edges:
       - wp-physics-bloch-theorem
       - tong-solid-state-physics
       - mit-theory-of-solids
+  - id: group_action_to_molecular_symmetry
+    source: group_action
+    target: molecular_symmetry
+    type: mathematical-formulation
+    label: symmetry operations act on molecular coordinates
+    detail: Molecular point-group operations act on nuclear coordinates, orbitals, and normal modes; the resulting representations classify states and constrain spectral selection rules.
+    citations:
+      - wp-group-action
+      - etingof-representation-theory
+      - iupac-gold-book
+      - openstax-chemistry-2e
+    overview: true

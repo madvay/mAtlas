@@ -24,6 +24,7 @@
     "src/state/view-state.ts",
     "src/state/view-sequence.ts",
     "src/graph/compact-hierarchy-layout-core.ts",
+    "src/graph/layout-manager.ts",
     "src/graph/semantic-map-core.ts",
     "src/graph/structure-overlay-geometry.ts",
     "src/graph/layout-suggestion.ts",

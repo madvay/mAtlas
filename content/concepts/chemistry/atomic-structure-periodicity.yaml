@@ -1,0 +1,488 @@
+nodes:
+- id: periodic_law
+  label: Periodic law
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 26
+  kind: structure
+  conceptType: Empirical organizing law
+  summary: Chemical and physical properties recur in structured trends when elements are ordered by proton number.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: periodic_table
+  label: Periodic table
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 27
+  kind: structure
+  conceptType: Classification system
+  summary: A tabular organization of elements by proton number, electron configuration, and recurring chemical properties.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: periodic_group
+  label: Periodic-table group
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 28
+  kind: structure
+  conceptType: Taxonomic column
+  summary: A vertical column of elements whose valence-shell patterns often produce related chemical behavior.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: periodic_period
+  label: Periodic-table period
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 28
+  kind: structure
+  conceptType: Taxonomic row
+  summary: A horizontal row associated with progressive filling of electron shells and subshells.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: valence_electron
+  label: Valence electron
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 29
+  kind: structure
+  conceptType: Electronic role
+  summary: An electron in an outer or chemically active shell whose occupancy participates in bonding, ion formation, or redox behavior.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: effective_nuclear_charge
+  label: Effective nuclear charge
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 29
+  kind: structure
+  conceptType: Electronic-structure quantity
+  summary: The net nuclear attraction experienced by an electron after shielding and penetration effects are accounted for.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chemical_valence
+  label: Chemical valence
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 30
+  kind: structure
+  conceptType: Combining-capacity concept
+  summary: A context-dependent account of how many bonds or combining units an atom can support in a specified chemical description.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: electronegativity
+  label: Electronegativity
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 30
+  kind: structure
+  conceptType: Comparative atomic property
+  summary: A model-dependent scale describing an atom’s tendency to attract shared electron density in a bonded environment.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: electron_affinity_chemistry
+  label: Electron affinity
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 30
+  kind: structure
+  conceptType: Energetic atomic property
+  summary: The energy change associated with adding an electron to a specified gas-phase atom or molecule, with sign convention stated explicitly.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: atomic_radius_trend
+  label: Atomic-radius trend
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 30
+  kind: structure
+  conceptType: Periodic size descriptor
+  summary: The systematic variation of operational atomic-size measures across periods and down groups.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: oxidation_state
+  label: Oxidation state
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 31
+  kind: structure
+  conceptType: Electron-bookkeeping descriptor
+  summary: An atom’s formal charge after assigning bonding electron pairs by an agreed ionic approximation; it is not generally an observable
+    atomic charge.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: periodic_trend
+  label: Periodic trend
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 31
+  kind: structure
+  conceptType: Comparative pattern
+  summary: A recurring variation of atomic or chemical properties across the ordered elements, interpreted through nuclear charge and electronic
+    structure.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: mendeleev_periodic_predictions
+  label: Mendeleev’s periodic predictions
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  - chemistry-experiments-evidence
+  level: 25
+  kind: structure
+  conceptType: Historical prediction program
+  summary: Mendeleev left gaps and predicted properties for several missing elements by comparing recurring composition and property patterns
+    in his periodic arrangement.
+  citations:
+  - wp-chem-mendeleev-predictions
+  - rsc-mendeleev-periodic-table
+  sections:
+  - title: Historical qualification
+    body: Several periodic schemes preceded and accompanied Mendeleev’s. His predictions and revisions were a major reason his arrangement gained
+      authority, while modern ordering by proton number came later.
+- id: gallium_discovery_periodic_test
+  label: Gallium discovery and periodic prediction test
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  - chemistry-experiments-evidence
+  level: 29
+  kind: structure
+  conceptType: Historical verifying observation
+  summary: Lecoq de Boisbaudran’s spectroscopic discovery and characterization of gallium supplied a prominent test of Mendeleev’s predicted eka-aluminium,
+    with later density measurements improving agreement.
+  citations:
+  - wp-chem-gallium
+  - rsc-mendeleev-periodic-table
+edges:
+- id: chem_periodic_law_to_periodic_table_model_realization
+  source: periodic_law
+  target: periodic_table
+  type: model-realization
+  label: realized as element table
+  detail: The table is a conventional spatial realization of periodic ordering; alternative table layouts can represent the same law.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_group_to_periodic_table_theory_component
+  source: periodic_group
+  target: periodic_table
+  type: theory-component
+  label: forms vertical families
+  detail: Groups organize elements with recurring valence-shell and chemical patterns.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_period_to_periodic_table_theory_component
+  source: periodic_period
+  target: periodic_table
+  type: theory-component
+  label: forms shell-filling rows
+  detail: Periods organize sequential proton numbers and the associated shell and subshell filling patterns.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_table_to_chemical_element_describes_governs
+  source: periodic_table
+  target: chemical_element
+  type: describes-governs
+  label: orders elements by proton number
+  detail: The modern table orders chemical elements by proton number and groups them using recurring electronic and chemical properties.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_law_to_electron_configuration_describes_governs
+  source: periodic_law
+  target: electron_configuration
+  type: describes-governs
+  label: recurrence from electronic structure
+  detail: Periodic recurrence is explained in modern chemistry through shell structure, electron configuration, and quantum statistics.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_valence_electron_to_chemical_valence_theory_component
+  source: valence_electron
+  target: chemical_valence
+  type: theory-component
+  label: supports bonding capacity
+  detail: Valence-electron occupancy constrains common bonding patterns, although valence is context-dependent and not a simple electron count
+    in every compound.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_effective_nuclear_charge_to_periodic_trend_theory_component
+  source: effective_nuclear_charge
+  target: periodic_trend
+  type: theory-component
+  label: explains screened attraction
+  detail: Changes in effective nuclear charge contribute to trends in size, ionization, affinity, and bonding across a period.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_mendeleev_periodic_predictions_to_periodic_law_historically_motivated
+  source: mendeleev_periodic_predictions
+  target: periodic_law
+  type: historically-motivated
+  label: predictive gaps strengthened periodicity
+  detail: Successful, revisable predictions for missing elements made periodic classification a productive research program rather than only a
+    filing scheme.
+  citations:
+  - wp-chem-mendeleev-predictions
+  - rsc-mendeleev-periodic-table
+- id: chem_periodic_law_to_gallium_discovery_periodic_test_experimentally_verified_by
+  source: periodic_law
+  target: gallium_discovery_periodic_test
+  type: experimentally-verified-by
+  label: eka-aluminium prediction tested
+  detail: Gallium’s observed properties substantially matched the predicted position and chemistry, while discrepancies such as the first density
+    estimate were corrected by further measurement.
+  citations:
+  - wp-chem-gallium
+  - rsc-mendeleev-periodic-table
+- id: chem_periodic_law_to_moseley_xray_spectroscopy_experimentally_verified_by
+  source: periodic_law
+  target: moseley_xray_spectroscopy
+  type: experimentally-verified-by
+  label: ordering by atomic number
+  detail: Moseley’s X-ray frequency relation tied periodic order to nuclear charge rather than atomic weight and resolved several ambiguous placements.
+  citations:
+  - wp-physics-moseley_xray_spectroscopy
+  - nlab-chemical-element
+  - iupac-periodic-table
+- id: chem_valence_electron_to_covalent_bond_theory_component
+  source: valence_electron
+  target: covalent_bond
+  type: theory-component
+  label: supplies shared electron density
+  detail: Valence electrons occupy bonding and antibonding states that determine covalent bond order and reactivity.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_valence_electron_to_redox_reaction_theory_component
+  source: valence_electron
+  target: redox_reaction
+  type: theory-component
+  label: participates in electron bookkeeping
+  detail: Redox descriptions track changes in valence-electron assignment through oxidation states or half-reactions.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_effective_nuclear_charge_to_ionization_energy_describes_governs
+  source: effective_nuclear_charge
+  target: ionization_energy
+  type: describes-governs
+  label: contributes to electron-removal energy
+  detail: Effective nuclear attraction is a major contributor to ionization trends together with shell, subshell, correlation, and relaxation
+    effects.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_oxidation_state_to_redox_reaction_theory_component
+  source: oxidation_state
+  target: redox_reaction
+  type: theory-component
+  label: tracks formal electron transfer
+  detail: A redox reaction contains coupled increases and decreases in oxidation state, although the assigned states need not equal physical atomic
+    charges.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_table_to_transition_metal_chemistry_theory_component
+  source: periodic_table
+  target: transition_metal_chemistry
+  type: theory-component
+  label: organizes d-block trends and families
+  detail: The periodic table supplies the d-block organization used to compare transition-metal valence, oxidation
+    states, radii, and recurring chemical behavior; exceptions require element-specific electronic and relativistic
+    analysis.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_table_to_electronegativity_state_description
+  source: periodic_table
+  target: electronegativity
+  type: state-description
+  label: maps comparative electron attraction
+  detail: Electronegativity values form a model-dependent periodic descriptor; trends are useful but vary with definition,
+    oxidation state, bonding environment, and relativistic effects.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_table_to_electron_affinity_chemistry_state_description
+  source: periodic_table
+  target: electron_affinity_chemistry
+  type: state-description
+  label: maps electron-addition energetics
+  detail: Electron affinities provide a periodic energetic descriptor, with shell structure, correlation, spin,
+    molecular environment, and sign convention producing important exceptions.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_table_to_atomic_radius_trend_state_description
+  source: periodic_table
+  target: atomic_radius_trend
+  type: state-description
+  label: maps model-dependent atomic size
+  detail: Atomic radius is a context-dependent size descriptor inferred from specified states or structures; periodic
+    patterns depend on the chosen covalent, metallic, ionic, or other radius definition.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_table_to_oxidation_state_state_description
+  source: periodic_table
+  target: oxidation_state
+  type: state-description
+  label: maps recurring formal valence states
+  detail: Recurring oxidation states provide a formal periodic descriptor for electron bookkeeping, but they do
+    not by themselves specify charge distribution or bonding.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_electronegativity_to_ionic_bonding_describes_governs
+  source: electronegativity
+  target: ionic_bonding
+  type: describes-governs
+  label: helps estimate ionic character
+  detail: Electronegativity differences help rationalize bond polarity and ionic character, but lattice structure,
+    coordination, polarization, orbital mixing, and environment prevent a sharp universal boundary.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_electronegativity_to_molecular_dipole_moment_theory_component
+  source: electronegativity
+  target: molecular_dipole_moment
+  type: theory-component
+  label: contributes bond-polarity estimates
+  detail: Electronegativity differences contribute qualitative bond-polarity estimates used in molecular dipole
+    reasoning, while geometry, charge redistribution, lone pairs, and conformation determine the resultant moment.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_electron_affinity_chemistry_to_redox_reaction_theory_component
+  source: electron_affinity_chemistry
+  target: redox_reaction
+  type: theory-component
+  label: contributes electron-addition energetics
+  detail: Electron affinity contributes to isolated-species electron-addition energetics, while complete redox free
+    energies also depend on ionization, bonding, solvation, entropy, concentration, and coupled reactions.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_periodic_trend_to_materials_chemistry_describes_governs
+  source: periodic_trend
+  target: materials_chemistry
+  type: describes-governs
+  label: guides composition–property hypotheses
+  detail: Periodic trends guide materials-composition hypotheses, but bonding, structure, defects, processing, kinetics,
+    and collective behavior require direct calculation and experiment.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_chemical_valence_to_functional_group_describes_governs
+  source: chemical_valence
+  target: functional_group
+  type: describes-governs
+  label: constrains recurring connectivity patterns
+  detail: Valence rules constrain common functional-group connectivity and charge patterns, with expanded valence,
+    hypervalent descriptions, radicals, metals, and delocalization requiring qualified models.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table

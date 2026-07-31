@@ -88,10 +88,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
       - atomic-molecular-physics
+      - materials-polymer-chemistry
+      - analytical-chemistry
     level: 35
     kind: structure
     conceptType: Ordered condensed phase
@@ -106,9 +109,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
+      - materials-polymer-chemistry
     level: 36
     kind: structure
     conceptType: Periodic geometric model
@@ -195,9 +200,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
+      - materials-polymer-chemistry
+      - analytical-chemistry
     level: 37
     kind: structure
     conceptType: Dual periodic structure
@@ -212,10 +220,13 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
       - classical-mechanics
+      - materials-polymer-chemistry
+      - quantum-chemistry-spectroscopy
     level: 37
     kind: structure
     conceptType: Collective lattice motion
@@ -352,11 +363,14 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
       - quantum-mechanics
       - quantum-field-theory
+      - materials-polymer-chemistry
+      - quantum-chemistry-spectroscopy
     level: 38
     kind: structure
     conceptType: Quantized collective excitation
@@ -388,10 +402,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
       - quantum-mechanics
+      - materials-polymer-chemistry
     level: 38
     kind: structure
     conceptType: Spectral state property
@@ -494,9 +510,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
+      - materials-polymer-chemistry
     level: 40
     kind: structure
     conceptType: Electronic material class
@@ -913,3 +931,14 @@ edges:
       - aps-hohenberg-kohn
       - aps-kohn-sham
       - mit-theory-of-solids
+  - id: chem_crystalline_solid_to_x_ray_crystallography_experimentally_verified_by
+    source: crystalline_solid
+    target: x_ray_crystallography
+    type: experimentally-verified-by
+    label: structure tested by diffraction intensities
+    detail: A crystal-structure model is tested against diffraction intensities and refinement diagnostics; disorder,
+      twinning, finite resolution, model bias, and phase information limit interpretation.
+    citations:
+    - wp-chem-analytical-chemistry
+    - iupac-orange-book
+    - nist-chemistry-webbook

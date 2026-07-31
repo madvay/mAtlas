@@ -1,0 +1,379 @@
+nodes:
+- id: radiochemistry
+  label: Radiochemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 28
+  kind: structure
+  conceptType: Disciplinary field
+  summary: Chemistry of radionuclides, nuclear transformations, radiation-induced reactions, isotope tracing, and chemical operations on radioactive
+    matter.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: radionuclide_chemistry
+  label: Radionuclide
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 30
+  kind: structure
+  conceptType: Nuclear chemical entity
+  summary: A nuclide in a specified nuclear energy state that is radioactive, identified by proton number, mass number, and state where required.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: radiation_chemistry
+  label: Radiation chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 31
+  kind: structure
+  conceptType: Reaction field
+  summary: Study of chemical effects initiated by ionizing radiation, including excitation, ionization, radicals, spur chemistry, and subsequent
+    reactions.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: isotope_tracer
+  label: Isotope tracer
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 32
+  kind: structure
+  conceptType: Experimental labeling method
+  summary: Use of an isotopically distinguished form of an element to follow transport, exchange, reaction, or turnover without changing elemental
+    identity.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: isotope_dilution_analysis
+  label: Isotope-dilution analysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 33
+  kind: structure
+  conceptType: Quantitative analytical method
+  summary: Determination of analyte amount from isotope ratios after adding a known quantity of an enriched isotopic spike and achieving controlled
+    mixing or equilibration.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: neutron_activation_analysis
+  label: Neutron-activation analysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 34
+  kind: structure
+  conceptType: Nuclear analytical method
+  summary: Elemental analysis by neutron irradiation followed by measurement of characteristic radiation from induced radionuclides.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: radiometric_dating
+  label: Radiometric dating
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 34
+  kind: structure
+  conceptType: Chronometric method class
+  summary: Inference of elapsed time from parent, daughter, or ingrowth isotope measurements under a stated decay model and closure history.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: radiocarbon_dating
+  label: Radiocarbon dating
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 35
+  kind: structure
+  conceptType: Isotope chronometry
+  summary: Dating of once-living material from carbon-14 activity or isotope ratio after calibration for atmospheric variation, fractionation,
+    contamination, and reservoir effects.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: radiopharmaceutical
+  label: Radiopharmaceutical
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 37
+  kind: structure
+  conceptType: Functional chemical product
+  summary: A medicinal preparation containing a radionuclide in a chemical form designed for diagnostic measurement or targeted therapy.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: actinide_separation
+  label: Actinide separation chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 36
+  kind: structure
+  conceptType: Chemical separation field
+  summary: Selective partitioning of actinide ions using oxidation-state control, complexation, extraction, ion exchange, precipitation, or related
+    methods.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: nuclear_fuel_cycle_chemistry
+  label: Nuclear-fuel-cycle chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  level: 38
+  kind: structure
+  conceptType: Applied chemical system
+  summary: Chemical processing and materials control associated with fuel preparation, irradiation products, reprocessing options, waste conditioning,
+    and safeguards.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: curie_radium_separation_measurements
+  label: Curie radium-separation measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  - chemistry-experiments-evidence
+  level: 27
+  kind: structure
+  conceptType: Historical motivating experiment program
+  summary: Marie and Pierre Curie combined activity measurements with repeated chemical separations of pitchblende residues, inferring and concentrating
+    the new radioactive elements polonium and radium.
+  citations:
+  - wp-chem-curie-radium
+  - nobel-curie-1911
+- id: soddy_isotope_displacement_evidence
+  label: Soddy’s isotope and displacement evidence
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  - chemistry-experiments-evidence
+  level: 29
+  kind: structure
+  conceptType: Historical motivating evidence synthesis
+  summary: Soddy compared radioactive decay series and chemically inseparable products, developing the isotope concept and displacement rules
+    for alpha and beta decay.
+  citations:
+  - wp-chem-soddy
+  - nobel-soddy-1921
+- id: libby_radiocarbon_validation
+  label: Libby’s radiocarbon validation measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  - chemistry-experiments-evidence
+  level: 36
+  kind: structure
+  conceptType: Canonical verifying measurement program
+  summary: Libby and collaborators measured carbon-14 in modern and independently dated samples, testing the dating model and establishing a practical
+    calibration program.
+  citations:
+  - wp-chem-radiocarbon-dating
+  - nobel-libby-1960
+edges:
+- id: chem_radiochemistry_to_radionuclide_chemistry_describes_governs
+  source: radiochemistry
+  target: radionuclide_chemistry
+  type: describes-governs
+  label: describes radioactive nuclides through chemical identity
+  detail: Radiochemistry follows chemical identity and speciation while nuclear state and decay determine radioactive behavior.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radionuclide_chemistry_to_radioactive_decay_state_description
+  source: radionuclide_chemistry
+  target: radioactive_decay
+  type: state-description
+  label: has characteristic decay modes
+  detail: A radionuclide is characterized in part by its decay modes, half-life, nuclear state, and daughter products.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radiochemistry_to_radiation_chemistry_classification
+  source: radiochemistry
+  target: radiation_chemistry
+  type: classification
+  label: includes radiation-induced reactions
+  detail: Radiation chemistry examines chemical change caused by energy deposited by ionizing radiation.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radiochemistry_to_neutron_activation_analysis_classification
+  source: radiochemistry
+  target: neutron_activation_analysis
+  type: classification
+  label: includes activation measurement
+  detail: Activation analysis combines nuclear production of radionuclides with radiochemical or instrumental measurement.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radionuclide_chemistry_to_radiometric_dating_theory_component
+  source: radionuclide_chemistry
+  target: radiometric_dating
+  type: theory-component
+  label: supplies nuclidic decay clock
+  detail: Radiometric dating applies a decay and material-history model to radionuclide measurements; radioactivity alone does not guarantee a
+    valid date.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radiometric_dating_to_radiocarbon_dating_classification
+  source: radiometric_dating
+  target: radiocarbon_dating
+  type: classification
+  label: includes carbon-14 chronometry
+  detail: Radiocarbon dating is a specialized radiometric method for carbon-exchanging materials over its finite age range.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_actinide_separation_to_nuclear_fuel_cycle_chemistry_theory_component
+  source: actinide_separation
+  target: nuclear_fuel_cycle_chemistry
+  type: theory-component
+  label: controls actinide streams
+  detail: Fuel-cycle options use selective actinide and fission-product chemistry under radiation, criticality, waste, and safeguards constraints.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_curie_radium_separation_measurements_to_radiochemistry_historically_motivated
+  source: curie_radium_separation_measurements
+  target: radiochemistry
+  type: historically-motivated
+  label: activity-guided chemical fractionation
+  detail: The Curies’ use of radioactivity to guide chemical separation demonstrated that nuclear signatures could reveal trace chemical species
+    and helped establish radiochemistry.
+  citations:
+  - wp-chem-curie-radium
+  - nobel-curie-1911
+- id: chem_soddy_isotope_displacement_evidence_to_radionuclide_chemistry_historically_motivated
+  source: soddy_isotope_displacement_evidence
+  target: radionuclide_chemistry
+  type: historically-motivated
+  label: chemically identical radioactive forms
+  detail: Decay-series evidence required nuclides with different masses and radioactivities to occupy the same chemical element position.
+  citations:
+  - wp-chem-soddy
+  - nobel-soddy-1921
+- id: chem_radiocarbon_dating_to_libby_radiocarbon_validation_experimentally_verified_by
+  source: radiocarbon_dating
+  target: libby_radiocarbon_validation
+  type: experimentally-verified-by
+  label: known-age samples and modern carbon
+  detail: Agreement with independently dated samples established practical radiocarbon chronometry while later work supplied calibration curves
+    and reservoir corrections.
+  citations:
+  - wp-chem-radiocarbon-dating
+  - nobel-libby-1960
+- id: chem_radiopharmaceutical_to_biomolecule_couples_interacts
+  source: radiopharmaceutical
+  target: biomolecule
+  type: couples-interacts
+  label: targets biological systems
+  detail: Radiopharmaceuticals combine radionuclide emissions with a chemical form or targeting vector that controls biodistribution and clearance.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_isotope_dilution_analysis_to_mass_spectrometry_experimentally_verified_by
+  source: isotope_dilution_analysis
+  target: mass_spectrometry
+  type: experimentally-verified-by
+  label: quantified through calibrated isotope ratios
+  detail: Mass spectrometry tests an isotope-dilution amount estimate through measured isotope ratios after spike
+    equilibration, blank correction, fractionation control, and a stated measurement equation.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_isotope_tracer_to_isotope_dilution_analysis_theory_component
+  source: isotope_tracer
+  target: isotope_dilution_analysis
+  type: theory-component
+  label: supplies the equilibrated spike
+  detail: An isotopically enriched tracer supplies the spike in isotope-dilution analysis; accurate inference requires
+    known spike composition, equilibration, ratio measurement, blank correction, and a stated measurement equation.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radionuclide_chemistry_to_radiopharmaceutical_composition
+  source: radionuclide_chemistry
+  target: radiopharmaceutical
+  type: composition
+  label: supplies a radioactive signaling or therapy component
+  detail: A selected radionuclide is a material component of a radiopharmaceutical, joined to formulation and often
+    a targeting vector; decay properties, dosimetry, purity, stability, and biology govern use.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book

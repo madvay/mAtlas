@@ -123,7 +123,7 @@ function modelFixture() {
       ['quantum', { id: 'quantum', kind: 'structure', label: 'Quantum', primaryDomain: 'experiments', domains: ['experiments'] }]
     ]),
     edgeRecord: new Map(),
-    fieldForDomain() { return 'physics'; }
+    fieldForDomain(domainId) { return this.data.domains[domainId]?.field ?? 'physics'; }
   };
 }
 
@@ -197,8 +197,14 @@ test('view node links select the requested sequence step explicitly', () => {
 
 test('field and domain paths resolve to taxonomy scopes', () => {
   const model = modelFixture();
+  model.data.fields.chemistry = { path: 'chemistry', label: 'Chemistry', description: 'Chemistry' };
+  model.data.domains.electrochemistry = { field: 'chemistry', label: 'Electrochemistry' };
+  model.knownFieldIds.add('chemistry');
+  model.knownDomainIds.add('electrochemistry');
   assert.deepEqual(taxonomyScopeFromPath('/physics/', model, ['physics']), { fieldId: 'physics', domainId: null });
   assert.deepEqual(taxonomyScopeFromPath('/physics/experiments/', model, ['physics']), { fieldId: 'physics', domainId: 'experiments' });
+  assert.deepEqual(taxonomyScopeFromPath('/chemistry/', model, ['physics', 'chemistry']), { fieldId: 'chemistry', domainId: null });
+  assert.deepEqual(taxonomyScopeFromPath('/chemistry/electrochemistry/', model, ['physics', 'chemistry']), { fieldId: 'chemistry', domainId: 'electrochemistry' });
   assert.deepEqual(taxonomyScopeFromPath('/physics/not-a-domain/', model, ['physics']), { fieldId: null, domainId: null });
 });
 

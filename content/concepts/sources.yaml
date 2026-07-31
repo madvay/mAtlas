@@ -5,14 +5,18 @@ citationLegend:
   Encyclopedia of Mathematics: EoM
   IUPAC Gold Book: IUPAC
   MIT OpenCourseWare: OCW
+  National Institute of Standards and Technology: NIST
   NIST / CODATA: CODATA
   NASA Science: NASA
   Nobel Prize: Nobel
   Open Logic Project: OLP
   Physical Review: PR
   Physical Review Letters: PRL
+  Stacks Project: Stacks
   Stanford Encyclopedia of Philosophy: SEP
   U.S. DOE: DOE
+  U.S. Department of Energy: DOE
+  U.S. Environmental Protection Agency: EPA
   Wikipedia: WP
 sources:
   aps-hohenberg-kohn:
@@ -8245,3 +8249,498 @@ sources:
     title: 'Statistical-Mechanical Theory of Irreversible Processes. I: General Theory and Simple Applications to Magnetic and Conduction Problems'
     url: https://journals.jps.jp/doi/10.1143/JPSJ.12.570
     kind: primary research paper
+  acs-carothers-polymers-landmark:
+    label: American Chemical Society — Wallace Carothers and the Development of Nylon
+    title: Wallace Carothers and the Development of Nylon
+    url: https://www.acs.org/education/whatischemistry/landmarks/carotherspolymers.html
+    kind: ACS National Historic Chemical Landmark
+  acs-chromatography-landmark:
+    label: Chemical & Engineering News — 50 Years of HPLC
+    title: 50 Years of HPLC
+    url: https://cen.acs.org/articles/94/i24/50-years-HPLC.html
+    kind: American Chemical Society historical review
+  acs-lavoisier:
+    label: American Chemical Society — The Chemical Revolution of Antoine-Laurent Lavoisier
+    title: The Chemical Revolution of Antoine-Laurent Lavoisier
+    url: https://www.acs.org/education/whatischemistry/landmarks/lavoisier.html
+    kind: ACS National Historic Chemical Landmark
+  bas-ozone-hole:
+    label: British Antarctic Survey — The discovery of the Antarctic ozone hole
+    title: The discovery of the Antarctic ozone hole
+    url: https://www.bas.ac.uk/about/history/ozone-hole-discovery/
+    kind: institutional historical account
+  doe-catalysts:
+    label: U.S. Department of Energy — DOE Explains Catalysts
+    title: DOE Explains Catalysts
+    url: https://www.energy.gov/science/doe-explainscatalysts
+    kind: U.S. Department of Energy reference
+  doe-new-chemistry-roadmap:
+    label: U.S. Department of Energy — New Chemistry for New Processes
+    title: New Chemistry for New Processes
+    url: https://www1.eere.energy.gov/manufacturing/resources/chemicals/pdfs/new_chemistry_roadmap.pdf
+    kind: U.S. Department of Energy technology roadmap
+  epa-atmospheric-chemical-processes:
+    label: U.S. Environmental Protection Agency — Chemical Process Overview
+    title: Chemical Process Overview
+    url: https://www.epa.gov/cmaq/chemical-process-overview
+    kind: U.S. Environmental Protection Agency technical overview
+  epa-green-chemistry:
+    label: U.S. Environmental Protection Agency — Basics of Green Chemistry
+    title: Basics of Green Chemistry
+    url: https://www.epa.gov/greenchemistry/basics-green-chemistry
+    kind: U.S. Environmental Protection Agency reference
+  farman-1985-ozone:
+    label: Nature — Large losses of total ozone in Antarctica reveal seasonal ClOx/NOx interaction
+    title: Large losses of total ozone in Antarctica reveal seasonal ClOx/NOx interaction
+    url: https://doi.org/10.1038/315207a0
+    kind: primary research paper
+  franklin-gosling-1953:
+    label: Nature — Molecular Configuration in Sodium Thymonucleate
+    title: Molecular Configuration in Sodium Thymonucleate
+    url: https://doi.org/10.1038/171740a0
+    kind: primary research paper
+  iaea-neutron-activation-analysis:
+    label: International Atomic Energy Agency — Use of Research Reactors for Neutron Activation Analysis
+    title: Use of Research Reactors for Neutron Activation Analysis
+    url: https://www-pub.iaea.org/MTCD/Publications/PDF/te_1215_prn.pdf
+    kind: IAEA technical document
+  iupac-blue-book:
+    label: IUPAC — Nomenclature of Organic Chemistry
+    title: Nomenclature of Organic Chemistry
+    url: https://iupac.org/what-we-do/books/bluebook/
+    kind: IUPAC nomenclature reference
+  iupac-gold-book:
+    label: IUPAC — Compendium of Chemical Terminology
+    title: Compendium of Chemical Terminology
+    url: https://goldbook.iupac.org/
+    kind: IUPAC terminology reference
+  iupac-green-book:
+    label: IUPAC — Quantities, Units and Symbols in Physical Chemistry
+    title: Quantities, Units and Symbols in Physical Chemistry
+    url: https://iupac.org/what-we-do/books/greenbook/
+    kind: IUPAC physical chemistry reference
+  iupac-orange-book:
+    label: IUPAC — Compendium of Analytical Nomenclature
+    title: Compendium of Analytical Nomenclature
+    url: https://iupac.org/what-we-do/books/orangebook/
+    kind: IUPAC analytical chemistry reference
+  iupac-periodic-table:
+    label: IUPAC — Periodic Table of Elements
+    title: Periodic Table of Elements
+    url: https://iupac.org/what-we-do/periodic-table-of-elements/
+    kind: IUPAC reference table
+  iupac-purple-book:
+    label: IUPAC — Compendium of Polymer Terminology and Nomenclature
+    title: Compendium of Polymer Terminology and Nomenclature
+    url: https://iupac.org/what-we-do/books/purplebook/
+    kind: IUPAC polymer terminology reference
+  iupac-red-book:
+    label: IUPAC — Nomenclature of Inorganic Chemistry
+    title: Nomenclature of Inorganic Chemistry
+    url: https://iupac.org/what-we-do/books/redbook/
+    kind: IUPAC nomenclature reference
+  iupac-solubility-data:
+    label: IUPAC — Solubility Data Series
+    title: Solubility Data Series
+    url: https://iupac.org/what-we-do/databases/solubility-data-series/
+    kind: IUPAC evaluated data series
+  meselson-stahl-1958:
+    label: Proceedings of the National Academy of Sciences — The Replication of DNA in Escherichia coli
+    title: The Replication of DNA in Escherichia coli
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC528642/
+    kind: primary research paper
+  michaelis-menten-1913:
+    label: Biochemistry — The Original Michaelis Constant
+    title: The Original Michaelis Constant
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3381512/
+    kind: peer-reviewed translation and reanalysis of primary work
+  miller-1953:
+    label: Science — A Production of Amino Acids Under Possible Primitive Earth Conditions
+    title: A Production of Amino Acids Under Possible Primitive Earth Conditions
+    url: https://www.science.org/doi/10.1126/science.117.3046.528
+    kind: primary research paper
+  ncbi-molecular-biology-cell:
+    label: NCBI Bookshelf — Molecular Biology of the Cell
+    title: Molecular Biology of the Cell
+    url: https://www.ncbi.nlm.nih.gov/books/NBK21054/
+    kind: peer-reviewed textbook
+  nist-chemistry-webbook:
+    label: National Institute of Standards and Technology — Chemistry WebBook
+    title: NIST Chemistry WebBook
+    url: https://webbook.nist.gov/chemistry/
+    kind: evaluated chemical data resource
+  nist-polymers-processing:
+    label: National Institute of Standards and Technology — Polymers Processing Group
+    title: Polymers Processing Group
+    url: https://www.nist.gov/mml/materials-science-and-engineering-division/polymers-processing-group
+    kind: NIST materials reference
+  nobel-arrhenius-1903:
+    label: Nobel Prize — Svante Arrhenius facts
+    title: Svante Arrhenius Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1903/arrhenius/facts/
+    kind: Nobel Prize archival reference
+  nobel-bosch-1931:
+    label: Nobel Prize — Carl Bosch facts
+    title: Carl Bosch Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1931/bosch/facts/
+    kind: Nobel Prize archival reference
+  nobel-bragg-1915:
+    label: Nobel Prize — Lawrence Bragg Nobel lecture
+    title: The Diffraction of X-Rays by Crystals
+    url: https://www.nobelprize.org/prizes/physics/1915/wl-bragg/lecture/
+    kind: Nobel lecture
+  nobel-buchner-1907:
+    label: Nobel Prize — Eduard Buchner facts
+    title: Eduard Buchner Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1907/buchner/facts/
+    kind: Nobel Prize archival reference
+  nobel-curie-1911:
+    label: Nobel Prize — Marie Curie facts
+    title: Marie Curie Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/facts/
+    kind: Nobel Prize archival reference
+  nobel-haber-1918:
+    label: Nobel Prize — Fritz Haber facts
+    title: Fritz Haber Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1918/haber/facts/
+    kind: Nobel Prize archival reference
+  nobel-libby-1960:
+    label: Nobel Prize — Willard Libby facts
+    title: Willard Libby Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1960/libby/facts/
+    kind: Nobel Prize archival reference
+  nobel-langmuir-1932:
+    label: Nobel Prize — Irving Langmuir Nobel lecture
+    title: Surface Chemistry
+    url: https://www.nobelprize.org/prizes/chemistry/1932/langmuir/lecture/
+    kind: Nobel lecture
+  nobel-nernst-1920:
+    label: Nobel Prize — Walther Nernst Nobel lecture
+    title: Studies in Chemical Thermodynamics
+    url: https://www.nobelprize.org/prizes/chemistry/1920/nernst/lecture/
+    kind: Nobel lecture
+  nobel-nmr-1952:
+    label: Nobel Prize — The Nobel Prize in Physics 1952
+    title: The Nobel Prize in Physics 1952
+    url: https://www.nobelprize.org/prizes/physics/1952/summary/
+    kind: Nobel Prize archival reference
+  nobel-raman-1930:
+    label: Nobel Prize — C. V. Raman facts
+    title: C. V. Raman Facts
+    url: https://www.nobelprize.org/prizes/physics/1930/raman/facts/
+    kind: Nobel Prize archival reference
+  nobel-soddy-1921:
+    label: Nobel Prize — Frederick Soddy facts
+    title: Frederick Soddy Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1921/soddy/facts/
+    kind: Nobel Prize archival reference
+  nobel-staudinger-1953:
+    label: Nobel Prize — Hermann Staudinger facts
+    title: Hermann Staudinger Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1953/staudinger/facts/
+    kind: Nobel Prize archival reference
+  nobel-vanthoff-1901:
+    label: Nobel Prize — Jacobus Henricus van 't Hoff Nobel lecture
+    title: Osmotic Pressure and Chemical Equilibrium
+    url: https://www.nobelprize.org/prizes/chemistry/1901/hoff/lecture/
+    kind: Nobel lecture
+  nobel-werner-1913:
+    label: Nobel Prize — Alfred Werner facts
+    title: Alfred Werner Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1913/werner/facts/
+    kind: Nobel Prize archival reference
+  nobel-zewail-1999:
+    label: Nobel Prize — Ahmed Zewail facts
+    title: Ahmed Zewail Facts
+    url: https://www.nobelprize.org/prizes/chemistry/1999/zewail/facts/
+    kind: Nobel Prize archival reference
+  nobel-ziegler-natta-1963:
+    label: Nobel Prize — The Nobel Prize in Chemistry 1963
+    title: The Nobel Prize in Chemistry 1963
+    url: https://www.nobelprize.org/prizes/chemistry/1963/summary/
+    kind: Nobel Prize archival reference
+  openstax-chemistry-2e:
+    label: OpenStax — Chemistry 2e
+    title: Chemistry 2e
+    url: https://openstax.org/books/chemistry-2e/pages/1-introduction
+    kind: peer-reviewed open textbook
+  pasteur-chirality-review:
+    label: Chirality — Pasteur and molecular dissymmetry
+    title: Pasteur and molecular dissymmetry
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9291139/
+    kind: peer-reviewed historical review
+  pubchem-docs:
+    label: PubChem — PubChem documentation
+    title: PubChem Documentation
+    url: https://pubchem.ncbi.nlm.nih.gov/docs/
+    kind: NIH chemical information reference
+  royal-institution-faraday-electrochemistry:
+    label: Royal Institution — Further Reading on Michael Faraday
+    title: Further Reading on Michael Faraday
+    url: https://www.rigb.org/sites/default/files/attachments/faraday_reading_list_0.pdf
+    kind: Royal Institution archival bibliography
+  rsc-mendeleev-periodic-table:
+    label: Royal Society of Chemistry — Development of the periodic table
+    title: Development of the periodic table
+    url: https://periodic-table.rsc.org/history/about
+    kind: Royal Society of Chemistry historical reference
+  science-museum-voltaic-pile:
+    label: Science Museum Group — Alessandro Volta collection record
+    title: Alessandro Volta 1745–1827
+    url: https://collection.sciencemuseumgroup.org.uk/people/cp37742/alessandro-volta
+    kind: museum collection and historical reference
+  wohler-1828-urea:
+    label: Annalen der Physik — Ueber künstliche Bildung des Harnstoffs
+    title: Ueber künstliche Bildung des Harnstoffs
+    url: https://doi.org/10.1002/andp.18280880206
+    kind: primary research paper
+  wp-chem-analytical-chemistry:
+    label: Wikipedia — Analytical chemistry
+    title: Analytical chemistry
+    url: https://en.wikipedia.org/wiki/Analytical_chemistry
+    kind: encyclopedic reference
+  wp-chem-arrhenius:
+    label: Wikipedia — Svante Arrhenius
+    title: Svante Arrhenius
+    url: https://en.wikipedia.org/wiki/Svante_Arrhenius
+    kind: encyclopedic reference
+  wp-chem-arrhenius-equation:
+    label: Wikipedia — Arrhenius equation
+    title: Arrhenius equation
+    url: https://en.wikipedia.org/wiki/Arrhenius_equation
+    kind: encyclopedic reference
+  wp-chem-biochemistry:
+    label: Wikipedia — Biochemistry
+    title: Biochemistry
+    url: https://en.wikipedia.org/wiki/Biochemistry
+    kind: encyclopedic reference
+  wp-chem-bragg-law:
+    label: Wikipedia — Bragg's law
+    title: Bragg's law
+    url: https://en.wikipedia.org/wiki/Bragg%27s_law
+    kind: encyclopedic reference
+  wp-chem-buchner:
+    label: Wikipedia — Eduard Buchner
+    title: Eduard Buchner
+    url: https://en.wikipedia.org/wiki/Eduard_Buchner
+    kind: encyclopedic reference
+  wp-chem-carothers:
+    label: Wikipedia — Wallace Carothers
+    title: Wallace Carothers
+    url: https://en.wikipedia.org/wiki/Wallace_Carothers
+    kind: encyclopedic reference
+  wp-chem-chemical-industry:
+    label: Wikipedia — Chemical industry
+    title: Chemical industry
+    url: https://en.wikipedia.org/wiki/Chemical_industry
+    kind: encyclopedic reference
+  wp-chem-chemical-kinetics:
+    label: Wikipedia — Chemical kinetics
+    title: Chemical kinetics
+    url: https://en.wikipedia.org/wiki/Chemical_kinetics
+    kind: encyclopedic reference
+  wp-chem-chemical-thermodynamics:
+    label: Wikipedia — Chemical thermodynamics
+    title: Chemical thermodynamics
+    url: https://en.wikipedia.org/wiki/Chemical_thermodynamics
+    kind: encyclopedic reference
+  wp-chem-curie-radium:
+    label: Wikipedia — Marie Curie
+    title: Marie Curie
+    url: https://en.wikipedia.org/wiki/Marie_Curie
+    kind: encyclopedic reference
+  wp-chem-definite-proportions:
+    label: Wikipedia — Law of definite proportions
+    title: Law of definite proportions
+    url: https://en.wikipedia.org/wiki/Law_of_definite_proportions
+    kind: encyclopedic reference
+  wp-chem-electrochemistry:
+    label: Wikipedia — Electrochemistry
+    title: Electrochemistry
+    url: https://en.wikipedia.org/wiki/Electrochemistry
+    kind: encyclopedic reference
+  wp-chem-environmental-chemistry:
+    label: Wikipedia — Environmental chemistry
+    title: Environmental chemistry
+    url: https://en.wikipedia.org/wiki/Environmental_chemistry
+    kind: encyclopedic reference
+  wp-chem-faraday-electrolysis:
+    label: Wikipedia — Faraday's laws of electrolysis
+    title: Faraday's laws of electrolysis
+    url: https://en.wikipedia.org/wiki/Faraday%27s_laws_of_electrolysis
+    kind: encyclopedic reference
+  wp-chem-femtochemistry:
+    label: Wikipedia — Femtochemistry
+    title: Femtochemistry
+    url: https://en.wikipedia.org/wiki/Femtochemistry
+    kind: encyclopedic reference
+  wp-chem-gallium:
+    label: Wikipedia — Gallium
+    title: Gallium
+    url: https://en.wikipedia.org/wiki/Gallium
+    kind: encyclopedic reference
+  wp-chem-haber-process:
+    label: Wikipedia — Haber process
+    title: Haber process
+    url: https://en.wikipedia.org/wiki/Haber_process
+    kind: encyclopedic reference
+  wp-chem-hess-law:
+    label: Wikipedia — Hess's law
+    title: Hess's law
+    url: https://en.wikipedia.org/wiki/Hess%27s_law
+    kind: encyclopedic reference
+  wp-chem-inorganic-chemistry:
+    label: Wikipedia — Inorganic chemistry
+    title: Inorganic chemistry
+    url: https://en.wikipedia.org/wiki/Inorganic_chemistry
+    kind: encyclopedic reference
+  wp-chem-lavoisier:
+    label: Wikipedia — Antoine Lavoisier
+    title: Antoine Lavoisier
+    url: https://en.wikipedia.org/wiki/Antoine_Lavoisier
+    kind: encyclopedic reference
+  wp-chem-langmuir-adsorption:
+    label: Wikipedia — Langmuir adsorption model
+    title: Langmuir adsorption model
+    url: https://en.wikipedia.org/wiki/Langmuir_adsorption_model
+    kind: encyclopedic reference
+  wp-chem-mass-action:
+    label: Wikipedia — Law of mass action
+    title: Law of mass action
+    url: https://en.wikipedia.org/wiki/Law_of_mass_action
+    kind: encyclopedic reference
+  wp-chem-mass-spectrometry:
+    label: Wikipedia — Mass spectrometry
+    title: Mass spectrometry
+    url: https://en.wikipedia.org/wiki/Mass_spectrometry
+    kind: encyclopedic reference
+  wp-chem-mendeleev-predictions:
+    label: Wikipedia — Mendeleev's predicted elements
+    title: Mendeleev's predicted elements
+    url: https://en.wikipedia.org/wiki/Mendeleev%27s_predicted_elements
+    kind: encyclopedic reference
+  wp-chem-meselson-stahl:
+    label: Wikipedia — Meselson–Stahl experiment
+    title: Meselson–Stahl experiment
+    url: https://en.wikipedia.org/wiki/Meselson%E2%80%93Stahl_experiment
+    kind: encyclopedic reference
+  wp-chem-molecular-graph:
+    label: Wikipedia — Molecular graph
+    title: Molecular graph
+    url: https://en.wikipedia.org/wiki/Molecular_graph
+    kind: encyclopedic reference
+  wp-chem-michaelis-menten:
+    label: Wikipedia — Michaelis–Menten kinetics
+    title: Michaelis–Menten kinetics
+    url: https://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics
+    kind: encyclopedic reference
+  wp-chem-miller-urey:
+    label: Wikipedia — Miller–Urey experiment
+    title: Miller–Urey experiment
+    url: https://en.wikipedia.org/wiki/Miller%E2%80%93Urey_experiment
+    kind: encyclopedic reference
+  wp-chem-nernst-equation:
+    label: Wikipedia — Nernst equation
+    title: Nernst equation
+    url: https://en.wikipedia.org/wiki/Nernst_equation
+    kind: encyclopedic reference
+  wp-chem-organic-chemistry:
+    label: Wikipedia — Organic chemistry
+    title: Organic chemistry
+    url: https://en.wikipedia.org/wiki/Organic_chemistry
+    kind: encyclopedic reference
+  wp-chem-osmotic-pressure:
+    label: Wikipedia — Osmotic pressure
+    title: Osmotic pressure
+    url: https://en.wikipedia.org/wiki/Osmotic_pressure
+    kind: encyclopedic reference
+  wp-chem-ozone-hole:
+    label: Wikipedia — Ozone depletion
+    title: Ozone depletion
+    url: https://en.wikipedia.org/wiki/Ozone_depletion
+    kind: encyclopedic reference
+  wp-chem-pasteur-chirality:
+    label: Wikipedia — Molecular chirality
+    title: Molecular chirality
+    url: https://en.wikipedia.org/wiki/Chirality_%28chemistry%29
+    kind: encyclopedic reference
+  wp-chem-periodic-table:
+    label: Wikipedia — Periodic table
+    title: Periodic table
+    url: https://en.wikipedia.org/wiki/Periodic_table
+    kind: encyclopedic reference
+  wp-chem-photo-51:
+    label: Wikipedia — Photo 51
+    title: Photo 51
+    url: https://en.wikipedia.org/wiki/Photo_51
+    kind: encyclopedic reference
+  wp-chem-polymer-chemistry:
+    label: Wikipedia — Polymer chemistry
+    title: Polymer chemistry
+    url: https://en.wikipedia.org/wiki/Polymer_chemistry
+    kind: encyclopedic reference
+  wp-chem-quantum-chemistry:
+    label: Wikipedia — Quantum chemistry
+    title: Quantum chemistry
+    url: https://en.wikipedia.org/wiki/Quantum_chemistry
+    kind: encyclopedic reference
+  wp-chem-radiocarbon-dating:
+    label: Wikipedia — Radiocarbon dating
+    title: Radiocarbon dating
+    url: https://en.wikipedia.org/wiki/Radiocarbon_dating
+    kind: encyclopedic reference
+  wp-chem-radiochemistry:
+    label: Wikipedia — Radiochemistry
+    title: Radiochemistry
+    url: https://en.wikipedia.org/wiki/Radiochemistry
+    kind: encyclopedic reference
+  wp-chem-raman-effect:
+    label: Wikipedia — Raman scattering
+    title: Raman scattering
+    url: https://en.wikipedia.org/wiki/Raman_scattering
+    kind: encyclopedic reference
+  wp-chem-soddy:
+    label: Wikipedia — Frederick Soddy
+    title: Frederick Soddy
+    url: https://en.wikipedia.org/wiki/Frederick_Soddy
+    kind: encyclopedic reference
+  wp-chem-solution:
+    label: Wikipedia — Solution
+    title: Solution
+    url: https://en.wikipedia.org/wiki/Solution_%28chemistry%29
+    kind: encyclopedic reference
+  wp-chem-staudinger:
+    label: Wikipedia — Hermann Staudinger
+    title: Hermann Staudinger
+    url: https://en.wikipedia.org/wiki/Hermann_Staudinger
+    kind: encyclopedic reference
+  wp-chem-stoichiometry:
+    label: Wikipedia — Stoichiometry
+    title: Stoichiometry
+    url: https://en.wikipedia.org/wiki/Stoichiometry
+    kind: encyclopedic reference
+  wp-chem-tsvet:
+    label: Wikipedia — Mikhail Tsvet
+    title: Mikhail Tsvet
+    url: https://en.wikipedia.org/wiki/Mikhail_Tsvet
+    kind: encyclopedic reference
+  wp-chem-voltaic-pile:
+    label: Wikipedia — Voltaic pile
+    title: Voltaic pile
+    url: https://en.wikipedia.org/wiki/Voltaic_pile
+    kind: encyclopedic reference
+  wp-chem-werner:
+    label: Wikipedia — Alfred Werner
+    title: Alfred Werner
+    url: https://en.wikipedia.org/wiki/Alfred_Werner
+    kind: encyclopedic reference
+  wp-chem-wohler-synthesis:
+    label: Wikipedia — Wöhler synthesis
+    title: Wöhler synthesis
+    url: https://en.wikipedia.org/wiki/W%C3%B6hler_synthesis
+    kind: encyclopedic reference
+  wp-chem-ziegler-natta:
+    label: Wikipedia — Ziegler–Natta catalyst
+    title: Ziegler–Natta catalyst
+    url: https://en.wikipedia.org/wiki/Ziegler%E2%80%93Natta_catalyst
+    kind: encyclopedic reference

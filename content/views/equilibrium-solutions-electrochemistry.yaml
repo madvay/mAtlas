@@ -1,0 +1,50 @@
+id: equilibrium-solutions-electrochemistry
+title: Equilibrium becomes measurable voltage
+summary: Connect chemical potential and Gibbs energy to activities, acid–base and solubility equilibria, electrodes, the Nernst relation, and working cells.
+narrative: Equilibrium constants are not bare concentration ratios. They depend on a defined reaction, standard states, and activities. That same thermodynamic structure governs phase and acid–base equilibria and appears electrically when redox partners exchange charge through an external circuit. Real batteries and electrolysers then add interfaces, kinetics, transport, and materials beyond the reversible limit.
+tags:
+  - Chemistry
+  - Thermodynamics
+  - Solutions
+  - Electrochemistry
+settings:
+  fields:
+    - chemistry
+  domains:
+    - chemical-thermodynamics-equilibrium
+    - solutions-interfaces
+    - electrochemistry
+    - analytical-chemistry
+    - chemistry-experiments-evidence
+  edgeTypes:
+    - framework-specialization
+    - theory-component
+    - describes-governs
+    - composition
+    - state-description
+    - transformation-process
+    - mathematical-formulation
+    - model-realization
+    - couples-interacts
+    - historically-motivated
+    - experimentally-verified-by
+  crossFieldVisibility: contextual
+  edgeLabels: true
+  junctions: false
+  edgeZoomActivation: true
+  layout: atlas
+nodeSequence:
+  - chemical_thermodynamics
+  - chemical_potential
+  - gibbs_energy
+  - chemical_activity
+  - equilibrium_constant
+  - acid_base_equilibrium
+  - solubility_equilibrium
+  - redox_reaction
+  - electrode
+  - electrochemical_cell
+  - electrode_potential
+  - nernst_equation
+  - overpotential
+  - battery

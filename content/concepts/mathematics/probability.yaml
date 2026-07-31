@@ -633,3 +633,14 @@ edges:
       - wp-stochastic-process
       - wp-physics-nonequilibrium-thermodynamics
       - tong-kinetic-theory
+  - id: probability_distribution_to_measurement_uncertainty_chemistry
+    source: probability_distribution
+    target: measurement_uncertainty_chemistry
+    type: mathematical-formulation
+    label: represents quantified measurement uncertainty
+    detail: Under an explicit measurement model, a probability distribution can represent knowledge about a chemical measurand; this does not identify uncertainty with repeatability, instrument resolution, or a population frequency.
+    citations:
+      - wp-probability-distribution
+      - nlab-probability-distribution
+      - wp-chem-analytical-chemistry
+      - iupac-orange-book

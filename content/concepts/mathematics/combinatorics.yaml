@@ -539,3 +539,15 @@ edges:
     citations:
       - wp-weighted-graph
       - diestel-graph-theory
+  - id: undirected_graph_to_molecular_graph
+    source: undirected_graph
+    target: molecular_graph
+    type: framework-specialization
+    label: specialize vertices and edges as atoms and bonds
+    detail: A molecular graph specializes graph structure with chemical vertex and edge labels for selected atoms and bonds; it deliberately omits coordinates and most electronic information.
+    citations:
+      - wp-graph
+      - diestel-graph-theory
+      - wp-chem-molecular-graph
+      - pubchem-docs
+    overview: true

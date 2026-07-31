@@ -52,9 +52,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: electromagnetism
     domains:
       - electromagnetism
+      - quantum-chemistry-spectroscopy
     level: 12
     kind: structure
     conceptType: Classical field
@@ -85,9 +87,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: electromagnetism
     domains:
       - electromagnetism
+      - electrochemistry
     level: 13
     kind: structure
     conceptType: Classical field component
@@ -101,9 +105,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: electromagnetism
     domains:
       - electromagnetism
+      - quantum-chemistry-spectroscopy
     level: 13
     kind: structure
     conceptType: Classical field component
@@ -211,11 +217,14 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: electromagnetism
     domains:
       - electromagnetism
       - quantum-field-theory
       - atomic-molecular-physics
+      - quantum-chemistry-spectroscopy
+      - environmental-atmospheric-chemistry
     level: 15
     kind: structure
     conceptType: Field state / phenomenon
@@ -607,3 +616,14 @@ edges:
     citations:
       - wp-physics-electron_g_minus_2_measurements
       - nist-codata-2022
+  - id: electromagnetic_radiation_to_molecular_spectroscopy
+    source: electromagnetic_radiation
+    target: molecular_spectroscopy
+    type: couples-interacts
+    label: drives and probes molecular transitions
+    detail: Electromagnetic radiation couples to molecular charge and current distributions, producing frequency-, polarization-, and geometry-dependent absorption, emission, or scattering measured in molecular spectroscopy.
+    citations:
+      - wp-physics-electromagnetic_radiation
+      - tong-em
+      - wp-chem-quantum-chemistry
+      - iupac-green-book

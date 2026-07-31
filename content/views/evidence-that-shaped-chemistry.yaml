@@ -1,0 +1,57 @@
+id: evidence-that-shaped-chemistry
+title: Evidence that shaped chemistry
+summary: Follow experiments that motivated chemical concepts and later measurements that tested their predictions, scope, and limits.
+narrative: Historical motivation is not logical derivation, and experimental verification is not timeless proof. This view keeps each experiment in its substantive domain while collecting it through a secondary evidence membership. Motivating experiments sit below the concepts they helped organize; verifying experiments sit above the claims they tested. Qualifications record shared credit, revised interpretations, and the limits of canonical textbook stories.
+tags:
+  - Chemistry
+  - History
+  - Experiments
+  - Evidence
+settings:
+  fields:
+    - chemistry
+  domains:
+    - chemical-foundations
+    - atomic-structure-periodicity
+    - quantum-chemistry-spectroscopy
+    - chemical-thermodynamics-equilibrium
+    - solutions-interfaces
+    - chemical-kinetics-dynamics
+    - inorganic-coordination-chemistry
+    - organic-chemistry
+    - analytical-chemistry
+    - electrochemistry
+    - radiochemistry
+    - materials-polymer-chemistry
+    - biochemistry-chemical-biology
+    - environmental-atmospheric-chemistry
+    - industrial-process-chemistry
+    - chemistry-experiments-evidence
+  edgeTypes:
+    - historically-motivated
+    - experimentally-verified-by
+  crossFieldVisibility: contextual
+  edgeLabels: true
+  junctions: false
+  edgeZoomActivation: true
+  hideIsolates: true
+  layout: atlas
+nodeSequence:
+  - lavoisier_quantitative_combustion
+  - proust_composition_measurements
+  - mendeleev_periodic_predictions
+  - gallium_discovery_periodic_test
+  - raman_scattering_observations
+  - guldberg_waage_reaction_studies
+  - arrhenius_electrolyte_conductivity
+  - zewail_femtochemistry_experiments
+  - werner_coordination_isomer_studies
+  - pasteur_tartrate_resolution
+  - bragg_xray_diffraction_experiments
+  - faraday_electrolysis_experiments
+  - langmuir_adsorption_experiments
+  - libby_radiocarbon_validation
+  - ziegler_natta_polymerization_experiments
+  - meselson_stahl_experiment
+  - antarctic_ozone_hole_observations
+  - haber_high_pressure_ammonia_experiments

@@ -4,9 +4,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 2
     kind: structure
     conceptType: Theory or framework
@@ -43,9 +45,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 4
     kind: structure
     conceptType: State description
@@ -95,10 +99,12 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
       - thermodynamics-statistical-mechanics
+      - quantum-chemistry-spectroscopy
     level: 6
     kind: structure
     conceptType: State representation
@@ -112,9 +118,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 6
     kind: structure
     conceptType: Physical quantity
@@ -132,9 +140,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 6
     kind: structure
     conceptType: State representation
@@ -267,9 +277,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 8
     kind: structure
     conceptType: Observable and symmetry generator
@@ -574,9 +586,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 10
     kind: structure
     conceptType: Evolution equation
@@ -624,9 +638,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 11
     kind: structure
     conceptType: Controlled approximation method
@@ -639,9 +655,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 11
     kind: structure
     conceptType: Approximation method
@@ -688,9 +706,11 @@ nodes:
     primaryField: physics
     fields:
       - physics
+      - chemistry
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
+      - quantum-chemistry-spectroscopy
     level: 5
     kind: structure
     conceptType: Structural principle
@@ -1996,3 +2016,15 @@ edges:
       - wp-physics-bloch-theorem
       - tong-solid-state-physics
       - mit-theory-of-solids
+  - id: quantum_mechanics_to_quantum_chemistry
+    source: quantum_mechanics
+    target: quantum_chemistry
+    type: framework-specialization
+    label: specialize quantum theory to chemical systems
+    detail: Quantum chemistry specializes quantum mechanics to electronic structure, molecular geometry, spectra, and reactivity using explicit Hamiltonians and controlled or empirical approximations.
+    citations:
+      - wp-physics-quantum_mechanics
+      - tong-quantum
+      - wp-chem-quantum-chemistry
+      - openstax-chemistry-2e
+    overview: true

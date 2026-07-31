@@ -1,0 +1,603 @@
+nodes:
+- id: chemical_thermodynamics
+  label: Chemical thermodynamics
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 24
+  kind: structure
+  conceptType: Disciplinary framework
+  summary: Thermodynamic description of composition-changing systems, phase behavior, reaction energetics, and chemical equilibrium.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: standard_state_chemistry
+  label: Chemical standard state
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 25
+  kind: structure
+  conceptType: Reference convention
+  summary: A specified reference state used to define standard chemical potentials and derived standard reaction quantities; the convention depends
+    on phase and composition scale.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: enthalpy
+  label: Enthalpy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 26
+  kind: structure
+  conceptType: Thermodynamic state function
+  summary: The state function $H=U+pV$, useful for heat and material balances at constant pressure under stated work conventions.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chemical_potential
+  label: Chemical potential
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 26
+  kind: structure
+  conceptType: Partial thermodynamic potential
+  summary: The change in an appropriate thermodynamic potential when the amount of one component changes at fixed specified variables.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: gibbs_energy
+  label: Gibbs energy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 27
+  kind: structure
+  conceptType: Thermodynamic potential
+  summary: The state function $G=H-TS$, whose decrease at fixed temperature and pressure bounds non-expansion work and whose minimum characterizes
+    stable equilibrium.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: reaction_enthalpy
+  label: Reaction enthalpy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 28
+  kind: structure
+  conceptType: Reaction state-function change
+  summary: The enthalpy difference between products and reactants in specified stoichiometric amounts and thermodynamic states.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: calorimetry
+  label: Calorimetry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 28
+  kind: structure
+  conceptType: Measurement method class
+  summary: Determination of heat exchanged by a process from temperature change and a calibrated thermal model of the apparatus and surroundings.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: hess_law
+  label: Hess’s law
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 29
+  kind: structure
+  conceptType: Thermochemical consequence
+  summary: Because enthalpy is a state function, the enthalpy change of an overall reaction equals the sum for any algebraically equivalent sequence
+    of reactions.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: law_mass_action
+  label: Law of mass action
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 28
+  kind: structure
+  conceptType: Equilibrium and kinetic relation
+  summary: A relation connecting reaction rates or equilibrium composition to products of activities with stoichiometric exponents, with its exact
+    status depending on kinetic or thermodynamic formulation.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chemical_equilibrium
+  label: Chemical equilibrium
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 29
+  kind: structure
+  conceptType: Thermodynamic state
+  summary: A state in which chemical potentials satisfy reaction-equilibrium conditions and macroscopic composition has no net tendency to change
+    under fixed constraints.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: equilibrium_constant
+  label: Equilibrium constant
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 30
+  kind: structure
+  conceptType: Thermodynamic quantity
+  summary: The dimensionless activity quotient at equilibrium for a specified reaction equation, dependent on temperature and on the standard-state
+    convention.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: reaction_quotient
+  label: Reaction quotient
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 30
+  kind: structure
+  conceptType: Composition function
+  summary: A product of activities raised to stoichiometric powers for the current state; comparison with the equilibrium constant indicates reaction
+    affinity under stated conditions.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: le_chatelier_principle
+  label: Le Chatelier’s principle
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 31
+  kind: structure
+  conceptType: Qualitative response heuristic
+  summary: A qualitative rule that a stable equilibrium shifts in the direction opposing an imposed change, subject to precise constraints and
+    without replacing quantitative thermodynamics.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: gibbs_phase_rule
+  label: Gibbs phase rule
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 32
+  kind: structure
+  conceptType: Degrees-of-freedom relation
+  summary: For an equilibrium multiphase system, the number of independent intensive variables follows from components, phases, reactions, and
+    imposed constraints.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chemical_phase_diagram
+  label: Chemical phase diagram
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  level: 33
+  kind: structure
+  conceptType: Equilibrium map
+  summary: A map of stable and metastable phases and coexistence boundaries as functions of temperature, pressure, or composition.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: guldberg_waage_reaction_studies
+  label: Guldberg–Waage reaction studies
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  - chemistry-experiments-evidence
+  level: 27
+  kind: structure
+  conceptType: Historical quantitative study program
+  summary: Guldberg and Waage compared reversible-reaction data and formulated an affinity relation in which reacting amounts enter multiplicatively,
+    helping establish mass-action reasoning.
+  citations:
+  - wp-chem-mass-action
+  - iupac-gold-book
+- id: hess_thermochemical_measurements
+  label: Hess’s thermochemical measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  - chemistry-experiments-evidence
+  level: 30
+  kind: structure
+  conceptType: Historical verifying measurement program
+  summary: Hess compared heats for direct and staged chemical transformations and found that consistent overall enthalpy changes were independent
+    of the chosen reaction path.
+  citations:
+  - wp-chem-hess-law
+  - openstax-chemistry-2e
+edges:
+- id: chem_enthalpy_to_chemical_thermodynamics_theory_component
+  source: enthalpy
+  target: chemical_thermodynamics
+  type: theory-component
+  label: supplies a pressure-adapted state function
+  detail: Enthalpy supplies chemical thermodynamics with a state function useful for constant-pressure heat effects and flowing material, without identifying heat itself as a state function.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_potential_to_chemical_thermodynamics_theory_component
+  source: chemical_potential
+  target: chemical_thermodynamics
+  type: theory-component
+  label: supplies component-wise thermodynamic driving forces
+  detail: Chemical potentials supply chemical thermodynamics with component-wise driving forces for diffusion, phase transfer, and reaction in multicomponent systems.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_gibbs_energy_to_chemical_thermodynamics_theory_component
+  source: gibbs_energy
+  target: chemical_thermodynamics
+  type: theory-component
+  label: supplies the fixed-$T,p$ potential
+  detail: Gibbs energy supplies chemical thermodynamics with a natural potential for many closed-system laboratory processes at controlled temperature and pressure, subject to the stated constraints.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_standard_state_chemistry_to_chemical_potential_state_description
+  source: standard_state_chemistry
+  target: chemical_potential
+  type: state-description
+  label: sets reference chemical potential
+  detail: Standard chemical potentials and activities require an explicit standard-state convention.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_enthalpy_to_reaction_enthalpy_state_description
+  source: enthalpy
+  target: reaction_enthalpy
+  type: state-description
+  label: reaction-state difference
+  detail: Reaction enthalpy is a stoichiometric difference of state enthalpies at specified conditions.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_hess_law_to_reaction_enthalpy_describes_governs
+  source: hess_law
+  target: reaction_enthalpy
+  type: describes-governs
+  label: makes thermochemical sums path independent
+  detail: Hess cycles compute a reaction enthalpy by adding measured or tabulated state-function changes.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_law_mass_action_to_chemical_equilibrium_describes_governs
+  source: law_mass_action
+  target: chemical_equilibrium
+  type: describes-governs
+  label: activity condition for equilibrium
+  detail: Thermodynamic mass action expresses equilibrium through activities; kinetic mass action is exact for elementary steps and model-dependent
+    for overall reactions.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_equilibrium_to_equilibrium_constant_state_description
+  source: chemical_equilibrium
+  target: equilibrium_constant
+  type: state-description
+  label: has activity-ratio constant
+  detail: At fixed temperature, the equilibrium activity quotient for a specified reaction equals its equilibrium constant.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_gibbs_energy_to_chemical_equilibrium_describes_governs
+  source: gibbs_energy
+  target: chemical_equilibrium
+  type: describes-governs
+  label: minimum under constraints
+  detail: Stable equilibrium minimizes the appropriate Gibbs energy subject to material, charge, and phase constraints at fixed temperature and
+    pressure.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_le_chatelier_principle_to_chemical_equilibrium_describes_governs
+  source: le_chatelier_principle
+  target: chemical_equilibrium
+  type: describes-governs
+  label: qualitative perturbation response
+  detail: The principle summarizes the direction of many stable-equilibrium responses but can mislead when constraints or coupled reactions are
+    left unstated.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_gibbs_phase_rule_to_chemical_phase_diagram_describes_governs
+  source: gibbs_phase_rule
+  target: chemical_phase_diagram
+  type: describes-governs
+  label: constrains coexistence dimensions
+  detail: The phase rule predicts the dimensionality of single- and multiphase regions after components and constraints are counted.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_guldberg_waage_reaction_studies_to_law_mass_action_historically_motivated
+  source: guldberg_waage_reaction_studies
+  target: law_mass_action
+  type: historically-motivated
+  label: quantitative reversible-reaction patterns
+  detail: Their analysis of reaction data helped move chemical affinity toward a mathematical concentration-dependent law, before modern activity
+    thermodynamics.
+  citations:
+  - wp-chem-mass-action
+  - iupac-gold-book
+- id: chem_hess_law_to_hess_thermochemical_measurements_experimentally_verified_by
+  source: hess_law
+  target: hess_thermochemical_measurements
+  type: experimentally-verified-by
+  label: path-independent heat sums
+  detail: Agreement of direct and staged thermochemical measurements supported the state-function relation now called Hess’s law.
+  citations:
+  - wp-chem-hess-law
+  - openstax-chemistry-2e
+- id: chem_standard_state_chemistry_to_equilibrium_constant_theory_component
+  source: standard_state_chemistry
+  target: equilibrium_constant
+  type: theory-component
+  label: defines dimensionless reference
+  detail: A thermodynamic equilibrium constant uses activities relative to specified standard states and is dimensionless under the adopted convention.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_enthalpy_to_process_energy_balance_theory_component
+  source: enthalpy
+  target: process_energy_balance
+  type: theory-component
+  label: accounts for flowing material energy
+  detail: Enthalpy differences account for sensible, latent, and reaction contributions in steady-flow energy balances when reference states are
+    consistent.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_potential_to_chemical_activity_mathematical_formulation
+  source: chemical_potential
+  target: chemical_activity
+  type: mathematical-formulation
+  label: defines effective composition
+  detail: Activity expresses chemical potential relative to a standard state through a logarithmic relation at specified temperature and pressure.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_potential_to_phase_transition_describes_governs
+  source: chemical_potential
+  target: phase_transition
+  type: describes-governs
+  label: sets phase coexistence
+  detail: At equilibrium, chemical potentials of transferable components satisfy phase-coexistence conditions subject to mechanical and thermal
+    constraints.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_gibbs_energy_to_electrode_potential_mathematical_formulation
+  source: gibbs_energy
+  target: electrode_potential
+  type: mathematical-formulation
+  label: relates reaction free energy and voltage
+  detail: For a reversible electrochemical reaction, Gibbs-energy change relates to cell potential and transferred charge with an explicitly stated
+    sign convention.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_reaction_enthalpy_to_process_energy_balance_theory_component
+  source: reaction_enthalpy
+  target: process_energy_balance
+  type: theory-component
+  label: supplies reaction heat term
+  detail: Reaction enthalpy contributes to process heat release or demand together with sensible heat, phase change, mixing, and nonideal effects.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_calorimetry_to_chemical_measurement_classification
+  source: calorimetry
+  target: chemical_measurement
+  type: classification
+  label: is thermal chemical measurement
+  detail: Calorimetry is a measurement family requiring instrument calibration, heat-capacity models, baselines, and uncertainty evaluation.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_law_mass_action_to_rate_law_mathematical_formulation
+  source: law_mass_action
+  target: rate_law
+  type: mathematical-formulation
+  label: governs elementary concentration dependence
+  detail: Mass-action kinetics gives elementary-step rates proportional to reactant activities or concentrations under its regime; empirical overall
+    orders need not be stoichiometric.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_equilibrium_to_acid_base_equilibrium_framework_specialization
+  source: chemical_equilibrium
+  target: acid_base_equilibrium
+  type: framework-specialization
+  label: specializes to proton transfer
+  detail: Acid–base equilibria combine equilibrium constants with solvent, charge balance, mass balance, and activity corrections.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_equilibrium_to_solubility_equilibrium_framework_specialization
+  source: chemical_equilibrium
+  target: solubility_equilibrium
+  type: framework-specialization
+  label: specializes to phase dissolution
+  detail: Solubility equilibrium is a heterogeneous chemical equilibrium between dissolved species and one or more phases.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_reaction_quotient_to_le_chatelier_principle_describes_governs
+  source: reaction_quotient
+  target: le_chatelier_principle
+  type: describes-governs
+  label: determines spontaneous response direction
+  detail: Comparison of reaction quotient with the equilibrium constant determines the thermodynamic direction of change; it does not predict
+    the rate.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_reaction_enthalpy_to_calorimetry_experimentally_verified_by
+  source: reaction_enthalpy
+  target: calorimetry
+  type: experimentally-verified-by
+  label: measured through calibrated heat exchange
+  detail: Calorimetry supports reaction-enthalpy values after accounting for the calorimeter constant, heat loss,
+    incomplete conversion, side reactions, phase changes, and the chosen thermodynamic conditions.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_chemical_thermodynamics_to_metabolism_describes_governs
+  source: chemical_thermodynamics
+  target: metabolism
+  type: describes-governs
+  label: constrains feasible reaction directions and coupling
+  detail: Chemical potentials and reaction free energies constrain metabolic direction and coupling, while enzymes,
+    regulation, compartmentation, transport, and nonequilibrium flux determine realized pathways.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_chemical_equilibrium_to_haber_bosch_process_describes_governs
+  source: chemical_equilibrium
+  target: haber_bosch_process
+  type: describes-governs
+  label: constrains ammonia conversion
+  detail: Reaction equilibrium constrains ammonia yield as temperature, pressure, and composition change; catalysts
+    alter approach rate, while separation and recycle determine plant conversion and throughput.
+  citations:
+  - wp-chem-chemical-industry
+  - doe-new-chemistry-roadmap
+  - doe-catalysts

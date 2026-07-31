@@ -1,0 +1,973 @@
+nodes:
+- id: biochemistry
+  label: Biochemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 35
+  kind: structure
+  conceptType: Interface field
+  summary: Chemical study of biomolecular structure, reaction, energetics, information transfer, and organized metabolism in living systems and
+    reconstituted models.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: biomolecule
+  label: Biomolecule
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 36
+  kind: structure
+  conceptType: Chemical entity class
+  summary: A molecule produced, transformed, or used by biological systems, including proteins, nucleic acids, carbohydrates, lipids, cofactors,
+    and metabolites.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: amino_acid
+  label: Amino acid
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 36
+  kind: structure
+  conceptType: Molecular class
+  summary: An organic compound containing amino and carboxyl functional groups; alpha-amino-acid residues form the principal monomers of ribosomally
+    synthesized proteins.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: peptide_bond
+  label: Peptide bond
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 37
+  kind: structure
+  conceptType: Covalent linkage
+  summary: The amide linkage joining amino-acid residues in peptides and proteins, with resonance restricting rotation and shaping backbone geometry.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: protein
+  label: Protein
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 39
+  kind: structure
+  conceptType: Biopolymer class
+  summary: A biological macromolecule composed of one or more amino-acid chains that fold, assemble, and undergo modification to perform structural,
+    catalytic, regulatory, transport, or mechanical functions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: protein_structure
+  label: Protein structure
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 40
+  kind: structure
+  conceptType: Macromolecular organization
+  summary: The sequence, local conformations, three-dimensional fold, and oligomeric assembly of a protein under specified conditions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: nucleotide
+  label: Nucleotide
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 37
+  kind: structure
+  conceptType: Molecular building block
+  summary: A nucleobase linked to a sugar and one or more phosphate groups, serving as a nucleic-acid residue, energy carrier, signal, or cofactor
+    component.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: nucleic_acid
+  label: Nucleic acid
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 38
+  kind: structure
+  conceptType: Biopolymer class
+  summary: A polymer of nucleotide residues joined by a sugar–phosphate backbone and capable of sequence-specific base interactions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: dna
+  label: DNA
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 39
+  kind: structure
+  conceptType: Nucleic-acid class
+  summary: Deoxyribonucleic acid, a nucleotide polymer that stores and transmits biological sequence information through templated base pairing.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: rna
+  label: RNA
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 39
+  kind: structure
+  conceptType: Nucleic-acid class
+  summary: Ribonucleic acid, a chemically diverse nucleotide polymer that can carry information, form structures, regulate processes, and catalyze
+    reactions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: dna_double_helix
+  label: DNA double helix
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 40
+  kind: structure
+  conceptType: Macromolecular structure
+  summary: An antiparallel, base-paired duplex with bases stacked inside and sugar–phosphate backbones outside, existing in several helical forms
+    depending on sequence and conditions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: base_pairing
+  label: Nucleic-acid base pairing
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 40
+  kind: structure
+  conceptType: Molecular recognition pattern
+  summary: Specific hydrogen-bonding and stacking associations between nucleobases that stabilize nucleic-acid structure and templated synthesis.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: dna_replication
+  label: DNA replication
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 43
+  kind: structure
+  conceptType: Biochemical information process
+  summary: Enzyme-mediated copying of DNA using each parental strand as a template, coordinated with initiation, proofreading, repair, and topology
+    control.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: carbohydrate
+  label: Carbohydrate
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 37
+  kind: structure
+  conceptType: Biomolecular class
+  summary: Polyhydroxy aldehydes, ketones, and related derivatives and polymers used in energy storage, structure, recognition, and metabolism.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: lipid
+  label: Lipid
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 37
+  kind: structure
+  conceptType: Biomolecular class
+  summary: A broad class of hydrophobic or amphiphilic molecules including fatty-acid derivatives, glycerolipids, phospholipids, sterols, and
+    signaling lipids.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: biomembrane
+  label: Biological membrane
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 41
+  kind: structure
+  conceptType: Self-assembled molecular system
+  summary: A dynamic lipid-bilayer-based interface containing proteins and carbohydrates that controls transport, signaling, energy conversion,
+    and compartment identity.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: enzyme
+  label: Enzyme
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 39
+  kind: structure
+  conceptType: Biological catalyst
+  summary: A protein or catalytic RNA that accelerates a biochemical reaction through specific binding and pathway stabilization while being regenerated
+    overall.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: enzyme_catalysis
+  label: Enzyme catalysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 40
+  kind: structure
+  conceptType: Catalytic mechanism field
+  summary: Rate enhancement and selectivity produced by an enzyme through binding, orientation, electrostatics, covalent steps, dynamics, and
+    transition-state stabilization.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: michaelis_menten_kinetics
+  label: Michaelis–Menten kinetics
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 41
+  kind: structure
+  conceptType: Enzyme-rate model
+  summary: A steady-state or rapid-equilibrium rate form in which initial rate saturates with substrate concentration for a specified minimal
+    mechanism.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: enzyme_inhibition
+  label: Enzyme inhibition
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 42
+  kind: structure
+  conceptType: Kinetic regulation class
+  summary: Reduction or alteration of enzyme activity by reversible or irreversible interaction, classified only relative to a kinetic mechanism
+    and experimental design.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: biochemical_cofactor
+  label: Biochemical cofactor
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 40
+  kind: structure
+  conceptType: Catalytic component
+  summary: A nonprotein ion or organic molecule required for the activity of an enzyme or biochemical complex.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: atp
+  label: ATP
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 40
+  kind: structure
+  conceptType: Activated metabolite
+  summary: Adenosine triphosphate, a nucleotide whose coupled phosphoryl-transfer and hydrolysis reactions link energy-releasing and energy-consuming
+    biochemical processes.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: biochemical_pathway
+  label: Biochemical pathway
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 42
+  kind: structure
+  conceptType: Reaction-network module
+  summary: An organized network of enzyme-catalyzed reactions, transport steps, and regulatory interactions connecting specified metabolites.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: metabolism
+  label: Metabolism
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 43
+  kind: structure
+  conceptType: Organized reaction network
+  summary: The coupled biochemical transformations that acquire matter and energy, maintain cellular state, synthesize components, and remove
+    products.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: glycolysis
+  label: Glycolysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 44
+  kind: structure
+  conceptType: Metabolic pathway
+  summary: A conserved sequence converting glucose to pyruvate while producing ATP and reducing equivalents, with pathway context determining
+    downstream fate.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: citric_acid_cycle
+  label: Citric acid cycle
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 45
+  kind: structure
+  conceptType: Metabolic cycle
+  summary: A cyclic pathway oxidizing acetyl units to carbon dioxide while generating reduced cofactors and biosynthetic intermediates.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: oxidative_phosphorylation
+  label: Oxidative phosphorylation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 46
+  kind: structure
+  conceptType: Chemiosmotic energy-conversion process
+  summary: ATP synthesis driven by an electrochemical proton gradient generated by respiratory electron transfer across a membrane.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: photosynthesis_chemistry
+  label: Photosynthetic chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 46
+  kind: structure
+  conceptType: Photochemical energy-conversion network
+  summary: Coupled light absorption, electron transfer, proton translocation, ATP formation, and carbon fixation in photosynthetic organisms and
+    organelles.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: prebiotic_chemistry
+  label: Prebiotic chemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  level: 43
+  kind: structure
+  conceptType: Chemical-origin research field
+  summary: Study of plausible nonbiological syntheses, environments, networks, and selection processes that could precede self-sustaining chemical
+    evolution; it is not itself a complete theory of life’s origin.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: buchner_cell_free_fermentation
+  label: Buchner’s cell-free fermentation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  - chemistry-experiments-evidence
+  level: 38
+  kind: structure
+  conceptType: Historical motivating experiment
+  summary: Buchner showed that pressed yeast extract without intact living cells converted sugar to ethanol and carbon dioxide, locating fermentation
+    in chemical catalysts present in the extract.
+  citations:
+  - wp-chem-buchner
+  - nobel-buchner-1907
+- id: michaelis_menten_invertase_measurements
+  label: Michaelis–Menten invertase measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  - chemistry-experiments-evidence
+  level: 40
+  kind: structure
+  conceptType: Historical motivating measurement program
+  summary: Michaelis and Menten measured initial invertase rates with controlled acidity and substrate concentration, supporting a saturable enzyme–substrate
+    mechanism.
+  citations:
+  - wp-chem-michaelis-menten
+  - michaelis-menten-1913
+- id: franklin_gosling_dna_diffraction
+  label: Franklin–Gosling DNA diffraction measurements
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  - chemistry-experiments-evidence
+  level: 41
+  kind: structure
+  conceptType: Canonical verifying measurement program
+  summary: X-ray fiber-diffraction patterns and quantitative analysis constrained DNA’s helical dimensions, phosphate placement, water dependence,
+    and distinct A and B forms.
+  citations:
+  - wp-chem-photo-51
+  - franklin-gosling-1953
+- id: meselson_stahl_experiment
+  label: Meselson–Stahl DNA-replication experiment
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  - chemistry-experiments-evidence
+  level: 44
+  kind: structure
+  conceptType: Canonical verifying experiment
+  summary: Density-gradient measurements after shifting bacteria from nitrogen-15 to nitrogen-14 distinguished semiconservative DNA replication
+    from conservative and, over successive generations, dispersive alternatives.
+  citations:
+  - wp-chem-meselson-stahl
+  - meselson-stahl-1958
+- id: miller_urey_experiment
+  label: Miller–Urey synthesis experiment
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: biochemistry-chemical-biology
+  domains:
+  - biochemistry-chemical-biology
+  - chemistry-experiments-evidence
+  level: 44
+  kind: structure
+  conceptType: Canonical constrained-support experiment
+  summary: Electrical discharges through a chosen reducing gas mixture and circulating water produced amino acids and other organics, demonstrating
+    one abiotic synthesis route under the apparatus conditions.
+  citations:
+  - wp-chem-miller-urey
+  - miller-1953
+  sections:
+  - title: Scope
+    body: The experiment supported abiotic organic synthesis under one modeled atmosphere. It neither reproduced a settled early-Earth atmosphere
+      nor created life, and later prebiotic chemistry evaluates many environments and pathways.
+edges:
+- id: chem_biochemistry_to_biomolecule_describes_governs
+  source: biochemistry
+  target: biomolecule
+  type: describes-governs
+  label: studies biological chemical entities
+  detail: Biochemistry connects biomolecular structure and reactivity to organized biological function.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biomolecule_to_protein_classification
+  source: biomolecule
+  target: protein
+  type: classification
+  label: includes proteins
+  detail: Proteins are sequence-defined amino-acid polymers and assemblies with diverse biochemical roles.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biomolecule_to_nucleic_acid_classification
+  source: biomolecule
+  target: nucleic_acid
+  type: classification
+  label: includes nucleic acids
+  detail: DNA and RNA are nucleotide polymers central to information, structure, regulation, and catalysis.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biomolecule_to_carbohydrate_classification
+  source: biomolecule
+  target: carbohydrate
+  type: classification
+  label: includes carbohydrates
+  detail: Carbohydrates range from small sugars to structural and storage polysaccharides and glycoconjugates.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biomolecule_to_lipid_classification
+  source: biomolecule
+  target: lipid
+  type: classification
+  label: includes lipids
+  detail: Lipids form membranes, energy stores, signals, and covalent modifications.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_amino_acid_to_protein_composition
+  source: amino_acid
+  target: protein
+  type: composition
+  label: forms residue sequence
+  detail: Protein biosynthesis links alpha-amino-acid residues in a genetically specified sequence.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_peptide_bond_to_protein_composition
+  source: peptide_bond
+  target: protein
+  type: composition
+  label: links amino-acid residues
+  detail: Peptide bonds form the covalent backbone whose geometry constrains protein conformation.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_protein_to_protein_structure_state_description
+  source: protein
+  target: protein_structure
+  type: state-description
+  label: folds and assembles
+  detail: Protein structure spans sequence, local secondary structure, tertiary fold, dynamics, and oligomeric state.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_nucleotide_to_nucleic_acid_composition
+  source: nucleotide
+  target: nucleic_acid
+  type: composition
+  label: forms phosphodiester polymer
+  detail: Nucleotide residues are joined through phosphodiester bonds to form nucleic-acid backbones.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_nucleic_acid_to_dna_classification
+  source: nucleic_acid
+  target: dna
+  type: classification
+  label: includes deoxyribonucleic acids
+  detail: DNA is a nucleic-acid class distinguished by deoxyribose chemistry and characteristic biological roles.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_nucleic_acid_to_rna_classification
+  source: nucleic_acid
+  target: rna
+  type: classification
+  label: includes ribonucleic acids
+  detail: RNA is a nucleic-acid class with ribose and a broad range of structures and functions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_dna_to_dna_double_helix_state_description
+  source: dna
+  target: dna_double_helix
+  type: state-description
+  label: forms base-paired duplex
+  detail: Double helices are major DNA structures, while single-stranded, branched, supercoiled, and alternative helical states also occur.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_base_pairing_to_dna_double_helix_couples_interacts
+  source: base_pairing
+  target: dna_double_helix
+  type: couples-interacts
+  label: stabilizes sequence-complementary duplex
+  detail: Hydrogen bonding, base stacking, solvation, and counterions jointly stabilize DNA duplex structure.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_lipid_to_biomembrane_composition
+  source: lipid
+  target: biomembrane
+  type: composition
+  label: self-assembles into bilayer matrix
+  detail: Amphiphilic lipids form bilayer matrices whose composition controls curvature, permeability, domains, and protein environment.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_protein_to_enzyme_classification
+  source: protein
+  target: enzyme
+  type: classification
+  label: includes most biological enzymes
+  detail: Most enzymes are proteins, while catalytic RNAs show that enzyme function is not exclusively protein-based.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_enzyme_to_enzyme_catalysis_describes_governs
+  source: enzyme
+  target: enzyme_catalysis
+  type: describes-governs
+  label: implements selective catalytic pathway
+  detail: An enzyme’s active-site chemistry and conformational ensemble shape its catalytic mechanism and selectivity.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_enzyme_catalysis_to_michaelis_menten_kinetics_model_realization
+  source: enzyme_catalysis
+  target: michaelis_menten_kinetics
+  type: model-realization
+  label: minimal saturating-rate model
+  detail: Michaelis–Menten behavior follows from a specified minimal mechanism and initial-rate assumptions; more complex enzymes require extended
+    models.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_enzyme_to_enzyme_inhibition_state_description
+  source: enzyme
+  target: enzyme_inhibition
+  type: state-description
+  label: activity altered by inhibitor
+  detail: Inhibition patterns constrain binding and mechanism only when rate model, substrate regime, reversibility, and assay artifacts are considered.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biochemical_cofactor_to_enzyme_composition
+  source: biochemical_cofactor
+  target: enzyme
+  type: composition
+  label: supplies nonprotein catalytic component
+  detail: Metal ions and organic cofactors provide redox, group-transfer, acid–base, or structural functions unavailable to amino-acid side chains
+    alone.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_atp_to_biochemical_pathway_theory_component
+  source: atp
+  target: biochemical_pathway
+  type: theory-component
+  label: couples phosphoryl transfer and free energy
+  detail: ATP participates in coupled reaction networks; calling it energy currency abbreviates specific chemical-potential and transfer reactions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biochemical_pathway_to_metabolism_composition
+  source: biochemical_pathway
+  target: metabolism
+  type: composition
+  label: forms organized reaction network
+  detail: Metabolism is organized from interacting pathways, transport systems, and regulatory controls rather than a single linear chain.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_metabolism_to_glycolysis_classification
+  source: metabolism
+  target: glycolysis
+  type: classification
+  label: includes glucose breakdown pathway
+  detail: Glycolysis supplies ATP, reducing equivalents, pyruvate, and intermediates in many metabolic contexts.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_metabolism_to_citric_acid_cycle_classification
+  source: metabolism
+  target: citric_acid_cycle
+  type: classification
+  label: includes central oxidative cycle
+  detail: The citric acid cycle integrates acetyl oxidation with biosynthetic flux and anaplerotic replenishment.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_metabolism_to_oxidative_phosphorylation_classification
+  source: metabolism
+  target: oxidative_phosphorylation
+  type: classification
+  label: includes respiratory energy conversion
+  detail: Oxidative phosphorylation couples electron-transfer free energy to a proton motive force and ATP synthesis.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biomembrane_to_oxidative_phosphorylation_theory_component
+  source: biomembrane
+  target: oxidative_phosphorylation
+  type: theory-component
+  label: maintains proton motive force
+  detail: A low-permeability membrane spatially organizes electron transport and preserves the electrochemical gradient.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_buchner_cell_free_fermentation_to_enzyme_historically_motivated
+  source: buchner_cell_free_fermentation
+  target: enzyme
+  type: historically-motivated
+  label: fermentation without intact cells
+  detail: Cell-free fermentation shifted causal explanation from an indivisible vital activity of living yeast to chemically active components
+    later understood as enzymes.
+  citations:
+  - wp-chem-buchner
+  - nobel-buchner-1907
+- id: chem_michaelis_menten_invertase_measurements_to_michaelis_menten_kinetics_historically_motivated
+  source: michaelis_menten_invertase_measurements
+  target: michaelis_menten_kinetics
+  type: historically-motivated
+  label: saturable initial-rate data
+  detail: Controlled invertase measurements and an enzyme–substrate complex model motivated the canonical saturating rate equation.
+  citations:
+  - wp-chem-michaelis-menten
+  - michaelis-menten-1913
+- id: chem_dna_double_helix_to_franklin_gosling_dna_diffraction_experimentally_verified_by
+  source: dna_double_helix
+  target: franklin_gosling_dna_diffraction
+  type: experimentally-verified-by
+  label: helical fiber-diffraction constraints
+  detail: Franklin and Gosling’s diffraction data constrained helical repeat, diameter, axial base spacing, hydration state, and phosphate location;
+    model construction also drew on other data.
+  citations:
+  - wp-chem-photo-51
+  - franklin-gosling-1953
+- id: chem_dna_replication_to_meselson_stahl_experiment_experimentally_verified_by
+  source: dna_replication
+  target: meselson_stahl_experiment
+  type: experimentally-verified-by
+  label: semiconservative density pattern
+  detail: Isotope-density bands after one and two generations matched semiconservative replication and excluded the principal competing models
+    for the studied bacteria.
+  citations:
+  - wp-chem-meselson-stahl
+  - meselson-stahl-1958
+- id: chem_prebiotic_chemistry_to_miller_urey_experiment_experimentally_verified_by
+  source: prebiotic_chemistry
+  target: miller_urey_experiment
+  type: experimentally-verified-by
+  label: abiotic amino-acid synthesis under modeled conditions
+  detail: The experiment established chemical feasibility for forming several organics from simple gases plus energy under its conditions, not
+    a unique early-Earth pathway.
+  citations:
+  - wp-chem-miller-urey
+  - miller-1953
+- id: chem_amino_acid_to_molecular_chirality_state_description
+  source: amino_acid
+  target: molecular_chirality
+  type: state-description
+  label: commonly has stereogenic alpha carbon
+  detail: Most proteinogenic amino acids are chiral; glycine is achiral and side chains or post-translational modifications add further stereochemistry.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_atp_to_chemical_potential_state_description
+  source: atp
+  target: chemical_potential
+  type: state-description
+  label: carries conditional phosphorylation potential
+  detail: ATP's driving force comes from coupled reaction chemical potentials under cellular concentrations, $pH$, metal binding, and ionic conditions—not
+    from one intrinsically high-energy bond.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biomolecule_to_liquid_chromatography_experimentally_verified_by
+  source: biomolecule
+  target: liquid_chromatography
+  type: experimentally-verified-by
+  label: separated by liquid-phase retention
+  detail: Validated liquid chromatography can separate biomolecular analytes by hydrophobicity, charge, size, or
+    affinity while recovery, adsorption, degradation, and detector response remain method dependent.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_protein_to_mass_spectrometry_experimentally_verified_by
+  source: protein
+  target: mass_spectrometry
+  type: experimentally-verified-by
+  label: identified through peptide and proteoform evidence
+  detail: Mass spectra can support protein or proteoform assignments through mass, fragmentation, sequence databases,
+    and controls; coverage, modifications, isomers, and false-discovery procedures limit inference.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_protein_structure_to_x_ray_crystallography_experimentally_verified_by
+  source: protein_structure
+  target: x_ray_crystallography
+  type: experimentally-verified-by
+  label: constrained by macromolecular diffraction
+  detail: A protein-structure model can be tested against diffraction data from a crystal, with resolution, disorder,
+    packing, occupancy, model bias, and ensemble averaging reported explicitly.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_biochemical_pathway_to_isotope_tracer_experimentally_verified_by
+  source: biochemical_pathway
+  target: isotope_tracer
+  type: experimentally-verified-by
+  label: tested through atom-resolved tracer flow
+  detail: Isotope-tracer measurements test pathway routing and turnover when labeling position, isotope effects,
+    pool dilution, exchange, compartmentation, and the kinetic model are accounted for.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_protein_structure_to_nuclear_magnetic_resonance_spectroscopy_experimentally_verified_by
+  source: protein_structure
+  target: nuclear_magnetic_resonance_spectroscopy
+  type: experimentally-verified-by
+  label: constrained by solution-state magnetic resonance
+  detail: Protein-structure and dynamics models are tested by chemical shifts, couplings, relaxation, exchange,
+    and distance-sensitive NMR observables under explicit ensemble and timescale assumptions.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_dna_to_dna_replication_theory_component
+  source: dna
+  target: dna_replication
+  type: theory-component
+  label: supplies the sequence template
+  detail: DNA supplies the template read during replication, while polymerases, primers, nucleotides, accessory
+    proteins, repair, topology, and cellular regulation implement the copying process.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_photosynthesis_chemistry_to_carbon_cycle_chemistry_theory_component
+  source: photosynthesis_chemistry
+  target: carbon_cycle_chemistry
+  type: theory-component
+  label: supplies biological carbon fixation
+  detail: Photosynthetic chemistry supplies a major carbon-cycle flux by coupling light-driven energy conversion
+    to carbon fixation; respiration, decomposition, transport, and geological exchange complete the cycle.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry

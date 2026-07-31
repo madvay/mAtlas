@@ -1,0 +1,701 @@
+nodes:
+- id: organic_compound
+  label: Organic compound
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 33
+  kind: structure
+  conceptType: Compound class
+  summary: A historically defined class centered on carbon frameworks and their derivatives, with conventional exclusions such as many carbon
+    oxides, carbonates, and carbides.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: organic_synthesis
+  label: Organic synthesis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 34
+  kind: structure
+  conceptType: Constructive practice
+  summary: Planned preparation of organic compounds through sequences of reactions, separations, and characterization under controlled conditions.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: functional_group
+  label: Functional group
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 35
+  kind: structure
+  conceptType: Structural motif
+  summary: An atom or connected group treated as a recurring unit that organizes characteristic reactivity and nomenclature across different molecular
+    frameworks.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: hydrocarbon
+  label: Hydrocarbon
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 35
+  kind: structure
+  conceptType: Compound class
+  summary: An organic compound composed only of carbon and hydrogen.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: aromaticity
+  label: Aromaticity
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 37
+  kind: structure
+  conceptType: Electronic-structure property
+  summary: Enhanced cyclic delocalization and associated energetic, magnetic, structural, and reactivity patterns under an explicitly stated aromaticity
+    criterion.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: heterocycle
+  label: Heterocycle
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 37
+  kind: structure
+  conceptType: Structural class
+  summary: A ring compound containing at least one ring atom other than carbon.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: constitutional_isomer
+  label: Constitutional isomer
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 36
+  kind: structure
+  conceptType: Isomer class
+  summary: One of two or more compounds sharing a molecular formula but differing in atom connectivity.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: stereochemistry
+  label: Stereochemistry
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 36
+  kind: structure
+  conceptType: Structural field
+  summary: Study and specification of the three-dimensional arrangement of atoms and its consequences for identity, reactivity, and properties.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: molecular_chirality
+  label: Molecular chirality
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 37
+  kind: structure
+  conceptType: Symmetry property
+  summary: The property of a molecular entity or conformation not being superposable on its mirror image under the relevant allowed transformations.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: enantiomer
+  label: Enantiomer
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 38
+  kind: structure
+  conceptType: Stereoisomer class
+  summary: One member of a pair of stereoisomers related as nonsuperposable mirror images.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: nucleophile
+  label: Nucleophile
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 36
+  kind: structure
+  conceptType: Reactive role
+  summary: A reagent or site that donates an electron pair in formation of a new bond.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: electrophile
+  label: Electrophile
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 36
+  kind: structure
+  conceptType: Reactive role
+  summary: A reagent or site that accepts an electron pair in formation of a new bond.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: reaction_intermediate
+  label: Reaction intermediate
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 37
+  kind: structure
+  conceptType: Mechanistic species
+  summary: A species formed and consumed between reactants and products, corresponding to a local free-energy minimum on the chosen reaction description.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: substitution_reaction
+  label: Substitution reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 38
+  kind: structure
+  conceptType: Reaction class
+  summary: A transformation in which one atom or group in a molecular framework is replaced by another.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: elimination_reaction
+  label: Elimination reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 38
+  kind: structure
+  conceptType: Reaction class
+  summary: A transformation removing two atoms or groups from a substrate, commonly forming a multiple bond.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: addition_reaction
+  label: Addition reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 38
+  kind: structure
+  conceptType: Reaction class
+  summary: A transformation that combines reactants across a multiple bond or unsaturated center with a net reduction in bond multiplicity.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: pericyclic_reaction
+  label: Pericyclic reaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 39
+  kind: structure
+  conceptType: Concerted reaction class
+  summary: A concerted reorganization through a cyclic array of bonding changes whose allowed pathways are constrained by orbital symmetry.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: retrosynthesis
+  label: Retrosynthetic analysis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  level: 41
+  kind: structure
+  conceptType: Synthesis-planning method
+  summary: Recursive simplification of a target structure into plausible precursors using transforms grounded in known forward reactions.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: wohler_urea_synthesis
+  label: Wöhler’s urea synthesis
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  - chemistry-experiments-evidence
+  level: 32
+  kind: structure
+  conceptType: Historical motivating synthesis
+  summary: Wöhler obtained urea from cyanate-derived starting materials in 1828, demonstrating laboratory interconversion between substances then
+    assigned to inorganic and organic domains.
+  citations:
+  - wp-chem-wohler-synthesis
+  - wohler-1828-urea
+  sections:
+  - title: Historical qualification
+    body: The synthesis did not instantly refute vitalism or single-handedly found organic chemistry. Its later symbolic role exceeded its immediate
+      reception, while its actual chemical result remained decisive evidence that urea required no organism for its preparation.
+- id: pasteur_tartrate_resolution
+  label: Pasteur’s tartrate resolution
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  - chemistry-experiments-evidence
+  level: 35
+  kind: structure
+  conceptType: Historical motivating experiment
+  summary: Pasteur manually separated mirror-related sodium ammonium tartrate crystals and connected their opposite optical rotations to molecular
+    dissymmetry.
+  citations:
+  - wp-chem-pasteur-chirality
+  - pasteur-chirality-review
+edges:
+- id: chem_organic_compound_to_hydrocarbon_classification
+  source: organic_compound
+  target: hydrocarbon
+  type: classification
+  label: includes hydrocarbons
+  detail: Hydrocarbons form the carbon–hydrogen base class from which many functionalized organic compounds are conceptually derived.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_organic_compound_to_heterocycle_classification
+  source: organic_compound
+  target: heterocycle
+  type: classification
+  label: includes heterocyclic compounds
+  detail: Heterocycles are organic ring systems containing nitrogen, oxygen, sulfur, or another noncarbon ring atom.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_organic_compound_to_constitutional_isomer_classification
+  source: organic_compound
+  target: constitutional_isomer
+  type: classification
+  label: includes compounds distinguished by connectivity
+  detail: A molecular formula can correspond to several organic constitutions with distinct compounds and properties.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_stereochemistry_to_molecular_chirality_classification
+  source: stereochemistry
+  target: molecular_chirality
+  type: classification
+  label: includes chiral structure
+  detail: Molecular chirality is a central stereochemical property defined by symmetry rather than by one particular asymmetric atom.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_molecular_chirality_to_enantiomer_state_description
+  source: molecular_chirality
+  target: enantiomer
+  type: state-description
+  label: gives mirror-related pair
+  detail: A pair of configurationally stable chiral compounds related by reflection are enantiomers in an achiral environment.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_nucleophile_to_substitution_reaction_couples_interacts
+  source: nucleophile
+  target: substitution_reaction
+  type: couples-interacts
+  label: forms bond at electrophilic center
+  detail: Nucleophilic substitution joins electron-pair donation to departure or displacement at an electrophilic center through a mechanism such
+    as $S_N1$ or $S_N2$.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_electrophile_to_addition_reaction_couples_interacts
+  source: electrophile
+  target: addition_reaction
+  type: couples-interacts
+  label: accepts electron density
+  detail: Electrophilic addition begins with electron-pair acceptance at an unsaturated system, followed by mechanism-specific steps.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_reaction_intermediate_to_substitution_reaction_theory_component
+  source: reaction_intermediate
+  target: substitution_reaction
+  type: theory-component
+  label: appears in stepwise pathways
+  detail: Carbocations, ion pairs, radicals, or other intermediates may occur in stepwise substitutions but are absent from concerted pathways.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_reaction_intermediate_to_elimination_reaction_theory_component
+  source: reaction_intermediate
+  target: elimination_reaction
+  type: theory-component
+  label: appears in stepwise pathways
+  detail: Stepwise eliminations can share intermediates with substitution, while concerted eliminations do not contain a discrete intermediate.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_organic_synthesis_to_retrosynthesis_model_realization
+  source: organic_synthesis
+  target: retrosynthesis
+  type: model-realization
+  label: planned by backward transforms
+  detail: Retrosynthesis is a planning representation; proposed disconnections remain hypotheses until viable forward reactions and operations
+    are demonstrated.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_wohler_urea_synthesis_to_organic_synthesis_historically_motivated
+  source: wohler_urea_synthesis
+  target: organic_synthesis
+  type: historically-motivated
+  label: laboratory access to a biological product
+  detail: Wöhler’s result became one strand in the nineteenth-century erosion of a sharp synthetic boundary between living and nonliving chemistry;
+    its immediate causal role should not be inflated.
+  citations:
+  - wp-chem-wohler-synthesis
+  - wohler-1828-urea
+- id: chem_pasteur_tartrate_resolution_to_stereochemistry_historically_motivated
+  source: pasteur_tartrate_resolution
+  target: stereochemistry
+  type: historically-motivated
+  label: crystal handedness linked to optical rotation
+  detail: The resolved tartrate crystals connected macroscopic optical activity to asymmetric molecular arrangement and materially motivated molecular
+    stereochemistry.
+  citations:
+  - wp-chem-pasteur-chirality
+  - pasteur-chirality-review
+- id: chem_pasteur_tartrate_resolution_to_molecular_chirality_historically_motivated
+  source: pasteur_tartrate_resolution
+  target: molecular_chirality
+  type: historically-motivated
+  label: mirror-related molecular dissymmetry
+  detail: Opposite crystal morphologies and rotations supplied an empirical route to the concept now formalized as molecular chirality.
+  citations:
+  - wp-chem-pasteur-chirality
+  - pasteur-chirality-review
+- id: chem_constitutional_isomer_to_molecular_graph_state_description
+  source: constitutional_isomer
+  target: molecular_graph
+  type: state-description
+  label: differs by labeled connectivity
+  detail: Constitutional isomers have distinct atom-connectivity graphs despite sharing a molecular formula.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_molecular_chirality_to_molecular_symmetry_state_description
+  source: molecular_chirality
+  target: molecular_symmetry
+  type: state-description
+  label: excludes improper symmetry operations
+  detail: A rigid molecular structure is chiral when its symmetry lacks operations that superpose it on its mirror image; conformational motion
+    can change the relevant description.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_enantiomer_to_chromatography_couples_interacts
+  source: enantiomer
+  target: chromatography
+  type: couples-interacts
+  label: separated in a chiral environment
+  detail: Enantiomers require a chiral selector or another chiral interaction for differential chromatographic retention under otherwise achiral
+    conditions.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_nucleophile_to_lewis_acid_base_model_realization
+  source: nucleophile
+  target: lewis_acid_base
+  type: model-realization
+  label: acts as electron-pair donor
+  detail: Nucleophilicity is a kinetic reactive role related to, but not identical with, Lewis basicity as a thermodynamic donor concept.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_electrophile_to_lewis_acid_base_model_realization
+  source: electrophile
+  target: lewis_acid_base
+  type: model-realization
+  label: acts as electron-pair acceptor
+  detail: Electrophilicity is a kinetic reactive role related to, but not identical with, Lewis acidity.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_reaction_intermediate_to_reaction_mechanism_composition
+  source: reaction_intermediate
+  target: reaction_mechanism
+  type: composition
+  label: connects elementary steps
+  detail: Intermediates are produced and consumed within mechanisms and require evidence distinguishing them from transition states and resting
+    states.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_retrosynthesis_to_organic_synthesis_describes_governs
+  source: retrosynthesis
+  target: organic_synthesis
+  type: describes-governs
+  label: plans backward from targets
+  detail: Retrosynthesis proposes strategic disconnections and precursor transforms; experimental route selection must also address feasibility,
+    selectivity, supply, safety, and purification.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_addition_reaction_to_organic_synthesis_theory_component
+  source: addition_reaction
+  target: organic_synthesis
+  type: theory-component
+  label: supplies bond-forming additions
+  detail: Addition reactions supply a major transformation family in organic synthesis, with regiochemical, stereochemical,
+    and chemoselective outcomes controlled by substrate and mechanism.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_elimination_reaction_to_organic_synthesis_theory_component
+  source: elimination_reaction
+  target: organic_synthesis
+  type: theory-component
+  label: supplies unsaturation-forming steps
+  detail: Elimination reactions supply alkene- and alkyne-forming steps in synthesis; competing substitution, stereoelectronic
+    requirements, and reaction conditions determine selectivity.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_pericyclic_reaction_to_organic_synthesis_theory_component
+  source: pericyclic_reaction
+  target: organic_synthesis
+  type: theory-component
+  label: supplies concerted bond reorganizations
+  detail: Pericyclic reactions supply thermally or photochemically controlled concerted transformations whose allowed
+    pathways and stereochemistry depend on orbital symmetry and conditions.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_heterocycle_to_biomolecule_composition
+  source: heterocycle
+  target: biomolecule
+  type: composition
+  label: forms recurring biological ring motifs
+  detail: Heterocyclic rings form structural and reactive motifs in nucleobases, cofactors, metabolites, and many
+    other biomolecules, without implying that every heterocycle is biological.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_organic_compound_to_persistent_organic_pollutant_classification
+  source: organic_compound
+  target: persistent_organic_pollutant
+  type: classification
+  label: includes persistent organic pollutant compounds
+  detail: Persistent organic pollutants form a regulated subset of organic compounds selected by persistence, long-range
+    transport, bioaccumulation, and adverse effects; the category does not include organic compounds generally.
+  citations:
+  - wp-chem-environmental-chemistry
+  - epa-atmospheric-chemical-processes
+  - epa-green-chemistry
+- id: chem_stereochemistry_to_nuclear_magnetic_resonance_spectroscopy_experimentally_verified_by
+  source: stereochemistry
+  target: nuclear_magnetic_resonance_spectroscopy
+  type: experimentally-verified-by
+  label: tested by NMR observables
+  detail: Chemical shifts, scalar couplings, dipolar effects, and exchange behavior can support stereochemical assignments
+    when conformational averaging and model ambiguity are assessed.
+  citations:
+  - wp-chem-quantum-chemistry
+  - iupac-green-book
+  - nist-chemistry-webbook
+- id: chem_organic_synthesis_to_prebiotic_chemistry_theory_component
+  source: organic_synthesis
+  target: prebiotic_chemistry
+  type: theory-component
+  label: supplies controlled reaction-network experiments
+  detail: Organic synthesis and analysis supply controlled routes, standards, and mechanistic probes for prebiotic
+    chemistry without showing that a laboratory route occurred on the early Earth.
+  citations:
+  - wp-chem-biochemistry
+  - ncbi-molecular-biology-cell
+  - pubchem-docs
+- id: chem_aromaticity_to_resonance_chemistry_model_realization
+  source: aromaticity
+  target: resonance_chemistry
+  type: model-realization
+  label: represented by delocalized resonance contributors
+  detail: Resonance contributors model aspects of aromatic delocalization, but aromaticity is multidimensional and
+    also assessed through energetic, structural, magnetic, and reactivity criteria.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_functional_group_to_organic_compound_composition
+  source: functional_group
+  target: organic_compound
+  type: composition
+  label: forms a recurring reactive substructure
+  detail: A functional group is a structural component used to organize recurring reactivity in organic compounds,
+    while the molecular environment modifies its electronic and steric behavior.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_heterocycle_to_aromaticity_state_description
+  source: heterocycle
+  target: aromaticity
+  type: state-description
+  label: assigned aromatic or nonaromatic character
+  detail: A conjugated heterocycle can be assigned aromatic character using explicit energetic, structural, magnetic,
+    or electronic criteria; heteroatom participation and state can change the assessment.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_functional_group_to_infrared_spectroscopy_experimentally_verified_by
+  source: functional_group
+  target: infrared_spectroscopy
+  type: experimentally-verified-by
+  label: assignment tested by vibrational bands
+  detail: Infrared bands can support a functional-group assignment when mode coupling, hydrogen bonding, phase,
+    concentration, symmetry, overlap, and reference spectra are considered.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_functional_group_to_nuclear_magnetic_resonance_spectroscopy_experimentally_verified_by
+  source: functional_group
+  target: nuclear_magnetic_resonance_spectroscopy
+  type: experimentally-verified-by
+  label: assignment tested by magnetic-resonance context
+  detail: Chemical shifts, couplings, integrations, exchange, and multidimensional correlations can support a functional-group
+    assignment, but values remain solvent-, temperature-, conformation-, and structure-dependent.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_aromaticity_to_molecular_orbital_theory_model_realization
+  source: aromaticity
+  target: molecular_orbital_theory
+  type: model-realization
+  label: represented by cyclic delocalized orbitals
+  detail: Molecular-orbital models represent cyclic delocalization associated with aromaticity, but energetic, magnetic,
+    structural, and reactivity criteria need not agree in marginal cases.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_substitution_reaction_to_organic_synthesis_theory_component
+  source: substitution_reaction
+  target: organic_synthesis
+  type: theory-component
+  label: supplies group-replacement transformations
+  detail: Substitution reactions supply group-replacement steps in organic synthesis through several concerted or
+    stepwise mechanisms, with nucleophile, substrate, leaving group, solvent, and temperature controlling outcome.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_addition_reaction_to_polymerization_theory_component
+  source: addition_reaction
+  target: polymerization
+  type: theory-component
+  label: supplies repeat-unit-forming propagation
+  detail: Addition reactions supply propagation steps in many chain-growth polymerizations, combined with initiation,
+    transfer, termination, stereocontrol, transport, and heat management.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
