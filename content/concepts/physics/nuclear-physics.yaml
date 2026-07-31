@@ -701,7 +701,6 @@ nodes:
     domains:
       - nuclear-physics
       - radiochemistry
-      - industrial-process-chemistry
     level: 27
     kind: structure
     conceptType: Nuclear reaction or decay process

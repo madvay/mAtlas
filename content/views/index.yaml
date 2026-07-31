@@ -38,5 +38,3 @@ views:
   - file: atoms-to-chemical-reactivity.yaml
   - file: equilibrium-solutions-electrochemistry.yaml
   - file: evidence-that-shaped-chemistry.yaml
-  - file: biochemical-catalysis-and-information.yaml
-  - file: materials-molecules-and-processes.yaml

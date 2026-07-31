@@ -48,6 +48,7 @@ export function validate(context) {
   }
   requireObject(errors, graph?.fields, 'graph.fields');
   requireObject(errors, graph?.domains, 'graph.domains');
+  requireObject(errors, graph?.layout, 'graph.layout');
   requireObject(errors, graph?.edgeTypes, 'graph.edgeTypes');
   requireObject(errors, graph?.sources, 'graph.sources');
   if (!Array.isArray(graph?.nodes)) errors.push('graph.nodes must be an array.');
@@ -71,6 +72,42 @@ export function validate(context) {
     requireString(errors, domain?.color, `${path}.color`);
     requireNumber(errors, domain?.order, `${path}.order`);
     requireString(errors, domain?.field, `${path}.field`);
+  }
+
+  const layout = graph?.layout;
+  const verticalBands = arrayOrEmpty(layout?.verticalBands);
+  if (!verticalBands.length) errors.push('graph.layout.verticalBands must be a non-empty array.');
+  const fieldMembership = new Map();
+  const bandIds = new Set();
+  for (const [index, band] of verticalBands.entries()) {
+    const path = `graph.layout.verticalBands[${index}]`;
+    requireObject(errors, band, path);
+    requireString(errors, band?.id, `${path}.id`);
+    requireStringArray(errors, band?.fields, `${path}.fields`, { nonEmpty: true, unique: true });
+    if (typeof band?.id === 'string' && bandIds.has(band.id)) errors.push(`${path}.id duplicates layout band ${band.id}.`);
+    if (typeof band?.id === 'string') bandIds.add(band.id);
+    if (band?.after !== undefined) requireString(errors, band.after, `${path}.after`);
+    if (band?.gap !== undefined && (!Number.isFinite(band.gap) || band.gap < 0)) errors.push(`${path}.gap must be a non-negative number.`);
+    for (const fieldId of arrayOrEmpty(band?.fields)) {
+      if (!graph?.fields?.[fieldId]) errors.push(`${path}.fields includes unknown field ${fieldId}.`);
+      if (fieldMembership.has(fieldId)) errors.push(`graph.layout assigns field ${fieldId} to more than one vertical band.`);
+      fieldMembership.set(fieldId, band?.id);
+    }
+  }
+  for (const fieldId of Object.keys(graph?.fields ?? {})) {
+    if (!fieldMembership.has(fieldId)) errors.push(`graph.layout does not assign field ${fieldId} to a vertical band.`);
+  }
+  for (const [index, band] of verticalBands.entries()) {
+    if (band?.after !== undefined && !bandIds.has(band.after)) errors.push(`graph.layout.verticalBands[${index}].after references unknown band ${band.after}.`);
+    if (band?.after === band?.id) errors.push(`graph.layout.verticalBands[${index}].after must not reference itself.`);
+  }
+  requireObject(errors, layout?.domainLanes, 'graph.layout.domainLanes');
+  const lanes = layout?.domainLanes ?? {};
+  for (const domainId of Object.keys(graph?.domains ?? {})) {
+    if (!Number.isFinite(lanes[domainId])) errors.push(`graph.layout.domainLanes.${domainId} must be a finite number.`);
+  }
+  for (const domainId of Object.keys(lanes)) {
+    if (!graph?.domains?.[domainId]) errors.push(`graph.layout.domainLanes includes unknown domain ${domainId}.`);
   }
 
   for (const [id, edgeType] of entriesOrEmpty(graph?.edgeTypes)) {

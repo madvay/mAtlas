@@ -497,17 +497,6 @@ edges:
   - wp-chem-analytical-chemistry
   - iupac-orange-book
   - nist-chemistry-webbook
-- id: chem_analytical_chemistry_to_environmental_chemistry_theory_component
-  source: analytical_chemistry
-  target: environmental_chemistry
-  type: theory-component
-  label: supplies measurement and uncertainty methods
-  detail: Environmental chemistry relies on representative sampling, separation, calibration, detection, speciation,
-    quality control, and uncertainty evaluation supplied by analytical chemistry.
-  citations:
-  - wp-chem-analytical-chemistry
-  - iupac-orange-book
-  - nist-chemistry-webbook
 - id: chem_analytical_chemistry_to_cyclic_voltammetry_classification
   source: analytical_chemistry
   target: cyclic_voltammetry
@@ -519,17 +508,6 @@ edges:
   - wp-chem-electrochemistry
   - openstax-chemistry-2e
   - iupac-gold-book
-- id: chem_separation_science_to_separation_process_framework_specialization
-  source: separation_science
-  target: separation_process
-  type: framework-specialization
-  label: specializes selective partitioning to process scale
-  detail: Process separations specialize separation science through throughput, energy, equipment, control, safety,
-    fouling, recycle, product specifications, and lifecycle constraints.
-  citations:
-  - wp-chem-chemical-industry
-  - doe-new-chemistry-roadmap
-  - doe-catalysts
 - id: chem_quantitative_chemical_analysis_to_calibration_curve_model_realization
   source: quantitative_chemical_analysis
   target: calibration_curve

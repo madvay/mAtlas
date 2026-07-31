@@ -66,10 +66,6 @@ domains:
   - id: analytical-chemistry
   - id: electrochemistry
   - id: radiochemistry
-  - id: materials-polymer-chemistry
-  - id: biochemistry-chemical-biology
-  - id: environmental-atmospheric-chemistry
-  - id: industrial-process-chemistry
   - id: chemistry-experiments-evidence
 
 edgeTypes:

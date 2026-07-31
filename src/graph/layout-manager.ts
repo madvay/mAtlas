@@ -34,36 +34,6 @@ interface AtlasBlock {
   left?: number;
 }
 
-// Chemistry is not a vertically appended field.  These lanes put its domains
-// beside the Physics areas with which they have the closest structural or
-// experimental contact; offsets keep adjacent Chemistry domains legible.
-const CHEMISTRY_LANE_ANCHORS: Readonly<Record<string, { physicsDomain: string; offset: number }>> = Object.freeze({
-  'chemical-foundations': { physicsDomain: 'atomic-molecular-physics', offset: -900 },
-  'atomic-structure-periodicity': { physicsDomain: 'atomic-molecular-physics', offset: -200 },
-  'molecular-structure-bonding': { physicsDomain: 'atomic-molecular-physics', offset: 350 },
-  'quantum-chemistry-spectroscopy': { physicsDomain: 'atomic-molecular-physics', offset: -550 },
-  'chemical-thermodynamics-equilibrium': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 0 },
-  'solutions-interfaces': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 540 },
-  'chemical-kinetics-dynamics': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 1060 },
-  'inorganic-coordination-chemistry': { physicsDomain: 'atomic-molecular-physics', offset: -250 },
-  'organic-chemistry': { physicsDomain: 'atomic-molecular-physics', offset: -1050 },
-  'analytical-chemistry': { physicsDomain: 'atomic-molecular-physics', offset: 500 },
-  electrochemistry: { physicsDomain: 'thermodynamics-statistical-mechanics', offset: -580 },
-  radiochemistry: { physicsDomain: 'nuclear-physics', offset: 0 },
-  'materials-polymer-chemistry': { physicsDomain: 'condensed-matter-physics', offset: 0 },
-  'biochemistry-chemical-biology': { physicsDomain: 'atomic-molecular-physics', offset: -900 },
-  'environmental-atmospheric-chemistry': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: 850 },
-  'industrial-process-chemistry': { physicsDomain: 'thermodynamics-statistical-mechanics', offset: -350 },
-  'chemistry-experiments-evidence': { physicsDomain: 'experiments-observations', offset: 0 }
-});
-
-// Physics and Chemistry share one vertical band: a Chemistry level therefore
-// remains directly comparable to the corresponding Physics level.  That band
-// begins after the highest Mathematics level, preserving the atlas's intended
-// broad progression from formal structures to physical systems while retaining
-// the Physics--Chemistry integration within the scientific band.
-const MATHEMATICS_TO_SCIENCE_GAP = 4;
-
 export class LayoutManager {
   private activeRun: ActiveLayoutRun | null = null;
   private nextRunId = 1;
@@ -190,13 +160,12 @@ export class LayoutManager {
   atlasPositions(): Record<string, Point> {
     const { model } = this.options;
     const centers = this.domainCenters();
-    const scienceBaseLevel = this.scienceBaseLevel();
+    const bandOffsets = this.verticalBandOffsets();
     const positions: Record<string, Point> = {};
     const groups = new Map<string, GraphNode[]>();
 
     for (const node of model.data.nodes) {
-      const fieldId = model.nodePrimaryField(node);
-      const displayLevel = node.level + ((fieldId === 'physics' || fieldId === 'chemistry') ? scienceBaseLevel : 0);
+      const displayLevel = node.level + (bandOffsets.get(model.nodePrimaryField(node)) ?? 0);
       const key = `${displayLevel}|${node.primaryDomain}`;
       const group = groups.get(key) ?? [];
       group.push(node);
@@ -255,84 +224,34 @@ export class LayoutManager {
     return positions;
   }
 
-  private scienceBaseLevel(): number {
+  private verticalBandOffsets(): Map<string, number> {
     const { model } = this.options;
-    const mathematicsLevels = model.data.nodes
-      .filter((node) => model.nodePrimaryField(node) === 'mathematics')
-      .map((node) => node.level);
-    const scienceLevels = model.data.nodes
-      .filter((node) => {
-        const fieldId = model.nodePrimaryField(node);
-        return fieldId === 'physics' || fieldId === 'chemistry';
-      })
-      .map((node) => node.level);
-    if (!mathematicsLevels.length || !scienceLevels.length) return 0;
-    return Math.max(...mathematicsLevels) - Math.min(...scienceLevels) + MATHEMATICS_TO_SCIENCE_GAP;
+    const bands = model.data.layout?.verticalBands ?? [];
+    const offsets = new Map<string, number>();
+    const bandBounds = new Map<string, { min: number; max: number }>();
+    const pending = new Map(bands.map((band) => [band.id, band]));
+    while (pending.size) {
+      let progressed = false;
+      for (const [id, band] of pending) {
+        if (band.after && !bandBounds.has(band.after)) continue;
+        const levels = model.data.nodes
+          .filter((node) => band.fields.includes(model.nodePrimaryField(node)))
+          .map((node) => node.level);
+        const localMin = levels.length ? Math.min(...levels) : 0;
+        const localMax = levels.length ? Math.max(...levels) : 0;
+        const preceding = band.after ? bandBounds.get(band.after) : undefined;
+        const offset = preceding ? preceding.max - localMin + (band.gap ?? 0) : 0;
+        for (const fieldId of band.fields) offsets.set(fieldId, offset);
+        bandBounds.set(id, { min: localMin + offset, max: localMax + offset });
+        pending.delete(id);
+        progressed = true;
+      }
+      if (!progressed) return offsets;
+    }
+    return offsets;
   }
 
   private domainCenters(): Record<string, number> {
-    const { model } = this.options;
-    const centers: Record<string, number> = {};
-    const fieldIds = [
-      ...model.fieldOrder.filter((fieldId) => fieldId !== 'chemistry'),
-      ...model.fieldOrder.filter((fieldId) => fieldId === 'chemistry')
-    ];
-    for (const fieldId of fieldIds) {
-      const fieldDomains = model.domainOrder.filter((id) => model.fieldForDomain(id) === fieldId);
-      const laneSpacing = fieldDomains.length > 14 ? 720 : fieldDomains.length > 8 ? 650 : 560;
-      if (fieldId === 'mathematics' && fieldDomains.includes('set-theory')) {
-        const rightStart = fieldDomains.indexOf('number-theory');
-        const splitIndex = rightStart >= 0 ? rightStart : fieldDomains.length;
-        const leftDomains = fieldDomains.slice(0, splitIndex).filter((id) => id !== 'set-theory');
-        const rightDomains = fieldDomains.slice(splitIndex);
-        centers['set-theory'] = 0;
-        leftDomains.forEach((id, index) => {
-          centers[id] = -(leftDomains.length - index) * laneSpacing;
-        });
-        rightDomains.forEach((id, index) => { centers[id] = (index + 1) * laneSpacing; });
-        continue;
-      }
-
-      if (fieldId === 'physics' && fieldDomains.includes('quantum-mechanics')) {
-        const pivotIndex = fieldDomains.indexOf('quantum-mechanics');
-        const leftDomains = fieldDomains.slice(0, pivotIndex);
-        const rightDomains = fieldDomains.slice(pivotIndex + 1);
-        centers['quantum-mechanics'] = 0;
-        leftDomains.reverse().forEach((id, index) => {
-          centers[id] = -(index + 1) * laneSpacing;
-        });
-        rightDomains.forEach((id, index) => {
-          centers[id] = (index + 1) * laneSpacing;
-        });
-        continue;
-      }
-
-      if (fieldId === 'chemistry') {
-        for (const id of fieldDomains) {
-          const anchor = CHEMISTRY_LANE_ANCHORS[id];
-          const physicsCenter = anchor ? centers[anchor.physicsDomain] : undefined;
-          if (anchor && physicsCenter !== undefined) {
-            centers[id] = physicsCenter + anchor.offset;
-            continue;
-          }
-          centers[id] = 0;
-        }
-        continue;
-      }
-
-      const buckets = new Map<number, string[]>();
-      for (const id of fieldDomains) {
-        const order = model.data.domains[id]?.order ?? 0;
-        const bucket = buckets.get(order) ?? [];
-        bucket.push(id);
-        buckets.set(order, bucket);
-      }
-      const orderedValues = [...buckets.keys()].sort((a, b) => a - b);
-      orderedValues.forEach((order, index) => {
-        const center = (index - (orderedValues.length - 1) / 2) * laneSpacing;
-        for (const id of buckets.get(order) ?? []) centers[id] = center;
-      });
-    }
-    return centers;
+    return this.options.model.data.layout?.domainLanes ?? {};
   }
 }

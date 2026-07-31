@@ -834,41 +834,6 @@ edges:
   - openstax-chemistry-2e
   - iupac-solubility-data
   - iupac-gold-book
-- id: chem_buffer_solution_to_enzyme_couples_interacts
-  source: buffer_solution
-  target: enzyme
-  type: couples-interacts
-  label: controls proton activity around enzymes
-  detail: Buffers constrain bulk proton activity but can also bind, inhibit, change ionic strength, or fail to reproduce microenvironmental $pH$.
-  citations:
-  - wp-chem-solution
-  - openstax-chemistry-2e
-  - iupac-solubility-data
-  - iupac-gold-book
-- id: chem_solubility_equilibrium_to_crystallization_process_describes_governs
-  source: solubility_equilibrium
-  target: crystallization_process
-  type: describes-governs
-  label: sets saturation and supersaturation
-  detail: Crystallization requires supersaturation relative to solubility equilibrium, while nucleation and growth determine the observed kinetics
-    and product form.
-  citations:
-  - wp-chem-solution
-  - openstax-chemistry-2e
-  - iupac-solubility-data
-  - iupac-gold-book
-- id: chem_solubility_equilibrium_to_contaminant_fate_describes_governs
-  source: solubility_equilibrium
-  target: contaminant_fate
-  type: describes-governs
-  label: constrains dissolved availability
-  detail: Solubility and speciation bound dissolved concentrations but do not alone determine transport, sorption, degradation, or biological
-    uptake.
-  citations:
-  - wp-chem-solution
-  - openstax-chemistry-2e
-  - iupac-solubility-data
-  - iupac-gold-book
 - id: chem_chemical_interface_to_electrochemical_double_layer_framework_specialization
   source: chemical_interface
   target: electrochemical_double_layer
@@ -876,17 +841,6 @@ edges:
   label: charged electrode–electrolyte interface
   detail: The electrochemical double layer is an interfacial charge and solvation structure whose model depends on potential, composition, surface,
     and time scale.
-  citations:
-  - wp-chem-solution
-  - openstax-chemistry-2e
-  - iupac-solubility-data
-  - iupac-gold-book
-- id: chem_chemical_interface_to_biomembrane_composition
-  source: chemical_interface
-  target: biomembrane
-  type: composition
-  label: forms membrane boundaries
-  detail: Biomembranes are chemically complex interfaces containing lipids, proteins, carbohydrates, ions, and structured water.
   citations:
   - wp-chem-solution
   - openstax-chemistry-2e
@@ -926,17 +880,6 @@ edges:
   - openstax-chemistry-2e
   - iupac-solubility-data
   - iupac-gold-book
-- id: chem_chemical_interface_to_composite_material_composition
-  source: chemical_interface
-  target: composite_material
-  type: composition
-  label: forms load- and charge-transfer boundaries
-  detail: Interfaces between matrix, reinforcement, fillers, coatings, or pores are structural components of composites
-    and can dominate adhesion, transport, corrosion, and failure.
-  citations:
-  - wp-chem-polymer-chemistry
-  - iupac-purple-book
-  - nist-polymers-processing
 - id: chem_acid_base_equilibrium_to_titration_experimentally_verified_by
   source: acid_base_equilibrium
   target: titration
@@ -948,28 +891,6 @@ edges:
   - wp-chem-analytical-chemistry
   - iupac-orange-book
   - nist-chemistry-webbook
-- id: chem_surface_chemistry_to_nanomaterial_describes_governs
-  source: surface_chemistry
-  target: nanomaterial
-  type: describes-governs
-  label: describes size-amplified interfacial behavior
-  detail: Surface chemistry describes adsorption, charge, ligand exchange, passivation, dissolution, and catalysis
-    that can dominate nanoscale materials because of their large interfacial contribution.
-  citations:
-  - wp-chem-polymer-chemistry
-  - iupac-purple-book
-  - nist-polymers-processing
-- id: chem_acid_base_equilibrium_to_amino_acid_describes_governs
-  source: acid_base_equilibrium
-  target: amino_acid
-  type: describes-governs
-  label: sets protonation microstates
-  detail: Coupled acid–base equilibria set amino-acid charge and microstate populations as functions of activity,
-    environment, ionic strength, neighboring groups, and conformation.
-  citations:
-  - wp-chem-biochemistry
-  - ncbi-molecular-biology-cell
-  - pubchem-docs
 - id: chem_surface_chemistry_to_chemical_interface_describes_governs
   source: surface_chemistry
   target: chemical_interface
@@ -1126,51 +1047,6 @@ edges:
   - openstax-chemistry-2e
   - iupac-solubility-data
   - iupac-gold-book
-- id: chem_acid_base_equilibrium_to_acid_deposition_chemistry_describes_governs
-  source: acid_base_equilibrium
-  target: acid_deposition_chemistry
-  type: describes-governs
-  label: governs neutralization and buffering
-  detail: Acid–base equilibria govern speciation, neutralization, and buffering after acidic deposition, coupled
-    to oxidation, transport, mineral dissolution, biology, and hydrology.
-  citations:
-  - wp-chem-environmental-chemistry
-  - epa-atmospheric-chemical-processes
-  - epa-green-chemistry
-- id: chem_solubility_equilibrium_to_aquatic_chemistry_describes_governs
-  source: solubility_equilibrium
-  target: aquatic_chemistry
-  type: describes-governs
-  label: constrains mineral saturation and dissolved species
-  detail: Solubility equilibria constrain mineral saturation and dissolved composition in water, while activity,
-    complexation, redox, kinetics, colloids, and biology can prevent simple equilibrium behavior.
-  citations:
-  - wp-chem-environmental-chemistry
-  - epa-atmospheric-chemical-processes
-  - epa-green-chemistry
-- id: chem_adsorption_to_contaminant_fate_theory_component
-  source: adsorption
-  target: contaminant_fate
-  type: theory-component
-  label: supplies interfacial partitioning pathways
-  detail: Adsorption supplies reversible or effectively irreversible partitioning pathways in contaminant fate,
-    coupled to transport, competition, reactions, aging, desorption, and surface heterogeneity.
-  citations:
-  - wp-chem-solution
-  - openstax-chemistry-2e
-  - iupac-solubility-data
-  - iupac-gold-book
-- id: chem_chemical_activity_to_solvent_extraction_process_theory_component
-  source: chemical_activity
-  target: solvent_extraction_process
-  type: theory-component
-  label: supplies phase-partition driving forces
-  detail: Chemical activities and complexation equilibria supply thermodynamic driving forces for solvent extraction,
-    while kinetics, hydrodynamics, entrainment, phase disengagement, and solvent degradation affect operation.
-  citations:
-  - wp-chem-chemical-industry
-  - doe-new-chemistry-roadmap
-  - doe-catalysts
 - id: chem_concentration_to_rate_law_theory_component
   source: concentration
   target: rate_law

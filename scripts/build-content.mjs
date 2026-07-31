@@ -35,6 +35,7 @@ const provenance = {
   source: {
     manifest: { path: 'content/manifest.json', sha256: digest(content.manifestBytes) },
     graph: { path: `content/${content.manifest.files.graph}`, sha256: digest(content.graphBytes) },
+    layout: { path: 'content/layout.yaml', sha256: digest(content.layoutBytes) },
     schema: { path: `content/${content.manifest.files.schema}`, sha256: digest(content.schemaBytes) },
     views: { path: `content/${content.manifest.files.views}`, sha256: digest(content.viewsBytes) },
     shareCodec: { path: `content/${content.manifest.files.shareCodec}`, sha256: digest(content.shareCodecBytes) }

@@ -224,7 +224,6 @@ nodes:
       - quantum-field-theory
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-      - environmental-atmospheric-chemistry
     level: 15
     kind: structure
     conceptType: Field state / phenomenon

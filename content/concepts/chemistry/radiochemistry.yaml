@@ -334,16 +334,6 @@ edges:
   citations:
   - wp-chem-radiocarbon-dating
   - nobel-libby-1960
-- id: chem_radiopharmaceutical_to_biomolecule_couples_interacts
-  source: radiopharmaceutical
-  target: biomolecule
-  type: couples-interacts
-  label: targets biological systems
-  detail: Radiopharmaceuticals combine radionuclide emissions with a chemical form or targeting vector that controls biodistribution and clearance.
-  citations:
-  - wp-chem-radiochemistry
-  - iaea-neutron-activation-analysis
-  - iupac-gold-book
 - id: chem_isotope_dilution_analysis_to_mass_spectrometry_experimentally_verified_by
   source: isotope_dilution_analysis
   target: mass_spectrometry

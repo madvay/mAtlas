@@ -567,28 +567,6 @@ edges:
   - wp-chem-organic-chemistry
   - iupac-blue-book
   - pubchem-docs
-- id: chem_heterocycle_to_biomolecule_composition
-  source: heterocycle
-  target: biomolecule
-  type: composition
-  label: forms recurring biological ring motifs
-  detail: Heterocyclic rings form structural and reactive motifs in nucleobases, cofactors, metabolites, and many
-    other biomolecules, without implying that every heterocycle is biological.
-  citations:
-  - wp-chem-organic-chemistry
-  - iupac-blue-book
-  - pubchem-docs
-- id: chem_organic_compound_to_persistent_organic_pollutant_classification
-  source: organic_compound
-  target: persistent_organic_pollutant
-  type: classification
-  label: includes persistent organic pollutant compounds
-  detail: Persistent organic pollutants form a regulated subset of organic compounds selected by persistence, long-range
-    transport, bioaccumulation, and adverse effects; the category does not include organic compounds generally.
-  citations:
-  - wp-chem-environmental-chemistry
-  - epa-atmospheric-chemical-processes
-  - epa-green-chemistry
 - id: chem_stereochemistry_to_nuclear_magnetic_resonance_spectroscopy_experimentally_verified_by
   source: stereochemistry
   target: nuclear_magnetic_resonance_spectroscopy
@@ -600,17 +578,6 @@ edges:
   - wp-chem-quantum-chemistry
   - iupac-green-book
   - nist-chemistry-webbook
-- id: chem_organic_synthesis_to_prebiotic_chemistry_theory_component
-  source: organic_synthesis
-  target: prebiotic_chemistry
-  type: theory-component
-  label: supplies controlled reaction-network experiments
-  detail: Organic synthesis and analysis supply controlled routes, standards, and mechanistic probes for prebiotic
-    chemistry without showing that a laboratory route occurred on the early Earth.
-  citations:
-  - wp-chem-biochemistry
-  - ncbi-molecular-biology-cell
-  - pubchem-docs
 - id: chem_aromaticity_to_resonance_chemistry_model_realization
   source: aromaticity
   target: resonance_chemistry
@@ -684,17 +651,6 @@ edges:
   label: supplies group-replacement transformations
   detail: Substitution reactions supply group-replacement steps in organic synthesis through several concerted or
     stepwise mechanisms, with nucleophile, substrate, leaving group, solvent, and temperature controlling outcome.
-  citations:
-  - wp-chem-organic-chemistry
-  - iupac-blue-book
-  - pubchem-docs
-- id: chem_addition_reaction_to_polymerization_theory_component
-  source: addition_reaction
-  target: polymerization
-  type: theory-component
-  label: supplies repeat-unit-forming propagation
-  detail: Addition reactions supply propagation steps in many chain-growth polymerizations, combined with initiation,
-    transfer, termination, stereocontrol, transport, and heat management.
   citations:
   - wp-chem-organic-chemistry
   - iupac-blue-book

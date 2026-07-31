@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://atlas.madvay.com/content/schema.json",
-  "x-matlas-schema-version": "1.1.0",
+  "x-matlas-schema-version": "2.0.0",
   "title": "Atlas of Fundamental Concepts data",
   "type": "object",
   "additionalProperties": false,
@@ -9,6 +9,7 @@
     "meta",
     "fields",
     "domains",
+    "layout",
     "edgeTypes",
     "sources",
     "nodes",
@@ -115,6 +116,33 @@
             "type": "string",
             "minLength": 1
           }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verticalBands", "domainLanes"],
+      "properties": {
+        "verticalBands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "fields"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "fields": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+              "after": { "type": "string", "minLength": 1 },
+              "gap": { "type": "number", "minimum": 0 }
+            }
+          }
+        },
+        "domainLanes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "number" }
         }
       }
     },

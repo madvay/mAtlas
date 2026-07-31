@@ -260,6 +260,16 @@ nodes:
   - wp-chem-werner
   - nobel-werner-1913
 edges:
+- id: chem_inorganic_compound_to_bioinorganic_chemistry_framework_specialization
+  source: inorganic_compound
+  target: bioinorganic_chemistry
+  type: framework-specialization
+  label: specializes inorganic chemistry to biological settings
+  detail: Bioinorganic chemistry specializes inorganic and coordination chemistry to metal ions, cofactors, and mineral phases in biological systems without making biological function part of the inorganic definition.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
 - id: chem_inorganic_compound_to_ionic_compound_classification
   source: inorganic_compound
   target: ionic_compound
@@ -453,17 +463,6 @@ edges:
   - wp-chem-inorganic-chemistry
   - iupac-red-book
   - iupac-gold-book
-- id: chem_inorganic_compound_to_ceramic_material_composition
-  source: inorganic_compound
-  target: ceramic_material
-  type: composition
-  label: forms ceramic phases
-  detail: Ionic and covalent inorganic compounds form the principal phases of many ceramics; processing history,
-    porosity, grain boundaries, and secondary phases also control behavior.
-  citations:
-  - wp-chem-polymer-chemistry
-  - iupac-purple-book
-  - nist-polymers-processing
 - id: chem_inorganic_compound_to_qualitative_chemical_analysis_experimentally_verified_by
   source: inorganic_compound
   target: qualitative_chemical_analysis
@@ -537,26 +536,6 @@ edges:
   label: supplies bond-forming catalyst turnover
   detail: Reductive elimination supplies carbon–carbon or carbon–heteroatom bond formation in many catalytic syntheses;
     precursor geometry, oxidation state, ligands, and competing pathways control it.
-  citations:
-  - wp-chem-inorganic-chemistry
-  - iupac-red-book
-  - iupac-gold-book
-- id: chem_bioinorganic_chemistry_to_biochemical_cofactor_describes_governs
-  source: bioinorganic_chemistry
-  target: biochemical_cofactor
-  type: describes-governs
-  label: describes metal-ion and cluster cofactors
-  detail: Bioinorganic chemistry describes how metal ions and clusters contribute structure, electron transfer, small-molecule activation, transport, and catalysis in selected cofactors; many cofactors contain no metal.
-  citations:
-  - wp-chem-inorganic-chemistry
-  - iupac-red-book
-  - iupac-gold-book
-- id: chem_bioinorganic_chemistry_to_enzyme_catalysis_describes_governs
-  source: bioinorganic_chemistry
-  target: enzyme_catalysis
-  type: describes-governs
-  label: describes metalloenzyme reaction centers
-  detail: Bioinorganic models describe coordination, redox, spin, proton-coupled transfer, and substrate activation at metalloenzyme centers, without implying that all enzyme catalysis is metal-mediated.
   citations:
   - wp-chem-inorganic-chemistry
   - iupac-red-book

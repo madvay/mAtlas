@@ -93,7 +93,6 @@ nodes:
     domains:
       - condensed-matter-physics
       - atomic-molecular-physics
-      - materials-polymer-chemistry
       - analytical-chemistry
     level: 35
     kind: structure
@@ -113,7 +112,6 @@ nodes:
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
-      - materials-polymer-chemistry
     level: 36
     kind: structure
     conceptType: Periodic geometric model
@@ -204,7 +202,6 @@ nodes:
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
-      - materials-polymer-chemistry
       - analytical-chemistry
     level: 37
     kind: structure
@@ -225,7 +222,6 @@ nodes:
     domains:
       - condensed-matter-physics
       - classical-mechanics
-      - materials-polymer-chemistry
       - quantum-chemistry-spectroscopy
     level: 37
     kind: structure
@@ -369,7 +365,6 @@ nodes:
       - condensed-matter-physics
       - quantum-mechanics
       - quantum-field-theory
-      - materials-polymer-chemistry
       - quantum-chemistry-spectroscopy
     level: 38
     kind: structure
@@ -407,7 +402,6 @@ nodes:
     domains:
       - condensed-matter-physics
       - quantum-mechanics
-      - materials-polymer-chemistry
     level: 38
     kind: structure
     conceptType: Spectral state property
@@ -514,7 +508,6 @@ nodes:
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
-      - materials-polymer-chemistry
     level: 40
     kind: structure
     conceptType: Electronic material class

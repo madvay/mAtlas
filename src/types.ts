@@ -69,6 +69,16 @@ export interface SourceDefinition {
   kind: string;
 }
 
+export interface AtlasLayoutDefinition {
+  verticalBands: Array<{
+    id: string;
+    fields: string[];
+    after?: string;
+    gap?: number;
+  }>;
+  domainLanes: Record<string, number>;
+}
+
 export interface CombinationDefinition {
   inputs: string[];
   compatibility: MathText;
@@ -122,6 +132,7 @@ export interface GraphData {
   meta: GraphMeta;
   fields: Record<string, FieldDefinition>;
   domains: Record<string, DomainDefinition>;
+  layout: AtlasLayoutDefinition;
   edgeTypes: Record<string, EdgeTypeDefinition>;
   citationLegend?: Record<string, string>;
   sources: Record<string, SourceDefinition>;
