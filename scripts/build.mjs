@@ -17,6 +17,25 @@ const compiledContent = new URL('../.build/content/', import.meta.url);
 const rootPath = fileURLToPath(root);
 const distPath = fileURLToPath(dist);
 
+function buildCommitSha() {
+  const environmentSha = [
+    process.env.BUILD_SHA,
+    process.env.GITHUB_SHA,
+    process.env.VERCEL_GIT_COMMIT_SHA,
+    process.env.CF_PAGES_COMMIT_SHA
+  ].find((value) => /^[0-9a-f]{7,64}$/i.test(value ?? ''));
+  if (environmentSha) return environmentSha.toLowerCase();
+
+  const git = spawnSync('git', ['rev-parse', 'HEAD'], {
+    cwd: rootPath,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore']
+  });
+  const sha = git.status === 0 ? git.stdout.trim() : '';
+  if (/^[0-9a-f]{7,64}$/i.test(sha)) return sha.toLowerCase();
+  throw new Error('Unable to determine build commit SHA. Set BUILD_SHA or build from a Git checkout.');
+}
+
 function buildLastModifiedDate() {
   const sourceDateEpoch = Number(process.env.SOURCE_DATE_EPOCH);
   if (Number.isFinite(sourceDateEpoch) && sourceDateEpoch > 0) {
@@ -39,6 +58,7 @@ function buildLastModifiedDate() {
     : new Date().toISOString().slice(0, 10);
 }
 
+const buildSha = buildCommitSha();
 const lastModified = buildLastModifiedDate();
 
 const contentBuild = spawnSync(process.execPath, ['scripts/build-content.mjs'], { cwd: rootPath, stdio: 'inherit' });
@@ -118,7 +138,11 @@ const builtTemplate = sourceTemplate
   .replaceAll('__ATLAS_SCHEMA_URL__', `./content/${schemaFile}`)
   .replaceAll('__ATLAS_VIEWS_URL__', `./content/${viewsFile}`)
   .replaceAll('__ATLAS_SHARE_CODEC_URL__', `./content/${shareCodecFile}`)
-  .replaceAll('__ATLAS_PROVENANCE_URL__', `./content/${provenanceFile}`);
+  .replaceAll('__ATLAS_PROVENANCE_URL__', `./content/${provenanceFile}`)
+  .replaceAll('__ATLAS_CONTENT_VERSION__', provenance.contentVersion)
+  .replaceAll('__ATLAS_SCHEMA_VERSION__', provenance.schemaVersion)
+  .replaceAll('__ATLAS_BUILD_SHA__', buildSha)
+  .replaceAll('__ATLAS_BUILD_SHA_SHORT__', buildSha.slice(0, 7));
 await writeFile(new URL('index.html', dist), minifyHtml(builtTemplate));
 
 await Promise.all([

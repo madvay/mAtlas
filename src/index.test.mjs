@@ -102,3 +102,14 @@ test('concept comparison has toolbar, details, and shareable dialog surfaces', (
   assert.match(styles, /\.compare-columns\s*\{/);
   assert.match(styles, /\.compare-neighbor-row\s*\{/);
 });
+
+test('Data section exposes build and content versions', () => {
+  const dataStart = html.indexOf('id="dataFilterSection"');
+  const dataEnd = html.indexOf('</section>', dataStart);
+  const dataSection = html.slice(dataStart, dataEnd);
+
+  assert.match(dataSection, /cv__ATLAS_CONTENT_VERSION__ sv__ATLAS_SCHEMA_VERSION__/);
+  assert.match(dataSection, /href="https:\/\/github\.com\/madvay\/mAtlas\/commit\/__ATLAS_BUILD_SHA__"/);
+  assert.match(dataSection, /git#__ATLAS_BUILD_SHA_SHORT__/);
+  assert.match(styles, /\.data-version\s*\{/);
+});

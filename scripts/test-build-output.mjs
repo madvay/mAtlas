@@ -72,6 +72,10 @@ if ('removedDomains' in (manifest.assets ?? {})) throw new Error('asset-manifest
 if (graphData.domains.foundation) throw new Error('Foundation remains an active runtime domain.');
 if (graphData.nodes.some((node) => node.primaryDomain === 'foundation' || node.domains.includes('foundation'))) throw new Error('A runtime node still references the removed Foundation domain.');
 if (manifest.content?.schemaVersion !== compiledProvenance.schemaVersion || manifest.content?.contentVersion !== compiledProvenance.contentVersion) throw new Error('asset-manifest.json does not expose the compiled content contract versions.');
+const expectedBuildSha = [process.env.BUILD_SHA, process.env.GITHUB_SHA, process.env.VERCEL_GIT_COMMIT_SHA, process.env.CF_PAGES_COMMIT_SHA]
+  .find((value) => /^[0-9a-f]{7,64}$/i.test(value ?? ''));
+if (expectedBuildSha && !appIndex.includes(`cv${compiledProvenance.contentVersion} sv${compiledProvenance.schemaVersion} <a href="https://github.com/madvay/mAtlas/commit/${expectedBuildSha.toLowerCase()}"`)) throw new Error('The Data section does not expose the content, schema, and build versions.');
+if (expectedBuildSha && !appIndex.includes(`git#${expectedBuildSha.slice(0, 7).toLowerCase()}</a>`)) throw new Error('The Data section does not display the short build SHA.');
 if (!manifest.assets?.views) throw new Error('asset-manifest.json does not include the hashed views data asset.');
 if (!manifest.assets?.provenance) throw new Error('asset-manifest.json does not include the hashed content provenance asset.');
 if (manifest.assets?.contentLicense !== 'CONTENT_LICENSE') throw new Error('asset-manifest.json does not expose the content license notice.');

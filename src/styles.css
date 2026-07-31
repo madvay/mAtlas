@@ -416,6 +416,19 @@ input:focus-visible {
   justify-items: start;
 }
 
+.data-version {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 10px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.data-version a {
+  color: inherit;
+}
+
 .filter-list {
   display: grid;
   gap: 7px;
