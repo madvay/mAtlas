@@ -1,4 +1,11 @@
 import type cytoscape from 'cytoscape';
+import type { Preferences } from '../types.js';
+import { DEFAULT_PREFERENCES } from '../state/preferences.js';
+
+interface DomainMarkerEntry {
+  element: cytoscape.NodeSingular;
+  marker: HTMLDivElement;
+}
 
 interface SequenceBadgeEntry {
   element: cytoscape.NodeSingular;
@@ -15,29 +22,39 @@ function numericOpacity(element: cytoscape.NodeSingular, fallback: number): numb
   return Number.isFinite(value) ? value : fallback;
 }
 
-/** DOM overlays for decorations that Cytoscape cannot express natively, currently Story sequence badges. */
+/** DOM overlays that complement, but never replace, Cytoscape's lightweight text labels. */
 export class GraphOverlayLayer {
   private readonly layer = document.createElement('div');
   private readonly viewport = document.createElement('div');
+  private readonly domainMarkers: DomainMarkerEntry[] = [];
   private readonly sequenceBadges: SequenceBadgeEntry[] = [];
   private frame = 0;
   private dirty = 0;
+  private preferences: Preferences;
 
   constructor(
     private readonly cy: cytoscape.Core,
-    graphContainer: HTMLElement
+    graphContainer: HTMLElement,
+    preferences: Preferences = { ...DEFAULT_PREFERENCES }
   ) {
+    this.preferences = preferences;
     this.layer.className = 'graph-overlay-layer';
     this.layer.setAttribute('aria-hidden', 'true');
     this.viewport.className = 'graph-overlay-viewport';
     this.layer.appendChild(this.viewport);
     graphContainer.insertAdjacentElement('afterend', this.layer);
+    this.buildDomainMarkers();
 
-    // Pan and zoom are the hot path: one compositor transform updates every Story badge.
+    // Pan and zoom are the hot path: one compositor transform updates every overlay.
     this.cy.on('pan zoom resize', () => this.schedule(VIEWPORT_DIRTY));
     this.cy.on('position', () => this.schedule(GEOMETRY_DIRTY));
     this.cy.on('style data', () => this.schedule(GEOMETRY_DIRTY | STATE_DIRTY));
     this.schedule(ALL_DIRTY);
+  }
+
+  setPreferences(preferences: Preferences): void {
+    this.preferences = preferences;
+    this.schedule(STATE_DIRTY);
   }
 
   setNodeSequence(nodeIds: readonly string[]): void {
@@ -68,6 +85,24 @@ export class GraphOverlayLayer {
     });
   }
 
+  private buildDomainMarkers(): void {
+    this.cy.nodes().forEach((node: cytoscape.NodeSingular) => {
+      if (Number(node.data('multiDomain')) !== 1) return;
+      const colors = node.data('domainColors');
+      if (!Array.isArray(colors) || colors.length < 2) return;
+      const marker = document.createElement('div');
+      marker.className = 'graph-domain-markers';
+      marker.style.transform = 'translate(-100%, -100%)';
+      for (const color of colors.slice(1)) {
+        const dot = document.createElement('span');
+        dot.style.backgroundColor = String(color);
+        marker.appendChild(dot);
+      }
+      this.viewport.appendChild(marker);
+      this.domainMarkers.push({ element: node, marker });
+    });
+  }
+
   private syncViewport(): void {
     const pan = this.cy.pan();
     const zoom = this.cy.zoom();
@@ -75,6 +110,12 @@ export class GraphOverlayLayer {
   }
 
   private syncGeometry(): void {
+    for (const { element, marker } of this.domainMarkers) {
+      if (element.hasClass('filter-hidden') || element.style('display') === 'none') continue;
+      const position = element.position();
+      marker.style.left = `${position.x + 76}px`;
+      marker.style.top = `${position.y + 25}px`;
+    }
     for (const { element, badge } of this.sequenceBadges) {
       if (element.hasClass('filter-hidden') || element.style('display') === 'none') continue;
       const bounds = element.boundingBox({ includeLabels: false, includeOverlays: false });
@@ -84,6 +125,14 @@ export class GraphOverlayLayer {
   }
 
   private syncState(): void {
+    for (const { element, marker } of this.domainMarkers) {
+      const hidden = !this.preferences.indicateOtherDomains
+        || element.hasClass('filter-hidden')
+        || element.hasClass('structure-source-node')
+        || element.style('display') === 'none';
+      marker.hidden = hidden;
+      if (!hidden) marker.style.opacity = String(numericOpacity(element, 1));
+    }
     for (const { element, badge } of this.sequenceBadges) {
       const hidden = element.hasClass('filter-hidden')
         || element.hasClass('structure-source-node')

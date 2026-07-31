@@ -5,13 +5,6 @@ import { stripInlineMathText } from '../core/text.js';
 import type { LabelSizer } from './label-sizer.js';
 import { DEFAULT_INTERACTIVE_MIN_ZOOM } from './viewport-fit-core.js';
 import type { Preferences } from '../types.js';
-import {
-  SECONDARY_DOMAIN_MARKER_BOTTOM_OFFSET,
-  SECONDARY_DOMAIN_MARKER_SIZE,
-  secondaryDomainMarkerHorizontalOffsets,
-  secondaryDomainMarkerImages,
-  secondaryDomainMarkerValues
-} from './secondary-domain-markers.js';
 
 function edgeCurveDistance(edgeId: string): number {
   const hash = stableStringHash(edgeId);
@@ -19,7 +12,7 @@ function edgeCurveDistance(edgeId: string): number {
   return (hash & 1) === 0 ? magnitude : -magnitude;
 }
 
-export function createGraphElements(model: GraphModel, labels: LabelSizer, indicateOtherDomains = true): cytoscape.ElementDefinition[] {
+export function createGraphElements(model: GraphModel, labels: LabelSizer): cytoscape.ElementDefinition[] {
   const elements: cytoscape.ElementDefinition[] = [];
   for (const node of model.data.nodes) {
     const primaryDomain = model.data.domains[node.primaryDomain] ?? model.data.domains.foundation;
@@ -28,7 +21,6 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer, indic
     const displayLabel = stripInlineMathText(node.label);
     elements.push({
       group: 'nodes',
-      classes: indicateOtherDomains ? '' : 'secondary-domain-markers-hidden',
       data: {
         id: node.id,
         label: node.label,
@@ -44,7 +36,6 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer, indic
         domainColor: primaryDomain.color,
         domainColors: domainIds.map((id) => model.data.domains[id]?.color ?? '#64748b'),
         multiDomain: node.kind === 'structure' && domainIds.length > 1 ? 1 : 0,
-        secondaryDomainCount: Math.max(0, domainIds.length - 1),
         level: node.level,
         summary: node.summary,
         conceptType: node.conceptType ?? ''
@@ -93,26 +84,6 @@ export const graphStyles: cytoscape.StylesheetJson = [
     }
   },
   {
-    selector: 'node[multiDomain = 1]',
-    style: {
-      'background-image': secondaryDomainMarkerImages,
-      'background-image-opacity': (node) => secondaryDomainMarkerValues(node, 1),
-      'background-image-containment': (node) => secondaryDomainMarkerValues(node, 'over'),
-      'background-image-smoothing': (node) => secondaryDomainMarkerValues(node, 'yes'),
-      'background-width': (node) => secondaryDomainMarkerValues(node, SECONDARY_DOMAIN_MARKER_SIZE),
-      'background-height': (node) => secondaryDomainMarkerValues(node, SECONDARY_DOMAIN_MARKER_SIZE),
-      'background-fit': (node) => secondaryDomainMarkerValues(node, 'none'),
-      'background-repeat': (node) => secondaryDomainMarkerValues(node, 'no-repeat'),
-      'background-position-x': (node) => secondaryDomainMarkerValues(node, '100%'),
-      'background-position-y': (node) => secondaryDomainMarkerValues(node, '100%'),
-      'background-offset-x': secondaryDomainMarkerHorizontalOffsets,
-      'background-offset-y': (node) => secondaryDomainMarkerValues(node, SECONDARY_DOMAIN_MARKER_BOTTOM_OFFSET),
-      'background-width-relative-to': (node) => secondaryDomainMarkerValues(node, 'include-padding'),
-      'background-height-relative-to': (node) => secondaryDomainMarkerValues(node, 'include-padding'),
-      'background-clip': (node) => secondaryDomainMarkerValues(node, 'none')
-    }
-  },
-  {
     selector: 'node[kind = "junction"]',
     style: {
       width: 116, 'background-color': '#fff7ed', 'background-opacity': 1,
@@ -143,7 +114,6 @@ export const graphStyles: cytoscape.StylesheetJson = [
   },
   { selector: '.edge-labels-off', style: { label: '' } },
   { selector: '.filter-hidden', style: { display: 'none' } },
-  { selector: 'node.secondary-domain-markers-hidden', style: { 'background-image': 'none' } },
   { selector: '.hover-dim', style: { opacity: 0.18 } },
   { selector: 'node.neighborhood-dim', style: { opacity: 0.46 } },
   { selector: 'edge.neighborhood-dim', style: { display: 'none' } },
@@ -185,7 +155,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: 'node.structure-source-node',
     style: {
-      label: '', opacity: 0.25, 'background-opacity': 1, 'background-image': 'none',
+      label: '', opacity: 0.25, 'background-opacity': 1,
       'border-width': 1, 'border-color': '#ffffff', 'z-index': 1,
       events: 'no', 'transition-property': 'none', 'transition-duration': 0
     }
@@ -264,7 +234,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
 export function createGraph(container: HTMLElement, model: GraphModel, labels: LabelSizer, preferences: Preferences): cytoscape.Core {
   const cy = cytoscape({
     container,
-    elements: createGraphElements(model, labels, preferences.indicateOtherDomains),
+    elements: createGraphElements(model, labels),
     layout: { name: 'preset' },
     minZoom: DEFAULT_INTERACTIVE_MIN_ZOOM,
     maxZoom: 3,
@@ -298,7 +268,6 @@ export function applyRendererPreferences(cy: cytoscape.Core, preferences: Prefer
   renderer.hideEdgesOnViewport = preferences.hideEdgesWhileMoving;
   cy.autoungrabify(!preferences.allowNodeMovement);
   const nodes = cy.nodes();
-  nodes.toggleClass('secondary-domain-markers-hidden', !preferences.indicateOtherDomains);
   if (preferences.allowNodeMovement) {
     nodes.unpanify();
     nodes.grabify();

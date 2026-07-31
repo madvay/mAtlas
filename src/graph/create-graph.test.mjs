@@ -6,13 +6,11 @@ function fakeGraph() {
   const renderer = { forcedPixelRatio: 1.5, motionBlurEnabled: false, motionBlur: false, hideEdgesOnViewport: true };
   const declarations = [];
   const movement = [];
-  const markerClasses = [];
   const nodes = {
     unpanify() { movement.push('unpanify'); },
     grabify() { movement.push('grabify'); },
     ungrabify() { movement.push('ungrabify'); },
-    panify() { movement.push('panify'); },
-    toggleClass(name, enabled) { markerClasses.push([name, enabled]); }
+    panify() { movement.push('panify'); }
   };
   const style = {
     selector(value) { declarations.push(['selector', value]); return this; },
@@ -23,7 +21,6 @@ function fakeGraph() {
     renderer,
     declarations,
     movement,
-    markerClasses,
     resized: 0,
     rendered: 0,
     graph: {
@@ -53,7 +50,6 @@ test('renderer preferences change the live renderer and immediately redraw both 
     assert.equal(fixture.renderer.motionBlur, true);
     assert.equal(fixture.renderer.hideEdgesOnViewport, false);
     assert.deepEqual(fixture.movement, [['autoungrabify', true], 'ungrabify', 'panify']);
-    assert.deepEqual(fixture.markerClasses, [['secondary-domain-markers-hidden', false]]);
     assert.ok(fixture.declarations.some(([name, value]) => name === 'transition-duration' && value === 120));
     assert.ok(fixture.declarations.some(([name, value]) => name === 'selector'
       && value === 'node.structure-source-node, node.structure-source-junction'));
@@ -62,14 +58,13 @@ test('renderer preferences change the live renderer and immediately redraw both 
 
     applyRendererPreferences(fixture.graph, {
       version: 1, highResolution: false, transitions: false, motionBlur: false,
-      indicateOtherDomains: false, hideEdgesWhileMoving: true, allowNodeMovement: true, dimPrerequisites: false, highlightPrerequisites: true
+      indicateOtherDomains: true, hideEdgesWhileMoving: true, allowNodeMovement: true, dimPrerequisites: false, highlightPrerequisites: true
     });
     assert.equal(fixture.renderer.forcedPixelRatio, 1.5);
     assert.equal(fixture.renderer.motionBlurEnabled, false);
     assert.equal(fixture.renderer.motionBlur, false);
     assert.equal(fixture.renderer.hideEdgesOnViewport, true);
     assert.deepEqual(fixture.movement.slice(3), [['autoungrabify', false], 'unpanify', 'grabify']);
-    assert.deepEqual(fixture.markerClasses.at(-1), ['secondary-domain-markers-hidden', true]);
     assert.equal(fixture.resized, 2);
     assert.equal(fixture.rendered, 2);
   } finally {
@@ -85,7 +80,6 @@ test('structure modes use text-only centroid labels and disable source-node even
   assert.equal(sourceStyle?.label, '');
   assert.equal(sourceStyle?.['transition-property'], 'none');
   assert.equal(sourceStyle?.['transition-duration'], 0);
-  assert.equal(sourceStyle?.['background-image'], 'none');
   assert.equal(centroidStyle?.shape, 'rectangle');
   assert.equal(centroidStyle?.['background-opacity'], 0);
   assert.equal(centroidStyle?.['border-width'], 0);
@@ -100,16 +94,6 @@ test('structure modes use text-only centroid labels and disable source-node even
   assert.equal(emphasizedConnectionStyle?.opacity, 1);
 });
 
-
-
-test('multi-domain nodes use native Cytoscape background images for marker dots', () => {
-  const markerStyle = graphStyles.find((entry) => entry.selector === 'node[multiDomain = 1]')?.style;
-  const hiddenStyle = graphStyles.find((entry) => entry.selector === 'node.secondary-domain-markers-hidden')?.style;
-  assert.equal(typeof markerStyle?.['background-image'], 'function');
-  assert.equal(typeof markerStyle?.['background-offset-x'], 'function');
-  assert.equal(typeof markerStyle?.['background-image-containment'], 'function');
-  assert.equal(hiddenStyle?.['background-image'], 'none');
-});
 
 test('graph nodes and edges always use lightweight Unicode math labels', () => {
   const model = {
@@ -137,9 +121,4 @@ test('graph nodes and edges always use lightweight Unicode math labels', () => {
   const edge = elements.find((element) => element.group === 'edges');
   assert.equal(node.data.canvasLabel, 'The 𝛼-𝐺 action');
   assert.equal(edge.data.canvasLabel, '𝑥²→ 𝑦₁');
-
-  const hiddenElements = createGraphElements(model, labels, false);
-  const hiddenNode = hiddenElements.find((element) => element.group === 'nodes');
-  assert.equal(node.classes, '');
-  assert.equal(hiddenNode.classes, 'secondary-domain-markers-hidden');
 });

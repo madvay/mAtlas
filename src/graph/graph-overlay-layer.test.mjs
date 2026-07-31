@@ -47,10 +47,16 @@ function installDom() {
 }
 
 function nodeFixture() {
+  const data = {
+    kind: 'structure',
+    multiDomain: 1,
+    domainColors: ['#111111', '#222222', '#333333']
+  };
   const position = { x: 40, y: 25 };
   const classes = new Set();
   let opacity = '1';
   return {
+    data(key) { return data[key]; },
     isNode() { return true; },
     position() { return { ...position }; },
     hasClass(name) { return classes.has(name); },
@@ -59,8 +65,7 @@ function nodeFixture() {
     boundingBox() { return { x1: position.x - 82, y2: position.y + 29 }; },
     moveTo(x, y) { position.x = x; position.y = y; },
     setOpacity(value) { opacity = String(value); },
-    addClass(name) { classes.add(name); },
-    removeClass(name) { classes.delete(name); }
+    addClass(name) { classes.add(name); }
   };
 }
 
@@ -71,6 +76,7 @@ function graphFixture(node) {
     on(events, handler) {
       for (const event of events.split(/\s+/)) handlers.set(event, handler);
     },
+    nodes() { return { forEach(callback) { callback(node); } }; },
     getElementById(id) { return id === 'node' ? node : { empty() { return true; } }; },
     pan() { return { ...viewport.pan }; },
     zoom() { return viewport.zoom; },
@@ -79,7 +85,25 @@ function graphFixture(node) {
   };
 }
 
-test('zoom updates one overlay viewport transform and Story badge geometry follows nodes', () => {
+function preferences(overrides = {}) {
+  return {
+    version: 1,
+    highResolution: true,
+    transitions: true,
+    animateGraph: false,
+    refitOnChange: true,
+    motionBlur: false,
+    indicateOtherDomains: true,
+    hideEdgesWhileMoving: true,
+    allowNodeMovement: false,
+    dimPrerequisites: true,
+    highlightPrerequisites: false,
+    experimentalFeatures: false,
+    ...overrides
+  };
+}
+
+test('zoom updates one overlay viewport transform and marker geometry follows nodes', () => {
   const dom = installDom();
   try {
     const node = nodeFixture();
@@ -88,16 +112,16 @@ test('zoom updates one overlay viewport transform and Story badge geometry follo
       inserted: null,
       insertAdjacentElement(_position, element) { this.inserted = element; }
     };
-    const layer = new GraphOverlayLayer(cy, graphContainer);
-    layer.setNodeSequence(['node']);
+    new GraphOverlayLayer(cy, graphContainer, preferences());
     dom.flush();
 
     const viewport = graphContainer.inserted.children[0];
-    const badge = viewport.children[0];
+    const marker = viewport.children[0];
     assert.equal(viewport.style.transform, 'translate3d(10px, 20px, 0) scale(1)');
-    assert.equal(badge.className, 'graph-sequence-badge');
-    assert.equal(badge.style.left, '-42px');
-    assert.equal(badge.style.top, '54px');
+    assert.equal(marker.className, 'graph-domain-markers');
+    assert.equal(marker.children.length, 2);
+    assert.equal(marker.style.left, '116px');
+    assert.equal(marker.style.top, '50px');
 
     cy.setViewport({ x: -30, y: 18 }, 1.75);
     cy.emit('zoom');
@@ -107,14 +131,14 @@ test('zoom updates one overlay viewport transform and Story badge geometry follo
     node.moveTo(55, 70);
     cy.emit('position');
     dom.flush();
-    assert.equal(badge.style.left, '-27px');
-    assert.equal(badge.style.top, '99px');
+    assert.equal(marker.style.left, '131px');
+    assert.equal(marker.style.top, '95px');
   } finally {
     dom.restore();
   }
 });
 
-test('Story badge visibility and opacity follow the Cytoscape node', () => {
+test('domain marker visibility follows preferences without affecting Story badges', () => {
   const dom = installDom();
   try {
     const node = nodeFixture();
@@ -123,23 +147,20 @@ test('Story badge visibility and opacity follow the Cytoscape node', () => {
       inserted: null,
       insertAdjacentElement(_position, element) { this.inserted = element; }
     };
-    const layer = new GraphOverlayLayer(cy, graphContainer);
+    const layer = new GraphOverlayLayer(cy, graphContainer, preferences());
     layer.setNodeSequence(['node']);
     dom.flush();
 
-    const badge = graphContainer.inserted.children[0].children[0];
+    const viewport = graphContainer.inserted.children[0];
+    const marker = viewport.children[0];
+    const badge = viewport.children[1];
+    assert.equal(marker.hidden, false);
     assert.equal(badge.hidden, false);
-    assert.equal(badge.style.opacity, '1');
 
-    node.setOpacity(0.46);
-    cy.emit('style');
+    layer.setPreferences(preferences({ indicateOtherDomains: false }));
     dom.flush();
-    assert.equal(badge.style.opacity, '0.46');
-
-    node.addClass('structure-source-node');
-    cy.emit('style');
-    dom.flush();
-    assert.equal(badge.hidden, true);
+    assert.equal(marker.hidden, true);
+    assert.equal(badge.hidden, false);
   } finally {
     dom.restore();
   }
@@ -154,7 +175,7 @@ test('Story sequence badges are numbered, positioned at node bottom-left, and cl
       inserted: null,
       insertAdjacentElement(_position, element) { this.inserted = element; }
     };
-    const layer = new GraphOverlayLayer(cy, graphContainer);
+    const layer = new GraphOverlayLayer(cy, graphContainer, preferences());
     dom.flush();
     layer.setNodeSequence(['node']);
     dom.flush();
