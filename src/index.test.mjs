@@ -70,7 +70,7 @@ test('Compare is hidden by default and the obsolete Structure Map dialog is abse
 
 test('layout toolbar exposes all four enum values', () => {
   const values = [...html.matchAll(/data-toolbar-layout="([^"]+)"/g)].map((match) => match[1]);
-  assert.deepEqual(values, ['atlas', 'breadthfirst', 'domains', 'fields']);
+  assert.deepEqual(values, ['atlas', 'domains', 'fields', 'breadthfirst']);
 });
 
 test('Compare integrates overview and direction-preserving connection analysis', () => {
