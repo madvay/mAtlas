@@ -30,7 +30,7 @@ export class FieldBandController {
 
   update(): void {
     const { cy, model, state } = this.options;
-    if (state.layout === 'breadthfirst') {
+    if (state.layout === 'breadthfirst' || state.layout === 'domains' || state.layout === 'fields') {
       this.clear();
       return;
     }
@@ -63,6 +63,14 @@ export class FieldBandController {
   }
 
   schedule(): void {
+    if (this.options.state.layout === 'breadthfirst'
+      || this.options.state.layout === 'domains'
+      || this.options.state.layout === 'fields') {
+      if (this.timer) window.clearTimeout(this.timer);
+      this.timer = 0;
+      this.clear();
+      return;
+    }
     // renderedBoundingBox() forces Cytoscape geometry reads and rebuilding the
     // bands forces DOM layout. Coalesce a whole pan/zoom gesture instead of doing
     // both jobs on every animation frame.

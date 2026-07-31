@@ -134,6 +134,7 @@ export async function startAtlasApp(): Promise<void> {
 
   let viewsController: ViewsController | null = null;
   let comparisonController: CompareController | null = null;
+  let structureOverlayController: StructureOverlayController | null = null;
   let graphViewPreservesView = (_view: AtlasView): boolean => true;
   let syncFilterViewScope = (): void => {};
   let currentSelectionTarget = (): SelectionTarget | null => locationController.parseSelection();
@@ -163,6 +164,8 @@ export async function startAtlasApp(): Promise<void> {
       if (selected.isNode() && model.nodeRecord.has(selected.id())) return { kind: 'node', id: selected.id() };
       if (selected.isEdge() && model.edgeRecord.has(selected.id())) return { kind: 'edge', id: selected.id() };
     }
+    const structureSelection = structureOverlayController?.selectionTarget();
+    if (structureSelection) return structureSelection;
     return locationController.parseSelection();
   };
 
@@ -244,7 +247,6 @@ export async function startAtlasApp(): Promise<void> {
     });
   }
 
-  let structureOverlayController: StructureOverlayController | null = null;
   let updateGraphStatus = (): void => {};
 
   const layoutManager = new LayoutManager({
@@ -261,6 +263,8 @@ export async function startAtlasApp(): Promise<void> {
   });
 
   function runLayout(name: LayoutName = state.layout, fitAfter = true): void {
+    structureOverlayController?.prepareForLayout(name);
+    if (name === 'domains' || name === 'fields') fieldBandController.clear();
     layoutManager.run(name, fitAfter);
     if (state.layout === 'domains' || state.layout === 'fields') clearHover();
     updateGraphStatus();
@@ -283,6 +287,10 @@ export async function startAtlasApp(): Promise<void> {
   const updateSemanticLabelSizes = (force = false): void => graphView.updateSemanticLabelSizes(force);
   const scheduleEdgeZoomStyles = (): void => graphView.scheduleEdgeZoomStyles();
   const applyFilters = (options: { relayout?: boolean } = {}): void => {
+    // Install structure substrate styling before any filter class changes can
+    // reveal a newly included concept. This covers URL-restored structure
+    // layouts as well as ordinary in-mode taxonomy and edge-filter updates.
+    structureOverlayController?.prepareForLayout(state.layout);
     graphView.applyFilters(options);
     structureOverlayController?.refresh();
     graphView.updateStatus();
@@ -552,6 +560,15 @@ export async function startAtlasApp(): Promise<void> {
     if (!target) {
       if (selected && !selected.empty()) clearSelection({ historyMode: null });
       if (initial) showEmptyDetails();
+      return;
+    }
+
+    if (target.kind !== 'node' && target.kind !== 'edge') {
+      const current = structureOverlayController?.selectionTarget();
+      if (current?.kind === target.kind && current.id === target.id) return;
+      if (structureOverlayController?.selectTarget(target, true)) return;
+      clearSelection({ historyMode: null });
+      writeLocationState(null, 'replace');
       return;
     }
 
@@ -830,6 +847,11 @@ export async function startAtlasApp(): Promise<void> {
     focusDomain: (domainId) => filterControls.focusDomain(domainId),
     activateNode: (nodeId) => activateNode(nodeId, { center: true, zoomIn: true, historyMode: 'push' }),
     activateEdge: (edgeId) => activateEdge(edgeId, { center: false, historyMode: 'push' }),
+    onSelectionChange: (target, mode) => {
+      viewsController?.syncSelection(target);
+      syncDocumentMetadata(target);
+      writeLocationState(target, mode);
+    },
     renderMathText
   });
   structureOverlayController.initialize();

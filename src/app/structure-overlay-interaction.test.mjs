@@ -6,6 +6,7 @@ const atlasApp = await readFile(new URL('atlas-app.ts', import.meta.url), 'utf8'
 const exporter = await readFile(new URL('../ui/svg-exporter.ts', import.meta.url), 'utf8');
 const controller = await readFile(new URL('../ui/structure-overlay-controller.ts', import.meta.url), 'utf8');
 const graphView = await readFile(new URL('../graph/graph-view-controller.ts', import.meta.url), 'utf8');
+const fieldBands = await readFile(new URL('../ui/field-band-controller.ts', import.meta.url), 'utf8');
 
 test('concept tap, double-tap, and tooltip paths are blocked in structure modes', () => {
   const activeGuards = atlasApp.match(/if \(structureOverlayController\?\.active\(\)\) return;/g) ?? [];
@@ -35,4 +36,30 @@ test('structure-edge opacity remains stylesheet-owned across zoom, filter, and d
   assert.match(graphView, /cy\.edges\(\)\.not\('\[semanticConnection = 1\]'\)\.forEach/);
   assert.match(controller, /this\.restoreSelection\(\);\s*this\.syncConnectionEmphasis\(\);/);
   assert.match(controller, /syncConnectionEmphasis[\s\S]*removeStyle\('opacity'\)[\s\S]*removeClass\(CONNECTION_EMPHASIS_CLASS\)/);
+});
+
+test('structure substrate dimming is installed before layout and retained throughout overlay rebuilds', () => {
+  assert.match(atlasApp, /function runLayout[\s\S]*structureOverlayController\?\.prepareForLayout\(name\);[\s\S]*layoutManager\.run/);
+  assert.match(atlasApp, /const applyFilters[\s\S]*structureOverlayController\?\.prepareForLayout\(state\.layout\);\s*graphView\.applyFilters/);
+  assert.match(controller, /prepareForLayout\(layout: LayoutName\)[\s\S]*toggleClass\('structure-source-node'/);
+  assert.match(controller, /if \(!this\.active\(\)\)[\s\S]*removeClass\('structure-source-node structure-source-junction'\)/);
+  assert.match(controller, /this\.prepareForLayout\(state\.layout\);\s*cy\.elements\(OVERLAY_SELECTOR\)\.remove\(\);/);
+});
+
+test('structure selections participate in URL selection restoration and history', () => {
+  assert.match(atlasApp, /structureOverlayController\?\.selectionTarget\(\)/);
+  assert.match(atlasApp, /target\.kind !== 'node' && target\.kind !== 'edge'[\s\S]*structureOverlayController\?\.selectTarget\(target, true\)/);
+  assert.match(controller, /onSelectionChange\(this\.selectionTarget\(\), 'push'\)/);
+});
+
+test('field boundary overlays are absent from domain and field structure layouts', () => {
+  assert.match(fieldBands, /state\.layout === 'breadthfirst' \|\| state\.layout === 'domains' \|\| state\.layout === 'fields'/);
+  assert.match(fieldBands, /this\.options\.state\.layout === 'domains'[\s\S]*this\.clear\(\);/);
+  assert.match(atlasApp, /name === 'domains' \|\| name === 'fields'\) fieldBandController\.clear\(\)/);
+});
+
+test('structure-mode SVG graph content is 25 percent smaller while the header remains unscaled', () => {
+  assert.match(exporter, /const graphScale = structureMode \? 0\.125 : 0\.5/);
+  assert.match(exporter, /height = headerHeight \+ graphHeight/);
+  assert.match(exporter, /<g transform="translate\([^\n]+scale\(\$\{graphScale\}\)/);
 });

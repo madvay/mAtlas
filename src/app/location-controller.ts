@@ -67,13 +67,35 @@ export function selectionFromPath(pathname: string, nodeIds: ReadonlySet<string>
 export function selectionFromParams(
   params: URLSearchParams,
   nodeIds: ReadonlySet<string>,
-  edgeIds: ReadonlySet<string>
+  edgeIds: ReadonlySet<string>,
+  domainIds: ReadonlySet<string> = new Set<string>(),
+  fieldIds: ReadonlySet<string> = new Set<string>()
 ): SelectionTarget | null {
   const nodeId = params.get('node');
   if (nodeId && nodeIds.has(nodeId)) return { kind: 'node', id: nodeId };
   const edgeId = params.get('edge');
   if (edgeId && edgeIds.has(edgeId)) return { kind: 'edge', id: edgeId };
+  const domainId = params.get('domain');
+  if (domainId && domainIds.has(domainId)) return { kind: 'domain', id: domainId };
+  const fieldId = params.get('field');
+  if (fieldId && fieldIds.has(fieldId)) return { kind: 'field', id: fieldId };
+  const domainEdgeId = params.get('domain-edge');
+  if (domainEdgeId && validStructureConnectionId(domainEdgeId, domainIds)) {
+    return { kind: 'domain-edge', id: domainEdgeId };
+  }
+  const fieldEdgeId = params.get('field-edge');
+  if (fieldEdgeId && validStructureConnectionId(fieldEdgeId, fieldIds)) {
+    return { kind: 'field-edge', id: fieldEdgeId };
+  }
   return null;
+}
+
+function validStructureConnectionId(id: string, knownIds: ReadonlySet<string>): boolean {
+  const separator = id.indexOf('->');
+  if (separator <= 0 || separator !== id.lastIndexOf('->')) return false;
+  const sourceId = id.slice(0, separator);
+  const targetId = id.slice(separator + 2);
+  return sourceId !== targetId && knownIds.has(sourceId) && knownIds.has(targetId);
 }
 
 export function selectionFromTemplate(
@@ -215,7 +237,9 @@ export class LocationController {
     return selectionFromParams(
       new URL(window.location.href).searchParams,
       this.options.model.knownNodeIds,
-      this.options.model.knownEdgeIds
+      this.options.model.knownEdgeIds,
+      this.options.model.knownDomainIds,
+      this.options.model.knownFieldIds
     );
   }
 
@@ -240,7 +264,9 @@ export class LocationController {
     return selectionFromParams(
       new URLSearchParams(window.location.hash.slice(1)),
       this.options.model.knownNodeIds,
-      this.options.model.knownEdgeIds
+      this.options.model.knownEdgeIds,
+      this.options.model.knownDomainIds,
+      this.options.model.knownFieldIds
     );
   }
 
@@ -274,7 +300,7 @@ export class LocationController {
     return new URL(`${fieldPath}/${encodeURIComponent(domainId)}/`, this.runtimeGlobalRootUrl).toString();
   }
 
-  itemUrl(itemId: string, itemKind: SelectionTarget['kind']): string {
+  itemUrl(itemId: string, itemKind: 'node' | 'edge'): string {
     const view = this.activeView();
     if (view) {
       return this.urlForActiveViewSelection({ kind: itemKind, id: itemId }).toString();
@@ -312,11 +338,8 @@ export class LocationController {
         const scope = target ? this.scopeForSelection(namedScope) : namedScope;
         url = this.scopeUrl(scope, this.runtimeGlobalRootUrl);
         this.addUiState(url);
-        url.searchParams.delete('node');
-        url.searchParams.delete('edge');
-        url.searchParams.delete('selection');
-        if (target?.kind === 'node') url.searchParams.set('node', target.id);
-        if (target?.kind === 'edge') url.searchParams.set('edge', target.id);
+        this.clearSelectionParams(url.searchParams);
+        if (target) url.searchParams.set(target.kind, target.id);
         url.hash = '';
       }
     }
@@ -372,6 +395,23 @@ export class LocationController {
         description = summarizePlainText(edge.detail || description);
       }
       this.setDynamicEntityJsonLd(null);
+    } else if (target?.kind === 'domain' || target?.kind === 'field') {
+      const definition = target.kind === 'domain'
+        ? model.data.domains[target.id]
+        : model.data.fields[target.id];
+      const noun = target.kind === 'domain' ? 'Domain' : 'Field';
+      const label = definition?.label ?? target.id;
+      title = `${stripInlineMathText(label)} — ${noun} structure — ${model.data.meta.title}`;
+      description = `Explore the currently visible concepts and aggregate directed relations for the ${label} ${target.kind}.`;
+      this.setDynamicEntityJsonLd(null);
+    } else if (target?.kind === 'domain-edge' || target?.kind === 'field-edge') {
+      const [sourceId, targetId] = target.id.split('->');
+      const definitions = target.kind === 'domain-edge' ? model.data.domains : model.data.fields;
+      const sourceLabel = definitions[sourceId ?? '']?.label ?? sourceId ?? '';
+      const targetLabel = definitions[targetId ?? '']?.label ?? targetId ?? '';
+      title = `${stripInlineMathText(sourceLabel)} → ${stripInlineMathText(targetLabel)} — ${model.data.meta.title}`;
+      description = `Aggregate directed relations from ${sourceLabel} to ${targetLabel} under the current filters.`;
+      this.setDynamicEntityJsonLd(null);
     } else {
       this.setDynamicEntityJsonLd(null);
     }
@@ -402,6 +442,7 @@ export class LocationController {
     if (!target) {
       if (sequence.length > 0) url.searchParams.set('selection', 'none');
     } else if (!(target.kind === 'node' && target.id === sequence[0])) {
+      this.clearSelectionParams(url.searchParams);
       url.searchParams.set(target.kind, target.id);
     }
     writeCompareState(url.searchParams, this.options.getCompareState?.() ?? null);
@@ -435,7 +476,18 @@ export class LocationController {
       }
       return `${this.canonicalRootUrl}?node=${encodeURIComponent(target.id)}`;
     }
-    return `${this.canonicalRootUrl}?edge=${encodeURIComponent(target.id)}`;
+    if (target.kind === 'edge') return `${this.canonicalRootUrl}?edge=${encodeURIComponent(target.id)}`;
+    return `${this.canonicalRootUrl}?${encodeURIComponent(target.kind)}=${encodeURIComponent(target.id)}`;
+  }
+
+  private clearSelectionParams(params: URLSearchParams): void {
+    params.delete('node');
+    params.delete('edge');
+    params.delete('domain');
+    params.delete('field');
+    params.delete('domain-edge');
+    params.delete('field-edge');
+    params.delete('selection');
   }
 
   private namedScopeForState(): TaxonomyScope & { named: boolean } {

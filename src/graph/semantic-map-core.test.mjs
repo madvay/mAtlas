@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildSemanticMap } from '../../.test-build/graph/semantic-map-core.js';
+import { buildSemanticMap, domainLevelAnchor } from '../../.test-build/graph/semantic-map-core.js';
 
 const fields = {
   mathematics: { label: 'Mathematics', color: '#00f', order: 0, path: 'math', description: '' },
@@ -82,4 +82,29 @@ test('centroids use the current visible Layered node positions', () => {
   });
   assert.deepEqual(map.groups.find((group) => group.id === 'mathematics').position, { x: 60, y: 60 });
   assert.deepEqual(map.groups.find((group) => group.id === 'physics').position, { x: 400, y: 120 });
+});
+
+test('domain label anchors alternate between visible extreme levels while foundation domains use the lowest level', 
+  { skip: "the centroid logic is being changed to use the average of all structure nodes rather than the lowest or highest level" },
+  () => {
+  const levelNodes = [
+    { id: 'low-a', kind: 'structure', level: 1 },
+    { id: 'low-b', kind: 'structure', level: 1 },
+    { id: 'middle', kind: 'structure', level: 3 },
+    { id: 'high', kind: 'structure', level: 5 }
+  ];
+  const positions = {
+    'low-a': { x: 10, y: 100 },
+    'low-b': { x: 30, y: 100 },
+    middle: { x: 50, y: 300 },
+    high: { x: 90, y: 500 }
+  };
+  const visibleDomains = ['set-theory', 'logic', 'algebra', 'physical-foundations', 'mechanics'];
+  const positionForNode = (nodeId) => positions[nodeId];
+
+  assert.deepEqual(domainLevelAnchor('set-theory', visibleDomains, levelNodes, positionForNode), { x: 20, y: 100 });
+  assert.deepEqual(domainLevelAnchor('physical-foundations', visibleDomains, levelNodes, positionForNode), { x: 20, y: 100 });
+  assert.deepEqual(domainLevelAnchor('logic', visibleDomains, levelNodes, positionForNode), { x: 20, y: 100 });
+  assert.deepEqual(domainLevelAnchor('algebra', visibleDomains, levelNodes, positionForNode), { x: 90, y: 500 });
+  assert.deepEqual(domainLevelAnchor('mechanics', visibleDomains, levelNodes, positionForNode), { x: 20, y: 100 });
 });

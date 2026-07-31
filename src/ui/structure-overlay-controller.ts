@@ -1,10 +1,10 @@
 import type cytoscape from 'cytoscape';
 import { byId, escapeHtml } from '../core/dom.js';
-import { buildSemanticMap, type SemanticMapConnection, type SemanticMapData, type SemanticMapGroup, type SemanticMapScale } from '../graph/semantic-map-core.js';
+import { buildSemanticMap, domainLevelAnchor, type SemanticMapConnection, type SemanticMapData, type SemanticMapGroup, type SemanticMapScale } from '../graph/semantic-map-core.js';
 import { deconflictStructurePositions, estimateStructureFitZoom, structureEdgeVisualMetrics, structureNodeGap, structureNodeVisualMetrics } from '../graph/structure-overlay-geometry.js';
 import { isCrossFieldEdgeAllowed } from '../graph/visibility-policy.js';
 import type { GraphModel } from '../model/graph-model.js';
-import type { AppState, GraphEdge, GraphNode } from '../types.js';
+import type { AppState, GraphEdge, GraphNode, HistoryMode, LayoutName, Point, SelectionTarget } from '../types.js';
 import { renderHtml } from './render.js';
 
 interface StructureOverlayControllerOptions {
@@ -16,6 +16,7 @@ interface StructureOverlayControllerOptions {
   focusDomain: (domainId: string) => void;
   activateNode: (nodeId: string) => void;
   activateEdge: (edgeId: string) => void;
+  onSelectionChange: (target: SelectionTarget | null, mode: Exclude<HistoryMode, null>) => void;
   renderMathText: (value: unknown) => string;
 }
 
@@ -43,18 +44,43 @@ export class StructureOverlayController {
     return this.options.state.layout === 'domains' || this.options.state.layout === 'fields';
   }
 
+  prepareForLayout(layout: LayoutName): void {
+    const active = layout === 'domains' || layout === 'fields';
+    const { cy, model } = this.options;
+    if (!active && this.selection) {
+      this.selection = null;
+      cy.elements(OVERLAY_SELECTOR).unselect();
+      this.options.onSelectionChange(null, 'replace');
+    }
+    cy.batch(() => {
+      cy.nodes().forEach((element) => {
+        const record = model.nodeRecord.get(element.id());
+        if (!record) return;
+        element.toggleClass('structure-source-node', active && record.kind === 'structure');
+        element.toggleClass('structure-source-junction', active && record.kind === 'junction');
+      });
+      cy.edges().filter((element) => model.edgeRecord.has(element.id()))
+        .toggleClass('structure-source-edge', active);
+    });
+  }
+
   refresh(): void {
     const { cy, model, state } = this.options;
-    cy.batch(() => {
-      cy.elements(OVERLAY_SELECTOR).remove();
-      cy.nodes().removeClass('structure-source-node structure-source-junction');
-      cy.edges().removeClass('structure-source-edge');
-    });
-
     if (!this.active()) {
+      cy.batch(() => {
+        cy.elements(OVERLAY_SELECTOR).remove();
+        cy.nodes().removeClass('structure-source-node structure-source-junction');
+        cy.edges().removeClass('structure-source-edge');
+      });
       this.selection = null;
       return;
     }
+
+    // Keep the dimmed substrate classes in place while the overlay is rebuilt.
+    // Removing them before the aggregate data is calculated allows Cytoscape to
+    // paint one full-opacity frame on layout entry and filter changes.
+    this.prepareForLayout(state.layout);
+    cy.elements(OVERLAY_SELECTOR).remove();
 
     const scale: SemanticMapScale = state.layout === 'fields' ? 'fields' : 'domains';
     const visibleNodes = cy.nodes().not('.filter-hidden')
@@ -75,7 +101,10 @@ export class StructureOverlayController {
       positionForNode: (nodeId) => {
         const element = cy.getElementById(nodeId);
         return element && !element.empty() ? element.position() : undefined;
-      }
+      },
+      ...(scale === 'domains'
+        ? { anchorForGroup: (groupId: string, conceptIds: readonly string[]) => this.domainLevelAnchor(groupId, conceptIds) }
+        : {})
     });
 
     const sourceElements = cy.nodes().not('.filter-hidden').filter((element) => {
@@ -150,15 +179,7 @@ export class StructureOverlayController {
       });
     }
 
-    cy.batch(() => {
-      cy.nodes().not('.filter-hidden').forEach((element) => {
-        const record = model.nodeRecord.get(element.id());
-        if (record?.kind === 'structure') element.addClass('structure-source-node');
-        else if (record?.kind === 'junction') element.addClass('structure-source-junction');
-      });
-      cy.edges().filter((element) => model.edgeRecord.has(element.id())).addClass('structure-source-edge');
-      if (elements.length) cy.add(elements);
-    });
+    if (elements.length) cy.add(elements);
 
     this.restoreSelection();
     this.syncConnectionEmphasis();
@@ -167,26 +188,61 @@ export class StructureOverlayController {
   selectGroupElement(element: cytoscape.SingularElementReturnValue): void {
     const id = String(element.data('semanticGroupId') ?? '');
     if (!id || !this.group(id)) return;
-    this.options.cy.elements().unselect();
-    element.select();
-    this.selection = { kind: 'group', id };
-    this.syncConnectionEmphasis();
-    this.renderGroup(id, true);
+    this.applyGroupSelection(id, element, true);
+    this.options.onSelectionChange(this.selectionTarget(), 'push');
   }
 
   selectConnectionElement(element: cytoscape.SingularElementReturnValue): void {
     const id = String(element.data('semanticConnectionId') ?? '');
     if (!id || !this.connection(id)) return;
-    this.options.cy.elements().unselect();
-    element.select();
-    this.selection = { kind: 'connection', id };
-    this.syncConnectionEmphasis();
-    this.renderConnection(id, true);
+    this.applyConnectionSelection(id, element, true);
+    this.options.onSelectionChange(this.selectionTarget(), 'push');
+  }
+
+  selectTarget(target: SelectionTarget, open = true): boolean {
+    if (!this.active()) return false;
+    if (target.kind === this.groupSelectionKind()) {
+      const element = this.options.cy.getElementById(this.groupElementId(target.id));
+      if (!element || element.empty() || !this.group(target.id)) return false;
+      this.applyGroupSelection(target.id, element, open);
+      return true;
+    }
+    if (target.kind === this.connectionSelectionKind()) {
+      const element = this.options.cy.getElementById(this.connectionElementId(target.id));
+      if (!element || element.empty() || !this.connection(target.id)) return false;
+      this.applyConnectionSelection(target.id, element, open);
+      return true;
+    }
+    return false;
+  }
+
+  selectionTarget(): SelectionTarget | null {
+    if (!this.selection || !this.active()) return null;
+    return {
+      kind: this.selection.kind === 'group' ? this.groupSelectionKind() : this.connectionSelectionKind(),
+      id: this.selection.id
+    };
   }
 
   clearSelection(): void {
     this.selection = null;
     this.syncConnectionEmphasis();
+  }
+
+  private applyGroupSelection(id: string, element: cytoscape.SingularElementReturnValue, open: boolean): void {
+    this.options.cy.elements().unselect();
+    element.select();
+    this.selection = { kind: 'group', id };
+    this.syncConnectionEmphasis();
+    this.renderGroup(id, open);
+  }
+
+  private applyConnectionSelection(id: string, element: cytoscape.SingularElementReturnValue, open: boolean): void {
+    this.options.cy.elements().unselect();
+    element.select();
+    this.selection = { kind: 'connection', id };
+    this.syncConnectionEmphasis();
+    this.renderConnection(id, open);
   }
 
   private edgeIncluded(edge: GraphEdge, visibleNodeIds: ReadonlySet<string>): boolean {
@@ -208,6 +264,7 @@ export class StructureOverlayController {
     if (!element || element.empty()) {
       this.selection = null;
       if (this.structureDetailsVisible()) this.renderIntroduction(false);
+      this.options.onSelectionChange(null, 'replace');
       return;
     }
     element.select();
@@ -261,9 +318,9 @@ export class StructureOverlayController {
       .slice(0, 8);
     const bridges = group.bridgeConcepts.slice(0, 10);
     renderHtml(byId('detailTitle'), `${escapeHtml(group.label)} — ${noun} structure`);
-    renderHtml(byId('detailEditLink'), '');
+    this.renderSelectionHeaderActions();
     renderHtml(byId('detailBody'), `
-      <p>This label is anchored at the mean Layered position of the currently visible concepts whose primary ${noun} is <strong>${escapeHtml(group.label)}</strong>, with deterministic collision avoidance when large labels would overlap.</p>
+      <p>This label begins at a deterministic Layered anchor for the currently visible concepts whose primary ${noun} is <strong>${escapeHtml(group.label)}</strong>, then moves only as needed to avoid label collisions.</p>
       <dl class="structure-overlay-stats">
         <div><dt>Concepts</dt><dd>${group.conceptCount}</dd></div>
         <div><dt>Internal relations</dt><dd>${group.internalRelations}</dd></div>
@@ -303,7 +360,7 @@ export class StructureOverlayController {
       .sort((left, right) => left.label.localeCompare(right.label))
       .slice(0, 12);
     renderHtml(byId('detailTitle'), `${escapeHtml(source?.label ?? connection.source)} → ${escapeHtml(target?.label ?? connection.target)}`);
-    renderHtml(byId('detailEditLink'), '');
+    this.renderSelectionHeaderActions();
     renderHtml(byId('detailBody'), `
       <p>This aggregate arrow preserves the direction of every underlying relation. Its thickness encodes the number of currently visible relations.</p>
       <dl class="structure-overlay-stats">
@@ -327,6 +384,15 @@ export class StructureOverlayController {
   }
 
   private bindDetailActions(): void {
+    const shareButton = document.getElementById('detailShareButton');
+    shareButton?.addEventListener('click', async (event) => {
+      event.preventDefault();
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+      } catch {
+        window.prompt('Copy permalink:', window.location.href);
+      }
+    });
     byId('detailBody').querySelectorAll<HTMLElement>('[data-structure-node]').forEach((button) => {
       button.addEventListener('click', () => {
         const nodeId = button.dataset.structureNode;
@@ -361,6 +427,14 @@ export class StructureOverlayController {
     byId('detailBody').dataset.structureOverlay = '1';
   }
 
+  private renderSelectionHeaderActions(): void {
+    renderHtml(byId('detailEditLink'), `<div class="detail-header-actions">
+      <a href="#" class="detail-header-action" id="detailShareButton" aria-label="Copy permalink" title="Copy permalink">
+        <span class="material-icons" aria-hidden="true">share</span>
+      </a>
+    </div>`);
+  }
+
   private structureDetailsVisible(): boolean {
     return byId('detailBody').dataset.structureOverlay === '1';
   }
@@ -371,6 +445,30 @@ export class StructureOverlayController {
 
   private connection(id: string): SemanticMapConnection | undefined {
     return this.mapData.connections.find((candidate) => candidate.id === id);
+  }
+
+  private groupSelectionKind(): 'domain' | 'field' {
+    return this.options.state.layout === 'fields' ? 'field' : 'domain';
+  }
+
+  private connectionSelectionKind(): 'domain-edge' | 'field-edge' {
+    return this.options.state.layout === 'fields' ? 'field-edge' : 'domain-edge';
+  }
+
+  private domainLevelAnchor(groupId: string, conceptIds: readonly string[]): Point | undefined {
+    const { cy, model } = this.options;
+    const visibleDomains = new Set(cy.nodes().not('.filter-hidden')
+      .map((element) => model.nodeRecord.get(element.id()))
+      .filter((node): node is GraphNode => Boolean(node && node.kind === 'structure'))
+      .map((node) => node.primaryDomain));
+    const visibleDomainIds = model.domainOrder.filter((domainId) => visibleDomains.has(domainId));
+    const records = conceptIds
+      .map((nodeId) => model.nodeRecord.get(nodeId))
+      .filter((node): node is GraphNode => Boolean(node && node.kind === 'structure'));
+    return domainLevelAnchor(groupId, visibleDomainIds, records, (nodeId) => {
+      const element = cy.getElementById(nodeId);
+      return element && !element.empty() ? element.position() : undefined;
+    }) ?? undefined;
   }
 
   private groupElementId(groupId: string): string {

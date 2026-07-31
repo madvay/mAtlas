@@ -8,11 +8,18 @@ import { decodeFilterToken } from '../../.test-build/state/filter-token.js';
 test('selection location codecs accept only known graph identifiers', () => {
   const nodes = new Set(['set', 'group with space']);
   const edges = new Set(['e1']);
+  const domains = new Set(['set-theory', 'logic']);
+  const fields = new Set(['mathematics', 'physics']);
   assert.deepEqual(selectionFromPath('/concepts/set/', nodes), { kind: 'node', id: 'set' });
   assert.deepEqual(selectionFromPath('/concepts/group%20with%20space/index.html', nodes), { kind: 'node', id: 'group with space' });
   assert.equal(selectionFromPath('/concepts/missing/', nodes), null);
-  assert.deepEqual(selectionFromParams(new URLSearchParams('node=set&edge=e1'), nodes, edges), { kind: 'node', id: 'set' });
-  assert.deepEqual(selectionFromParams(new URLSearchParams('edge=e1'), nodes, edges), { kind: 'edge', id: 'e1' });
+  assert.deepEqual(selectionFromParams(new URLSearchParams('node=set&edge=e1'), nodes, edges, domains, fields), { kind: 'node', id: 'set' });
+  assert.deepEqual(selectionFromParams(new URLSearchParams('edge=e1'), nodes, edges, domains, fields), { kind: 'edge', id: 'e1' });
+  assert.deepEqual(selectionFromParams(new URLSearchParams('domain=set-theory'), nodes, edges, domains, fields), { kind: 'domain', id: 'set-theory' });
+  assert.deepEqual(selectionFromParams(new URLSearchParams('field=physics'), nodes, edges, domains, fields), { kind: 'field', id: 'physics' });
+  assert.deepEqual(selectionFromParams(new URLSearchParams('domain-edge=set-theory%2D%3Elogic'), nodes, edges, domains, fields), { kind: 'domain-edge', id: 'set-theory->logic' });
+  assert.deepEqual(selectionFromParams(new URLSearchParams('field-edge=mathematics%2D%3Ephysics'), nodes, edges, domains, fields), { kind: 'field-edge', id: 'mathematics->physics' });
+  assert.equal(selectionFromParams(new URLSearchParams('domain-edge=set-theory%2D%3Emissing'), nodes, edges, domains, fields), null);
   assert.equal(selectionFromTemplate('node:missing', nodes, edges), null);
 });
 
@@ -375,6 +382,40 @@ test('comparison workspace state survives selection and filter URL rewrites', ()
     assert.equal(written.searchParams.get('comparePath'), '1');
     assert.ok(written.searchParams.get('filter'));
     assert.ok(written.searchParams.get('disp'));
+  } finally {
+    browser.restore();
+  }
+});
+
+test('structure selections use ordinary URL history parameters and preserve display state', () => {
+  const browser = installBrowser('https://atlas.madvay.com/');
+  try {
+    const state = matchingState();
+    state.layout = 'domains';
+    state.selectedDomains.add('geometry');
+    const model = modelFixture();
+    model.data.domains.geometry = { field: 'physics', label: 'Geometry' };
+    model.knownDomainIds.add('geometry');
+    const controller = new LocationController({
+      model,
+      getState: () => state,
+      views: new Map([[view.id, view]]),
+      fieldOrder: ['physics'],
+      domainOrder: ['experiments', 'geometry'],
+      edgeTypeOrder: ['motivated', 'verified'],
+      shareCodec: { ...shareCodec, domains: [{ id: 'experiments' }, { id: 'geometry' }] }
+    });
+
+    controller.write({ kind: 'domain', id: 'experiments' }, 'push');
+    const domainUrl = new URL(browser.writtenUrl());
+    assert.equal(domainUrl.searchParams.get('domain'), 'experiments');
+    assert.equal(domainUrl.searchParams.has('node'), false);
+    assert.equal(decodeDisplayToken(domainUrl.searchParams.get('disp')).layout, 'domains');
+
+    controller.write({ kind: 'domain-edge', id: 'experiments->geometry' }, 'push');
+    const edgeUrl = new URL(browser.writtenUrl());
+    assert.equal(edgeUrl.searchParams.get('domain-edge'), 'experiments->geometry');
+    assert.equal(edgeUrl.searchParams.has('domain'), false);
   } finally {
     browser.restore();
   }

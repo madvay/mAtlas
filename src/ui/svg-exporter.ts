@@ -89,8 +89,10 @@ export class SvgExporter {
     const headerHeight = 68;
     const minX = box.x1 - margin;
     const minY = box.y1 - margin - headerHeight;
-    const graphWidth = (box.w + margin * 2) * 0.5;
-    const graphHeight = (box.h + margin * 2) * 0.5;
+    const structureMode = this.state.layout === 'domains' || this.state.layout === 'fields';
+    const graphScale = structureMode ? 0.125 : 0.5;
+    const graphWidth = (box.w + margin * 2) * graphScale;
+    const graphHeight = (box.h + margin * 2) * graphScale;
     const width = Math.max(minimumWidth, graphWidth);
     const height = headerHeight + graphHeight;
     const graphOriginX = minX;
@@ -111,7 +113,7 @@ export class SvgExporter {
     parts.push(`<text x="${minX + 86}" y="${minY + 28}" font-family="${escapeHtml(this.fontFamily)}" font-size="20" font-weight="700" fill="#172033">Atlas of Fundamental Concepts</text>`);
     parts.push(`<text x="${minX + 86}" y="${minY + 46}" font-family="${escapeHtml(this.fontFamily)}" font-size="11" fill="#475569"><a href="https://atlas.madvay.com" xlink:href="https://atlas.madvay.com">https://atlas.madvay.com</a> · © 2026 Advay Mengle · <a href="https://creativecommons.org/licenses/by-sa/4.0/" xlink:href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></text>`);
     parts.push(`<text x="${minX + 86}" y="${minY + 62}" font-family="${escapeHtml(this.fontFamily)}" font-size="9" fill="#64748b">${escapeHtml(exportNote)}</text>`);
-    parts.push(`<g transform="translate(${graphOriginX} ${graphOriginY}) scale(0.5) translate(${-graphOriginX} ${-graphOriginY})">`);
+    parts.push(`<g transform="translate(${graphOriginX} ${graphOriginY}) scale(${graphScale}) translate(${-graphOriginX} ${-graphOriginY})">`);
     parts.push(`<rect x="${minX}" y="${minY + headerHeight}" width="${graphOriginalWidth}" height="${graphOriginalHeight}" fill="url(#grid)"/>`);
 
     visibleEdges.forEach((element) => {

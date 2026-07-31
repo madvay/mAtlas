@@ -41,6 +41,7 @@ export interface SemanticMapInput {
   fieldForDomain: (domainId: string) => string;
   primaryFieldForNode: (node: GraphNode) => string;
   positionForNode?: (nodeId: string) => Point | undefined;
+  anchorForGroup?: (groupId: string, conceptIds: readonly string[]) => Point | undefined;
 }
 
 function groupId(scale: SemanticMapScale, node: GraphNode, primaryFieldForNode: (node: GraphNode) => string): string {
@@ -104,6 +105,36 @@ function centroid(conceptIds: readonly string[], positionForNode: (nodeId: strin
     count += 1;
   }
   return count > 0 ? { x: x / count, y: y / count } : null;
+}
+
+export function domainLevelAnchor(
+  groupId: string,
+  visibleDomainIds: readonly string[],
+  nodes: readonly GraphNode[],
+  positionForNode: (nodeId: string) => Point | undefined
+): Point | null {
+  const ordinaryDomainIds = visibleDomainIds
+    .filter((domainId) => domainId !== 'set-theory' && domainId !== 'physical-foundations');
+  const ordinaryIndex = ordinaryDomainIds.indexOf(groupId);
+  const useCentered = true || (groupId !== 'set-theory' && groupId !== 'physical-foundations');
+  if (useCentered) {
+    const structureNodes = nodes.filter((node) => node.kind === 'structure' && node.primaryDomain === groupId);
+    if (!structureNodes.length) return null;
+    return centroid(structureNodes.map((node) => node.id), positionForNode);
+  }
+  const useLowest = groupId === 'set-theory'
+    || groupId === 'physical-foundations'
+    || ordinaryIndex < 0
+    || ordinaryIndex % 2 === 0;
+  const structureNodes = nodes.filter((node) => node.kind === 'structure');
+  if (!structureNodes.length) return null;
+  const level = useLowest
+    ? Math.min(...structureNodes.map((node) => node.level))
+    : Math.max(...structureNodes.map((node) => node.level));
+  return centroid(
+    structureNodes.filter((node) => node.level === level).map((node) => node.id),
+    positionForNode
+  );
 }
 
 export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
@@ -181,9 +212,10 @@ export function buildSemanticMap(input: SemanticMapInput): SemanticMapData {
     const bridgeConcepts = [...(bridgeCounts.get(id) ?? new Map<string, number>())]
       .map(([nodeId, count]) => ({ nodeId, count }))
       .sort((left, right) => right.count - left.count || left.nodeId.localeCompare(right.nodeId));
-    const position = input.positionForNode
-      ? centroid(conceptIds, input.positionForNode) ?? fallbackPositions.get(id) ?? { x: 0, y: 0 }
-      : fallbackPositions.get(id) ?? { x: 0, y: 0 };
+    const position = input.anchorForGroup?.(id, conceptIds)
+      ?? (input.positionForNode
+        ? centroid(conceptIds, input.positionForNode) ?? fallbackPositions.get(id) ?? { x: 0, y: 0 }
+        : fallbackPositions.get(id) ?? { x: 0, y: 0 });
     return {
       id,
       label: definition?.label ?? id,

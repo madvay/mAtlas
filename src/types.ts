@@ -230,8 +230,16 @@ export interface LabelMetrics {
   maxHeight: number;
 }
 
+export type SelectionKind =
+  | 'node'
+  | 'edge'
+  | 'domain'
+  | 'field'
+  | 'domain-edge'
+  | 'field-edge';
+
 export interface SelectionTarget {
-  kind: 'node' | 'edge';
+  kind: SelectionKind;
   id: string;
 }
 
