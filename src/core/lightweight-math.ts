@@ -30,8 +30,9 @@ const SUBSCRIPTS: Readonly<Record<string, string>> = {
 
 function script(value: string, marker: '^' | '_'): string {
   const table = marker === '^' ? SUPERSCRIPTS : SUBSCRIPTS;
-  const converted = [...value].map((character) => table[character]).join('');
-  return converted.length === value.length ? converted : `${marker}(${value})`;
+  const characters = [...value];
+  if (!characters.every((character) => table[character] !== undefined)) return `${marker}(${value})`;
+  return characters.map((character) => table[character]).join('');
 }
 
 function styled(command: string, value: string): string {
@@ -68,8 +69,8 @@ export function lightweightLatexToUnicode(latex: string): string {
     .replace(/\\(mathbb|mathfrak|mathcal)\s*\{?([A-Za-z]+)\}?/g, (_match, command: string, body: string) => styled(command, body))
     .replace(/\\mathit\s*\{([^{}]*)\}/g, '$1')
     .replace(/\\([A-Za-z]+)/g, (match, name: string) => SYMBOLS[name] ?? match.slice(1))
-    .replace(/\^\{([^{}]+)\}|\^([^\s])/g, (_match, group: string, single: string) => script(group ?? single, '^'))
-    .replace(/_\{([^{}]+)\}|_([^\s])/g, (_match, group: string, single: string) => script(group ?? single, '_'))
+    .replace(/\^\{([^{}]+)\}|\^([^\s])/gu, (_match, group: string, single: string) => script(group ?? single, '^'))
+    .replace(/_\{([^{}]+)\}|_([^\s])/gu, (_match, group: string, single: string) => script(group ?? single, '_'))
     .replace(/\\(?:,|;|:|!|quad|qquad)/g, ' ')
     .replace(/\\([{}_|])/g, '$1')
     .replace(/[{}]/g, '')

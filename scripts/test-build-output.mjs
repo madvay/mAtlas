@@ -205,6 +205,10 @@ for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)
 for (const node of graphData.nodes.filter((candidate) => candidate.kind === 'structure')) {
   const html = await readFile(new URL(`concepts/${encodeURIComponent(node.id)}/index.html`, dist), 'utf8');
   assertCacheRecovery(html, `Static concept page ${node.id}`);
+  if (html.includes('�')) throw new Error(`Static concept page ${node.id} contains a Unicode replacement character.`);
+  if (node.id === 'epsilon_zero' && !html.includes('<meta name="description" content="The least nonzero fixed point of ordinal exponentiation 𝛼↦𝜔^(𝛼).">')) {
+    throw new Error('The epsilon-zero concept page has an incorrect crawlable description.');
+  }
 }
 
 for (const domainId of graphData.meta.domainOrder ?? Object.keys(graphData.domains)) {

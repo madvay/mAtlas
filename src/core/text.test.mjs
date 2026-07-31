@@ -10,4 +10,6 @@ test('citation and inline-math text normalization preserves prose', () => {
   assert.equal(stripInlineMathText('A $G$-action'), 'A 𝐺-action');
   assert.equal(summarizePlainText('  A   $G$-action  ', 100), 'A 𝐺-action');
   assert.equal(summarizePlainText('abcdefghij', 6), 'abcde…');
+  assert.equal(summarizePlainText('abcd$\\alpha$zz', 6), 'abcd𝛼…');
+  assert.equal(Buffer.from(summarizePlainText('abcd$\\alpha$zz', 6)).toString('utf8'), 'abcd𝛼…');
 });

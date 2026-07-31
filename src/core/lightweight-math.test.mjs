@@ -14,6 +14,13 @@ test('converts common symbols, styled alphabets, operators, scripts, roots, and 
   assert.equal(lightweightLatexToUnicode('W^\\pm'), '𝑊^(±)');
   assert.equal(lightweightLatexToUnicode('2P_{1/2}'), '2𝑃_(1/2)');
   assert.equal(lightweightLatexToUnicode('\\sqrt[3]{x} \\mapsto \\aleph_0'), '√[3](𝑥) ↦ ℵ₀');
+  assert.equal(lightweightLatexToUnicode('\\alpha\\mapsto\\omega^\\alpha'), '𝛼↦𝜔^(𝛼)');
+});
+
+test('keeps astral mathematical symbols well-formed in scripts and inline text', () => {
+  const summary = replaceInlineLatexWithUnicode('The least nonzero fixed point of ordinal exponentiation $\\alpha\\mapsto\\omega^\\alpha$.');
+  assert.equal(summary, 'The least nonzero fixed point of ordinal exponentiation 𝛼↦𝜔^(𝛼).');
+  assert.equal(Buffer.from(summary).toString('utf8'), summary);
 });
 
 test('build scripts load the canonical TypeScript lightweight renderer', () => {

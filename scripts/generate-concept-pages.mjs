@@ -1,6 +1,9 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { escapeHtml, renderInlineMath, stripInlineMath } from './inline-math.mjs';
 import { minifyHtml } from './minify-html.mjs';
+import { importTypeScriptModule } from './import-typescript-module.mjs';
+
+const { summarizePlainText } = await importTypeScriptModule(new URL('../src/core/text.ts', import.meta.url));
 
 const SITE_ORIGIN = 'https://atlas.madvay.com';
 
@@ -22,9 +25,7 @@ function domainPath(graphData, domainId) {
 }
 
 function summarize(text, maxLength = 240) {
-  const normalized = stripInlineMath(text).replace(/\s+/g, ' ').trim();
-  if (normalized.length <= maxLength) return normalized;
-  return `${normalized.slice(0, Math.max(0, maxLength - 1)).trimEnd()}...`;
+  return summarizePlainText(String(text ?? ''), maxLength);
 }
 
 function replaceFirst(html, pattern, replacement) {
@@ -70,7 +71,7 @@ function nodeJsonLd({ node, graphData, canonicalUrl, description }) {
     '@context': 'https://schema.org',
     '@type': 'DefinedTerm',
     '@id': canonicalUrl,
-    name: stripInlineMath(node.label),
+    name: summarize(node.label),
     description,
     url: canonicalUrl,
     identifier: node.id,
@@ -110,7 +111,7 @@ function renderStaticLinkSection(graphData, node) {
 function renderConceptPage(templateHtml, { graphData, node }) {
   const canonicalUrl = appUrl(conceptPath(node.id));
   const description = summarize(node.summary || graphData.meta.description);
-  const pageTitle = `${stripInlineMath(node.label)} — ${graphData.meta.title}`;
+  const pageTitle = `${summarize(node.label)} — ${graphData.meta.title}`;
   let html = templateHtml;
   html = replaceFirst(html, /<title>[^<]*<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`);
   html = replaceFirst(html, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeHtml(description)}">`);
@@ -212,7 +213,7 @@ function renderScopeFallback(graphData, fieldId, domainId = null) {
       .filter((node) => node.kind === 'structure' && nodeDomainIds(node).includes(domainId))
       .sort((left, right) => stripInlineMath(left.label).localeCompare(stripInlineMath(right.label)))
     : [];
-  const conceptLinks = concepts.map((node) => `<li><a href="/${conceptPath(node.id)}">${escapeHtml(stripInlineMath(node.label))}</a></li>`).join('');
+  const conceptLinks = concepts.map((node) => `<li><a href="/${conceptPath(node.id)}">${escapeHtml(summarize(node.label))}</a></li>`).join('');
   const currentDomain = domainId ? graphData.domains[domainId] : null;
   return `<noscript>
   <section class="noscript-scope-directory">
@@ -235,7 +236,7 @@ function scopePageJsonLd(graphData, fieldId, domainId = null, domainImage = null
       .map((node, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        name: stripInlineMath(node.label),
+        name: summarize(node.label),
         url: appUrl(conceptPath(node.id))
       }))
     : orderedIds(graphData.meta.domainOrder, graphData.domains)

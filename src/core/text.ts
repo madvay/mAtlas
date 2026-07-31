@@ -37,6 +37,7 @@ export function hasInlineMathText(text: unknown): boolean {
 
 export function summarizePlainText(text: string, maxLength = 240): string {
   const normalized = stripInlineMathText(text).replace(/\s+/g, ' ').trim();
-  if (normalized.length <= maxLength) return normalized;
-  return `${normalized.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
+  const characters = [...normalized];
+  if (characters.length <= maxLength) return normalized;
+  return `${characters.slice(0, Math.max(0, maxLength - 1)).join('').trimEnd()}…`;
 }
