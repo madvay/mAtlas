@@ -22,6 +22,12 @@ function graph(nodes, edges, edgeTypes = {
       physics: { field: 'physics' },
       chemistry: { field: 'chemistry' }
     },
+    layout: {
+      verticalBands: [
+        { id: 'formal', fields: ['mathematics'] },
+        { id: 'scientific', fields: ['physics', 'chemistry'], after: 'formal', gap: 4 }
+      ]
+    },
     edgeTypes,
     levelPolicy: {
       globalMinimum: { level: 0, nodeIds: ['set'] },
@@ -83,7 +89,7 @@ test('monotonic projection preserves editorial slack and raises only violations'
   assert.deepEqual(forcingChain(projection, 'math_grandchild').map((step) => step.kind === 'edge' ? step.edge.id : step.kind), ['child-grandchild']);
 });
 
-test('outgoing enforcement reverses the declared edge for level precedence', () => {
+test('outgoing enforcement reverses the declared edge for predecessor levels', () => {
   const reverseNodes = [
     ...nodes,
     { id: 'general_model', primaryField: 'mathematics', primaryDomain: 'math', level: 2 },
@@ -108,6 +114,41 @@ test('outgoing enforcement reverses the declared edge for level precedence', () 
     predecessorLevel: 6,
     successorLevel: 7
   }]);
+});
+
+test('an earlier-to-later vertical-band edge is already predecessor-correct regardless of raw levels', () => {
+  const crossBandEdges = [
+    ...edges,
+    { id: 'math-formulates-physics', source: 'math_child', target: 'physical_theory', type: 'structural' }
+  ];
+  const projection = computeMonotonicLevels(graph(nodes, crossBandEdges));
+  assert.equal(projection.levels.get('physical_theory'), 1);
+  assert.deepEqual(authoredLevelErrors(graph(nodes, crossBandEdges)), [
+    'Node math_grandchild has level 2; configured predecessor math_child is level 4 on structural edge child-grandchild (incoming), so math_grandchild must be at least 5. Run npm run levels:fix.'
+  ]);
+  assert.equal(projection.model.crossBandPredecessorConstraints.length, 1);
+});
+
+test('a later-to-earlier vertical-band predecessor edge is rejected as a band-order contradiction', () => {
+  const reverseBandEdges = [
+    ...edges,
+    { id: 'physics-before-math', source: 'physical_theory', target: 'math_child', type: 'structural' }
+  ];
+  assert.throws(
+    () => computeMonotonicLevels(graph(nodes, reverseBandEdges)),
+    /requires physical_theory in later vertical band scientific to be below math_child in earlier band formal/
+  );
+});
+
+test('raw predecessor levels remain enforced across fields in the same vertical band', () => {
+  const sameBandNodes = structuredClone(nodes);
+  sameBandNodes.find((node) => node.id === 'chemistry_child').level = 2;
+  const sameBandEdges = [
+    ...edges,
+    { id: 'physics-before-chemistry', source: 'physics_child', target: 'chemistry_child', type: 'structural' }
+  ];
+  const projection = computeMonotonicLevels(graph(sameBandNodes, sameBandEdges));
+  assert.equal(projection.levels.get('chemistry_child'), 9);
 });
 
 test('missing, none, and empty enforcement values impose no level relation', () => {

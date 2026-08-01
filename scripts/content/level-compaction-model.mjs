@@ -37,7 +37,7 @@ export function compactDomainLevels(graph, domainId) {
 
   const validationErrors = authoredLevelErrors(graph);
   if (validationErrors.length) {
-    throw new Error(`Cannot compact domain ${domainId} while authored levels violate precedence:\n- ${validationErrors.join('\n- ')}`);
+    throw new Error(`Cannot compact domain ${domainId} while authored levels violate predecessor constraints:\n- ${validationErrors.join('\n- ')}`);
   }
 
   const nodes = primaryDomainNodes(graph, domainId);

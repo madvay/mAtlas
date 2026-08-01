@@ -58,6 +58,91 @@ function normalizeEnforcement(value, label) {
   return value;
 }
 
+function normalizeVerticalBands(graph, nodes) {
+  const bands = graph?.layout?.verticalBands;
+  if (!Array.isArray(bands) || !bands.length) {
+    throw new Error('Level modeling requires graph.layout.verticalBands.');
+  }
+
+  const bandById = new Map();
+  const bandByField = new Map();
+  for (const band of bands) {
+    if (!band || typeof band !== 'object' || Array.isArray(band) || typeof band.id !== 'string' || !band.id) {
+      throw new Error('Every vertical band must have a non-empty string id.');
+    }
+    if (bandById.has(band.id)) throw new Error(`Vertical band id ${band.id} is duplicated.`);
+    if (!Array.isArray(band.fields) || !band.fields.length) {
+      throw new Error(`Vertical band ${band.id} must contain at least one field.`);
+    }
+    if (band.after !== undefined && (typeof band.after !== 'string' || !band.after)) {
+      throw new Error(`Vertical band ${band.id} after must be a non-empty string when provided.`);
+    }
+    if (band.gap !== undefined && (!Number.isFinite(band.gap) || band.gap < 0)) {
+      throw new Error(`Vertical band ${band.id} gap must be a non-negative number.`);
+    }
+    const normalized = {
+      id: band.id,
+      fields: [...band.fields],
+      after: band.after,
+      gap: band.gap ?? 0
+    };
+    bandById.set(band.id, normalized);
+    for (const fieldId of normalized.fields) {
+      if (typeof fieldId !== 'string' || !fieldId) throw new Error(`Vertical band ${band.id} contains an invalid field id.`);
+      if (bandByField.has(fieldId)) throw new Error(`Primary field ${fieldId} is assigned to more than one vertical band.`);
+      bandByField.set(fieldId, band.id);
+    }
+  }
+
+  for (const fieldId of Object.keys(graph?.fields ?? {})) {
+    if (!bandByField.has(fieldId)) throw new Error(`Primary field ${fieldId} is not assigned to a vertical band.`);
+  }
+
+  for (const band of bandById.values()) {
+    if (band.after !== undefined && !bandById.has(band.after)) {
+      throw new Error(`Vertical band ${band.id} follows unknown band ${String(band.after)}.`);
+    }
+  }
+
+  const visiting = new Set();
+  const visited = new Set();
+  const visit = (bandId, path) => {
+    if (visiting.has(bandId)) {
+      const cycleStart = path.indexOf(bandId);
+      throw new Error(`Vertical band cycle detected: ${[...path.slice(cycleStart), bandId].join(' -> ')}.`);
+    }
+    if (visited.has(bandId)) return;
+    visiting.add(bandId);
+    const after = bandById.get(bandId)?.after;
+    if (after !== undefined) visit(after, [...path, bandId]);
+    visiting.delete(bandId);
+    visited.add(bandId);
+  };
+  for (const bandId of bandById.keys()) visit(bandId, []);
+
+  const bandByNode = new Map();
+  for (const node of nodes) {
+    const fieldId = primaryField(node, graph);
+    const bandId = bandByField.get(fieldId);
+    if (!bandId) throw new Error(`Node ${node.id} has primary field ${String(fieldId)}, which is not assigned to a vertical band.`);
+    bandByNode.set(node.id, bandId);
+  }
+
+  const gapFromEarlierBand = (earlierBandId, laterBandId) => {
+    let current = laterBandId;
+    let gap = 0;
+    while (current !== earlierBandId) {
+      const band = bandById.get(current);
+      if (!band || band.after === undefined) return null;
+      gap += band.gap;
+      current = band.after;
+    }
+    return gap;
+  };
+
+  return { bandById, bandByField, bandByNode, gapFromEarlierBand };
+}
+
 function normalizePolicy(graph) {
   const nodes = Array.isArray(graph?.nodes) ? graph.nodes : [];
   const edges = Array.isArray(graph?.edges) ? graph.edges : [];
@@ -79,6 +164,7 @@ function normalizePolicy(graph) {
   for (const [type, edgeType] of Object.entries(edgeTypes)) {
     enforcementByType.set(type, normalizeEnforcement(edgeType?.enforcePredecessorLevel, `Edge type ${type} enforcePredecessorLevel`));
   }
+  const verticalBands = normalizeVerticalBands(graph, nodes);
 
   const exactLevels = new Map();
   const floors = new Map();
@@ -136,6 +222,7 @@ function normalizePolicy(graph) {
   const predecessors = new Map(nodes.map((node) => [node.id, []]));
   const indegree = new Map(nodes.map((node) => [node.id, 0]));
   const predecessorConstraints = [];
+  const crossBandPredecessorConstraints = [];
   for (const edge of edges) {
     if (!enforcementByType.has(edge?.type)) {
       throw new Error(`Level modeling edge ${String(edge?.id)} references unknown edge type ${String(edge?.type)}.`);
@@ -147,7 +234,28 @@ function normalizePolicy(graph) {
     }
     const predecessor = direction === 'incoming' ? edge.source : edge.target;
     const successor = direction === 'incoming' ? edge.target : edge.source;
-    const constraint = { edge, direction, predecessor, successor };
+    const predecessorBand = verticalBands.bandByNode.get(predecessor);
+    const successorBand = verticalBands.bandByNode.get(successor);
+    const constraint = { edge, direction, predecessor, successor, predecessorBand, successorBand };
+
+    if (predecessorBand !== successorBand) {
+      const forwardGap = verticalBands.gapFromEarlierBand(predecessorBand, successorBand);
+      if (forwardGap !== null) {
+        if (forwardGap <= 0) {
+          throw new Error(`Level predecessor edge ${String(edge.id)} runs from earlier vertical band ${predecessorBand} to later band ${successorBand}, but their configured cumulative gap is ${forwardGap}; a positive gap is required for strict predecessor levels.`);
+        }
+        crossBandPredecessorConstraints.push({ ...constraint, bandGap: forwardGap });
+        continue;
+      }
+
+      const reverseGap = verticalBands.gapFromEarlierBand(successorBand, predecessorBand);
+      if (reverseGap !== null) {
+        throw new Error(`Level predecessor edge ${String(edge.id)} requires ${predecessor} in later vertical band ${predecessorBand} to be below ${successor} in earlier band ${successorBand}. Reverse-band predecessor constraints cannot be repaired by changing raw levels.`);
+      }
+
+      throw new Error(`Level predecessor edge ${String(edge.id)} connects unordered vertical bands ${predecessorBand} and ${successorBand}. Add an explicit band order before enforcing predecessor levels across them.`);
+    }
+
     adjacency.get(predecessor).push(constraint);
     predecessors.get(successor).push(constraint);
     indegree.set(successor, indegree.get(successor) + 1);
@@ -166,11 +274,13 @@ function normalizePolicy(graph) {
     nodeById,
     enforcementByType,
     predecessorConstraints,
+    crossBandPredecessorConstraints,
     exactLevels,
     floors,
     adjacency,
     predecessors,
     indegree,
+    verticalBands,
     globalMinimum,
     primaryFieldMinima
   };

@@ -7,10 +7,17 @@ function graph(nodes, edges, edgeTypes = {
   ignored: { enforcePredecessorLevel: 'none' }
 }) {
   return {
-    fields: { mathematics: {} },
+    fields: { mathematics: {}, physics: {} },
     domains: {
       target: { field: 'mathematics', label: 'Target domain' },
-      outside: { field: 'mathematics', label: 'Outside domain' }
+      outside: { field: 'mathematics', label: 'Outside domain' },
+      'science-target': { field: 'physics', label: 'Science target domain' }
+    },
+    layout: {
+      verticalBands: [
+        { id: 'formal', fields: ['mathematics'] },
+        { id: 'scientific', fields: ['physics'], after: 'formal', gap: 4 }
+      ]
     },
     edgeTypes,
     levelPolicy: {
@@ -39,6 +46,16 @@ function secondaryDomainNode(id, level) {
     primaryField: 'mathematics',
     primaryDomain: 'outside',
     domains: ['outside', 'target']
+  };
+}
+
+function physicsNode(id, level) {
+  return {
+    id,
+    level,
+    primaryField: 'physics',
+    primaryDomain: 'science-target',
+    domains: ['science-target']
   };
 }
 
@@ -126,6 +143,22 @@ test('compact-domain honors outgoing predecessor enforcement while lowering', ()
   assert.equal(result.levels.get('general_model'), 3);
   assert.equal(result.stopped.blocked[0].blockers[0].constraint.predecessor, 'limiting_model');
   assert.equal(result.stopped.blocked[0].blockers[0].constraint.successor, 'general_model');
+});
+
+test('compact-domain ignores raw-level overlap with predecessors in an earlier vertical band', () => {
+  const result = compactDomainLevels(graph([
+    node('set', 0),
+    node('formalism', 20, 'outside'),
+    physicsNode('physical_base', 1),
+    physicsNode('physical_model', 3)
+  ], [
+    { id: 'formalism-model', source: 'formalism', target: 'physical_model', type: 'structural' }
+  ]), 'science-target');
+
+  assert.deepEqual(result.changes, [
+    { id: 'physical_model', current: 3, expected: 2 }
+  ]);
+  assert.equal(result.stopped, null);
 });
 
 test('compact-domain rejects unknown domains', () => {

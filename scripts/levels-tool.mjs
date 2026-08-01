@@ -35,7 +35,7 @@ function printCompactDomainResult(result, wrote, changedFileCount) {
   }
 
   if (result.stopped) {
-    console.log(`Stopped after the partial ${result.stopped.sourceLevel} -> ${result.stopped.targetLevel} move because ${result.stopped.blocked.length} concept${result.stopped.blocked.length === 1 ? '' : 's'} could not move without violating precedence:`);
+    console.log(`Stopped after the partial ${result.stopped.sourceLevel} -> ${result.stopped.targetLevel} move because ${result.stopped.blocked.length} concept${result.stopped.blocked.length === 1 ? '' : 's'} could not move without violating a predecessor constraint:`);
     for (const blocked of result.stopped.blocked) {
       console.log(`- ${blocked.nodeId}`);
       for (const blocker of blocked.blockers) printBlocker(blocker);
