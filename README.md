@@ -1,7 +1,8 @@
 # Atlas of Fundamental Concepts (mAtlas)
 
-[![Deploy GitHub Pages](https://github.com/madvay/mAtlas/actions/workflows/pages.yml/badge.svg)](https://github.com/madvay/mAtlas/actions/workflows/pages.yml)
+[![Deploy GitHub Pages](https://github.com/madvay/mAtlas/actions/workflows/pages.yml/badge.svg)](https://github.com/madvay/mAtlas/actions/workflows/pages.yml) 
 
+## https://atlas.madvay.com/
 An interactive, source-backed graph connecting concepts across fields of knowledge, combining mathematics, physics, and chemistry. The atlas is designed to support both human exploration and machine consumption. It is built from a single canonical graph dataset with a unified schema, rather than a collection of isolated applications.
 
 The atlas is one graph rather than a collection of isolated applications. Fields overlap on one global vertical scale, while domains occupy horizontal lanes that may be deliberately adjacent across fields; justified cross-field relations connect the resulting structure.
