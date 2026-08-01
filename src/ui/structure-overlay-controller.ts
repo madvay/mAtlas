@@ -389,6 +389,7 @@ export class StructureOverlayController {
           nodeHeight: metrics.height,
           labelFontSize: metrics.fontSize,
           textOutlineWidth: metrics.textOutlineWidth,
+          overlayTextOutlineWidth: metrics.selectedTextOutlineWidth,
           textWidth: metrics.textWidth,
           conceptCount: group.conceptCount
         },
