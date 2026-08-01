@@ -2,7 +2,7 @@ meta:
   title: Atlas of Fundamental Concepts
   # Content version must be updated on each change, fix for fixes, minor for content additions,
   # major for breaking schema change (i.e. content major == schema major version).
-  version: 2.1.0
+  version: 2.1.1
   description: A source-backed visual atlas connecting mathematics, physics, and fundamental chemistry from formal structures and physical law through chemical composition, bonding, reactivity, measurement, and radiochemical processes.
   direction: Smaller levels generally indicate less structure or composition; larger values generally indicate specialization, composition, effective description, collective organization, or emergence. Mathematics occupies the upper formal band. Physics and Chemistry share the lower scientific band. The order is ontological and structural, not pedagogical difficulty.
   scope: Mathematics; physics from classical and relativistic foundations through quantum, particle, nuclear, atomic, statistical, and condensed-matter organization; and chemistry from composition, atomic periodicity, molecular structure, thermodynamics, kinetics, measurement, inorganic and organic reactivity, electrochemistry, radiochemistry, and experimental evidence.
@@ -259,6 +259,21 @@ domains:
     color: "#991b1b"
     order: 212
     field: chemistry
+levelPolicy:
+  globalMinimum:
+    level: 0
+    nodeIds:
+      - set
+  primaryFieldMinima:
+    physics:
+      level: 1
+      nodeIds:
+        - physical_system
+        - physical_theory
+    chemistry:
+      level: 19
+      nodeIds:
+        - chemical_matter
 layout: ../layout.yaml
 removedDomains:
   - id: foundation
@@ -270,6 +285,7 @@ edgeTypes:
     short: + data
     description: Equip an existing carrier or structured object with additional chosen data, when such compatible data exists. Use a construction junction when several independently meaningful inputs must coexist on the same carrier or interact compatibly.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#2563eb"
     endpointLabels:
       source: Builds toward
@@ -281,6 +297,7 @@ edgeTypes:
     short: + axiom
     description: Keep the existing data and select the subclass satisfying an additional law, existence condition, finiteness condition, or other property.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#7c3aed"
     endpointLabels:
       source: Builds toward
@@ -339,6 +356,7 @@ edgeTypes:
     short: combine
     description: Feed several structures into a construction junction and impose compatibility between them.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#b45309"
     endpointLabels:
       source: Builds toward
@@ -386,6 +404,7 @@ edgeTypes:
     short: specializes
     description: A more specific theory, model, entity class, or regime is obtained by restricting or extending the scope of a broader framework.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#7c3aed"
     endpointLabels:
       source: Specializes to
@@ -398,6 +417,7 @@ edgeTypes:
     short: quantizes
     description: A classical system or field theory is used to construct a quantum theory through a stated quantization procedure. Quantization need not be unique and is not guaranteed to preserve every classical structure.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#6d28d9"
     endpointLabels:
       source: Quantizes to
@@ -434,6 +454,7 @@ edgeTypes:
     short: constitutes
     description: The source is a material constituent, structural component, or underlying quantum field whose excitation realizes the target physical system or particle. The edge label and detail must distinguish composition from field excitation; neither implies a simple classical sum of parts.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#b45309"
     endpointLabels:
       source: Constitutes / realizes
@@ -446,6 +467,7 @@ edgeTypes:
     short: classifies
     description: The target is a member or subtype of the broader source class.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#64748b"
     endpointLabels:
       source: Has subtype
@@ -470,6 +492,7 @@ edgeTypes:
     short: limit / approx
     description: The target is recovered from the source either in a stated mathematical or asymptotic limit, or through a quantitatively controlled approximation with identified small parameters or omitted terms. The edge label and detail must state which case applies and its regime of validity.
     prerequisiteTraversal: outgoing
+    enforcePredecessorLevel: incoming
     color: "#0f766e"
     endpointLabels:
       source: Has limiting / approximate regime
@@ -482,6 +505,7 @@ edgeTypes:
     short: effective
     description: The target retains the degrees of freedom and interactions relevant below a stated scale or within a stated regime, while higher-energy or unresolved degrees of freedom from the source are integrated out, coarse-grained, or encoded in effective couplings.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#047857"
     endpointLabels:
       source: Has effective description
@@ -494,6 +518,7 @@ edgeTypes:
     short: model / method
     description: The target is a model, idealization, restricted ansatz, approximation scheme, phenomenological fit, or historical representation used for the source system or theory. It need not have a universal small error parameter and is not thereby a controlled limit or effective theory. The edge label and detail must identify the precise status.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#4f46e5"
     endpointLabels:
       source: Has model / approximation
@@ -506,6 +531,7 @@ edgeTypes:
     short: emerges
     description: The target is a collective, organizational, or scale-dependent phenomenon of the source constituents and interactions; it is not a mere list or classical sum of constituents.
     prerequisiteTraversal: incoming
+    enforcePredecessorLevel: incoming
     color: "#15803d"
     endpointLabels:
       source: Gives rise collectively to
@@ -518,6 +544,7 @@ edgeTypes:
     short: state
     description: The target represents a state, property, observable, or state-dependent description associated with the source system or theory.
     prerequisiteTraversal: outgoing
+    enforcePredecessorLevel: incoming
     color: "#9333ea"
     endpointLabels:
       source: Has state / property description

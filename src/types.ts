@@ -1,6 +1,7 @@
 export type NodeKind = 'structure' | 'junction';
 export type LineStyle = 'solid' | 'dashed' | 'dotted';
 export type PrerequisiteTraversal = 'incoming' | 'outgoing' | 'both';
+export type LevelPredecessorEnforcement = 'incoming' | 'outgoing' | 'none' | '' | null;
 export type LayoutName = 'atlas' | 'breadthfirst' | 'domains' | 'fields';
 export type CrossFieldVisibility = 'contextual' | 'all' | 'hidden';
 export type HistoryMode = 'push' | 'replace' | null;
@@ -52,6 +53,7 @@ export interface EdgeTypeDefinition {
   short: string;
   description: MathText;
   prerequisiteTraversal: PrerequisiteTraversal;
+  enforcePredecessorLevel?: LevelPredecessorEnforcement;
   color: string;
   endpointLabels: {
     source: string;
@@ -77,6 +79,17 @@ export interface AtlasLayoutDefinition {
     gap?: number;
   }>;
   domainLanes: Record<string, number>;
+}
+
+
+export interface LevelAnchorDefinition {
+  level: number;
+  nodeIds: string[];
+}
+
+export interface LevelPolicyDefinition {
+  globalMinimum: LevelAnchorDefinition;
+  primaryFieldMinima: Record<string, LevelAnchorDefinition>;
 }
 
 export interface CombinationDefinition {
@@ -133,6 +146,7 @@ export interface GraphData {
   fields: Record<string, FieldDefinition>;
   domains: Record<string, DomainDefinition>;
   layout: AtlasLayoutDefinition;
+  levelPolicy?: LevelPolicyDefinition;
   edgeTypes: Record<string, EdgeTypeDefinition>;
   citationLegend?: Record<string, string>;
   sources: Record<string, SourceDefinition>;

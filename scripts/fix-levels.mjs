@@ -120,7 +120,7 @@ for (const change of changes) {
     if (step.kind === 'floor') {
       console.log(`    floor ${step.level}: ${step.reason}`);
     } else {
-      console.log(`    ${step.sourceId} (${step.sourceLevel}) --${step.edge.type} [${step.edge.id}]--> ${step.targetId} (${step.targetLevel})`);
+      console.log(`    ${step.predecessorId} (${step.predecessorLevel}) --${step.edge.type} [${step.edge.id}, ${step.direction}]--> ${step.successorId} (${step.successorLevel})`);
     }
   }
 }

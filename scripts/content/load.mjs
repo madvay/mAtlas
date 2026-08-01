@@ -179,6 +179,9 @@ async function loadStructuredGraphFromYaml(indexUrl) {
   if (!index.meta || typeof index.meta !== 'object' || Array.isArray(index.meta)) {
     throw new Error('content/concepts/index.yaml meta must be an object.');
   }
+  if (!index.levelPolicy || typeof index.levelPolicy !== 'object' || Array.isArray(index.levelPolicy)) {
+    throw new Error('content/concepts/index.yaml levelPolicy must be an object.');
+  }
   const fieldsList = indexedListToMap(index.fields, 'content/concepts/index.yaml fields');
   const domainsList = indexedListToMap(index.domains, 'content/concepts/index.yaml domains');
   const edgeTypesList = indexedListToMap(index.edgeTypes, 'content/concepts/index.yaml edgeTypes');
@@ -291,6 +294,7 @@ async function loadStructuredGraphFromYaml(indexUrl) {
       domains: domainsList.map,
       fields: fieldsList.map,
       edgeTypes: edgeTypesList.map,
+      levelPolicy: index.levelPolicy,
       layout,
       sources: sourcePart.sources,
       nodes,

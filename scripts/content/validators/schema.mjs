@@ -13,6 +13,7 @@ import {
 export const name = 'schema';
 
 const allowedPrerequisiteTraversals = new Set(['incoming', 'outgoing', 'both']);
+const allowedLevelPredecessorDirections = new Set(['incoming', 'outgoing', 'none']);
 
 export function validate(context) {
   const { graph, manifest, schema, viewsData } = context;
@@ -50,9 +51,21 @@ export function validate(context) {
   requireObject(errors, graph?.domains, 'graph.domains');
   requireObject(errors, graph?.layout, 'graph.layout');
   requireObject(errors, graph?.edgeTypes, 'graph.edgeTypes');
+  requireObject(errors, graph?.levelPolicy, 'graph.levelPolicy');
   requireObject(errors, graph?.sources, 'graph.sources');
   if (!Array.isArray(graph?.nodes)) errors.push('graph.nodes must be an array.');
   if (!Array.isArray(graph?.edges)) errors.push('graph.edges must be an array.');
+
+  const validateLevelAnchor = (anchor, path) => {
+    requireObject(errors, anchor, path);
+    requireInteger(errors, anchor?.level, `${path}.level`);
+    requireStringArray(errors, anchor?.nodeIds, `${path}.nodeIds`, { nonEmpty: true, unique: true });
+  };
+  validateLevelAnchor(graph?.levelPolicy?.globalMinimum, 'graph.levelPolicy.globalMinimum');
+  requireObject(errors, graph?.levelPolicy?.primaryFieldMinima, 'graph.levelPolicy.primaryFieldMinima');
+  for (const [fieldId, anchor] of entriesOrEmpty(graph?.levelPolicy?.primaryFieldMinima)) {
+    validateLevelAnchor(anchor, `graph.levelPolicy.primaryFieldMinima.${fieldId}`);
+  }
 
   for (const [id, field] of entriesOrEmpty(graph?.fields)) {
     const path = `graph.fields.${id}`;
@@ -116,6 +129,10 @@ export function validate(context) {
     for (const key of ['label', 'short', 'description', 'color', 'prerequisiteTraversal']) requireString(errors, edgeType?.[key], `${path}.${key}`);
     if (!allowedPrerequisiteTraversals.has(edgeType?.prerequisiteTraversal)) {
       errors.push(`${path}.prerequisiteTraversal must be incoming, outgoing, or both.`);
+    }
+    const levelDirection = edgeType?.enforcePredecessorLevel;
+    if (levelDirection !== undefined && levelDirection !== null && levelDirection !== '' && !allowedLevelPredecessorDirections.has(levelDirection)) {
+      errors.push(`${path}.enforcePredecessorLevel must be incoming, outgoing, none, or empty.`);
     }
     requireObject(errors, edgeType?.endpointLabels, `${path}.endpointLabels`);
     requireString(errors, edgeType?.endpointLabels?.source, `${path}.endpointLabels.source`);

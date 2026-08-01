@@ -8,7 +8,7 @@ then run `npm run content:build` to validate and compile the source into the sta
 
 ## Source files
 
-- `concepts/index.yaml`, `concepts/sources.yaml`, and `concepts/<field-id>/<domain-id>.yaml` — split canonical graph, taxonomy, relations, citations, and source metadata. Each edge type declares `prerequisiteTraversal`: `incoming` follows an edge from target to source, `outgoing` follows it from source to target, and `both` follows it in either direction. `removedDomains` entries in the index preserve retired domain URLs as build-generated redirects without exposing them in runtime graph JSON.
+- `concepts/index.yaml`, `concepts/sources.yaml`, and `concepts/<field-id>/<domain-id>.yaml` — split canonical graph, taxonomy, relations, citations, and source metadata. Each edge type declares `prerequisiteTraversal`: `incoming` follows an edge from target to source, `outgoing` follows it from source to target, and `both` follows it in either direction. Independently, optional `enforcePredecessorLevel` controls strict level precedence: `incoming` requires the declared source below the target, `outgoing` requires the declared target below the source, and `none`, omission, or an empty value imposes no level constraint. The index-level `levelPolicy` declares the global and primary-field minima. `removedDomains` entries preserve retired domain URLs as build-generated redirects without exposing them in runtime graph JSON.
 - `views/index.yaml` and `views/*.yaml` — split curated Story/View object definitions and editorial narratives.
 - `share-codec.yaml` — append-only permanent wire-slot registry for the compact `filter=` token only. It contains fields, domains, and edge types; display flags and enums live in software. Never reorder, delete, or reuse its slots; retire identifiers in place.
 - `schema.json` — machine-readable graph schema published with the content.
@@ -34,7 +34,7 @@ npm run test:content
 ```
 
 Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and
-renderer-compatibility layers. Semantic validation permits editorial spacing but requires every selected predecessor edge to increase strictly, enforces the editorial minima, and rejects cycles in that relation. The Chemistry layer enforces source diversity, evidence-edge orientation, shared-node ownership, and graph-connectivity floors. Compilation writes normalized files, including `share-codec.json`, and a
+renderer-compatibility layers. Semantic validation permits editorial spacing but requires every edge configured by `enforcePredecessorLevel` to increase strictly in the configured direction, enforces the YAML-declared editorial minima, and rejects cycles in that relation. The Chemistry layer enforces source diversity, evidence-edge orientation, shared-node ownership, and graph-connectivity floors. Compilation writes normalized files, including `share-codec.json`, and a
 hash-based `provenance.json` plus build-only `removed-domains.json` to `.build/content/`. Published hashed JSON files
 are produced only from that compiled directory and are served under the public
 `/content/` namespace; `/data/` is not emitted. YAML sources are assembled into
