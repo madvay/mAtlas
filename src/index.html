@@ -5,7 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Interactive, source-backed atlas connecting mathematics, physics, and chemistry across fields and scales.">
   <meta name="atlas:root" content="https://atlas.madvay.com/">
-  <meta name="theme-color" content="#0b2d78">
+  <meta name="theme-color" content="#f6f7f9">
+  <script>
+    (() => {
+      let preference = 'system';
+      try {
+        const value = JSON.parse(window.localStorage.getItem('human-knowledge-atlas:preferences:v1') || 'null');
+        if (value?.version === 1 && (value.theme === 'light' || value.theme === 'dark' || value.theme === 'system')) preference = value.theme;
+      } catch { /* use system */ }
+      const dark = preference === 'dark' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      const resolved = dark ? 'dark' : 'light';
+      document.documentElement.dataset.theme = resolved;
+      document.documentElement.dataset.themePreference = preference;
+      document.documentElement.style.colorScheme = resolved;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.content = dark ? '#0b1020' : '#f6f7f9';
+    })();
+  </script>
   <meta name="atlas:cache-bust-param" content="__atlas_refresh">
   <!-- atlas:cache-recovery -->
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -169,6 +185,7 @@
             <button id="preferencesReset" type="button" class="text-button">reset</button>
           </div>
           <div id="preferencesFilterSection" class="filter-section-body display-filter-controls">
+            <label class="select-row" for="themeSelect"><span>Theme</span><select id="themeSelect" class="select"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
             <label class="toggle-row"><input id="highResolutionToggle" type="checkbox" checked> High resolution</label>
             <label class="toggle-row"><input id="transitionsToggle" type="checkbox" checked> Fade transitions</label>
             <label class="toggle-row"><input id="animateGraphToggle" type="checkbox"> Animate graph</label>

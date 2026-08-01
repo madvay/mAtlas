@@ -1,9 +1,10 @@
-import type { Preferences } from '../types.js';
+import type { Preferences, ThemePreference } from '../types.js';
 
 export const PREFERENCES_STORAGE_KEY = 'human-knowledge-atlas:preferences:v1';
 
 export const DEFAULT_PREFERENCES: Readonly<Preferences> = Object.freeze({
   version: 1,
+  theme: 'dark',
   highResolution: true,
   transitions: true,
   animateGraph: false,
@@ -18,6 +19,10 @@ export const DEFAULT_PREFERENCES: Readonly<Preferences> = Object.freeze({
   experimentalFeatures: false
 });
 
+function parseTheme(value: unknown): ThemePreference {
+  return value === 'light' || value === 'dark' || value === 'system' ? value : 'dark';
+}
+
 export function parsePreferences(raw: string | null): Preferences {
   if (!raw) return { ...DEFAULT_PREFERENCES };
   try {
@@ -27,6 +32,7 @@ export function parsePreferences(raw: string | null): Preferences {
     if (candidate.version !== 1) return { ...DEFAULT_PREFERENCES };
     return {
       version: 1,
+      theme: parseTheme(candidate.theme),
       highResolution: typeof candidate.highResolution === 'boolean' ? candidate.highResolution : true,
       transitions: typeof candidate.transitions === 'boolean' ? candidate.transitions : true,
       animateGraph: typeof candidate.animateGraph === 'boolean' ? candidate.animateGraph : false,

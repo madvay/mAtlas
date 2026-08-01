@@ -7,6 +7,7 @@ test('preferences have performance-conscious defaults and their own storage name
   assert.deepEqual(parsePreferences(null), DEFAULT_PREFERENCES);
   assert.deepEqual(DEFAULT_PREFERENCES, {
     version: 1,
+    theme: 'dark',
     highResolution: true,
     transitions: true,
     animateGraph: false,
@@ -25,6 +26,7 @@ test('preferences have performance-conscious defaults and their own storage name
 
 test('preferences restore valid booleans and default missing values', () => {
   const preferences = parsePreferences(JSON.stringify({ version: 1, highResolution: true }));
+  assert.equal(preferences.theme, 'dark');
   assert.equal(preferences.highResolution, true);
   assert.equal(preferences.transitions, true);
   assert.equal(preferences.animateGraph, false);
@@ -34,11 +36,15 @@ test('preferences restore valid booleans and default missing values', () => {
   assert.equal(preferences.allowNodeMovement, false);
   assert.equal(preferences.highlightPrerequisites, false);
 
-  const enabled = parsePreferences(JSON.stringify({ version: 1, animateGraph: true, refitOnChange: false, overlayDomains: false, allowNodeMovement: true, highlightPrerequisites: true }));
+  const enabled = parsePreferences(JSON.stringify({ version: 1, theme: 'dark', animateGraph: true, refitOnChange: false, overlayDomains: false, allowNodeMovement: true, highlightPrerequisites: true }));
+  assert.equal(enabled.theme, 'dark');
   assert.equal(enabled.animateGraph, true);
   assert.equal(enabled.refitOnChange, false);
   assert.equal(enabled.overlayDomains, false);
   assert.equal(enabled.allowNodeMovement, true);
   assert.equal(enabled.highlightPrerequisites, true);
+
+  assert.equal(parsePreferences(JSON.stringify({ version: 1, theme: 'light' })).theme, 'light');
+  assert.equal(parsePreferences(JSON.stringify({ version: 1, theme: 'invalid' })).theme, 'dark');
 });
 

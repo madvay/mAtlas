@@ -176,8 +176,12 @@ export interface AppState {
   detailsOpen: boolean;
 }
 
+export type ThemePreference = 'system' | 'light' | 'dark';
+export type ResolvedTheme = Exclude<ThemePreference, 'system'>;
+
 export interface Preferences {
   version: 1;
+  theme: ThemePreference;
   highResolution: boolean;
   transitions: boolean;
   animateGraph: boolean;

@@ -9,7 +9,7 @@ import {
   type DomainSuppression
 } from '../state/taxonomy-selection.js';
 import type { GraphModel } from '../model/graph-model.js';
-import type { AppState, AtlasView, LayoutName, Preferences } from '../types.js';
+import type { AppState, AtlasView, LayoutName, Preferences, ThemePreference } from '../types.js';
 import { DEFAULT_PREFERENCES } from '../state/preferences.js';
 import { renderHtml } from './render.js';
 import { publicViewKind, viewCoreNodes } from '../state/view-state.js';
@@ -185,6 +185,7 @@ export class FilterControls {
     byId<HTMLSelectElement>('crossFieldSelect').value = state.crossFieldVisibility;
     byId<HTMLSelectElement>('layoutSelect').value = state.layout;
     const preferences = this.options.preferences();
+    byId<HTMLSelectElement>('themeSelect').value = preferences.theme;
     byId<HTMLInputElement>('highResolutionToggle').checked = preferences.highResolution;
     byId<HTMLInputElement>('transitionsToggle').checked = preferences.transitions;
     byId<HTMLInputElement>('animateGraphToggle').checked = preferences.animateGraph;
@@ -252,6 +253,11 @@ export class FilterControls {
     byId('preferencesReset').addEventListener('click', () => {
       this.options.setPreferences({ ...DEFAULT_PREFERENCES });
       this.syncPreferences();
+    });
+    byId<HTMLSelectElement>('themeSelect').addEventListener('change', (event) => {
+      const theme = (event.currentTarget as HTMLSelectElement).value as ThemePreference;
+      if (theme !== 'system' && theme !== 'light' && theme !== 'dark') return;
+      this.options.setPreferences({ ...this.options.preferences(), theme });
     });
     for (const id of ['highResolution', 'transitions', 'animateGraph', 'refitOnChange', 'motionBlur', 'indicateOtherDomains', 'overlayDomains', 'hideEdgesWhileMoving', 'allowNodeMovement', 'dimPrerequisites', 'highlightPrerequisites', 'experimentalFeatures'] as const) {
       byId<HTMLInputElement>(`${id}Toggle`).addEventListener('change', (event) => {

@@ -4,9 +4,10 @@ import { GraphModel } from '../model/graph-model.js';
 import { readCompareStateFromLocation, type CompareState } from '../state/compare-state.js';
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
+import { applyDocumentTheme, DARK_THEME_MEDIA_QUERY } from '../state/theme.js';
 import { viewCoreNodes, viewNodeSequence } from '../state/view-state.js';
 import { LabelSizer } from '../graph/label-sizer.js';
-import { applyRendererPreferences, createGraph } from '../graph/create-graph.js';
+import { applyGraphTheme, applyRendererPreferences, createGraph } from '../graph/create-graph.js';
 import { LayoutManager } from '../graph/layout-manager.js';
 import { GraphViewController } from '../graph/graph-view-controller.js';
 import { suppressAutomaticSelectionForCurrentTap } from '../graph/edge-interaction.js';
@@ -27,7 +28,7 @@ import { StructureOverlayController } from '../ui/structure-overlay-controller.j
 import { CompareController } from '../ui/compare-controller.js';
 import { SearchController } from '../ui/search-controller.js';
 import { LocationController } from './location-controller.js';
-import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
+import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, ResolvedTheme, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
 import { NodeSearchIndex, type NodeSearchResult } from '../core/search.js';
 import { fetchAtlasJson } from './data-loader.js';
@@ -105,7 +106,9 @@ export async function startAtlasApp(): Promise<void> {
   }
 
 
-  let preferences = staticAtlasSvgMode ? { ...DEFAULT_PREFERENCES } : readPreferences();
+  let preferences = staticAtlasSvgMode ? { ...DEFAULT_PREFERENCES, theme: 'light' as const } : readPreferences();
+  const systemThemeQuery = window.matchMedia(DARK_THEME_MEDIA_QUERY);
+  let resolvedTheme: ResolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
   const loadedUrlUiState: UrlUiState | null = staticAtlasSvgMode
     ? {
         fields: staticSvgFieldId ? [staticSvgFieldId] : fieldOrder,
@@ -170,7 +173,14 @@ export async function startAtlasApp(): Promise<void> {
   const mathRenderer = new MathRenderer();
   const renderMathText = (value: unknown): string => mathRenderer.renderText(value);
 
-  const cy = createGraph(graphEl, model, labelSizer, preferences);
+  const cy = createGraph(graphEl, model, labelSizer, preferences, resolvedTheme);
+  systemThemeQuery.addEventListener('change', () => {
+    if (preferences.theme !== 'system') return;
+    const nextTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
+    if (nextTheme === resolvedTheme) return;
+    resolvedTheme = nextTheme;
+    applyGraphTheme(cy, resolvedTheme);
+  });
   new IdleRenderController(cy, graphEl);
   const graphOverlayLayer = new GraphOverlayLayer(cy, graphEl, preferences);
   window.cy = cy;
@@ -401,8 +411,10 @@ export async function startAtlasApp(): Promise<void> {
       preferences = next;
       if (disableGraphAnimation) stopGraphAnimations();
       else if (disableRefit) viewportController.cancel();
+      resolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
       writePreferences();
       applyRendererPreferences(cy, preferences);
+      applyGraphTheme(cy, resolvedTheme);
       graphOverlayLayer.setPreferences(preferences);
       graphView.applyFilters({ relayout: false });
       structureOverlayController?.refresh();

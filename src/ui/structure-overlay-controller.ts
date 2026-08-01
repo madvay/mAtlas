@@ -7,6 +7,7 @@ import type { GraphModel } from '../model/graph-model.js';
 import type { AppState, GraphEdge, GraphNode, HistoryMode, LayoutName, Point, Preferences, SelectionTarget } from '../types.js';
 import { renderHtml } from './render.js';
 import { stripInlineMathText } from '../core/text.js';
+import { colorForDarkSurface } from '../core/color.js';
 
 interface StructureOverlayControllerOptions {
   model: GraphModel;
@@ -174,6 +175,7 @@ export class StructureOverlayController {
           label: group.label,
           canvasLabel: metrics.labelLines.join('\n'),
           color: group.color,
+          darkColor: colorForDarkSurface(group.color),
           nodeWidth: metrics.width,
           nodeHeight: metrics.height,
           labelFontSize: metrics.fontSize,
@@ -207,6 +209,7 @@ export class StructureOverlayController {
           arrowSize: metrics.arrowSize,
           curveDistance: metrics.curveDistance,
           structureColor: sourceGroup?.color ?? '#64748b',
+          darkStructureColor: colorForDarkSurface(sourceGroup?.color ?? '#64748b', 3),
           lineStyle: 'solid'
         }
       });
@@ -385,6 +388,7 @@ export class StructureOverlayController {
           label: group.label,
           canvasLabel: metrics.labelLines.join('\n'),
           color: group.color,
+          darkColor: colorForDarkSurface(group.color),
           nodeWidth: metrics.width,
           nodeHeight: metrics.height,
           labelFontSize: metrics.fontSize,

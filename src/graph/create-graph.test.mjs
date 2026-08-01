@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applyRendererPreferences, createGraphElements, graphStyles } from '../../.test-build/graph/create-graph.js';
+import { applyGraphTheme, applyRendererPreferences, createGraphElements, graphStyles } from '../../.test-build/graph/create-graph.js';
 
 function fakeGraph() {
   const renderer = { forcedPixelRatio: 1.5, motionBlurEnabled: false, motionBlur: false, hideEdgesOnViewport: true };
@@ -34,6 +34,24 @@ function fakeGraph() {
     }
   };
 }
+
+
+test('graph theme swaps neutral surfaces and derived dark edge colors without changing authored node fills', () => {
+  const fixture = fakeGraph();
+  fixture.graph.owner = fixture;
+  applyGraphTheme(fixture.graph, 'dark');
+  assert.ok(fixture.declarations.some(([name, value]) => name === 'line-color' && value === 'data(typeDarkColor)'));
+  assert.ok(fixture.declarations.some(([name, value]) => name === 'text-background-color' && value === '#111827'));
+  assert.ok(fixture.declarations.some(([name, value]) => name === 'border-color' && value === '#94a3b8'));
+  assert.ok(fixture.declarations.some(([name, value]) => name === 'color' && value === 'data(domainTextColor)'));
+  assert.equal(fixture.rendered, 1);
+
+  fixture.declarations.length = 0;
+  applyGraphTheme(fixture.graph, 'light');
+  assert.ok(fixture.declarations.some(([name, value]) => name === 'line-color' && value === 'data(typeColor)'));
+  assert.ok(fixture.declarations.some(([name, value]) => name === 'text-background-color' && value === '#ffffff'));
+  assert.equal(fixture.rendered, 2);
+});
 
 test('renderer preferences change the live renderer and immediately redraw both resolutions', () => {
   const previousWindow = globalThis.window;

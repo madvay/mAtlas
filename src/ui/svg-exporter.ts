@@ -1,4 +1,5 @@
 import type cytoscape from 'cytoscape';
+import { colorForDarkSurface, readableTextColor } from '../core/color.js';
 import { byId, escapeHtml } from '../core/dom.js';
 import { stripInlineMathText } from '../core/text.js';
 import type { AppState, GraphNode, LineStyle, Point, Preferences } from '../types.js';
@@ -125,18 +126,33 @@ export class SvgExporter {
     const graphOriginalHeight = box.h + margin * 2;
     const parts: string[] = [];
     const data = this.model.data;
+    const darkTheme = document.documentElement.dataset.theme === 'dark';
+    const palette = darkTheme
+      ? {
+          background: '#0b1220', grid: '#334155', header: '#111827', title: '#f8fafc', body: '#cbd5e1', muted: '#94a3b8',
+          selected: '#f8fafc', nodeBorder: '#94a3b8', labelFill: '#111827', labelBorder: '#334155', labelText: '#cbd5e1',
+          syntheticFill: '#3b2718', syntheticBorder: '#92400e', junctionFill: '#3b2718', junctionBorder: '#f59e0b', junctionText: '#fed7aa',
+          prerequisiteFill: '#0c4a6e', prerequisiteBorder: '#38bdf8', prerequisiteText: '#e0f2fe', outline: '#0b1220', badgeFill: '#111827', badgeStroke: '#f8fafc', badgeText: '#f8fafc'
+        }
+      : {
+          background: '#fbfcfe', grid: '#cbd5e1', header: '#ffffff', title: '#172033', body: '#475569', muted: '#64748b',
+          selected: '#0f172a', nodeBorder: '#ffffff', labelFill: '#ffffff', labelBorder: '#e2e8f0', labelText: '#334155',
+          syntheticFill: '#fff7ed', syntheticBorder: '#fed7aa', junctionFill: '#fff7ed', junctionBorder: '#b45309', junctionText: '#7c2d12',
+          prerequisiteFill: '#bae6fd', prerequisiteBorder: '#38bdf8', prerequisiteText: '#0c4a6e', outline: '#ffffff', badgeFill: '#ffffff', badgeStroke: '#0f172a', badgeText: '#0f172a'
+        };
+    const displayColor = (color: string, minimumContrast = 4.5): string => darkTheme ? colorForDarkSurface(color, minimumContrast) : color;
     parts.push('<?xml version="1.0" encoding="UTF-8"?>');
     parts.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${Math.ceil(width)}" height="${Math.ceil(height)}" viewBox="${minX} ${minY} ${width} ${height}" role="img" aria-labelledby="atlas-title atlas-desc">`);
     parts.push(`<title id="atlas-title">${escapeHtml(accessibleTitle)}</title>`);
     parts.push(`<desc id="atlas-desc">${escapeHtml(accessibleDescription)}</desc>`);
     parts.push('<metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"><rdf:Description rdf:about=""><dc:creator>Advay Mengle</dc:creator><dc:title>mAtlas - Atlas of Fundamental Concepts</dc:title><dc:rights>mAtlas - Copyright (c) 2026 Advay Mengle - https://atlas.madvay.com/</dc:rights><cc:license rdf:resource="https://creativecommons.org/licenses/by-sa/4.0/"/></rdf:Description></rdf:RDF></metadata>');
-    parts.push('<defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.7" fill="#cbd5e1" opacity="0.55"/></pattern></defs>');
-    parts.push(`<rect x="${minX}" y="${minY}" width="${width}" height="${height}" fill="#fbfcfe"/>`);
-    parts.push(`<rect x="${minX}" y="${minY}" width="${width}" height="${headerHeight}" fill="#ffffff" opacity="0.93"/>`);
+    parts.push(`<defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.7" fill="${palette.grid}" opacity="0.55"/></pattern></defs>`);
+    parts.push(`<rect x="${minX}" y="${minY}" width="${width}" height="${height}" fill="${palette.background}"/>`);
+    parts.push(`<rect x="${minX}" y="${minY}" width="${width}" height="${headerHeight}" fill="${palette.header}" opacity="0.93"/>`);
     parts.push(`<g transform="translate(${minX + 24} ${minY + 20})"><image href="${SvgExporter.logoDataUri}" width="48" height="48"/></g>`);
-    parts.push(`<text x="${minX + 86}" y="${minY + 28}" font-family="${escapeHtml(this.fontFamily)}" font-size="20" font-weight="700" fill="#172033">Atlas of Fundamental Concepts</text>`);
-    parts.push(`<text x="${minX + 86}" y="${minY + 46}" font-family="${escapeHtml(this.fontFamily)}" font-size="11" fill="#475569"><a href="https://atlas.madvay.com" xlink:href="https://atlas.madvay.com">https://atlas.madvay.com</a> · © 2026 Advay Mengle · <a href="https://creativecommons.org/licenses/by-sa/4.0/" xlink:href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></text>`);
-    parts.push(`<text x="${minX + 86}" y="${minY + 62}" font-family="${escapeHtml(this.fontFamily)}" font-size="9" fill="#64748b">${escapeHtml(exportNote)}</text>`);
+    parts.push(`<text x="${minX + 86}" y="${minY + 28}" font-family="${escapeHtml(this.fontFamily)}" font-size="20" font-weight="700" fill="${palette.title}">Atlas of Fundamental Concepts</text>`);
+    parts.push(`<text x="${minX + 86}" y="${minY + 46}" font-family="${escapeHtml(this.fontFamily)}" font-size="11" fill="${palette.body}"><a href="https://atlas.madvay.com" xlink:href="https://atlas.madvay.com">https://atlas.madvay.com</a> · © 2026 Advay Mengle · <a href="https://creativecommons.org/licenses/by-sa/4.0/" xlink:href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></text>`);
+    parts.push(`<text x="${minX + 86}" y="${minY + 62}" font-family="${escapeHtml(this.fontFamily)}" font-size="9" fill="${palette.muted}">${escapeHtml(exportNote)}</text>`);
     parts.push(`<g transform="translate(${graphOriginX} ${graphOriginY}) scale(${graphScale}) translate(${-graphOriginX} ${-graphOriginY})">`);
     parts.push(`<rect x="${minX}" y="${minY + headerHeight}" width="${graphOriginalWidth}" height="${graphOriginalHeight}" fill="url(#grid)"/>`);
 
@@ -168,7 +184,7 @@ export class SvgExporter {
           Number(targetElement.data('nodeHeight')) / 2 + targetBorder
         );
         const selected = element.selected();
-        const color = selected ? '#0f172a' : String(element.data('structureColor') ?? '#64748b');
+        const color = selected ? palette.selected : displayColor(String(element.data('structureColor') ?? '#64748b'), 3);
         const strokeWidth = selected
           ? Number(element.data('selectedEdgeWidth') ?? element.data('edgeWidth') ?? 3)
           : Number(element.data('edgeWidth') ?? 3);
@@ -210,7 +226,7 @@ export class SvgExporter {
       const start = this.rectangleBoundaryPoint(source, control, sourceHalf.w, sourceHalf.h);
       const end = this.rectangleBoundaryPoint(target, control, targetHalf.w, targetHalf.h);
       const prerequisiteHighlighted = element.hasClass('prerequisite-highlight');
-      const color = prerequisiteHighlighted ? '#7dd3fc' : data.edgeTypes[record.type]?.color ?? '#64748b';
+      const color = prerequisiteHighlighted ? palette.prerequisiteBorder : displayColor(data.edgeTypes[record.type]?.color ?? '#64748b', 3);
       const dash = this.lineDash(record.synthetic ? 'dashed' : data.edgeTypes[record.type]?.lineStyle);
       const selected = element.selected();
       const strokeWidth = selected ? 4.5 : prerequisiteHighlighted ? 4 : record.synthetic ? 2.6 : 2.1;
@@ -246,9 +262,9 @@ export class SvgExporter {
       const fallbackHeight = labelLines.length * lineHeight + 6;
       parts.push(`<g transform="translate(${labelX.toFixed(2)} ${labelY.toFixed(2)}) rotate(${normalizedAngle.toFixed(2)})" opacity="${edgeOpacity}">`);
       parts.push('<g>');
-      const labelFill = prerequisiteHighlighted ? '#e0f2fe' : record.synthetic ? '#fff7ed' : '#ffffff';
-      const labelStroke = prerequisiteHighlighted ? '#7dd3fc' : record.synthetic ? '#fed7aa' : '#e2e8f0';
-      const labelColor = prerequisiteHighlighted ? '#0c4a6e' : '#334155';
+      const labelFill = prerequisiteHighlighted ? palette.prerequisiteFill : record.synthetic ? palette.syntheticFill : palette.labelFill;
+      const labelStroke = prerequisiteHighlighted ? palette.prerequisiteBorder : record.synthetic ? palette.syntheticBorder : palette.labelBorder;
+      const labelColor = prerequisiteHighlighted ? palette.prerequisiteText : palette.labelText;
       parts.push(`<rect x="${(-fallbackWidth / 2).toFixed(2)}" y="${(-fallbackHeight / 2).toFixed(2)}" width="${fallbackWidth.toFixed(2)}" height="${fallbackHeight.toFixed(2)}" rx="3" fill="${labelFill}" fill-opacity="0.9" stroke="${labelStroke}" stroke-width="1"/>`);
       labelLines.forEach((line, index) => {
         const y = (index - (labelLines.length - 1) / 2) * lineHeight + 3;
@@ -270,7 +286,9 @@ export class SvgExporter {
     orderedVisibleNodes.forEach((element) => {
       if (Number(element.data('domainNameOverlay')) === 1) {
         const position = element.position();
-        const color = String(element.data('color') ?? '#64748b');
+        const authoredColor = String(element.data('color') ?? '#64748b');
+        const color = element.data('domainOverlayContext') === 'atlas' ? '#ffffff' : displayColor(authoredColor);
+        const outlineColor = element.data('domainOverlayContext') === 'atlas' ? displayColor(authoredColor) : palette.outline;
         const label = String(element.data('label') ?? '');
         const conceptCount = Number(element.data('conceptCount') ?? 0);
         const opacity = element.data('domainOverlayContext') === 'fields' ? 0.58 : 0.92;
@@ -281,7 +299,7 @@ export class SvgExporter {
         const outlineWidth = Number(element.data('textOutlineWidth')) || 0;
         lines.forEach((line, index) => {
           const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
-          parts.push(`<text x="${position.x.toFixed(2)}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="800" fill="${escapeHtml(color)}" stroke="#ffffff" stroke-opacity="0.92" stroke-width="${outlineWidth.toFixed(2)}" stroke-linejoin="round" paint-order="stroke">${escapeHtml(line)}</text>`);
+          parts.push(`<text x="${position.x.toFixed(2)}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="800" fill="${escapeHtml(color)}" stroke="${outlineColor}" stroke-opacity="0.92" stroke-width="${outlineWidth.toFixed(2)}" stroke-linejoin="round" paint-order="stroke">${escapeHtml(line)}</text>`);
         });
         parts.push('</g>');
         return;
@@ -289,7 +307,8 @@ export class SvgExporter {
       if (Number(element.data('semanticGroup')) === 1) {
         const position = element.position();
         const selected = element.selected();
-        const color = String(element.data('color') ?? '#64748b');
+        const color = displayColor(String(element.data('color') ?? '#64748b'));
+        const outlineColor = palette.outline;
         const label = String(element.data('label') ?? '');
         const conceptCount = Number(element.data('conceptCount') ?? 0);
         parts.push(`<g><title>${escapeHtml(label)} — ${conceptCount} concept${conceptCount === 1 ? '' : 's'}</title>`);
@@ -301,7 +320,7 @@ export class SvgExporter {
           : Number(element.data('textOutlineWidth')) || 0;
         lines.forEach((line, index) => {
           const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
-          parts.push(`<text x="${position.x.toFixed(2)}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="800" fill="${escapeHtml(color)}" stroke="#ffffff" stroke-opacity="0.92" stroke-width="${outlineWidth.toFixed(2)}" stroke-linejoin="round" paint-order="stroke">${escapeHtml(line)}</text>`);
+          parts.push(`<text x="${position.x.toFixed(2)}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="800" fill="${escapeHtml(color)}" stroke="${outlineColor}" stroke-opacity="0.92" stroke-width="${outlineWidth.toFixed(2)}" stroke-linejoin="round" paint-order="stroke">${escapeHtml(line)}</text>`);
         });
         parts.push('</g>');
         return;
@@ -323,7 +342,7 @@ export class SvgExporter {
       const selected = structureSource ? false : element.selected();
       const emphasized = element.hasClass('neighborhood-emphasis');
       const searchMatch = element.hasClass('search-match');
-      const borderColor = selected ? '#0f172a' : searchMatch ? '#facc15' : prerequisiteHighlighted ? '#38bdf8' : emphasized ? '#f59e0b' : isJunction ? '#b45309' : '#ffffff';
+      const borderColor = selected ? palette.selected : searchMatch ? '#facc15' : prerequisiteHighlighted ? palette.prerequisiteBorder : emphasized ? '#f59e0b' : isJunction ? palette.junctionBorder : palette.nodeBorder;
       const borderWidth = selected || searchMatch ? 5 : prerequisiteHighlighted || emphasized ? 4 : isJunction ? 3 : 2;
       const linkHref = record.kind === 'structure'
         ? `https://atlas.madvay.com/concepts/${encodeURIComponent(record.id)}/`
@@ -331,10 +350,10 @@ export class SvgExporter {
       if (!structureSource) parts.push(`<a href="${linkHref}" xlink:href="${linkHref}" target="_blank" rel="noopener">`);
       if (isJunction) {
         const backgroundOpacity = prerequisiteHighlighted ? 1 : isDependencyFaded && this.preferences().dimPrerequisites ? 0.46 : 1;
-        const fill = prerequisiteHighlighted ? '#bae6fd' : '#fff7ed';
+        const fill = prerequisiteHighlighted ? palette.prerequisiteFill : palette.junctionFill;
         parts.push(`<rect x="${x}" y="${y}" width="${nodeWidth}" height="${nodeHeight}" rx="8" fill="${fill}" stroke="${borderColor}" stroke-width="${borderWidth}" stroke-dasharray="8 5" fill-opacity="${backgroundOpacity}" opacity="${opacity}"/>`);
       } else {
-        const fill = prerequisiteHighlighted ? '#bae6fd' : data.domains[record.primaryDomain]?.color ?? '#64748b';
+        const fill = prerequisiteHighlighted ? palette.prerequisiteFill : data.domains[record.primaryDomain]?.color ?? '#64748b';
         const backgroundOpacity = prerequisiteHighlighted ? 1 : isDependencyFaded && this.preferences().dimPrerequisites ? 0.46 : 0.92;
         parts.push(`<rect x="${x}" y="${y}" width="${nodeWidth}" height="${nodeHeight}" rx="8" fill="${escapeHtml(fill)}" fill-opacity="${backgroundOpacity}" stroke="${borderColor}" stroke-width="${borderWidth}" opacity="${opacity}"/>`);
         const additionalDomains = structureSource ? [] : this.model.nodeDomainIds(record).slice(1);
@@ -350,15 +369,16 @@ export class SvgExporter {
       const fontSize = Math.min(16, this.fittingLabelCap(record, label));
       const lines = label ? this.wrappedLines(label, fontSize, isJunction ? 92 : 144) : [];
       const lineHeight = fontSize * 1.16;
-      const textColor = prerequisiteHighlighted ? '#0c4a6e' : isJunction ? '#7c2d12' : '#ffffff';
+      const primaryFill = data.domains[record.primaryDomain]?.color ?? '#64748b';
+      const textColor = prerequisiteHighlighted ? palette.prerequisiteText : isJunction ? palette.junctionText : readableTextColor(primaryFill);
       lines.forEach((line, index) => {
         const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
         parts.push(`<text x="${position.x}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="600" fill="${textColor}" opacity="${opacity}">${escapeHtml(line)}</text>`);
       });
       const stepNumber = structureSource ? undefined : sequenceIndex.get(record.id);
       if (stepNumber !== undefined) {
-        parts.push(`<circle cx="${x}" cy="${y + nodeHeight}" r="10" fill="#ffffff" stroke="#0f172a" stroke-width="2" opacity="${opacity}"/>`);
-        parts.push(`<text x="${x}" y="${(y + nodeHeight + 3.5).toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="10" font-weight="800" fill="#0f172a" opacity="${opacity}">${stepNumber}</text>`);
+        parts.push(`<circle cx="${x}" cy="${y + nodeHeight}" r="10" fill="${palette.badgeFill}" stroke="${palette.badgeStroke}" stroke-width="2" opacity="${opacity}"/>`);
+        parts.push(`<text x="${x}" y="${(y + nodeHeight + 3.5).toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="10" font-weight="800" fill="${palette.badgeText}" opacity="${opacity}">${stepNumber}</text>`);
       }
       if (!structureSource) parts.push('</a>');
     });

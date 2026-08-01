@@ -4,7 +4,8 @@ import { stableStringHash } from '../core/hash.js';
 import { stripInlineMathText } from '../core/text.js';
 import type { LabelSizer } from './label-sizer.js';
 import { DEFAULT_INTERACTIVE_MIN_ZOOM } from './viewport-fit-core.js';
-import type { Preferences } from '../types.js';
+import type { Preferences, ResolvedTheme } from '../types.js';
+import { colorForDarkSurface, readableTextColor } from '../core/color.js';
 
 function edgeCurveDistance(edgeId: string): number {
   const hash = stableStringHash(edgeId);
@@ -34,6 +35,7 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer): cyto
         domainIds: domainIds.join(' '),
         domainLabels: model.nodeDomainLabels(node).join(', '),
         domainColor: primaryDomain.color,
+        domainTextColor: readableTextColor(primaryDomain.color),
         domainColors: domainIds.map((id) => model.data.domains[id]?.color ?? '#64748b'),
         multiDomain: node.kind === 'structure' && domainIds.length > 1 ? 1 : 0,
         level: node.level,
@@ -56,6 +58,7 @@ export function createGraphElements(model: GraphModel, labels: LabelSizer): cyto
         type: edge.type,
         typeLabel: type.label,
         typeColor: type.color,
+        typeDarkColor: colorForDarkSurface(type.color, 3),
         lineStyle: type.lineStyle ?? 'solid',
         label: edge.label,
         displayLabel,
@@ -77,7 +80,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
     style: {
       shape: 'round-rectangle', width: 164, height: 58, padding: '4px',
       'background-color': 'data(domainColor)', 'background-opacity': 0.92,
-      'border-width': 2, 'border-color': '#ffffff', label: 'data(canvasLabel)', color: '#ffffff',
+      'border-width': 2, 'border-color': '#ffffff', label: 'data(canvasLabel)', color: 'data(domainTextColor)',
       'font-size': 'data(labelFontSize)', 'font-weight': 600, 'text-wrap': 'wrap',
       'text-overflow-wrap': 'whitespace', 'text-max-width': '144px', 'text-halign': 'center',
       'text-valign': 'center', 'text-outline-width': 0, 'overlay-opacity': 0
@@ -275,7 +278,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
   }
 ];
 
-export function createGraph(container: HTMLElement, model: GraphModel, labels: LabelSizer, preferences: Preferences): cytoscape.Core {
+export function createGraph(container: HTMLElement, model: GraphModel, labels: LabelSizer, preferences: Preferences, theme: ResolvedTheme = 'light'): cytoscape.Core {
   const motionBlur = preferences.experimentalFeatures && preferences.motionBlur;
   const allowNodeMovement = preferences.experimentalFeatures && preferences.allowNodeMovement;
   const cy = cytoscape({
@@ -296,6 +299,7 @@ export function createGraph(container: HTMLElement, model: GraphModel, labels: L
     style: graphStyles
   });
   applyRendererPreferences(cy, preferences);
+  applyGraphTheme(cy, theme);
   return cy;
 }
 
@@ -342,5 +346,69 @@ export function applyRendererPreferences(cy: cytoscape.Core, preferences: Prefer
     .style('transition-duration', preferences.transitions ? 120 : 0)
     .update();
   cy.resize();
+  cy.forceRender();
+}
+
+
+const GRAPH_THEME = {
+  light: {
+    nodeBorder: '#ffffff', selected: '#0f172a', junctionFill: '#fff7ed', junctionBorder: '#b45309', junctionText: '#7c2d12',
+    edgeText: '#334155', labelFill: '#ffffff', labelBorder: '#e2e8f0', syntheticFill: '#fff7ed', syntheticBorder: '#fed7aa',
+    prerequisiteFill: '#bae6fd', prerequisiteText: '#0c4a6e', outline: '#ffffff', semanticText: '#172033', semanticBorder: '#cbd5e1'
+  },
+  dark: {
+    nodeBorder: '#94a3b8', selected: '#f8fafc', junctionFill: '#3b2718', junctionBorder: '#f59e0b', junctionText: '#fed7aa',
+    edgeText: '#cbd5e1', labelFill: '#111827', labelBorder: '#334155', syntheticFill: '#3b2718', syntheticBorder: '#92400e',
+    prerequisiteFill: '#0c4a6e', prerequisiteText: '#e0f2fe', outline: '#0b1220', semanticText: '#e2e8f0', semanticBorder: '#475569'
+  }
+} as const;
+
+export function applyGraphTheme(cy: cytoscape.Core, theme: ResolvedTheme): void {
+  const palette = GRAPH_THEME[theme];
+  const style = cy.style()
+    .selector('node')
+    .style('border-color', palette.nodeBorder)
+    .style('color', 'data(domainTextColor)')
+    .selector('node[kind = "junction"]')
+    .style('background-color', palette.junctionFill)
+    .style('border-color', palette.junctionBorder)
+    .style('color', palette.junctionText)
+    .selector('edge')
+    .style('line-color', theme === 'dark' ? 'data(typeDarkColor)' : 'data(typeColor)')
+    .style('target-arrow-color', theme === 'dark' ? 'data(typeDarkColor)' : 'data(typeColor)')
+    .style('color', palette.edgeText)
+    .style('text-background-color', palette.labelFill)
+    .style('text-border-color', palette.labelBorder)
+    .selector('edge[synthetic = 1]')
+    .style('text-background-color', palette.syntheticFill)
+    .style('text-border-color', palette.syntheticBorder)
+    .selector('node.prerequisite-highlight')
+    .style('background-color', palette.prerequisiteFill)
+    .style('color', palette.prerequisiteText)
+    .selector('node:selected')
+    .style('border-color', palette.selected)
+    .selector('node.structure-source-node')
+    .style('border-color', palette.nodeBorder)
+    .selector('node[semanticGroup = 1]')
+    .style('color', theme === 'dark' ? 'data(darkColor)' : 'data(color)')
+    .style('text-outline-color', palette.outline)
+    .selector('node[semanticGroup = 1]:selected')
+    .style('text-outline-color', palette.outline)
+    .selector('node[domainNameOverlay = 1]')
+    .style('color', theme === 'dark' ? 'data(darkColor)' : 'data(color)')
+    .style('text-outline-color', palette.outline)
+    .selector('node[domainNameOverlay = 1][domainOverlayContext = "atlas"]')
+    .style('color', '#ffffff')
+    .style('text-outline-color', theme === 'dark' ? 'data(darkColor)' : 'data(color)')
+    .selector('edge[semanticConnection = 1]')
+    .style('line-color', theme === 'dark' ? 'data(darkStructureColor)' : 'data(structureColor)')
+    .style('target-arrow-color', theme === 'dark' ? 'data(darkStructureColor)' : 'data(structureColor)')
+    .style('color', palette.semanticText)
+    .style('text-background-color', palette.labelFill)
+    .style('text-border-color', palette.semanticBorder)
+    .selector('edge[semanticConnection = 1]:selected')
+    .style('line-color', palette.selected)
+    .style('target-arrow-color', palette.selected);
+  style.update();
   cy.forceRender();
 }
