@@ -44,12 +44,26 @@ test('graph theme swaps neutral surfaces and derived dark edge colors without ch
   assert.ok(fixture.declarations.some(([name, value]) => name === 'text-background-color' && value === '#111827'));
   assert.ok(fixture.declarations.some(([name, value]) => name === 'border-color' && value === '#94a3b8'));
   assert.ok(fixture.declarations.some(([name, value]) => name === 'color' && value === 'data(domainTextColor)'));
+  const darkAtlasOverlaySelectorIndex = fixture.declarations.findIndex(([name, value]) => name === 'selector'
+    && value === 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"]');
+  assert.deepEqual(fixture.declarations.slice(darkAtlasOverlaySelectorIndex, darkAtlasOverlaySelectorIndex + 3), [
+    ['selector', 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"]'],
+    ['color', '#0b1220'],
+    ['text-outline-color', 'data(darkColor)']
+  ]);
   assert.equal(fixture.rendered, 1);
 
   fixture.declarations.length = 0;
   applyGraphTheme(fixture.graph, 'light');
   assert.ok(fixture.declarations.some(([name, value]) => name === 'line-color' && value === 'data(typeColor)'));
   assert.ok(fixture.declarations.some(([name, value]) => name === 'text-background-color' && value === '#ffffff'));
+  const lightAtlasOverlaySelectorIndex = fixture.declarations.findIndex(([name, value]) => name === 'selector'
+    && value === 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"]');
+  assert.deepEqual(fixture.declarations.slice(lightAtlasOverlaySelectorIndex, lightAtlasOverlaySelectorIndex + 3), [
+    ['selector', 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"]'],
+    ['color', '#ffffff'],
+    ['text-outline-color', 'data(color)']
+  ]);
   assert.equal(fixture.rendered, 2);
 });
 

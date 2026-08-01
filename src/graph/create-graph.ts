@@ -398,7 +398,7 @@ export function applyGraphTheme(cy: cytoscape.Core, theme: ResolvedTheme): void 
     .style('color', theme === 'dark' ? 'data(darkColor)' : 'data(color)')
     .style('text-outline-color', palette.outline)
     .selector('node[domainNameOverlay = 1][domainOverlayContext = "atlas"]')
-    .style('color', '#ffffff')
+    .style('color', theme === 'dark' ? '#0b1220' : '#ffffff')
     .style('text-outline-color', theme === 'dark' ? 'data(darkColor)' : 'data(color)')
     .selector('edge[semanticConnection = 1]')
     .style('line-color', theme === 'dark' ? 'data(darkStructureColor)' : 'data(structureColor)')

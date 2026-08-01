@@ -287,8 +287,11 @@ export class SvgExporter {
       if (Number(element.data('domainNameOverlay')) === 1) {
         const position = element.position();
         const authoredColor = String(element.data('color') ?? '#64748b');
-        const color = element.data('domainOverlayContext') === 'atlas' ? '#ffffff' : displayColor(authoredColor);
-        const outlineColor = element.data('domainOverlayContext') === 'atlas' ? displayColor(authoredColor) : palette.outline;
+        const atlasOverlay = element.data('domainOverlayContext') === 'atlas';
+        const color = atlasOverlay
+          ? (darkTheme ? palette.outline : '#ffffff')
+          : displayColor(authoredColor);
+        const outlineColor = atlasOverlay ? displayColor(authoredColor) : palette.outline;
         const label = String(element.data('label') ?? '');
         const conceptCount = Number(element.data('conceptCount') ?? 0);
         const opacity = element.data('domainOverlayContext') === 'fields' ? 0.58 : 0.92;
