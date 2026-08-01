@@ -43,7 +43,8 @@ test('renderer preferences change the live renderer and immediately redraw both 
     fixture.graph.owner = fixture;
     applyRendererPreferences(fixture.graph, {
       version: 1, highResolution: true, transitions: true, motionBlur: true,
-      indicateOtherDomains: true, hideEdgesWhileMoving: false, allowNodeMovement: false, dimPrerequisites: true, highlightPrerequisites: false
+      indicateOtherDomains: true, hideEdgesWhileMoving: false, allowNodeMovement: false, dimPrerequisites: true, highlightPrerequisites: false,
+      experimentalFeatures: true
     });
     assert.equal(fixture.renderer.forcedPixelRatio, null);
     assert.equal(fixture.renderer.motionBlurEnabled, true);
@@ -65,7 +66,8 @@ test('renderer preferences change the live renderer and immediately redraw both 
 
     applyRendererPreferences(fixture.graph, {
       version: 1, highResolution: false, transitions: false, motionBlur: false,
-      indicateOtherDomains: true, hideEdgesWhileMoving: true, allowNodeMovement: true, dimPrerequisites: false, highlightPrerequisites: true
+      indicateOtherDomains: true, hideEdgesWhileMoving: true, allowNodeMovement: true, dimPrerequisites: false, highlightPrerequisites: true,
+      experimentalFeatures: true
     });
     assert.equal(fixture.renderer.forcedPixelRatio, 1.5);
     assert.equal(fixture.renderer.motionBlurEnabled, false);
@@ -79,8 +81,17 @@ test('renderer preferences change the live renderer and immediately redraw both 
       ['transition-property', 'none'],
       ['transition-duration', 0]
     ]);
-    assert.equal(fixture.resized, 2);
-    assert.equal(fixture.rendered, 2);
+
+    applyRendererPreferences(fixture.graph, {
+      version: 1, highResolution: false, transitions: false, motionBlur: true,
+      indicateOtherDomains: true, hideEdgesWhileMoving: true, allowNodeMovement: true, dimPrerequisites: false, highlightPrerequisites: true,
+      experimentalFeatures: false
+    });
+    assert.equal(fixture.renderer.motionBlurEnabled, false);
+    assert.equal(fixture.renderer.motionBlur, false);
+    assert.deepEqual(fixture.movement.slice(6), [['autoungrabify', true], 'ungrabify', 'panify']);
+    assert.equal(fixture.resized, 3);
+    assert.equal(fixture.rendered, 3);
   } finally {
     globalThis.window = previousWindow;
   }

@@ -263,6 +263,8 @@ export const graphStyles: cytoscape.StylesheetJson = [
 ];
 
 export function createGraph(container: HTMLElement, model: GraphModel, labels: LabelSizer, preferences: Preferences): cytoscape.Core {
+  const motionBlur = preferences.experimentalFeatures && preferences.motionBlur;
+  const allowNodeMovement = preferences.experimentalFeatures && preferences.allowNodeMovement;
   const cy = cytoscape({
     container,
     elements: createGraphElements(model, labels),
@@ -275,9 +277,9 @@ export function createGraph(container: HTMLElement, model: GraphModel, labels: L
     // them only while the viewport is actively moving.
     pixelRatio: preferences.highResolution ? 'auto' : Math.min(window.devicePixelRatio || 1, 1.5),
     hideEdgesOnViewport: preferences.hideEdgesWhileMoving,
-    motionBlur: preferences.motionBlur,
+    motionBlur,
     boxSelectionEnabled: false,
-    autoungrabify: !preferences.allowNodeMovement,
+    autoungrabify: !allowNodeMovement,
     style: graphStyles
   });
   applyRendererPreferences(cy, preferences);
@@ -285,6 +287,8 @@ export function createGraph(container: HTMLElement, model: GraphModel, labels: L
 }
 
 export function applyRendererPreferences(cy: cytoscape.Core, preferences: Preferences): void {
+  const motionBlur = preferences.experimentalFeatures && preferences.motionBlur;
+  const allowNodeMovement = preferences.experimentalFeatures && preferences.allowNodeMovement;
   // These are the live fields used by Cytoscape's canvas renderer. Updating only
   // its original options object would not change an already-created renderer.
   const renderer = (cy as unknown as { renderer: () => {
@@ -294,12 +298,12 @@ export function applyRendererPreferences(cy: cytoscape.Core, preferences: Prefer
     hideEdgesOnViewport: boolean;
   } }).renderer();
   renderer.forcedPixelRatio = preferences.highResolution ? null : Math.min(window.devicePixelRatio || 1, 1.5);
-  renderer.motionBlurEnabled = preferences.motionBlur;
-  renderer.motionBlur = preferences.motionBlur;
+  renderer.motionBlurEnabled = motionBlur;
+  renderer.motionBlur = motionBlur;
   renderer.hideEdgesOnViewport = preferences.hideEdgesWhileMoving;
-  cy.autoungrabify(!preferences.allowNodeMovement);
+  cy.autoungrabify(!allowNodeMovement);
   const nodes = cy.nodes('[semanticOverlay != 1]');
-  if (preferences.allowNodeMovement) {
+  if (allowNodeMovement) {
     nodes.unpanify();
     nodes.grabify();
   } else {

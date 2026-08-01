@@ -197,6 +197,7 @@ export class FilterControls {
     byId<HTMLInputElement>('dimPrerequisitesToggle').checked = preferences.dimPrerequisites;
     byId<HTMLInputElement>('highlightPrerequisitesToggle').checked = preferences.highlightPrerequisites;
     byId<HTMLInputElement>('experimentalFeaturesToggle').checked = preferences.experimentalFeatures;
+    byId<HTMLElement>('experimentalPreferenceOptions').hidden = !preferences.experimentalFeatures;
   }
 
   updateFieldAllButtonLabel(): void {
@@ -255,6 +256,7 @@ export class FilterControls {
     for (const id of ['highResolution', 'transitions', 'animateGraph', 'refitOnChange', 'motionBlur', 'indicateOtherDomains', 'overlayDomains', 'hideEdgesWhileMoving', 'allowNodeMovement', 'dimPrerequisites', 'highlightPrerequisites', 'experimentalFeatures'] as const) {
       byId<HTMLInputElement>(`${id}Toggle`).addEventListener('change', (event) => {
         this.options.setPreferences({ ...this.options.preferences(), [id]: (event.currentTarget as HTMLInputElement).checked });
+        if (id === 'experimentalFeatures') this.syncPreferences();
       });
     }
 

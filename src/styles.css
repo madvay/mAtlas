@@ -516,6 +516,30 @@ input:focus-visible {
   gap: 8px;
 }
 
+.experimental-features-row {
+  align-items: center;
+}
+
+.experimental-features-row input {
+  margin-top: 0;
+}
+
+.experimental-caution-icon {
+  margin-left: -3px;
+  color: #a16207;
+  font-size: 14px;
+}
+
+.experimental-preference-options {
+  display: grid;
+  gap: 8px;
+  padding-left: 15px;
+}
+
+.experimental-preference-options[hidden] {
+  display: none !important;
+}
+
 .data-section .filter-section-body {
   display: grid;
   justify-items: start;

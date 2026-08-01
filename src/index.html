@@ -173,14 +173,20 @@
             <label class="toggle-row"><input id="transitionsToggle" type="checkbox" checked> Fade transitions</label>
             <label class="toggle-row"><input id="animateGraphToggle" type="checkbox"> Animate graph</label>
             <label class="toggle-row"><input id="refitOnChangeToggle" type="checkbox" checked> Auto-fit</label>
-            <label class="toggle-row"><input id="motionBlurToggle" type="checkbox"> Motion blur</label>
             <label class="toggle-row"><input id="indicateOtherDomainsToggle" type="checkbox" checked> Mark additional domains</label>
             <label class="toggle-row"><input id="overlayDomainsToggle" type="checkbox" checked> Overlay domains</label>
             <label class="toggle-row"><input id="hideEdgesWhileMovingToggle" type="checkbox" checked> Hide edges while moving</label>
-            <label class="toggle-row"><input id="allowNodeMovementToggle" type="checkbox"> Allow node dragging</label>
             <label class="toggle-row"><input id="dimPrerequisitesToggle" type="checkbox" checked> Dim prerequisites</label>
             <label class="toggle-row"><input id="highlightPrerequisitesToggle" type="checkbox"> Highlight prerequisite path</label>
-            <label class="toggle-row"><input id="experimentalFeaturesToggle" type="checkbox"> Experimental features</label>
+            <label class="toggle-row experimental-features-row">
+              <input id="experimentalFeaturesToggle" type="checkbox">
+              <span>Experimental features</span>
+              <span class="material-symbols-outlined experimental-caution-icon" aria-hidden="true" title="Experimental features may be unstable">experiment</span>
+            </label>
+            <div id="experimentalPreferenceOptions" class="experimental-preference-options" hidden>
+              <label class="toggle-row"><input id="motionBlurToggle" type="checkbox"> Motion blur</label>
+              <label class="toggle-row"><input id="allowNodeMovementToggle" type="checkbox"> Allow node dragging</label>
+            </div>
             <p class="filter-note">Saved only in this browser and never included in shared URLs.</p>
           </div>
         </section>
