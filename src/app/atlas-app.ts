@@ -27,10 +27,12 @@ import { ViewsController } from '../ui/views-controller.js';
 import { StructureOverlayController } from '../ui/structure-overlay-controller.js';
 import { CompareController } from '../ui/compare-controller.js';
 import { SearchController } from '../ui/search-controller.js';
+import { GraphAccessibilityController } from '../ui/graph-accessibility-controller.js';
 import { LocationController } from './location-controller.js';
 import type { AppState, AtlasView, AtlasViewsData, GraphData, GraphNode, HistoryMode, LayoutName, Preferences, ResolvedTheme, SelectionTarget, ShareCodecConfig, UrlUiState } from '../types.js';
 import { renderHtml } from '../ui/render.js';
 import { NodeSearchIndex, type NodeSearchResult } from '../core/search.js';
+import { stripInlineMathText } from '../core/text.js';
 import { fetchAtlasJson } from './data-loader.js';
 
 export async function startAtlasApp(): Promise<void> {
@@ -108,6 +110,7 @@ export async function startAtlasApp(): Promise<void> {
 
   let preferences = staticAtlasSvgMode ? { ...DEFAULT_PREFERENCES, theme: 'light' as const } : readPreferences();
   const systemThemeQuery = window.matchMedia(DARK_THEME_MEDIA_QUERY);
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   let resolvedTheme: ResolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
   const loadedUrlUiState: UrlUiState | null = staticAtlasSvgMode
     ? {
@@ -154,6 +157,7 @@ export async function startAtlasApp(): Promise<void> {
   let comparisonController: CompareController | null = null;
   let searchController: SearchController | null = null;
   let structureOverlayController: StructureOverlayController | null = null;
+  let graphAccessibilityController: GraphAccessibilityController | null = null;
   let graphViewPreservesView = (_view: AtlasView): boolean => true;
   let syncFilterViewScope = (): void => {};
   let currentSelectionTarget = (): SelectionTarget | null => locationController.parseSelection();
@@ -195,12 +199,14 @@ export async function startAtlasApp(): Promise<void> {
   const clearSelectedGraphElement = (): void => {
     currentSelectedGraphElement()?.unselect();
   };
+  let syncNodeMovementControls = (): void => {};
   cy.on('select unselect', (event) => {
     const element = event.target as cytoscape.SingularElementReturnValue;
     const known = model.nodeRecord.has(element.id()) || model.edgeRecord.has(element.id());
     if (!known) return;
     if (event.type === 'select') selectedGraphElement = element;
     else if (selectedGraphElement?.id() === element.id()) selectedGraphElement = null;
+    syncNodeMovementControls();
   });
 
   currentSelectionTarget = () => {
@@ -235,11 +241,15 @@ export async function startAtlasApp(): Promise<void> {
   const openDetailsPanel = (): void => panelController.openDetails();
   const updateFiltersToggleCount = (): void => panelController.updateFiltersToggleCount();
   let graphAnimationsReady = false;
+  const graphAnimationEnabled = (): boolean => graphAnimationsReady && preferences.animateGraph && !reducedMotionQuery.matches;
+  reducedMotionQuery.addEventListener('change', (event) => {
+    if (event.matches) stopGraphAnimations();
+  });
   const viewportController = new GraphViewportController({
     cy,
     state,
     viewportInsets: () => panelController.viewportInsets(),
-    animate: () => graphAnimationsReady && preferences.animateGraph
+    animate: graphAnimationEnabled
   });
   const fitGraphElements = (
     elements: cytoscape.CollectionReturnValue,
@@ -322,7 +332,7 @@ export async function startAtlasApp(): Promise<void> {
     model,
     state,
     onStateChange: persistUiState,
-    animateGraph: () => graphAnimationsReady && preferences.animateGraph,
+    animateGraph: graphAnimationEnabled,
     refitOnChange: () => preferences.refitOnChange,
     onLayoutStarted: (name, animated) => {
       if (animated) structureOverlayController?.beginLayoutTransition(name);
@@ -332,6 +342,7 @@ export async function startAtlasApp(): Promise<void> {
     onLayoutSettled: () => {
       structureOverlayController?.finishLayoutTransition();
       scheduleFieldBands();
+      graphAccessibilityController?.refresh(false);
       scheduleLayoutUiUpdate();
     },
     fitVisible: refitGraphElements,
@@ -380,10 +391,39 @@ export async function startAtlasApp(): Promise<void> {
     structureOverlayController?.refresh();
     graphView.updateStatus();
     comparisonController?.refresh();
+    graphAccessibilityController?.refresh(false);
     scheduleLayoutUiUpdate();
   };
   const visibleGraphElements = (): cytoscape.CollectionReturnValue => graphView.visibleElements();
   const fitVisibleGraph = (): void => graphView.fitVisible();
+  const zoomGraphBy = (factor: number): void => {
+    const level = Math.min(cy.maxZoom(), Math.max(cy.minZoom(), cy.zoom() * factor));
+    cy.zoom({ level, renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } });
+    scheduleFieldBands();
+  };
+  const panGraphBy = (x: number, y: number): void => {
+    cy.panBy({ x, y });
+    scheduleFieldBands();
+  };
+  const moveSelectedNodeBy = (x: number, y: number, label: string): void => {
+    const selected = currentSelectedGraphElement();
+    if (!preferences.experimentalFeatures || !preferences.allowNodeMovement || !selected?.isNode()) return;
+    const position = selected.position();
+    selected.position({ x: position.x + x, y: position.y + y });
+    scheduleFieldBands();
+    graphAccessibilityController?.refresh(false);
+    const status = byId('nodeMovementStatus');
+    status.textContent = '';
+    window.requestAnimationFrame(() => { status.textContent = `Moved ${stripInlineMathText(String(selected.data('label') ?? selected.id()))} ${label}.`; });
+  };
+  syncNodeMovementControls = (): void => {
+    const enabledByPreference = preferences.experimentalFeatures && preferences.allowNodeMovement;
+    const selected = currentSelectedGraphElement();
+    const available = enabledByPreference && Boolean(selected?.isNode());
+    const controls = byId('nodeMovementControls');
+    controls.hidden = !available;
+    for (const button of controls.querySelectorAll<HTMLButtonElement>('button')) button.disabled = !available;
+  };
   const syncNeighborhoodButton = (): void => graphView.syncNeighborhoodButton();
   const setNeighborhoodHighlight = (active: boolean, elementId: string | null = null, fitAfter = false): void =>
     graphView.setNeighborhoodHighlight(active, elementId, fitAfter);
@@ -419,6 +459,7 @@ export async function startAtlasApp(): Promise<void> {
       graphView.applyFilters({ relayout: false });
       structureOverlayController?.refresh();
       syncExperimentalButtons();
+      syncNodeMovementControls();
     }
   });
   const buildFilters = (): void => filterControls.build();
@@ -545,21 +586,21 @@ export async function startAtlasApp(): Promise<void> {
   function animateElementCenter(element: cytoscape.CollectionReturnValue, targetZoom: number, pointer?: { x: number; y: number }, duration = 260): void {
     const offsetY = getDetailsPanelYOffset();
     const worldPos = element.position();
-    if (pointer) {
-      const targetPan = {
-        x: pointer.x - worldPos.x * targetZoom,
-        y: pointer.y - worldPos.y * targetZoom
-      };
-      cy.animate({ zoom: targetZoom, pan: targetPan }, { duration });
-      return;
-    }
-
     const viewportWidth = cy.width();
     const viewportHeight = cy.height();
-    const targetPan = {
-      x: viewportWidth / 2 - worldPos.x * targetZoom,
-      y: viewportHeight / 2 - offsetY - worldPos.y * targetZoom
-    };
+    const targetPan = pointer
+      ? {
+          x: pointer.x - worldPos.x * targetZoom,
+          y: pointer.y - worldPos.y * targetZoom
+        }
+      : {
+          x: viewportWidth / 2 - worldPos.x * targetZoom,
+          y: viewportHeight / 2 - offsetY - worldPos.y * targetZoom
+        };
+    if (!graphAnimationEnabled()) {
+      cy.viewport({ zoom: targetZoom, pan: targetPan });
+      return;
+    }
     cy.animate({ zoom: targetZoom, pan: targetPan }, { duration });
   }
 
@@ -619,9 +660,9 @@ export async function startAtlasApp(): Promise<void> {
     if (center) {
       if (zoomIn) {
         const targetZoom = Math.min(1.1, Math.max(cy.zoom(), 0.78));
-        cy.animate({ center: { eles: element }, zoom: targetZoom }, { duration: 260 });
+        animateElementCenter(element, targetZoom, undefined, 260);
       } else {
-        cy.animate({ center: { eles: element } }, { duration: 220 });
+        animateElementCenterCurrentZoom(element, undefined, 220);
       }
     }
     return true;
@@ -832,9 +873,10 @@ export async function startAtlasApp(): Promise<void> {
         <section class="help-card">
           <h3>Move and select</h3>
           <ul>
-            <li>Drag the graph to pan; use a wheel, trackpad gesture, or pinch to zoom.</li>
-            <li>Tap or click a node or edge to select it, open Details, and emphasize its immediate neighborhood.</li>
+            <li>Drag the graph to pan; use a wheel, trackpad gesture, or pinch to zoom. The on-graph arrow, plus, minus, and fit buttons provide single-pointer alternatives.</li>
+            <li>Tap or click a node or relation to select it, open Details, and emphasize its immediate neighborhood.</li>
             <li>Double-tap or double-click an item to select and center it.</li>
+            <li>With keyboard focus on the graph, press <kbd>N</kbd> for concepts or <kbd>E</kbd> for relations; use arrow keys, Home, and End to move; Enter selects; Shift+Enter selects and centers; plus/minus zoom; zero fits; Escape clears.</li>
             <li>Tap or click blank graph space to clear the selection, search marks, neighborhood emphasis, and Details.</li>
           </ul>
         </section>
@@ -913,7 +955,7 @@ export async function startAtlasApp(): Promise<void> {
 
       <section class="help-card help-shortcuts">
         <h3>Keyboard</h3>
-        <p><kbd>/</kbd> focus search · <kbd>F</kbd> fit the graph · <kbd>Escape</kbd> clear search and close open mobile panels.</p>
+        <p><kbd>/</kbd> focus search · <kbd>F</kbd> fit the graph · graph focus: <kbd>N</kbd>/<kbd>E</kbd> choose concepts/relations, arrow keys navigate, <kbd>Enter</kbd> selects, <kbd>Shift</kbd>+<kbd>Enter</kbd> centers, <kbd>+</kbd>/<kbd>−</kbd> zoom, <kbd>0</kbd> fits · <kbd>Escape</kbd> clears.</p>
       </section>`);
 
   }
@@ -959,6 +1001,21 @@ export async function startAtlasApp(): Promise<void> {
     renderMathText
   });
   structureOverlayController.initialize();
+  graphAccessibilityController = new GraphAccessibilityController({
+    cy,
+    model,
+    graph: graphEl,
+    activeItem: byId('graphKeyboardItem'),
+    status: byId('graphKeyboardStatus'),
+    activateNode: (nodeId, center) => { activateNode(nodeId, { center, zoomIn: center, historyMode: 'push' }); },
+    activateEdge: (edgeId, center) => { activateEdge(edgeId, { center, zoomIn: center, historyMode: 'push' }); },
+    activateSemanticNode: (element) => { structureOverlayController?.selectGroupElement(element as cytoscape.SingularElementReturnValue); },
+    activateSemanticEdge: (element) => { structureOverlayController?.selectConnectionElement(element as cytoscape.SingularElementReturnValue); },
+    clearSelection: () => clearSelection({ historyMode: 'push' }),
+    fitVisible: fitVisibleGraph,
+    zoomBy: zoomGraphBy
+  });
+  graphAccessibilityController.initialize();
   viewsController = new ViewsController({
     views: viewsData.views,
     activeView: () => locationController.activeView(),
@@ -985,6 +1042,7 @@ export async function startAtlasApp(): Promise<void> {
     viewsController?.syncSelection(null);
     if (nextMode === 'concepts') showEmptyDetails();
     else structureOverlayController?.showIntroductionForLayout(nextLayout, false);
+    graphAccessibilityController?.refresh(false);
     syncDocumentMetadata(null);
     if (updateLocation) writeLocationState(null, 'replace');
   };
@@ -1004,7 +1062,9 @@ export async function startAtlasApp(): Promise<void> {
   searchController = new SearchController({
     root: byId('searchCombobox'),
     input: byId<HTMLInputElement>('searchInput'),
+    popup: byId('searchPopup'),
     results: byId('searchResults'),
+    status: byId('searchStatus'),
     button: byId<HTMLButtonElement>('searchButton'),
     index: searchIndex,
     onSearch: (query, result, preferredNodeId) => performSearch(query, result, preferredNodeId),
@@ -1013,27 +1073,87 @@ export async function startAtlasApp(): Promise<void> {
   searchController.initialize();
 
   byId('helpButton').addEventListener('click', () => byId<HTMLDialogElement>('helpDialog').showModal());
-  byId('filtersToggle').addEventListener('click', () => togglePanel('filters'));
-  byId('detailsToggle').addEventListener('click', () => togglePanel('details'));
-  byId('filtersRailToggle').addEventListener('click', () => togglePanel('filters'));
-  byId('detailsRailToggle').addEventListener('click', () => togglePanel('details'));
+  const togglePanelFromControl = (panel: 'filters' | 'details'): void => {
+    togglePanel(panel);
+    const open = panel === 'filters' ? state.filtersOpen : state.detailsOpen;
+    if (open) panelController.focusPanel(panel);
+  };
+  byId('filtersToggle').addEventListener('click', () => togglePanelFromControl('filters'));
+  byId('detailsToggle').addEventListener('click', () => togglePanelFromControl('details'));
+  byId('filtersRailToggle').addEventListener('click', () => togglePanelFromControl('filters'));
+  byId('detailsRailToggle').addEventListener('click', () => togglePanelFromControl('details'));
   byId('maximizeButton').addEventListener('click', toggleMaximizedGraph);
   byId('exportSvgButton').addEventListener('click', exportVisibleSvg);
-  byId('detailsClose').addEventListener('click', () => setPanelOpen('details', false));
+  byId('filtersClose').addEventListener('click', () => {
+    setPanelOpen('filters', false);
+    panelController.focusToggle('filters');
+  });
+  byId('detailsClose').addEventListener('click', () => {
+    setPanelOpen('details', false);
+    panelController.focusToggle('details');
+  });
+  byId('skipFilters').addEventListener('click', (event) => {
+    event.preventDefault();
+    setPanelOpen('filters', true);
+    panelController.focusPanel('filters');
+  });
+  byId('skipDetails').addEventListener('click', (event) => {
+    event.preventDefault();
+    setPanelOpen('details', true);
+    panelController.focusPanel('details');
+  });
+
+  const viewportControlBindings: Array<[string, () => void]> = [
+    ['graphPanUp', () => panGraphBy(0, -80)],
+    ['graphPanLeft', () => panGraphBy(-80, 0)],
+    ['graphPanRight', () => panGraphBy(80, 0)],
+    ['graphPanDown', () => panGraphBy(0, 80)],
+    ['graphZoomIn', () => zoomGraphBy(1.24)],
+    ['graphZoomOut', () => zoomGraphBy(1 / 1.24)],
+    ['graphFit', fitVisibleGraph]
+  ];
+  for (const [id, action] of viewportControlBindings) byId<HTMLButtonElement>(id).addEventListener('click', action);
+  const nodeMovementBindings: Array<[string, () => void]> = [
+    ['nodeMoveUp', () => moveSelectedNodeBy(0, -28, 'up')],
+    ['nodeMoveLeft', () => moveSelectedNodeBy(-28, 0, 'left')],
+    ['nodeMoveRight', () => moveSelectedNodeBy(28, 0, 'right')],
+    ['nodeMoveDown', () => moveSelectedNodeBy(0, 28, 'down')],
+    ['nodeMoveReset', () => runLayout(state.layout, false)]
+  ];
+  for (const [id, action] of nodeMovementBindings) byId<HTMLButtonElement>(id).addEventListener('click', action);
+  syncNodeMovementControls();
+
+  const toolbar = document.querySelector<HTMLElement>('.toolbar');
+  toolbar?.addEventListener('keydown', (event) => {
+    if (!(event.target instanceof HTMLButtonElement)) return;
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    const controls = Array.from(toolbar.querySelectorAll<HTMLElement>('button:not([hidden]):not(:disabled)'))
+      .filter((control) => control.offsetParent !== null);
+    const index = controls.indexOf(event.target);
+    if (index < 0 || !controls.length) return;
+    event.preventDefault();
+    const nextIndex = event.key === 'Home' ? 0
+      : event.key === 'End' ? controls.length - 1
+      : (index + (event.key === 'ArrowRight' ? 1 : -1) + controls.length) % controls.length;
+    controls[nextIndex]?.focus();
+  });
 
   document.addEventListener('keydown', (event) => {
-    const targetTag = event.target instanceof Element ? event.target.tagName.toLowerCase() : '';
-    const typing = targetTag === 'input' || targetTag === 'textarea' || targetTag === 'select';
-    if (event.key === '/' && !typing) {
+    const target = event.target instanceof Element ? event.target : null;
+    const interactive = Boolean(target?.closest('input, textarea, select, button, a, [contenteditable="true"], [role="application"]'));
+    if (event.key === '/' && !interactive) {
       event.preventDefault();
       searchController?.focus();
-    } else if ((event.key === 'f' || event.key === 'F') && !typing) {
+    } else if ((event.key === 'f' || event.key === 'F') && !interactive) {
+      event.preventDefault();
       fitVisibleGraph();
     } else if (event.key === 'Escape') {
-      if (isMobileLayout()) {
+      const openPanel: 'filters' | 'details' | null = state.filtersOpen ? 'filters' : state.detailsOpen ? 'details' : null;
+      if (isMobileLayout() && openPanel) {
         state.filtersOpen = false;
         state.detailsOpen = false;
         syncPanelUi();
+        panelController.focusToggle(openPanel);
       }
       if (state.searchQuery || byId<HTMLInputElement>('searchInput').value) searchController?.clear();
     }
@@ -1098,6 +1218,7 @@ export async function startAtlasApp(): Promise<void> {
     if (target.closest('#statusFiltersLink')) {
       event.preventDefault();
       setPanelOpen('filters', true);
+      panelController.focusPanel('filters');
     }
   });
   cy.on('zoom', () => {

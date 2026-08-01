@@ -57,11 +57,15 @@
   </script>
 </head>
 <body class="atlas-loading">
-  <a class="skip-link" href="#graph">Skip to the graph</a>
+  <nav class="skip-links" aria-label="Skip links">
+    <a id="skipGraph" class="skip-link" href="#graph">Skip to the graph</a>
+    <a id="skipFilters" class="skip-link" href="#filtersPanel">Skip to filters</a>
+    <a id="skipDetails" class="skip-link" href="#detailsPanel">Skip to details</a>
+  </nav>
   <div id="app">
     <header class="topbar">
       <div class="brand">
-        <button id="filtersToggle" class="button icon-button panel-button" aria-label="Toggle filters" aria-pressed="false" title="Show or hide filters">
+        <button id="filtersToggle" class="button icon-button panel-button" aria-label="Show filters" aria-controls="filtersPanel" aria-expanded="false" aria-pressed="false" title="Show filters">
           <span class="material-symbols-outlined" aria-hidden="true">filter_list</span>
           <span class="panel-count" aria-hidden="true"></span>
         </button>
@@ -81,13 +85,16 @@
             <span class="visually-hidden">Search concepts</span>
             <input id="searchInput" type="search" role="combobox" placeholder="Search concepts, domains, or IDs…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-autocomplete="list" aria-controls="searchResults" aria-expanded="false" aria-describedby="searchInstructions">
           </label>
-          <div id="searchResults" class="search-results" role="listbox" aria-label="Concept search results" hidden></div>
+          <div id="searchPopup" class="search-results" hidden>
+            <div id="searchResults" role="listbox" aria-label="Concept search results"></div>
+            <div id="searchStatus" class="search-results-status" role="status" aria-live="polite" aria-atomic="true"></div>
+          </div>
           <span id="searchInstructions" class="visually-hidden">Type to see ranked matches. Use the up and down arrow keys to choose a result, then press Enter to open it.</span>
         </div>
         <button id="searchButton" class="button icon-button" aria-label="Search concepts" title="Mark every match and open the chosen concept">
           <span class="material-symbols-outlined" aria-hidden="true">search</span>
         </button>
-        <button id="focusButton" class="button icon-button" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
+        <button id="focusButton" class="button icon-button" aria-label="Highlight selected neighborhood" aria-pressed="false" title="Select a node or edge to highlight its immediate neighborhood" disabled>
           <span class="material-symbols-outlined" aria-hidden="true">center_focus_strong</span>
         </button>
         <button id="compareButton" class="button icon-button" hidden aria-haspopup="dialog" aria-pressed="false" aria-label="Compare concepts" title="Compare two concepts">
@@ -110,10 +117,10 @@
         <button id="fitButton" class="button icon-button" aria-label="Fit graph" title="Fit all concepts currently allowed by the filters into the viewport (F)">
           <span class="material-symbols-outlined" aria-hidden="true">fit_screen</span>
         </button>
-        <button id="detailsToggle" class="button icon-button panel-button" aria-label="Toggle details" aria-pressed="false" title="Show or hide details">
+        <button id="detailsToggle" class="button icon-button panel-button" aria-label="Show details" aria-controls="detailsPanel" aria-expanded="false" aria-pressed="false" title="Show details">
           <span class="material-symbols-outlined" aria-hidden="true">dock_to_right</span>
         </button>
-        <button id="maximizeButton" class="button icon-button active" aria-pressed="true" title="Restore the sidebars">
+        <button id="maximizeButton" class="button icon-button active" aria-label="Restore side panels" aria-pressed="true" title="Restore side panels">
           <span class="material-symbols-outlined" aria-hidden="true">fullscreen_exit</span>
         </button>
         <button id="exportSvgButton" class="button icon-button" aria-label="Export SVG" title="Download the current visible graph as SVG">
@@ -129,7 +136,11 @@
     </header>
 
     <div id="workspace" class="workspace filters-collapsed details-collapsed">
-      <aside id="filtersPanel" class="sidebar filters-panel" aria-label="Filters" aria-hidden="true">
+      <aside id="filtersPanel" class="sidebar filters-panel" aria-labelledby="filtersHeading" aria-hidden="true" tabindex="-1">
+        <div class="panel-header filters-header">
+          <h2 id="filtersHeading">Filters</h2>
+          <button id="filtersClose" class="icon-button mobile-panel-close" type="button" aria-label="Close filters" title="Hide filters">×</button>
+        </div>
         <section id="activeViewFilterContext" class="active-view-filter-context" hidden></section>
 
         <section id="taxonomyFilterSection" class="filter-section">
@@ -142,7 +153,7 @@
             </div>
           </div>
           <div id="fieldFilterSection" class="filter-section-body">
-            <div id="fieldFilters" class="filter-list"></div>
+            <div id="fieldFilters" class="filter-list" role="group" aria-label="Field and domain filters"></div>
             <p class="filter-note">Domain visibility buttons cycle gray → yellow → red: allowed, excluded from prerequisite context, then prohibited completely. Multi-domain concepts still match enabled secondary domains unless their primary domain is prohibited.</p>
           </div>
         </section>
@@ -155,7 +166,7 @@
             <button id="edgesAll" type="button" class="text-button">all</button>
           </div>
           <div id="edgeFilterSection" class="filter-section-body">
-            <div id="edgeFilters" class="filter-list"></div>
+            <div id="edgeFilters" class="filter-list" role="group" aria-label="Relation type filters"></div>
           </div>
         </section>
 
@@ -198,7 +209,8 @@
             <label class="toggle-row experimental-features-row">
               <input id="experimentalFeaturesToggle" type="checkbox">
               <span>Experimental features</span>
-              <span class="material-symbols-outlined experimental-caution-icon" aria-hidden="true" title="Experimental features may be unstable">experiment</span>
+              <span class="material-symbols-outlined experimental-caution-icon" aria-hidden="true">experiment</span>
+              <span class="visually-hidden">Experimental features may be unstable.</span>
             </label>
             <div id="experimentalPreferenceOptions" class="experimental-preference-options" hidden>
               <label class="toggle-row"><input id="motionBlurToggle" type="checkbox"> Motion blur</label>
@@ -230,8 +242,8 @@
       </aside>
 
       <main class="graph-shell">
-        <button id="filtersRailToggle" class="panel-rail-toggle left" aria-label="Toggle filters" title="Show or hide filters">‹</button>
-        <button id="detailsRailToggle" class="panel-rail-toggle right" aria-label="Toggle details" title="Show or hide details">›</button>
+        <button id="filtersRailToggle" class="panel-rail-toggle left" aria-label="Show filters" aria-controls="filtersPanel" aria-expanded="false" title="Show filters">‹</button>
+        <button id="detailsRailToggle" class="panel-rail-toggle right" aria-label="Show details" aria-controls="detailsPanel" aria-expanded="false" title="Show details">›</button>
         <div id="fieldBands" class="field-bands" aria-hidden="true"></div>
         <section id="viewBanner" class="view-banner" aria-live="polite" hidden></section>
         <aside id="viewsWelcome" class="views-welcome" hidden>
@@ -242,14 +254,26 @@
           <button type="button" class="button primary" data-welcome-explore>Explore stories and views</button>
         </aside>
         <div id="graphLoader" class="graph-loader" role="status" aria-live="polite">Preparing the atlas…</div>
-        <div id="graph" role="application" aria-label="Interactive graph of connected concepts across mathematics, physics, and chemistry"></div>
+        <div id="graphViewportControls" class="graph-viewport-controls" role="group" aria-label="Graph viewport controls">
+          <button id="graphPanUp" class="icon-button" type="button" aria-label="Pan graph up" title="Pan graph up"><span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span></button>
+          <button id="graphPanLeft" class="icon-button" type="button" aria-label="Pan graph left" title="Pan graph left"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></button>
+          <button id="graphPanRight" class="icon-button" type="button" aria-label="Pan graph right" title="Pan graph right"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+          <button id="graphPanDown" class="icon-button" type="button" aria-label="Pan graph down" title="Pan graph down"><span class="material-symbols-outlined" aria-hidden="true">arrow_downward</span></button>
+          <button id="graphZoomIn" class="icon-button" type="button" aria-label="Zoom graph in" title="Zoom graph in"><span class="material-symbols-outlined" aria-hidden="true">add</span></button>
+          <button id="graphZoomOut" class="icon-button" type="button" aria-label="Zoom graph out" title="Zoom graph out"><span class="material-symbols-outlined" aria-hidden="true">remove</span></button>
+          <button id="graphFit" class="icon-button" type="button" aria-label="Fit graph to viewport" title="Fit graph to viewport"><span class="material-symbols-outlined" aria-hidden="true">fit_screen</span></button>
+        </div>
+        <div id="graph" role="application" tabindex="0" aria-label="Interactive graph of connected concepts across mathematics, physics, and chemistry" aria-roledescription="interactive concept graph" aria-describedby="graphKeyboardInstructions graphKeyboardStatus" aria-keyshortcuts="N E ArrowLeft ArrowRight ArrowUp ArrowDown Home End Enter Space Shift+Enter + - 0 Escape" aria-activedescendant="graphKeyboardItem" aria-owns="graphKeyboardItem"></div>
+        <p id="graphKeyboardInstructions" class="visually-hidden">Keyboard graph navigation: press N for concepts or E for relations; use arrow keys, Home, and End to move; Enter selects; Shift plus Enter selects and centers; plus and minus zoom; zero fits; Escape clears the selection. Use the visible viewport buttons as alternatives to dragging, wheel, and pinch gestures.</p>
+        <div id="graphKeyboardItem" class="visually-hidden" role="option" aria-selected="false"></div>
+        <div id="graphKeyboardStatus" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
         <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
         <div class="graph-meta">
           <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
         </div>
       </main>
 
-      <article id="detailsPanel" class="sidebar details-panel" aria-label="Details" aria-hidden="true">
+      <article id="detailsPanel" class="sidebar details-panel" aria-labelledby="detailTitle" aria-hidden="true" tabindex="-1">
         <section id="mobileViewContext" class="mobile-view-context" aria-label="Current story or view" hidden></section>
         <div class="details-header">
           <div>
@@ -259,19 +283,31 @@
           <button id="detailsClose" class="icon-button" aria-label="Close details" title="Hide details">×</button>
         </div>
         <div id="detailBody" class="detail-body">
-          <p>Click any concept, construction junction, or annotated edge.</p>
+          <p>Select any concept, construction junction, or annotated relation by pointer, touch, search, or keyboard.</p>
           <p class="muted">Construction junctions are diamonds. They show where multiple structures must coexist on the same carrier and satisfy compatibility conditions.</p>
         </div>
+        <section id="nodeMovementControls" class="node-movement-controls" aria-labelledby="nodeMovementHeading" hidden>
+          <h3 id="nodeMovementHeading">Move selected concept</h3>
+          <p>Single-pointer and keyboard alternatives to dragging. Each activation moves the selected concept one step.</p>
+          <div class="node-movement-grid" role="group" aria-label="Move selected concept">
+            <button id="nodeMoveUp" class="icon-button" type="button" aria-label="Move selected concept up"><span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span></button>
+            <button id="nodeMoveLeft" class="icon-button" type="button" aria-label="Move selected concept left"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></button>
+            <button id="nodeMoveReset" class="button" type="button">Restore layout</button>
+            <button id="nodeMoveRight" class="icon-button" type="button" aria-label="Move selected concept right"><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+            <button id="nodeMoveDown" class="icon-button" type="button" aria-label="Move selected concept down"><span class="material-symbols-outlined" aria-hidden="true">arrow_downward</span></button>
+          </div>
+          <p id="nodeMovementStatus" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+        </section>
       </article>
     </div>
   </div>
 
-  <dialog id="viewsDialog" class="help-dialog views-dialog">
+  <dialog id="viewsDialog" class="help-dialog views-dialog" aria-labelledby="viewsDialogTitle">
     <form method="dialog" class="dialog-card">
       <div class="dialog-header">
         <div>
           <div class="kicker">Curated starting points</div>
-          <h2>Stories &amp; Views</h2>
+          <h2 id="viewsDialogTitle">Stories &amp; Views</h2>
         </div>
         <button class="icon-button" value="close" aria-label="Close">×</button>
       </div>
@@ -283,12 +319,12 @@
     </form>
   </dialog>
 
-  <dialog id="compareDialog" class="help-dialog compare-dialog">
+  <dialog id="compareDialog" class="help-dialog compare-dialog" aria-labelledby="compareDialogTitle">
     <form method="dialog" class="dialog-card compare-dialog-card">
       <div class="dialog-header">
         <div>
           <div class="kicker">Relationship-aware analysis</div>
-          <h2>Compare concepts</h2>
+          <h2 id="compareDialogTitle">Compare concepts</h2>
         </div>
         <button class="icon-button" value="close" aria-label="Close">×</button>
       </div>
@@ -320,7 +356,7 @@
         </label>
       </div>
       <div id="compareStatus" class="compare-status" role="status" aria-live="polite">Choose two concepts to compare or connect.</div>
-      <div id="compareContent" class="dialog-content compare-content" role="tabpanel"></div>
+      <div id="compareContent" class="dialog-content compare-content" role="tabpanel" aria-labelledby="compareOverviewTab" tabindex="0"></div>
       <div class="dialog-actions compare-dialog-actions">
         <button id="compareClearButton" type="button" class="button">Clear</button>
         <button id="compareFitPathButton" type="button" class="button" hidden>
@@ -337,12 +373,12 @@
     </form>
   </dialog>
 
-  <dialog id="helpDialog" class="help-dialog">
+  <dialog id="helpDialog" class="help-dialog" aria-labelledby="helpDialogTitle">
     <form method="dialog" class="dialog-card">
       <div class="dialog-header">
         <div>
           <div class="kicker">Reading the graph</div>
-          <h2>Guide to the Atlas</h2>
+          <h2 id="helpDialogTitle">Guide to the Atlas</h2>
         </div>
         <button class="icon-button" value="close" aria-label="Close">×</button>
       </div>

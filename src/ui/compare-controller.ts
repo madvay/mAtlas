@@ -319,6 +319,8 @@ export class CompareController {
       button.setAttribute('aria-selected', String(active));
       button.setAttribute('tabindex', active ? '0' : '-1');
     });
+    const activeTabId = this.mode === 'connections' ? 'compareConnectionsTab' : 'compareOverviewTab';
+    byId('compareContent').setAttribute('aria-labelledby', activeTabId);
     const directionControl = byId<HTMLElement>('compareDirectionControl');
     directionControl.hidden = this.mode !== 'connections';
     byId<HTMLSelectElement>('compareDirection').value = this.direction;

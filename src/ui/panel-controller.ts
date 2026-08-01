@@ -49,26 +49,43 @@ export class PanelController {
   sync(): void {
     const { state } = this.options;
     const mobile = this.isMobileLayout();
+    if (mobile && state.filtersOpen && state.detailsOpen) state.filtersOpen = false;
     const workspace = byId('workspace');
     const filtersPanel = byId('filtersPanel');
     const detailsPanel = byId('detailsPanel');
+    const graphShell = workspace.querySelector<HTMLElement>('.graph-shell');
+    const topbar = document.querySelector<HTMLElement>('.topbar');
+    const skipLinks = document.querySelector<HTMLElement>('.skip-links');
 
     workspace.classList.toggle('filters-collapsed', !state.filtersOpen);
     workspace.classList.toggle('details-collapsed', !state.detailsOpen);
     filtersPanel.classList.toggle('open', mobile && state.filtersOpen);
     detailsPanel.classList.toggle('open', mobile && state.detailsOpen);
-    filtersPanel.setAttribute('aria-hidden', String(!state.filtersOpen));
-    detailsPanel.setAttribute('aria-hidden', String(!state.detailsOpen));
+    this.syncPanelAccessibility(filtersPanel, state.filtersOpen, mobile);
+    this.syncPanelAccessibility(detailsPanel, state.detailsOpen, mobile);
+
+    const mobilePanelOpen = mobile && (state.filtersOpen || state.detailsOpen);
+    document.body.classList.toggle('mobile-panel-open', mobilePanelOpen);
+    if (topbar) topbar.inert = mobilePanelOpen;
+    if (graphShell) graphShell.inert = mobilePanelOpen;
+    if (skipLinks) skipLinks.inert = mobilePanelOpen;
+    if (mobile) {
+      filtersPanel.inert = !state.filtersOpen;
+      detailsPanel.inert = !state.detailsOpen;
+    }
 
     const filtersToggle = byId<HTMLButtonElement>('filtersToggle');
     const detailsToggle = byId<HTMLButtonElement>('detailsToggle');
     const maximizeButton = byId<HTMLButtonElement>('maximizeButton');
     this.updateFiltersToggleCount();
-    filtersToggle.setAttribute('aria-pressed', String(state.filtersOpen));
-    detailsToggle.setAttribute('aria-pressed', String(state.detailsOpen));
-    maximizeButton.setAttribute('aria-pressed', String(!state.filtersOpen && !state.detailsOpen));
-    maximizeButton.classList.toggle('active', !state.filtersOpen && !state.detailsOpen);
-    renderHtml(maximizeButton, !state.filtersOpen && !state.detailsOpen
+    this.syncToggle(filtersToggle, 'filters', state.filtersOpen);
+    this.syncToggle(detailsToggle, 'details', state.detailsOpen);
+    const maximized = !state.filtersOpen && !state.detailsOpen;
+    maximizeButton.setAttribute('aria-pressed', String(maximized));
+    maximizeButton.setAttribute('aria-label', maximized ? 'Restore side panels' : 'Maximize graph');
+    maximizeButton.title = maximized ? 'Restore side panels' : 'Maximize graph';
+    maximizeButton.classList.toggle('active', maximized);
+    renderHtml(maximizeButton, maximized
       ? '<span class="material-symbols-outlined" aria-hidden="true">fullscreen_exit</span>'
       : '<span class="material-symbols-outlined" aria-hidden="true">fullscreen</span>');
 
@@ -76,14 +93,20 @@ export class PanelController {
     const rightRail = byId<HTMLButtonElement>('detailsRailToggle');
     leftRail.textContent = state.filtersOpen ? '‹' : '›';
     rightRail.textContent = state.detailsOpen ? '›' : '‹';
-    leftRail.setAttribute('aria-expanded', String(state.filtersOpen));
-    rightRail.setAttribute('aria-expanded', String(state.detailsOpen));
+    this.syncToggle(leftRail, 'filters', state.filtersOpen, false);
+    this.syncToggle(rightRail, 'details', state.detailsOpen, false);
     this.options.onPanelStateChange?.();
   }
 
   setOpen(panel: PanelName, open: boolean): void {
-    if (panel === 'filters') this.options.state.filtersOpen = open;
-    else this.options.state.detailsOpen = open;
+    if (open && this.isMobileLayout()) {
+      this.options.state.filtersOpen = panel === 'filters';
+      this.options.state.detailsOpen = panel === 'details';
+    } else if (panel === 'filters') {
+      this.options.state.filtersOpen = open;
+    } else {
+      this.options.state.detailsOpen = open;
+    }
     this.sync();
   }
 
@@ -92,16 +115,24 @@ export class PanelController {
     this.setOpen(panel, panel === 'filters' ? !state.filtersOpen : !state.detailsOpen);
   }
 
+  focusPanel(panel: PanelName): void {
+    const element = byId(panel === 'filters' ? 'filtersPanel' : 'detailsPanel');
+    window.requestAnimationFrame(() => element.focus({ preventScroll: true }));
+  }
+
+  focusToggle(panel: PanelName): void {
+    const element = byId<HTMLButtonElement>(panel === 'filters' ? 'filtersToggle' : 'detailsToggle');
+    window.requestAnimationFrame(() => element.focus({ preventScroll: true }));
+  }
+
   toggleMaximized(): void {
     const { state } = this.options;
     const maximized = !state.filtersOpen && !state.detailsOpen;
     if (maximized) {
       state.filtersOpen = this.restoreState.filtersOpen;
       state.detailsOpen = this.restoreState.detailsOpen;
-      if (!state.filtersOpen && !state.detailsOpen) {
-        state.filtersOpen = true;
-        state.detailsOpen = true;
-      }
+      if (!state.filtersOpen && !state.detailsOpen) state.filtersOpen = true;
+      if (this.isMobileLayout() && state.filtersOpen && state.detailsOpen) state.filtersOpen = false;
     } else {
       this.restoreState = { filtersOpen: state.filtersOpen, detailsOpen: state.detailsOpen };
       state.filtersOpen = false;
@@ -112,6 +143,7 @@ export class PanelController {
 
   openDetails(): void {
     if (!this.options.state.detailsOpen) this.setOpen('details', true);
+    if (this.isMobileLayout()) this.focusPanel('details');
   }
 
   updateFiltersToggleCount(): void {
@@ -122,5 +154,25 @@ export class PanelController {
     filtersToggle.setAttribute('data-count', displayCount);
     const badge = filtersToggle.querySelector<HTMLSpanElement>('.panel-count');
     if (badge) badge.textContent = displayCount === '0' ? '' : displayCount;
+  }
+
+  private syncPanelAccessibility(panel: HTMLElement, open: boolean, mobile: boolean): void {
+    panel.setAttribute('aria-hidden', String(!open));
+    panel.inert = !open;
+    if (mobile && open) {
+      panel.setAttribute('role', 'dialog');
+      panel.setAttribute('aria-modal', 'true');
+    } else {
+      panel.removeAttribute('role');
+      panel.removeAttribute('aria-modal');
+    }
+  }
+
+  private syncToggle(button: HTMLButtonElement, panel: PanelName, open: boolean, pressed = true): void {
+    const label = `${open ? 'Hide' : 'Show'} ${panel}`;
+    button.setAttribute('aria-expanded', String(open));
+    if (pressed) button.setAttribute('aria-pressed', String(open));
+    button.setAttribute('aria-label', label);
+    button.title = label;
   }
 }

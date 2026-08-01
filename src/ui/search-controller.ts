@@ -6,7 +6,9 @@ import { renderHtml } from './render.js';
 interface SearchControllerOptions {
   root: HTMLElement;
   input: HTMLInputElement;
+  popup: HTMLElement;
   results: HTMLElement;
+  status: HTMLElement;
   button: HTMLButtonElement;
   index: NodeSearchIndex;
   resultLimit?: number;
@@ -75,7 +77,8 @@ export class SearchController {
 
   close(): void {
     this.activeIndex = -1;
-    this.options.results.hidden = true;
+    this.options.popup.hidden = true;
+    this.options.status.textContent = '';
     this.options.input.setAttribute('aria-expanded', 'false');
     this.options.input.removeAttribute('aria-activedescendant');
   }
@@ -115,7 +118,7 @@ export class SearchController {
     this.currentResult = this.options.index.search(query, { limit: this.options.resultLimit ?? 8 });
     this.activeIndex = this.currentResult.matches.length ? 0 : -1;
     this.renderResults();
-    this.options.results.hidden = false;
+    this.options.popup.hidden = false;
     this.options.input.setAttribute('aria-expanded', 'true');
     this.syncActiveOption();
   }
@@ -136,7 +139,7 @@ export class SearchController {
     if (this.composing) return;
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
-      if (this.options.results.hidden) this.updateSuggestions();
+      if (this.options.popup.hidden) this.updateSuggestions();
       const count = this.currentResult.matches.length;
       if (!count) return;
       const delta = event.key === 'ArrowDown' ? 1 : -1;
@@ -144,12 +147,12 @@ export class SearchController {
       this.setActiveIndex((start + delta + count) % count);
       return;
     }
-    if (event.key === 'Home' && !this.options.results.hidden && this.currentResult.matches.length) {
+    if (event.key === 'Home' && !this.options.popup.hidden && this.currentResult.matches.length) {
       event.preventDefault();
       this.setActiveIndex(0);
       return;
     }
-    if (event.key === 'End' && !this.options.results.hidden && this.currentResult.matches.length) {
+    if (event.key === 'End' && !this.options.popup.hidden && this.currentResult.matches.length) {
       event.preventDefault();
       this.setActiveIndex(this.currentResult.matches.length - 1);
       return;
@@ -159,7 +162,7 @@ export class SearchController {
       this.submit();
       return;
     }
-    if (event.key === 'Escape' && !this.options.results.hidden) {
+    if (event.key === 'Escape' && !this.options.popup.hidden) {
       event.preventDefault();
       event.stopPropagation();
       this.close();
@@ -168,10 +171,13 @@ export class SearchController {
 
   private renderResults(): void {
     const matches = this.currentResult.matches;
-    const html = matches.length
-      ? `${matches.map((match, index) => this.renderMatch(match, index)).join('')}${this.renderFooter()}`
-      : '<div class="search-results-empty" role="status">No matching concepts</div>';
-    renderHtml(this.options.results, html);
+    renderHtml(this.options.results, matches.map((match, index) => this.renderMatch(match, index)).join(''));
+    this.options.status.className = matches.length ? 'search-results-footer' : 'search-results-empty';
+    if (!matches.length) {
+      this.options.status.textContent = 'No matching concepts';
+      return;
+    }
+    renderHtml(this.options.status, this.renderFooter());
   }
 
   private renderMatch(match: RankedNodeMatch, index: number): string {
@@ -180,7 +186,7 @@ export class SearchController {
       ? match.context.domainLabels.slice(0, 2).join(' · ')
       : match.context.fieldLabels.slice(0, 2).join(' · ');
     const summary = summarizePlainText(match.node.summary, 120);
-    return `<div id="searchResult${index}" class="search-result-option" role="option" aria-selected="false" data-search-result-index="${index}" data-search-node-id="${escapeHtml(match.node.id)}">
+    return `<div id="searchResult${index}" class="search-result-option" role="option" aria-selected="false" aria-posinset="${index + 1}" aria-setsize="${this.currentResult.total}" data-search-result-index="${index}" data-search-node-id="${escapeHtml(match.node.id)}">
       <div class="search-result-heading"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(taxonomy)}</span></div>
       <div class="search-result-summary">${escapeHtml(summary)}</div>
       <code>${escapeHtml(match.node.id)}</code>
@@ -191,7 +197,7 @@ export class SearchController {
     const shown = this.currentResult.matches.length;
     const total = this.currentResult.total;
     const count = total === shown ? `${total} match${total === 1 ? '' : 'es'}` : `${shown} of ${total} matches`;
-    return `<div class="search-results-footer" role="status">${count}<span><kbd>↑</kbd><kbd>↓</kbd> choose · <kbd>Enter</kbd> open</span></div>`;
+    return `<span>${count}</span><span><kbd>↑</kbd><kbd>↓</kbd> choose · <kbd>Enter</kbd> open</span>`;
   }
 
   private setActiveIndex(index: number): void {

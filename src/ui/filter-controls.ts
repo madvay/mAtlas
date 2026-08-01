@@ -125,15 +125,16 @@ export class FilterControls {
       group.className = 'field-filter-group';
       group.dataset.fieldGroup = fieldId;
 
-      const fieldLabel = document.createElement('label');
-      fieldLabel.className = 'filter-item field-filter-item';
-      fieldLabel.title = field.description;
-      renderHtml(fieldLabel, `
-        <input type="checkbox" data-field="${escapeHtml(fieldId)}" ${state.selectedFields.has(fieldId) ? 'checked' : ''}>
-        <button type="button" class="exclude-toggle" data-exclude-field="${escapeHtml(fieldId)}" aria-pressed="${state.excludedFields.has(fieldId)}" title="Exclude concepts whose primary field is ${escapeHtml(field.label)}" aria-label="Exclude concepts whose primary field is ${escapeHtml(field.label)}"><span class="material-symbols-outlined" aria-hidden="true">visibility_off</span></button>
-        <span class="swatch" style="background:${escapeHtml(field.color)}"></span>
-        <span><a href="${escapeHtml(this.options.fieldPageUrl(fieldId))}" class="filter-link filter-field-link" data-field-link="${escapeHtml(fieldId)}">${escapeHtml(field.label)}</a> <span class="filter-count">${memberCount}</span></span>`);
-      group.appendChild(fieldLabel);
+      const fieldItem = document.createElement('div');
+      fieldItem.className = 'filter-item field-filter-item';
+      fieldItem.title = field.description;
+      const fieldExcluded = state.excludedFields.has(fieldId);
+      renderHtml(fieldItem, `
+        <label class="filter-checkbox-target"><input id="fieldFilter-${escapeHtml(fieldId)}" type="checkbox" data-field="${escapeHtml(fieldId)}" aria-label="Include ${escapeHtml(field.label)} field" ${state.selectedFields.has(fieldId) ? 'checked' : ''}></label>
+        <button type="button" class="exclude-toggle" data-exclude-field="${escapeHtml(fieldId)}" aria-pressed="${fieldExcluded}" title="${escapeHtml(this.fieldSuppressionAction(field.label, fieldExcluded))}" aria-label="${escapeHtml(this.fieldSuppressionAction(field.label, fieldExcluded))}"><span class="material-symbols-outlined" aria-hidden="true">visibility_off</span></button>
+        <span class="swatch" style="background:${escapeHtml(field.color)}" aria-hidden="true"></span>
+        <span class="filter-item-copy"><a href="${escapeHtml(this.options.fieldPageUrl(fieldId))}" class="filter-link filter-field-link" data-field-link="${escapeHtml(fieldId)}" aria-label="Toggle exclusive ${escapeHtml(field.label)} field filter">${escapeHtml(field.label)}</a> <span class="filter-count" aria-label="${memberCount} concepts">${memberCount}</span></span>`);
+      group.appendChild(fieldItem);
 
       const domainList = document.createElement('div');
       domainList.className = 'domain-list';
@@ -145,15 +146,15 @@ export class FilterControls {
         const primaryCount = model.data.nodes.filter((node) =>
           node.kind === 'structure' && node.primaryDomain === domainId).length;
         const suppression = domainSuppression(domainId, state.excludedDomains, state.prohibitedDomains);
-        const label = document.createElement('label');
-        label.className = 'filter-item domain-filter-item';
-        label.title = `${domainMemberCount} concepts belong to this domain; ${primaryCount} use it as their primary layout domain.`;
-        renderHtml(label, `
-          <input type="checkbox" data-domain="${escapeHtml(domainId)}" ${state.selectedDomains.has(domainId) ? 'checked' : ''}>
+        const item = document.createElement('div');
+        item.className = 'filter-item domain-filter-item';
+        item.title = `${domainMemberCount} concepts belong to this domain; ${primaryCount} use it as their primary layout domain.`;
+        renderHtml(item, `
+          <label class="filter-checkbox-target"><input id="domainFilter-${escapeHtml(domainId)}" type="checkbox" data-domain="${escapeHtml(domainId)}" aria-label="Include ${escapeHtml(domain.label)} domain" ${state.selectedDomains.has(domainId) ? 'checked' : ''}></label>
           ${this.domainSuppressionButton(domainId, domain.label, suppression)}
-          <span class="swatch" style="background:${escapeHtml(domain.color)}"></span>
-          <span><a href="${escapeHtml(this.options.domainPageUrl(domainId))}" class="filter-link filter-domain-link" data-domain-link="${escapeHtml(domainId)}">${escapeHtml(domain.label)}</a> <span class="filter-count">${domainMemberCount}</span></span>`);
-        domainList.appendChild(label);
+          <span class="swatch" style="background:${escapeHtml(domain.color)}" aria-hidden="true"></span>
+          <span class="filter-item-copy"><a href="${escapeHtml(this.options.domainPageUrl(domainId))}" class="filter-link filter-domain-link" data-domain-link="${escapeHtml(domainId)}" aria-label="Toggle exclusive ${escapeHtml(domain.label)} domain filter">${escapeHtml(domain.label)}</a> <span class="filter-count" aria-label="${domainMemberCount} concepts">${domainMemberCount}</span></span>`);
+        domainList.appendChild(item);
       }
       group.appendChild(domainList);
       fieldContainer.appendChild(group);
@@ -166,11 +167,11 @@ export class FilterControls {
         const type = model.data.edgeTypes[id];
         if (!type) return '';
         const edgeTypeCount = model.data.edges.filter((edge) => edge.type === id).length;
-        return `<label class="filter-item" title="${escapeHtml(type.description)}">
-          <input type="checkbox" data-edge-type="${escapeHtml(id)}" ${state.selectedEdgeTypes.has(id) ? 'checked' : ''}>
-          <span class="line-swatch ${escapeHtml(type.lineStyle ?? 'solid')}" style="border-color:${escapeHtml(type.color)}"></span>
-          <span><a href="#" class="filter-link filter-edge-link" data-edge-link="${escapeHtml(id)}">${escapeHtml(type.label)}</a> <span class="filter-count">${edgeTypeCount}</span></span>
-        </label>`;
+        return `<div class="filter-item" title="${escapeHtml(type.description)}">
+          <label class="filter-checkbox-target"><input id="edgeFilter-${escapeHtml(id)}" type="checkbox" data-edge-type="${escapeHtml(id)}" aria-label="Show ${escapeHtml(type.label)} relations" ${state.selectedEdgeTypes.has(id) ? 'checked' : ''}></label>
+          <span class="line-swatch ${escapeHtml(type.lineStyle ?? 'solid')}" style="border-color:${escapeHtml(type.color)}" aria-hidden="true"></span>
+          <span class="filter-item-copy"><a href="#" class="filter-link filter-edge-link" data-edge-link="${escapeHtml(id)}" aria-label="Toggle exclusive ${escapeHtml(type.label)} relation filter">${escapeHtml(type.label)}</a> <span class="filter-count" aria-label="${edgeTypeCount} relations">${edgeTypeCount}</span></span>
+        </div>`;
       }).join(''));
   }
 
@@ -205,7 +206,10 @@ export class FilterControls {
     const { model, state } = this.options;
     const allSelected = state.selectedFields.size === model.fieldOrder.length
       && state.selectedDomains.size === model.domainOrder.length;
-    byId<HTMLButtonElement>('fieldsAll').textContent = allSelected ? 'none' : 'all';
+    const button = byId<HTMLButtonElement>('fieldsAll');
+    button.textContent = allSelected ? 'none' : 'all';
+    button.setAttribute('aria-label', allSelected ? 'Clear all field and domain selections' : 'Select all fields and domains');
+    button.title = button.getAttribute('aria-label') ?? '';
   }
 
   updateFieldNavActiveState(): void {
@@ -362,7 +366,12 @@ export class FilterControls {
       if (fieldId) {
         const set = this.options.state.excludedFields;
         this.setMembership(set, fieldId, !set.has(fieldId));
-        exclude.setAttribute('aria-pressed', String(set.has(fieldId)));
+        const excluded = set.has(fieldId);
+        exclude.setAttribute('aria-pressed', String(excluded));
+        const fieldLabel = this.options.model.data.fields[fieldId]?.label ?? fieldId;
+        const action = this.fieldSuppressionAction(fieldLabel, excluded);
+        exclude.setAttribute('aria-label', action);
+        exclude.title = action;
       } else if (domainId) {
         const suppression = cycleDomainSuppression(
           domainId,
@@ -453,7 +462,10 @@ export class FilterControls {
     const { model, state } = this.options;
     const active = model.edgeTypeOrder.filter((id) => model.data.edgeTypes[id]?.activeInDataset !== false);
     const allSelected = state.selectedEdgeTypes.size === active.length;
-    byId<HTMLButtonElement>('edgesAll').textContent = allSelected ? 'none' : 'all';
+    const button = byId<HTMLButtonElement>('edgesAll');
+    button.textContent = allSelected ? 'none' : 'all';
+    button.setAttribute('aria-label', allSelected ? 'Hide all relation types' : 'Show all relation types');
+    button.title = button.getAttribute('aria-label') ?? '';
   }
 
   private syncEdgeCheckboxes(): void {
@@ -510,14 +522,20 @@ export class FilterControls {
   }
 
 
+  private fieldSuppressionAction(fieldLabel: string, excluded: boolean): string {
+    return excluded
+      ? `Allow prerequisite concepts whose primary field is ${fieldLabel}`
+      : `Exclude prerequisite concepts whose primary field is ${fieldLabel}`;
+  }
+
   private domainSuppressionButton(domainId: string, domainLabel: string, suppression: DomainSuppression): string {
     const ariaPressed = suppression === 'included' ? 'false' : suppression === 'excluded' ? 'mixed' : 'true';
     const icon = suppression === 'included' ? 'visibility' : suppression === 'excluded' ? 'visibility_off' : 'block';
     const action = suppression === 'included'
-      ? `Tap to exclude prerequisite concepts whose primary domain is ${domainLabel}`
+      ? `Activate to exclude prerequisite concepts whose primary domain is ${domainLabel}`
       : suppression === 'excluded'
-        ? `${domainLabel} is excluded from prerequisite context; tap again to prohibit it completely`
-        : `${domainLabel} is prohibited completely; tap again to allow it`;
+        ? `${domainLabel} is excluded from prerequisite context; activate again to prohibit it completely`
+        : `${domainLabel} is prohibited completely; activate again to allow it`;
     return `<button type="button" class="exclude-toggle domain-suppression-toggle" data-exclude-domain="${escapeHtml(domainId)}" data-suppression="${suppression}" aria-pressed="${ariaPressed}" title="${escapeHtml(action)}" aria-label="${escapeHtml(action)}"><span class="material-symbols-outlined" aria-hidden="true">${icon}</span></button>`;
   }
 
