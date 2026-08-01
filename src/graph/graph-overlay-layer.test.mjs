@@ -8,10 +8,11 @@ class FakeCanvasContext {
     this.transforms = [];
     this.fillStyle = '';
     this.globalAlpha = 1;
+    this.clearCount = 0;
   }
 
   setTransform(...values) { this.transforms.push(values); }
-  clearRect() { this.arcs = []; }
+  clearRect() { this.clearCount += 1; this.arcs = []; }
   beginPath() {}
   arc(x, y, radius, start, end) {
     this.arcs.push({ x, y, radius, start, end, fillStyle: this.fillStyle, opacity: this.globalAlpha });
@@ -159,7 +160,6 @@ test('one canvas draws all domain dots and follows viewport and node geometry', 
     assert.equal(canvas.width, 400);
     assert.equal(canvas.height, 300);
     assert.equal(canvas.getAttribute('data-domain-marker-nodes'), '1');
-    assert.equal(viewport.style.transform, 'translate3d(10px, 20px, 0) scale(1)');
     assert.deepEqual(canvas.context.arcs.map(({ x, y, radius, fillStyle }) => ({ x, y, radius, fillStyle })), [
       { x: 99.5, y: 45.5, radius: 4.5, fillStyle: '#222222' },
       { x: 111.5, y: 45.5, radius: 4.5, fillStyle: '#333333' }
@@ -169,7 +169,6 @@ test('one canvas draws all domain dots and follows viewport and node geometry', 
     cy.setViewport({ x: -30, y: 18 }, 1.75);
     cy.emit('zoom');
     dom.flush();
-    assert.equal(viewport.style.transform, 'translate3d(-30px, 18px, 0) scale(1.75)');
     assert.deepEqual(canvas.context.transforms.at(-1), [1.75, 0, 0, 1.75, -30, 18]);
 
     node.moveTo(55, 70);
@@ -206,10 +205,17 @@ test('domain marker visibility and opacity are cached independently of Story bad
     assert.deepEqual(canvas.context.arcs.map((arc) => arc.opacity), [0.46, 0.46]);
     assert.equal(badge.style.opacity, '0.46');
 
+    const clearsBeforeDisable = canvas.context.clearCount;
     layer.setPreferences(preferences({ indicateOtherDomains: false }));
     dom.flush();
     assert.equal(canvas.context.arcs.length, 0);
+    assert.equal(canvas.hidden, true);
+    assert.equal(canvas.context.clearCount, clearsBeforeDisable + 1);
     assert.equal(badge.hidden, false);
+
+    cy.emit('zoom');
+    dom.flush();
+    assert.equal(canvas.context.clearCount, clearsBeforeDisable + 1);
   } finally {
     dom.restore();
   }
@@ -232,6 +238,12 @@ test('Story sequence badges are numbered, positioned at node bottom-left, and cl
     assert.equal(badge.textContent, '1');
     assert.equal(badge.style.left, '-42px');
     assert.equal(badge.style.top, '54px');
+    assert.equal(viewport.style.transform, 'translate3d(10px, 20px, 0) scale(1)');
+
+    cy.setViewport({ x: -30, y: 18 }, 1.75);
+    cy.emit('zoom');
+    dom.flush();
+    assert.equal(viewport.style.transform, 'translate3d(-30px, 18px, 0) scale(1.75)');
 
     layer.setNodeSequence([]);
     assert.equal(badge.removed, true);

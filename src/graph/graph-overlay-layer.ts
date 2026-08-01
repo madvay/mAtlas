@@ -39,6 +39,8 @@ export class GraphOverlayLayer {
   private readonly sequenceBadges: SequenceBadgeEntry[] = [];
   private frame = 0;
   private dirty = 0;
+  private visibleDomainMarkerCount = 0;
+  private visibleSequenceBadgeCount = 0;
   private preferences: Preferences;
 
   constructor(
@@ -90,10 +92,15 @@ export class GraphOverlayLayer {
       this.frame = 0;
       const pending = this.dirty;
       this.dirty = 0;
-      if (pending & STATE_DIRTY) this.syncState();
-      if (pending & VIEWPORT_DIRTY) this.syncBadgeViewport();
-      if (pending & GEOMETRY_DIRTY) this.syncBadgeGeometry();
-      if (pending & ALL_DIRTY) this.drawDomainMarkers();
+      const stateChanged = Boolean(pending & STATE_DIRTY);
+      if (stateChanged) this.syncState();
+      if (this.visibleSequenceBadgeCount > 0 && (stateChanged || (pending & VIEWPORT_DIRTY))) {
+        this.syncBadgeViewport();
+      }
+      if (this.visibleSequenceBadgeCount > 0 && (stateChanged || (pending & GEOMETRY_DIRTY))) {
+        this.syncBadgeGeometry();
+      }
+      if (this.visibleDomainMarkerCount > 0 && (pending & ALL_DIRTY)) this.drawDomainMarkers();
     });
   }
 
@@ -128,6 +135,8 @@ export class GraphOverlayLayer {
   }
 
   private syncState(): void {
+    const previouslyVisibleDomainMarkerCount = this.visibleDomainMarkerCount;
+    let visibleDomainMarkerCount = 0;
     for (const entry of this.domainMarkers) {
       const { element } = entry;
       entry.visible = this.preferences.indicateOtherDomains
@@ -135,14 +144,35 @@ export class GraphOverlayLayer {
         && !element.hasClass('structure-source-node')
         && element.style('display') !== 'none';
       entry.opacity = entry.visible ? numericOpacity(element, 1) : 0;
+      if (entry.visible && entry.opacity > 0) visibleDomainMarkerCount += 1;
     }
+    this.visibleDomainMarkerCount = visibleDomainMarkerCount;
+    this.markerCanvas.hidden = visibleDomainMarkerCount === 0;
+    if (visibleDomainMarkerCount === 0 && previouslyVisibleDomainMarkerCount > 0) {
+      this.clearDomainMarkers();
+    }
+
+    let visibleSequenceBadgeCount = 0;
     for (const { element, badge } of this.sequenceBadges) {
       const hidden = element.hasClass('filter-hidden')
         || element.hasClass('structure-source-node')
         || element.style('display') === 'none';
       badge.hidden = hidden;
-      if (!hidden) badge.style.opacity = String(numericOpacity(element, 1));
+      if (!hidden) {
+        badge.style.opacity = String(numericOpacity(element, 1));
+        visibleSequenceBadgeCount += 1;
+      }
     }
+    this.visibleSequenceBadgeCount = visibleSequenceBadgeCount;
+    this.viewport.hidden = visibleSequenceBadgeCount === 0;
+  }
+
+
+  private clearDomainMarkers(): void {
+    const context = this.markerContext;
+    if (!context) return;
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, this.markerCanvas.width, this.markerCanvas.height);
   }
 
   private drawDomainMarkers(): void {

@@ -14,6 +14,7 @@ import { GraphViewportController } from '../graph/graph-viewport-controller.js';
 import { compactLayoutWouldHelp } from '../graph/layout-suggestion.js';
 import { GraphOverlayLayer } from '../graph/graph-overlay-layer.js';
 import { IdleRenderController } from '../graph/idle-render-controller.js';
+import { applyLayoutViewportRendering } from '../graph/layout-viewport-rendering.js';
 import { MathRenderer } from '../ui/math-renderer.js';
 import { DetailsController } from '../ui/details-controller.js';
 import { SvgExporter } from '../ui/svg-exporter.js';
@@ -336,6 +337,7 @@ export async function startAtlasApp(): Promise<void> {
 
   function runLayout(name: LayoutName = state.layout, fitAfter = true): void {
     resetInteractionForLayout(name);
+    applyLayoutViewportRendering(cy, name);
     structureOverlayController?.prepareForLayout(name);
     if (name === 'domains' || name === 'fields') fieldBandController.clear();
     layoutManager.run(name, fitAfter);

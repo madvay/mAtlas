@@ -32,6 +32,7 @@
     "src/graph/edge-interaction.ts",
     "src/graph/graph-viewport-controller.ts",
     "src/graph/layout-manager.ts",
+    "src/graph/layout-viewport-rendering.ts",
     "src/graph/create-graph.ts",
     "src/graph/graph-overlay-layer.ts",
     "src/app/location-controller.ts",
