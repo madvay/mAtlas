@@ -2967,17 +2967,18 @@ edges:
       - nlab-fock_space
       - wp-physics-quantum_field_theory
       - nlab-physics-quantum_field
-  - id: fieldop_to_ovd
+  - id: quantum_field_operator_to_operator_valued_distribution_representation
     source: quantum_field_operator
     target: operator_valued_distribution
-    type: mathematical-formulation
-    label: distributional definition
-    detail: In rigorous local formulations, a quantum field is represented as an operator-valued distribution that must be smeared with test functions rather than as a pointwise operator.
+    type: representation-equivalence
+    label: rigorous distributional interpretation
+    detail: A local quantum field is rigorously interpreted as an operator-valued distribution that must be smeared with test functions, not as a well-defined pointwise operator.
     citations:
       - wp-physics-operator_valued_distribution
       - nlab-physics-operator_valued_distribution
       - wp-physics-quantum_field_theory
       - nlab-physics-quantum_field
+      - tong-qft
   - id: qft_to_antiparticle
     source: quantum_field_theory
     target: antiparticle
@@ -3359,16 +3360,18 @@ edges:
     citations:
       - wp-physics-standard_model_gauge_group
       - nlab-physics-standard_model
-  - id: smlagrangian_to_sm
+  - id: standard_model_lagrangian_to_standard_model_theory_component
     source: standard_model_lagrangian
     target: standard_model
-    type: mathematical-formulation
-    label: dynamical formulation
-    detail: The Standard Model Lagrangian is the usual local action formulation encoding the theory’s field content, symmetries, masses, and interactions.
+    type: theory-component
+    label: encodes the local dynamics
+    detail: The Standard Model Lagrangian is the central local dynamical component encoding the theory’s fields, gauge symmetries, masses, and interactions.
     citations:
       - wp-physics-standard_model_gauge_group
       - nlab-physics-standard_model
       - wp-physics-standard_model
+      - pdg-standard-model
+      - tong-standard-model
   - id: w_to_chargedcurrent
     source: w_field
     target: charged_current_weak_interaction

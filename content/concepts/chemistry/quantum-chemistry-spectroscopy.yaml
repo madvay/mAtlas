@@ -634,17 +634,6 @@ edges:
   - wp-chem-quantum-chemistry
   - iupac-green-book
   - nist-chemistry-webbook
-- id: chem_beer_lambert_law_to_quantitative_chemical_analysis_mathematical_formulation
-  source: beer_lambert_law
-  target: quantitative_chemical_analysis
-  type: mathematical-formulation
-  label: supports concentration calibration
-  detail: Absorbance can be proportional to path length and concentration in a validated regime; chemical equilibria, stray light, and scattering
-    can break linearity.
-  citations:
-  - wp-chem-quantum-chemistry
-  - iupac-green-book
-  - nist-chemistry-webbook
 - id: chem_raman_spectroscopy_to_photon_transformation_process
   source: raman_spectroscopy
   target: photon

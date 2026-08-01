@@ -2155,12 +2155,12 @@ edges:
       - nist-atomic-spectroscopy
       - wp-physics-configuration_state_function
       - nist-atomic-states
-  - id: slater_to_manybody
+  - id: slater_determinant_to_many_body_quantum_mechanics_theory_component
     source: slater_determinant
     target: many_body_quantum_mechanics
-    type: mathematical-formulation
-    label: antisymmetric fermion ansatz
-    detail: A Slater determinant is the basic single-configuration antisymmetric state for identical fermions.
+    type: theory-component
+    label: supplies a single-configuration fermion ansatz
+    detail: A Slater determinant supplies a basic antisymmetric single-configuration ansatz within fermionic many-body quantum mechanics; it does not formulate the whole subject.
     citations:
       - wp-slater_determinant
       - nlab-slater_determinant

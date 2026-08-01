@@ -430,20 +430,30 @@ edges:
       - wp-circle_group
       - nlab-circle_group
     overview: true
-  - id: cg_to_atomiccoupling
+  - id: clebsch_gordan_coefficient_to_ls_coupling
     source: clebsch_gordan_coefficient
-    target: atomic_term_symbol
+    target: ls_coupling
     type: mathematical-formulation
-    label: angular-momentum coupling coefficients
-    detail: Clebsch–Gordan coefficients combine orbital and spin angular momenta into coupled atomic states.
+    label: changes to the coupled angular-momentum basis
+    detail: Clebsch–Gordan coefficients transform between uncoupled orbital-and-spin product states and states of definite total angular momentum used in LS coupling.
     citations:
       - wp-clebsch_gordan_coefficient
       - nlab-clebsch_gordan_coefficient
       - pdg-2026-mathematical-tools
       - nist-atomic-spectroscopy
-      - wp-physics-atomic_term_symbol
       - nist-atomic-states
-      - nist-asd-levels
+  - id: clebsch_gordan_coefficient_to_jj_coupling
+    source: clebsch_gordan_coefficient
+    target: jj_coupling
+    type: mathematical-formulation
+    label: changes to the coupled angular-momentum basis
+    detail: Clebsch–Gordan coefficients implement successive angular-momentum couplings used to build states of definite total angular momentum in jj coupling.
+    citations:
+      - wp-clebsch_gordan_coefficient
+      - nlab-clebsch_gordan_coefficient
+      - pdg-2026-mathematical-tools
+      - nist-atomic-spectroscopy
+      - nist-atomic-states
   - id: e_action_gset
     source: group_action
     target: g_set

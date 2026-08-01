@@ -1009,17 +1009,18 @@ edges:
       - nlab-physics-general_relativity
       - wp-physics-spacetime_metric
       - einstein-general-relativity
-  - id: sr_to_four_vector
-    source: special_relativity
-    target: four_vector
-    type: mathematical-formulation
-    label: four-vector kinematics
-    detail: Relativistic events, velocities, currents, and momenta are organized as Lorentz tensors including four-vectors.
+  - id: four_vector_to_special_relativity_theory_component
+    source: four_vector
+    target: special_relativity
+    type: theory-component
+    label: supplies Lorentz-covariant kinematics
+    detail: Four-vectors supply the Lorentz-covariant representation of events, velocities, currents, and momenta used throughout special-relativistic kinematics.
     citations:
       - wp-physics-four_vector
       - nlab-physics-minkowski_spacetime
       - wp-physics-special_relativity
       - nlab-physics-special_relativity
+      - tong-relativity
   - id: sr_to_lorentz_symmetry
     source: lorentz_symmetry
     target: special_relativity

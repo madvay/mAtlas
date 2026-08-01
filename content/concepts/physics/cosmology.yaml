@@ -223,15 +223,18 @@ edges:
     citations:
       - nasa-big-bang
       - einstein-equation
-  - id: story_flrw_spacetime_to_friedmann_equations_mathematical_formulation
+  - id: flrw_spacetime_to_friedmann_equations_theorem_implication
     source: flrw_spacetime
     target: friedmann_equations
-    type: mathematical-formulation
-    label: reduce Einstein’s equation
-    detail: Substitution of the FLRW metric and homogeneous stress–energy into Einstein’s equation yields the Friedmann equations.
+    type: theorem-implication
+    label: reduces Einstein’s equation
+    detail: Substituting the homogeneous and isotropic FLRW metric and perfect-fluid stress–energy into Einstein’s equation yields the Friedmann equations.
     citations:
       - einstein-equation
       - nasa-big-bang
+      - tong-gr
+      - wp-physics-flrw-spacetime
+      - wp-physics-friedmann-equations
   - id: story_friedmann_equations_to_expanding_universe_describes_governs
     source: friedmann_equations
     target: expanding_universe
@@ -322,12 +325,14 @@ edges:
     detail: The temperature and polarization spectra of the cosmic microwave background provide major quantitative tests and parameter constraints for $\Lambda$CDM.
     citations:
       - nasa-big-bang
-  - id: story_flrw_spacetime_to_lambda_cdm_model_mathematical_formulation
+  - id: flrw_spacetime_to_lambda_cdm_model_theory_component
     source: flrw_spacetime
     target: lambda_cdm_model
-    type: mathematical-formulation
-    label: background geometry
-    detail: The standard cosmological model uses a perturbed FLRW spacetime.
+    type: theory-component
+    label: supplies the background geometry
+    detail: The standard cosmological model uses a perturbed FLRW spacetime as its background geometry together with specified matter, radiation, dark-matter, and cosmological-constant sectors.
     citations:
       - nasa-big-bang
       - einstein-equation
+      - tong-gr
+      - wp-physics-flrw-spacetime

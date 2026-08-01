@@ -452,17 +452,18 @@ edges:
   - openstax-chemistry-2e
   - iupac-green-book
   - nist-chemistry-webbook
-- id: chem_chemical_potential_to_chemical_activity_mathematical_formulation
+- id: chem_chemical_potential_to_chemical_activity_representation_equivalence
   source: chemical_potential
   target: chemical_activity
-  type: mathematical-formulation
-  label: defines effective composition
-  detail: Activity expresses chemical potential relative to a standard state through a logarithmic relation at specified temperature and pressure.
+  type: representation-equivalence
+  label: thermodynamic reparameterization
+  detail: At fixed temperature and a specified standard state, activity is the exponential reparameterization of chemical potential, $a=\exp[(\mu-\mu^\circ)/(RT)]$.
   citations:
-  - wp-chem-chemical-thermodynamics
-  - openstax-chemistry-2e
-  - iupac-green-book
-  - nist-chemistry-webbook
+    - wp-chem-chemical-thermodynamics
+    - openstax-chemistry-2e
+    - iupac-green-book
+    - iupac-gold-book
+    - nist-chemistry-webbook
 - id: chem_chemical_potential_to_phase_transition_describes_governs
   source: chemical_potential
   target: phase_transition
@@ -470,18 +471,6 @@ edges:
   label: sets phase coexistence
   detail: At equilibrium, chemical potentials of transferable components satisfy phase-coexistence conditions subject to mechanical and thermal
     constraints.
-  citations:
-  - wp-chem-chemical-thermodynamics
-  - openstax-chemistry-2e
-  - iupac-green-book
-  - nist-chemistry-webbook
-- id: chem_gibbs_energy_to_electrode_potential_mathematical_formulation
-  source: gibbs_energy
-  target: electrode_potential
-  type: mathematical-formulation
-  label: relates reaction free energy and voltage
-  detail: For a reversible electrochemical reaction, Gibbs-energy change relates to cell potential and transferred charge with an explicitly stated
-    sign convention.
   citations:
   - wp-chem-chemical-thermodynamics
   - openstax-chemistry-2e
@@ -498,18 +487,17 @@ edges:
   - openstax-chemistry-2e
   - iupac-green-book
   - nist-chemistry-webbook
-- id: chem_law_mass_action_to_rate_law_mathematical_formulation
+- id: chem_law_mass_action_to_rate_law_describes_governs
   source: law_mass_action
   target: rate_law
-  type: mathematical-formulation
-  label: governs elementary concentration dependence
-  detail: Mass-action kinetics gives elementary-step rates proportional to reactant activities or concentrations under its regime; empirical overall
-    orders need not be stoichiometric.
+  type: describes-governs
+  label: governs elementary-step concentration dependence
+  detail: Mass-action kinetics gives elementary-step rates proportional to reactant activities or concentrations under its regime; empirical overall reaction orders need not equal stoichiometric coefficients.
   citations:
-  - wp-chem-chemical-thermodynamics
-  - openstax-chemistry-2e
-  - iupac-green-book
-  - nist-chemistry-webbook
+    - wp-chem-chemical-thermodynamics
+    - openstax-chemistry-2e
+    - iupac-green-book
+    - nist-chemistry-webbook
 - id: chem_chemical_equilibrium_to_acid_base_equilibrium_framework_specialization
   source: chemical_equilibrium
   target: acid_base_equilibrium

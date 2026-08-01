@@ -529,18 +529,19 @@ edges:
       - nlab-physics-lagrangian_density
       - wp-physics-action_functional
       - nlab-physics-action_functional
-  - id: lagrangian_to_classical_field
+  - id: lagrangian_density_to_classical_field_theory_component
     source: lagrangian_density
     target: classical_field_theory
-    type: mathematical-formulation
-    label: Lagrangian field formulation
-    detail: A classical field theory admitting a local Lagrangian formulation uses a Lagrangian density whose spacetime action yields field Euler–Lagrange equations.
+    type: theory-component
+    label: supplies a local action density
+    detail: For a classical field theory admitting a local action principle, the Lagrangian density is a formal component whose spacetime integral yields the action and field Euler–Lagrange equations.
     citations:
       - cambridge-classical-dynamics
       - cern-qft-intro
       - wp-physics-classical_field_theory
       - nlab-physics-classical_field_theory
       - wp-physics-lagrangian_mechanics
+      - tong-qft
   - id: phase_to_poisson
     source: phase_space
     target: poisson_bracket

@@ -1932,38 +1932,36 @@ edges:
       - tong-gr
       - wp-physics-classical_field_theory
       - nlab-physics-classical_field_theory
-  - id: pde_to_qm
+  - id: pde_to_schrodinger_framework_specialization
     source: partial_differential_equation
     target: schrodinger_equation
-    type: mathematical-formulation
-    label: evolution PDE
-    detail: The Schrödinger equation is a linear PDE in common coordinate representations.
+    type: framework-specialization
+    label: includes quantum evolution equation
+    detail: The Schrödinger equation is a linear partial differential equation in common coordinate representations, with coefficients and domain fixed by the Hamiltonian and physical boundary conditions.
     citations:
       - wp-partial_differential_equation
       - nlab-partial_differential_equation
-      - tong-qft
-      - tong-gr
       - wp-physics-schrodinger_equation
       - nlab-physics-schrodinger_equation
       - tong-quantum
-  - id: partialtrace_to_mixed
+  - id: partial_trace_to_density_operator_canonical_construction
     source: partial_trace
     target: density_operator
-    type: mathematical-formulation
-    label: reduced state
-    detail: The partial trace of a composite-system density operator is a positive trace-one reduced density operator. A reduced state of a pure bipartite state is mixed exactly when that state is entangled across the bipartition.
+    type: canonical-construction
+    label: constructs a reduced state
+    detail: Taking the partial trace of a composite-system density operator canonically constructs the positive trace-one density operator of the retained subsystem.
     citations:
       - wp-partial_trace
       - nlab-partial_trace
       - tong-quantum
       - wp-physics-quantum_state
       - nlab-physics-mixed_quantum_state
-  - id: positive_to_density
+  - id: positive_operator_to_density_operator_framework_specialization
     source: positive_operator
     target: density_operator
-    type: mathematical-formulation
-    label: positive state operator
-    detail: Density operators are positive operators normalized by their trace.
+    type: framework-specialization
+    label: specializes to a normalized state operator
+    detail: A density operator is a positive operator satisfying the additional normalization and trace-class conditions required for a quantum state.
     citations:
       - wp-positive_operator
       - nlab-positive_operator
@@ -2119,12 +2117,12 @@ edges:
       - wp-physics-atomic_orbital
       - iupac-atomic-orbital
       - nist-atomic-states
-  - id: stone_to_evolution
+  - id: stone_theorem_to_unitary_time_evolution_theorem_implication
     source: stone_theorem
     target: unitary_time_evolution
-    type: mathematical-formulation
-    label: self-adjoint generator
-    detail: Stone’s theorem relates continuous unitary time evolution to a self-adjoint Hamiltonian.
+    type: theorem-implication
+    label: characterizes continuous unitary evolution
+    detail: Stone’s theorem establishes the correspondence between strongly continuous one-parameter unitary groups and self-adjoint generators; it is a theorem about the formalism rather than the formalism itself.
     citations:
       - wp-stone_theorem
       - tong-quantum
@@ -2174,12 +2172,12 @@ edges:
     detail: Restrict the scalar field to $\mathbb{R}$ or $\mathbb{C}$ and require a neighborhood base at 0 consisting of convex sets.
     citations:
       - eom-locally-convex
-  - id: traceclass_to_density
+  - id: trace_class_operator_to_density_operator_framework_specialization
     source: trace_class_operator
     target: density_operator
-    type: mathematical-formulation
-    label: trace-one state operator
-    detail: Normal density operators are positive trace-class operators of unit trace.
+    type: framework-specialization
+    label: specializes to a positive unit-trace operator
+    detail: A normal density operator is a positive trace-class operator with unit trace; trace class alone is necessary in infinite dimensions but not sufficient.
     citations:
       - wp-trace_class_operator
       - nlab-trace_class_operator
@@ -2474,15 +2472,14 @@ edges:
       - wp-physics-phonon
       - tong-solid-state-physics
       - mit-theory-of-solids
-  - id: ordinary_differential_equation_to_reaction_rate
+  - id: ordinary_differential_equation_to_chemical_kinetics
     source: ordinary_differential_equation
-    target: reaction_rate
+    target: chemical_kinetics
     type: mathematical-formulation
-    label: formulates concentration evolution
-    detail: Coupled ordinary differential equations formulate deterministic concentration evolution after well-mixed rate laws are combined with stoichiometric balances; spatial gradients or discrete fluctuations require richer models.
+    label: formulates deterministic concentration evolution
+    detail: Coupled ordinary differential equations formulate well-mixed deterministic chemical kinetics after rate laws are combined with stoichiometric balances; spatial gradients or discrete fluctuations require richer models.
     citations:
       - wp-ordinary_differential_equation
       - nlab-ordinary_differential_equation
       - wp-chem-chemical-kinetics
       - openstax-chemistry-2e
-  
