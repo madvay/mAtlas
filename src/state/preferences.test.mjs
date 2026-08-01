@@ -7,7 +7,7 @@ test('preferences have performance-conscious defaults and their own storage name
   assert.deepEqual(parsePreferences(null), DEFAULT_PREFERENCES);
   assert.deepEqual(DEFAULT_PREFERENCES, {
     version: 1,
-    theme: 'dark',
+    theme: 'system',
     compactControls: false,
     highResolution: true,
     transitions: true,
@@ -27,7 +27,7 @@ test('preferences have performance-conscious defaults and their own storage name
 
 test('preferences restore valid booleans and default missing values', () => {
   const preferences = parsePreferences(JSON.stringify({ version: 1, highResolution: true }));
-  assert.equal(preferences.theme, 'dark');
+  assert.equal(preferences.theme, 'system');
   assert.equal(preferences.compactControls, false);
   assert.equal(preferences.highResolution, true);
   assert.equal(preferences.transitions, true);
@@ -48,6 +48,6 @@ test('preferences restore valid booleans and default missing values', () => {
   assert.equal(enabled.highlightPrerequisites, true);
 
   assert.equal(parsePreferences(JSON.stringify({ version: 1, theme: 'light' })).theme, 'light');
-  assert.equal(parsePreferences(JSON.stringify({ version: 1, theme: 'invalid' })).theme, 'dark');
+  assert.equal(parsePreferences(JSON.stringify({ version: 1, theme: 'invalid' })).theme, 'system');
 });
 

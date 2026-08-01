@@ -448,7 +448,7 @@ export function renderGuidePage({
         <h2>10. Preferences</h2>
         <p class="section-lede">Preferences are saved only in the current browser. They are intentionally excluded from shared URLs.</p>
         <dl class="option-list">
-          <dt>Theme</dt><dd><strong>Dark</strong> and <strong>Light</strong> select a fixed appearance. <strong>System</strong> follows the operating system and updates when its color scheme changes. The interactive atlas and generated HTML pages use the same saved choice. Authored domain colors retain their meaning while text, relation colors, label fills, outlines, and backgrounds adjust for contrast. The Preferences default is Dark; before a choice has been saved, standalone static pages follow the system scheme.</dd>
+          <dt>Theme</dt><dd><strong>Dark</strong> and <strong>Light</strong> select a fixed appearance. <strong>System</strong> follows the operating system and updates when its color scheme changes. The interactive atlas and generated HTML pages use the same saved choice. Authored domain colors retain their meaning while text, relation colors, label fills, outlines, and backgrounds adjust for contrast. The Preferences default is System; before a choice has been saved, standalone static pages follow the system scheme.</dd>
           <dt>High resolution</dt><dd>Uses the browser’s full device pixel ratio. Turn it off to cap rendering resolution on dense or high-DPI displays.</dd>
           <dt>Fade transitions</dt><dd>Animates opacity and style changes over a short interval.</dd>
           <dt>Animate graph</dt><dd>Animates node motion and fitting during layout changes. Off by default.</dd>

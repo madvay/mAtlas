@@ -74,7 +74,7 @@ test('guide page is complete, crawlable, static', async () => {
   assert.ok(html.includes('filter='));
   assert.ok(html.includes('disp='));
   assert.ok(html.includes('<dt>Theme</dt>'));
-  assert.ok(html.includes('The Preferences default is Dark'));
+  assert.ok(html.includes('The Preferences default is System'));
   assert.ok(html.includes('preserves the active resolved Light or Dark theme'));
   assert.ok(html.includes('build-published all-in export uses a deterministic Light theme'));
   assert.ok(!html.includes('<script src='));

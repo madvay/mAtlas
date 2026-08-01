@@ -4,7 +4,7 @@ export const PREFERENCES_STORAGE_KEY = 'human-knowledge-atlas:preferences:v1';
 
 export const DEFAULT_PREFERENCES: Readonly<Preferences> = Object.freeze({
   version: 1,
-  theme: 'dark',
+  theme: 'system',
   compactControls: false,
   highResolution: true,
   transitions: true,
@@ -21,7 +21,7 @@ export const DEFAULT_PREFERENCES: Readonly<Preferences> = Object.freeze({
 });
 
 function parseTheme(value: unknown): ThemePreference {
-  return value === 'light' || value === 'dark' || value === 'system' ? value : 'dark';
+  return value === 'light' || value === 'dark' || value === 'system' ? value : 'system';
 }
 
 export function parsePreferences(raw: string | null): Preferences {
