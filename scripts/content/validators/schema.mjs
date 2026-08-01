@@ -12,7 +12,7 @@ import {
 
 export const name = 'schema';
 
-const allowedPrerequisiteTraversals = new Set(['incoming', 'outgoing', 'both']);
+const allowedPrerequisiteTraversals = new Set(['incoming', 'outgoing', 'both', 'none']);
 const allowedLevelPredecessorDirections = new Set(['incoming', 'outgoing', 'none']);
 
 export function validate(context) {
@@ -128,7 +128,7 @@ export function validate(context) {
     requireObject(errors, edgeType, path);
     for (const key of ['label', 'short', 'description', 'color', 'prerequisiteTraversal']) requireString(errors, edgeType?.[key], `${path}.${key}`);
     if (!allowedPrerequisiteTraversals.has(edgeType?.prerequisiteTraversal)) {
-      errors.push(`${path}.prerequisiteTraversal must be incoming, outgoing, or both.`);
+      errors.push(`${path}.prerequisiteTraversal must be incoming, outgoing, both, or none.`);
     }
     const levelDirection = edgeType?.enforcePredecessorLevel;
     if (levelDirection !== undefined && levelDirection !== null && levelDirection !== '' && !allowedLevelPredecessorDirections.has(levelDirection)) {

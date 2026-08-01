@@ -193,7 +193,8 @@
             "enum": [
               "incoming",
               "outgoing",
-              "both"
+              "both",
+              "none"
             ]
           },
           "enforcePredecessorLevel": {

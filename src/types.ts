@@ -1,6 +1,6 @@
 export type NodeKind = 'structure' | 'junction';
 export type LineStyle = 'solid' | 'dashed' | 'dotted';
-export type PrerequisiteTraversal = 'incoming' | 'outgoing' | 'both';
+export type PrerequisiteTraversal = 'incoming' | 'outgoing' | 'both' | 'none';
 export type LevelPredecessorEnforcement = 'incoming' | 'outgoing' | 'none' | '' | null;
 export type LayoutName = 'atlas' | 'breadthfirst' | 'domains' | 'fields';
 export type CrossFieldVisibility = 'contextual' | 'all' | 'hidden';

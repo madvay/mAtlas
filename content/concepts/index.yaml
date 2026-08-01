@@ -308,7 +308,7 @@ edgeTypes:
     label: Induced / forgotten
     short: induce / forget
     description: Pass canonically from a stronger object to structure it determines, or forget part of the data while retaining a valid weaker structure. The carrier may change under a canonical induced construction.
-    prerequisiteTraversal: outgoing
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#0f766e"
     endpointLabels:
@@ -320,7 +320,7 @@ edgeTypes:
     label: Canonical construction
     short: construct
     description: Apply a standard functorial or canonical construction whose output is not merely a reduct of the input and is not generally an equivalent presentation of the same object.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#0369a1"
     endpointLabels:
@@ -333,7 +333,7 @@ edgeTypes:
     label: Quotient construction
     short: quotient
     description: Identify elements by a stated equivalence relation and equip the quotient with the induced structure. The edge detail must state the representatives and equivalence relation.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#0e7490"
     endpointLabels:
@@ -346,7 +346,7 @@ edgeTypes:
     label: Canonical embedding
     short: embeds
     description: Map one structure injectively into another by the standard structure-preserving inclusion or representation. This records a canonical copy, not necessarily literal set containment.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#1d4ed8"
     endpointLabels:
@@ -371,7 +371,7 @@ edgeTypes:
     label: Representation / equivalence
     short: represent
     description: Reinterpret an object, pass to an equivalent presentation, or relate canonically corresponding structures; the carrier may change.
-    prerequisiteTraversal: both
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#475569"
     endpointLabels:
@@ -384,7 +384,7 @@ edgeTypes:
     label: Theorem implication
     short: theorem
     description: Record a genuine theorem implication that is not part of the target definition; these edges may point toward a weaker structure.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#be123c"
     endpointLabels:
@@ -397,7 +397,7 @@ edgeTypes:
     label: Mathematical formulation
     short: formulates
     description: A mathematical structure supplies part of the formal language or state space used by a physical theory or model. This does not claim that the physical content follows from mathematics alone.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#0e7490"
     endpointLabels:
@@ -436,7 +436,7 @@ edgeTypes:
     label: Theory component
     short: component
     description: The source supplies a substantive formal ingredient, dynamical sector, law, field content, or mechanism of the target theoretical framework.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#475569"
     endpointLabels:
@@ -449,7 +449,7 @@ edgeTypes:
     label: Describes / governs
     short: describes
     description: A theory, law, or interaction describes the behavior of the target within a stated regime. The edge detail must state important limits or qualifications.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#2563eb"
     endpointLabels:
@@ -488,7 +488,7 @@ edgeTypes:
     label: Physical interaction / binding
     short: interacts
     description: The source field, particle, charge, current, or interaction couples to, acts on, binds, forms, or stabilizes the target in the stated regime. The edge label and detail must identify the exact coupling, interaction, or binding claim and its qualifications.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#dc2626"
     endpointLabels:
@@ -501,7 +501,7 @@ edgeTypes:
     label: Limit / controlled approximation
     short: limit / approx
     description: The target is recovered from the source either in a stated mathematical or asymptotic limit, or through a quantitatively controlled approximation with identified small parameters or omitted terms. The edge label and detail must state which case applies and its regime of validity.
-    prerequisiteTraversal: outgoing
+    prerequisiteTraversal: incoming
     enforcePredecessorLevel: incoming
     color: "#0f766e"
     endpointLabels:
@@ -553,7 +553,7 @@ edgeTypes:
     label: State / property description
     short: state
     description: The target represents a state, property, observable, or state-dependent description associated with the source system or theory.
-    prerequisiteTraversal: outgoing
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#9333ea"
     endpointLabels:
@@ -566,7 +566,7 @@ edgeTypes:
     label: Transformation / process
     short: transforms
     description: A physical process transforms the source into, or produces, the target under the conditions stated in the edge detail.
-    prerequisiteTraversal: incoming
+    prerequisiteTraversal: none
     enforcePredecessorLevel: none
     color: "#0891b2"
     endpointLabels:
@@ -579,7 +579,7 @@ edgeTypes:
     label: Historically motivated
     short: motivated
     description: The source experiment, observation, anomaly, or problem materially motivated the development, revision, or acceptance of the target concept. Historical influence is not logical derivation; the edge detail states the documented role and avoids retrospective origin myths.
-    prerequisiteTraversal: both
+    prerequisiteTraversal: incoming
     enforcePredecessorLevel: incoming
     color: "#be123c"
     endpointLabels:
@@ -592,7 +592,7 @@ edgeTypes:
     label: Experimentally tested / supported by
     short: tested by
     description: The source theory, law, entity, prediction, or structural claim is directly tested, supported, constrained, or established by the target experiment or observation. Experimental support is not final logical proof; the edge detail states exactly what was measured.
-    prerequisiteTraversal: both
+    prerequisiteTraversal: incoming
     enforcePredecessorLevel: incoming
     color: "#7e22ce"
     endpointLabels:

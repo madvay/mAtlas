@@ -26,8 +26,8 @@ export function buildPrerequisiteAdjacency(
 
   for (const edge of edges) {
     const traversal = edgeTypes[edge.type]?.prerequisiteTraversal;
-    if (traversal !== 'incoming' && traversal !== 'outgoing' && traversal !== 'both') {
-      throw new Error(`Edge type "${edge.type}" must define prerequisiteTraversal as incoming, outgoing, or both.`);
+    if (traversal !== 'incoming' && traversal !== 'outgoing' && traversal !== 'both' && traversal !== 'none') {
+      throw new Error(`Edge type "${edge.type}" must define prerequisiteTraversal as incoming, outgoing, both, or none.`);
     }
     if (traversal === 'incoming' || traversal === 'both') {
       appendStep(adjacency, edge.target, { edge, nodeId: edge.source });

@@ -5,13 +5,15 @@ import { buildPrerequisiteAdjacency, prerequisiteClosure, prerequisiteClosureNod
 const edgeTypes = {
   incoming: { prerequisiteTraversal: 'incoming' },
   outgoing: { prerequisiteTraversal: 'outgoing' },
-  both: { prerequisiteTraversal: 'both' }
+  both: { prerequisiteTraversal: 'both' },
+  none: { prerequisiteTraversal: 'none' }
 };
 
 const edges = [
   { id: 'a-to-b', source: 'a', target: 'b', type: 'incoming' },
   { id: 'b-to-c', source: 'b', target: 'c', type: 'outgoing' },
-  { id: 'c-to-d', source: 'c', target: 'd', type: 'both' }
+  { id: 'c-to-d', source: 'c', target: 'd', type: 'both' },
+  { id: 'd-to-e', source: 'd', target: 'e', type: 'none' }
 ];
 
 test('prerequisite closure follows the edge-type traversal declaration', () => {
@@ -21,6 +23,7 @@ test('prerequisite closure follows the edge-type traversal declaration', () => {
   assert.deepEqual([...closure.edgeIds].sort(), ['a-to-b', 'b-to-c', 'c-to-d']);
   assert.deepEqual([...prerequisiteClosureNodeIds(['a'], adjacency, () => true)], ['a']);
   assert.deepEqual([...prerequisiteClosureNodeIds(['d'], adjacency, () => true)].sort(), ['c', 'd']);
+  assert.deepEqual([...prerequisiteClosureNodeIds(['e'], adjacency, () => true)], ['e']);
 });
 
 test('prerequisite closure applies edge and node predicates in one traversal implementation', () => {

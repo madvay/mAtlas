@@ -7,9 +7,14 @@ const root = new URL('../../', import.meta.url);
 const graphData = JSON.parse(await readFile(new URL('.build/content/atlas.json', root), 'utf8'));
 const model = new GraphModel(graphData);
 
-test('experimental edge types traverse prerequisite closure in both directions', () => {
-  assert.equal(graphData.edgeTypes['historically-motivated'].prerequisiteTraversal, 'both');
-  assert.equal(graphData.edgeTypes['experimentally-verified-by'].prerequisiteTraversal, 'both');
+test('every edge type aligns prerequisite traversal with predecessor-level enforcement', () => {
+  for (const [id, edgeType] of Object.entries(graphData.edgeTypes)) {
+    assert.equal(
+      edgeType.prerequisiteTraversal,
+      edgeType.enforcePredecessorLevel ?? 'none',
+      `edge type ${id}`
+    );
+  }
 });
 
 test('the Fock-space bridge is a mathematics-to-QFT formulation edge', () => {
@@ -19,7 +24,7 @@ test('the Fock-space bridge is a mathematics-to-QFT formulation edge', () => {
     { source: 'fock_space', target: 'quantum_field_theory', type: 'mathematical-formulation' }
   );
   assert.equal(model.edgeRecord.has('story_quantum_field_theory_to_fock_space_state_description'), false);
-  assert.equal(model.transitivePrerequisiteNodeIds(['quantum_field_theory'], () => true).has('fock_space'), true);
+  assert.equal(model.transitivePrerequisiteNodeIds(['quantum_field_theory'], () => true).has('fock_space'), false);
   assert.equal(model.transitivePrerequisiteNodeIds(['fock_space'], () => true).has('quantum_field_theory'), false);
 });
 
