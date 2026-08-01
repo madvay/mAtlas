@@ -1,3 +1,11 @@
+THIRD-PARTY NOTICES AND LICENSES
+
+This file covers certain third-party material that may
+be included in a distribution of this software.
+
+The mAtlas licenses do not relicense that material. Each component remains
+subject to the license and notices stated below.
+
 Cytoscape.js
 Copyright (c) 2016-2026, The Cytoscape Consortium
 Licensed under the MIT License.
