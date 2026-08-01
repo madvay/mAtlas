@@ -309,7 +309,7 @@ nodes:
     domains:
       - probability
       - measure
-    level: 6
+    level: 7
     kind: structure
     summary: A family of random variables whose finite subfamilies have joint probabilities that factor into their marginal probabilities.
     carriers:

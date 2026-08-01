@@ -419,7 +419,7 @@ nodes:
       - algebra
       - logic
       - order
-    level: 12
+    level: 13
     kind: structure
     summary: An ordered field with no proper algebraic ordered extension, equivalently whose algebraic closure is obtained by adjoining $\sqrt{-1}$.
     carriers:

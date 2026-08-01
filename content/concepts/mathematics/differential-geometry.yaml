@@ -272,7 +272,7 @@ nodes:
       - differential-geometry
       - analysis
       - topology
-    level: 8
+    level: 9
     kind: structure
     summary: A smooth manifold with a smoothly varying positive-definite inner product on tangent spaces.
     carriers:
@@ -717,7 +717,7 @@ nodes:
     primaryDomain: differential-geometry
     domains:
       - differential-geometry
-    level: 10
+    level: 11
     kind: structure
     conceptType: Geometric structure
     summary: A covariant derivative that differentiates sections of a vector bundle along tangent directions.

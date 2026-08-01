@@ -625,7 +625,7 @@ nodes:
     domains:
       - algebra
       - universal-algebra
-    level: 14
+    level: 15
     kind: structure
     summary: An algebra over a commutative base ring or field whose multiplication is associative.
     carriers:
@@ -731,7 +731,7 @@ nodes:
     domains:
       - algebra
       - universal-algebra
-    level: 15
+    level: 16
     kind: structure
     summary: An associative algebra with a multiplicative identity compatible with the base scalar action.
     carriers:
@@ -840,7 +840,7 @@ nodes:
     domains:
       - algebra
       - algebraic-geometry
-    level: 16
+    level: 17
     kind: structure
     summary: A unital associative algebra over a fixed field whose multiplication is commutative.
     carriers:
