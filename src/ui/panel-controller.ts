@@ -53,26 +53,12 @@ export class PanelController {
     const workspace = byId('workspace');
     const filtersPanel = byId('filtersPanel');
     const detailsPanel = byId('detailsPanel');
-    const graphShell = workspace.querySelector<HTMLElement>('.graph-shell');
-    const topbar = document.querySelector<HTMLElement>('.topbar');
-    const skipLinks = document.querySelector<HTMLElement>('.skip-links');
-
     workspace.classList.toggle('filters-collapsed', !state.filtersOpen);
     workspace.classList.toggle('details-collapsed', !state.detailsOpen);
     filtersPanel.classList.toggle('open', mobile && state.filtersOpen);
     detailsPanel.classList.toggle('open', mobile && state.detailsOpen);
-    this.syncPanelAccessibility(filtersPanel, state.filtersOpen, mobile);
-    this.syncPanelAccessibility(detailsPanel, state.detailsOpen, mobile);
-
-    const mobilePanelOpen = mobile && (state.filtersOpen || state.detailsOpen);
-    document.body.classList.toggle('mobile-panel-open', mobilePanelOpen);
-    if (topbar) topbar.inert = mobilePanelOpen;
-    if (graphShell) graphShell.inert = mobilePanelOpen;
-    if (skipLinks) skipLinks.inert = mobilePanelOpen;
-    if (mobile) {
-      filtersPanel.inert = !state.filtersOpen;
-      detailsPanel.inert = !state.detailsOpen;
-    }
+    this.syncPanelAccessibility(filtersPanel, state.filtersOpen);
+    this.syncPanelAccessibility(detailsPanel, state.detailsOpen);
 
     const filtersToggle = byId<HTMLButtonElement>('filtersToggle');
     const detailsToggle = byId<HTMLButtonElement>('detailsToggle');
@@ -143,7 +129,6 @@ export class PanelController {
 
   openDetails(): void {
     if (!this.options.state.detailsOpen) this.setOpen('details', true);
-    if (this.isMobileLayout()) this.focusPanel('details');
   }
 
   updateFiltersToggleCount(): void {
@@ -156,16 +141,11 @@ export class PanelController {
     if (badge) badge.textContent = displayCount === '0' ? '' : displayCount;
   }
 
-  private syncPanelAccessibility(panel: HTMLElement, open: boolean, mobile: boolean): void {
+  private syncPanelAccessibility(panel: HTMLElement, open: boolean): void {
     panel.setAttribute('aria-hidden', String(!open));
     panel.inert = !open;
-    if (mobile && open) {
-      panel.setAttribute('role', 'dialog');
-      panel.setAttribute('aria-modal', 'true');
-    } else {
-      panel.removeAttribute('role');
-      panel.removeAttribute('aria-modal');
-    }
+    panel.removeAttribute('role');
+    panel.removeAttribute('aria-modal');
   }
 
   private syncToggle(button: HTMLButtonElement, panel: PanelName, open: boolean, pressed = true): void {

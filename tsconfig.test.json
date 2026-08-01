@@ -53,6 +53,7 @@
     "src/ui/field-band-controller.ts",
     "src/ui/svg-export-policy.ts",
     "src/graph/idle-render-controller.ts",
-    "src/ui/graph-accessibility-controller.ts"
+    "src/ui/graph-accessibility-controller.ts",
+    "src/ui/panel-controller.ts"
   ]
 }
