@@ -199,6 +199,48 @@ function topologicalOrder(model) {
   return order;
 }
 
+/** Build and validate the configured strict-predecessor model for tooling. */
+export function createLevelConstraintModel(graph) {
+  const model = normalizePolicy(graph);
+  topologicalOrder(model);
+  return model;
+}
+
+/**
+ * Return every hard reason a node cannot be lowered to candidateLevel while
+ * all other nodes retain the supplied levels.
+ */
+export function levelLoweringBlockers(model, levels, nodeId, candidateLevel) {
+  requireInteger(candidateLevel, `Candidate level for ${String(nodeId)}`);
+  if (!model?.nodeById?.has(nodeId)) throw new Error(`Unknown level-model node ${String(nodeId)}.`);
+  if (!(levels instanceof Map)) throw new Error('Level lowering requires a Map of current node levels.');
+
+  const exact = model.exactLevels.get(nodeId);
+  if (exact !== undefined && candidateLevel !== exact) {
+    return [{ kind: 'exact', nodeId, level: exact, reason: 'fixed editorial anchor' }];
+  }
+
+  const blockers = [];
+  const floor = model.floors.get(nodeId);
+  if (floor && candidateLevel < floor.level) {
+    blockers.push({ kind: 'floor', nodeId, level: floor.level, reason: floor.reason });
+  }
+  for (const constraint of model.predecessors.get(nodeId) ?? []) {
+    const predecessorLevel = levels.get(constraint.predecessor);
+    requireInteger(predecessorLevel, `Current level for predecessor ${constraint.predecessor}`);
+    if (candidateLevel <= predecessorLevel) {
+      blockers.push({
+        kind: 'predecessor',
+        nodeId,
+        constraint,
+        predecessorLevel,
+        requiredLevel: predecessorLevel + 1
+      });
+    }
+  }
+  return blockers;
+}
+
 function requiredFromPredecessors(model, levels, id) {
   let required = Number.NEGATIVE_INFINITY;
   let cause = null;

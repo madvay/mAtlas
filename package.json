@@ -20,6 +20,7 @@
     "content:build": "node scripts/build-content.mjs",
     "test:content": "npm run content:build && node scripts/test-content.mjs",
     "math:mark": "node scripts/mark-explicit-math.mjs --write",
+    "levels": "node scripts/levels-tool.mjs",
     "levels:check": "node scripts/fix-levels.mjs --check",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "node scripts/build.mjs",
