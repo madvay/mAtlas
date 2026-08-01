@@ -250,7 +250,7 @@ nodes:
     domains:
       - dynamical-systems
       - analysis
-    level: 20
+    level: 9
     kind: structure
     conceptType: Asymptotic growth rate
     summary: An asymptotic exponential rate for growth or contraction of infinitesimal perturbations along an orbit. Existence and multiplicity of exponents require differentiability and limiting or ergodic hypotheses.

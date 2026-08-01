@@ -33,7 +33,7 @@ nodes:
       - representation-theory
       - algebra
       - category-theory
-    level: 7
+    level: 6
     kind: structure
     summary: An action of a group on an object, here initially a set, respecting multiplication and identity.
     carriers:

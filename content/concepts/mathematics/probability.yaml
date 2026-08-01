@@ -32,7 +32,7 @@ nodes:
     domains:
       - probability
       - measure
-    level: 5
+    level: 4
     kind: junction
     summary: Combine a probability space with a measurable map having that space as domain.
     carriers: []
@@ -59,7 +59,7 @@ nodes:
       - probability
       - measure
       - order
-    level: 5
+    level: 4
     kind: structure
     summary: An increasing indexed family of $\sigma$-algebras representing information over time.
     carriers:
@@ -84,7 +84,7 @@ nodes:
       - probability
       - measure
       - analysis
-    level: 6
+    level: 4
     kind: structure
     summary: A measurable function from a probability space to a measurable value space.
     carriers:
@@ -108,7 +108,7 @@ nodes:
     domains:
       - probability
       - measure
-    level: 7
+    level: 5
     kind: structure
     summary: A probability space equipped with a filtration of sub-$\sigma$-algebras.
     carriers:
@@ -132,7 +132,7 @@ nodes:
     domains:
       - probability
       - measure
-    level: 6
+    level: 5
     kind: junction
     summary: Compatibility construction producing Filtered probability space.
     carriers: []
@@ -181,7 +181,7 @@ nodes:
     domains:
       - probability
       - measure
-    level: 7
+    level: 6
     kind: junction
     summary: Combine an index set/family with random variables sharing one probability space.
     carriers: []
@@ -208,7 +208,7 @@ nodes:
       - probability
       - measure
       - analysis
-    level: 8
+    level: 6
     kind: structure
     summary: An indexed family of random variables defined on a common probability space.
     carriers:
@@ -234,7 +234,7 @@ nodes:
       - probability
       - combinatorics
       - analysis
-    level: 9
+    level: 7
     kind: structure
     summary: A discrete-time stochastic process with the Markov conditional-independence property.
     carriers:
@@ -309,7 +309,7 @@ nodes:
     domains:
       - probability
       - measure
-    level: 9
+    level: 7
     kind: structure
     summary: A family of random variables whose finite subfamilies have joint probabilities that factor into their marginal probabilities.
     carriers:

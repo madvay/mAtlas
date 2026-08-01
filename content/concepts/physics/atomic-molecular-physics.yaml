@@ -530,7 +530,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
-    level: 31
+    level: 30
     kind: structure
     conceptType: Antisymmetric basis state
     summary: A symmetry-adapted linear combination of Slater determinants with specified angular momentum, spin, parity, or other quantum numbers.
@@ -709,7 +709,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
-    level: 35
+    level: 31
     kind: structure
     conceptType: Many-body effect
     summary: Electronic motion beyond a chosen independent-particle or Hartree–Fock description, including dynamical and near-degeneracy correlation.
@@ -756,7 +756,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 34
+    level: 33
     kind: structure
     conceptType: Self-consistent-field approximation
     summary: A variational single-Slater-determinant method including exchange exactly within that determinant but omitting correlation beyond it.
@@ -881,7 +881,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 35
+    level: 34
     kind: structure
     conceptType: Many-body approximation method
     summary: A variational expansion of an atomic state in multiple configuration-state functions, recovering correlation within the chosen basis and excitation space.
@@ -898,7 +898,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 35
+    level: 34
     kind: structure
     conceptType: Many-body approximation method
     summary: An exponential correlated-wavefunction method with systematic truncations such as singles and doubles, widely used for high-accuracy electronic structure.

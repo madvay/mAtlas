@@ -782,7 +782,7 @@ nodes:
     domains:
       - algebra
       - category-theory
-    level: 17
+    level: 16
     kind: junction
     summary: Compatibility construction producing Bialgebra.
     carriers: []
@@ -889,7 +889,7 @@ nodes:
     domains:
       - algebra
       - category-theory
-    level: 18
+    level: 17
     kind: structure
     summary: Over a fixed commutative base ring, a compatible unital associative algebra and counital coassociative coalgebra.
     carriers:
@@ -943,7 +943,7 @@ nodes:
       - algebra
       - category-theory
       - representation-theory
-    level: 19
+    level: 18
     kind: structure
     summary: A bialgebra equipped with an antipode.
     carriers:
@@ -1239,7 +1239,7 @@ nodes:
     domains:
       - algebra
       - number-theory
-    level: 15
+    level: 14
     kind: structure
     summary: An algebraic extension that is both normal and separable.
     carriers:
@@ -1391,7 +1391,7 @@ nodes:
     domains:
       - algebra
       - number-theory
-    level: 18
+    level: 17
     kind: structure
     summary: A polynomial equation is solvable by radicals when its roots can be obtained from coefficients using field operations and iterated extraction of roots.
     carriers:

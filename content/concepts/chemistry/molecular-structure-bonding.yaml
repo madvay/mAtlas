@@ -7,7 +7,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 36
+  level: 32
   kind: structure
   conceptType: Structural description
   summary: The three-dimensional nuclear arrangement, connectivity, conformation, and electronic organization assigned to a molecular entity.
@@ -23,7 +23,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 36
+  level: 31
   kind: structure
   conceptType: Bonding framework
   summary: A quantum description that builds molecular states from localized atomic-orbital configurations and their resonance among bonding patterns.
@@ -39,7 +39,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 39
+  level: 31
   kind: structure
   conceptType: Bonding framework
   summary: A quantum description using one-electron functions delocalized over a molecule as a basis for its many-electron state.
@@ -55,7 +55,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 37
+  level: 32
   kind: structure
   conceptType: Electron-bookkeeping model
   summary: A two-dimensional valence-electron representation showing bonds, lone pairs, and formal charges.
@@ -71,7 +71,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 38
+  level: 33
   kind: structure
   conceptType: Bookkeeping quantity
   summary: The charge assigned to an atom by equally partitioning bonding electron pairs in a Lewis representation.
@@ -87,7 +87,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 39
+  level: 33
   kind: structure
   conceptType: Representation principle
   summary: Use of several contributing valence-bond structures to represent one delocalized quantum state, not rapid switching among classical
@@ -104,7 +104,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 40
+  level: 33
   kind: structure
   conceptType: Qualitative geometry model
   summary: A qualitative model that predicts many main-group geometries by arranging valence-shell electron domains to reduce repulsions.
@@ -120,7 +120,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 38
+  level: 33
   kind: structure
   conceptType: Localized-orbital model
   summary: A basis transformation among atomic orbitals used to construct directional localized orbitals; it is a model choice rather than a separately
@@ -137,7 +137,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 35
+  level: 34
   kind: structure
   conceptType: Bond descriptor
   summary: A model-dependent measure of bonding multiplicity or electron occupation that often correlates with bond length and strength.
@@ -153,7 +153,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 35
+  level: 34
   kind: structure
   conceptType: Bonding regime
   summary: A bond stabilized substantially by shared electron density between atomic centers.
@@ -169,7 +169,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 35
+  level: 34
   kind: structure
   conceptType: Bonding regime
   summary: Electrostatic stabilization in an assembly with substantial charge separation, usually coupled to short-range repulsion, polarization,
@@ -186,7 +186,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 36
+  level: 35
   kind: structure
   conceptType: Directional intermolecular or intramolecular interaction
   summary: An attractive, directional interaction involving a hydrogen atom bound to an electronegative center and another electron-rich region.
@@ -218,7 +218,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 37
+  level: 35
   kind: structure
   conceptType: Geometric property
   summary: The spatial arrangement of nuclei in a selected molecular structure, usually specified near an equilibrium or averaged over motion.
@@ -234,7 +234,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 40
+  level: 36
   kind: structure
   conceptType: Symmetry classification
   summary: The transformations that leave a molecular geometry or molecular Hamiltonian invariant, organized through point or permutation-inversion
@@ -267,7 +267,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 37
+  level: 36
   kind: structure
   conceptType: Structural state
   summary: A molecular geometry reachable by rotations and deformations without changing constitution, subject to barriers and environmental constraints.
@@ -283,7 +283,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 38
+  level: 34
   kind: structure
   conceptType: Mathematical representation
   summary: A graph whose vertices represent atoms and whose edges encode selected bonding or connectivity relations while omitting most metric

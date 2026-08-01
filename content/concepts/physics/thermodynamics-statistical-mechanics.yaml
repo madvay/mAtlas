@@ -170,7 +170,7 @@ nodes:
       - thermodynamics-statistical-mechanics
       - classical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 15
+    level: 14
     kind: structure
     conceptType: Statistical-mechanics regime
     summary: Statistical mechanics formulated on classical phase space, using probability densities or measures over positions and momenta together with classical microscopic dynamics.

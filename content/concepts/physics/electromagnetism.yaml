@@ -24,7 +24,7 @@ nodes:
     primaryDomain: electromagnetism
     domains:
       - electromagnetism
-    level: 13
+    level: 11
     kind: structure
     conceptType: Classical field theory
     summary: The classical theory of electric and magnetic fields, charges, currents, radiation, and their Maxwell–Lorentz dynamics.

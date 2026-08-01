@@ -38,7 +38,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 18
+    level: 10
     kind: structure
     conceptType: Accidental global quantum number
     summary: A perturbatively conserved Standard Model global number assigning $1/3$ to quarks and $1$ to baryons; nonperturbative electroweak effects violate $B+L$.
@@ -55,7 +55,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 10
     kind: structure
     conceptType: Lorentz representation property
     summary: The left- or right-handed Weyl representation of the proper Lorentz group; for massive particles chirality is not identical to helicity.
@@ -89,7 +89,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 10
     kind: structure
     conceptType: Non-Abelian gauge charge
     summary: The $SU(3)_C$ quantum number carried by quarks and gluons; observable isolated states are color singlets.
@@ -109,7 +109,7 @@ nodes:
       - particle-physics
       - atomic-structure-periodicity
       - electrochemistry
-    level: 15
+    level: 10
     kind: structure
     conceptType: Conserved gauge charge
     summary: The charge generating electromagnetic $U(1)_{\rm em}$ and determining coupling to the photon.
@@ -142,7 +142,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 10
     kind: structure
     conceptType: Flavor/global quantum number
     summary: A global quantum number assigned to leptons. Individual flavor numbers are violated by neutrino mixing; total lepton number is an accidental perturbative symmetry of the renormalizable Standard Model but participates in the nonperturbative $B+L$ anomaly and may be violated by Majorana masses or beyond-Standard-Model interactions.
@@ -306,7 +306,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 11
     kind: structure
     conceptType: Particle class
     summary: 'A color-neutral spin-$1/2$ lepton with electric charge $-e$: electron, muon, or tau.'
@@ -391,7 +391,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 11
     kind: structure
     conceptType: Internal classification
     summary: The species label distinguishing quarks or leptons with the same gauge-role pattern but different masses and mixing.
@@ -407,7 +407,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 11
     kind: structure
     conceptType: Particle class
     summary: 'A bosonic quantum associated with a gauge field: photons, gluons, and the $W$ and $Z$ bosons in the Standard Model.'
@@ -441,7 +441,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 11
     kind: structure
     conceptType: Elementary particle class
     summary: A spin-one-half fermion that does not carry color charge; charged leptons and neutrinos occur in three generations.
@@ -474,7 +474,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 11
     kind: structure
     conceptType: Particle property
     summary: Nonzero neutrino mass is established through oscillation measurements of mass-squared differences; the absolute mass scale and Dirac-versus-Majorana nature remain unresolved.
@@ -506,7 +506,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 11
     kind: structure
     conceptType: State property
     summary: The orientation or helicity state of a vector field, gauge boson, or wave relative to its propagation and reference frame.
@@ -522,7 +522,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 11
     kind: structure
     conceptType: Elementary particle class
     summary: A color-charged spin-one-half fermion occurring in six flavors and confined into hadrons by QCD.
@@ -571,7 +571,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A third-generation color-triplet quark with electric charge $-e/3$.
@@ -589,7 +589,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A second-generation color-triplet quark with electric charge $+2e/3$.
@@ -607,7 +607,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Nonperturbative QCD phenomenon
     summary: The absence of isolated color-charged asymptotic states and formation of color-singlet hadrons at ordinary energies.
@@ -624,7 +624,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A first-generation color-triplet quark with electric charge $-e/3$.
@@ -646,7 +646,7 @@ nodes:
       - atomic-structure-periodicity
       - quantum-chemistry-spectroscopy
       - electrochemistry
-    level: 14
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: The lightest charged lepton, with negative elementary electric charge and spin one-half.
@@ -680,7 +680,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: The massless spin-1 quantum of the QCD gauge field. The eight gluon field components transform in the adjoint representation of $SU(3)_C$ and carry color charge.
@@ -716,7 +716,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: The second-generation charged lepton, unstable to weak decay.
@@ -733,7 +733,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle class
     summary: An electrically neutral lepton occurring in three flavors; observed flavor oscillations imply nonzero neutrino masses beyond the minimal massless-neutrino Standard Model.
@@ -770,7 +770,7 @@ nodes:
       - particle-physics
       - quantum-chemistry-spectroscopy
       - chemical-kinetics-dynamics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: The massless spin-one gauge boson of unbroken electromagnetic $U(1)$. Photon excitations form electromagnetic radiation states, and photon propagators organize electromagnetic interactions in perturbative QED.
@@ -804,7 +804,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A second-generation color-triplet quark with electric charge $-e/3$.
@@ -822,7 +822,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: The third-generation charged lepton, unstable to weak decay.
@@ -854,7 +854,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A third-generation color-triplet quark with electric charge $+2e/3$.
@@ -872,7 +872,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A first-generation color-triplet quark with electric charge $+2e/3$.
@@ -890,7 +890,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A massive charged spin-one electroweak gauge boson whose field generates charged-current weak amplitudes.
@@ -908,7 +908,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 12
     kind: structure
     conceptType: Elementary particle
     summary: A massive neutral spin-one electroweak gauge boson whose field generates neutral-current weak amplitudes.
@@ -925,7 +925,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 15
+    level: 13
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The antiparticle flavor state produced with an electron in beta-minus decay and other charged-current processes.
@@ -941,7 +941,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 15
+    level: 13
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The neutrino flavor state produced with an electron in charged-current weak interactions.
@@ -973,7 +973,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 15
+    level: 13
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The neutrino flavor state produced with a muon in charged-current weak interactions.
@@ -1006,7 +1006,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 15
+    level: 13
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The neutrino flavor state produced with a tau in charged-current weak interactions.
@@ -1022,7 +1022,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 17
+    level: 14
     kind: structure
     conceptType: Gauge-invariant state class
     summary: A state transforming trivially under global color, required for isolated observable hadrons.
@@ -1070,7 +1070,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 17
+    level: 15
     kind: structure
     conceptType: QCD constituent contribution
     summary: Quark–antiquark excitations in a hadron beyond the net valence content.
@@ -1086,7 +1086,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 17
+    level: 15
     kind: structure
     conceptType: Effective constituent description
     summary: The net quark flavor content fixing a hadron’s additive quantum numbers, distinct from its full quark–gluon state.
@@ -1152,7 +1152,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 19
+    level: 14
     kind: structure
     conceptType: Approximate internal symmetry
     summary: An approximate $SU(2)$ flavor symmetry treating up and down quarks, and correspondingly proton and neutron, as multiplet components when electromagnetic effects and the up–down mass difference are neglected.
@@ -1169,7 +1169,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 12
     kind: structure
     conceptType: Neutral-lepton antiparticle / operational state class
     summary: A neutral-lepton state produced in the charge-conjugate charged-current channel to a neutrino. Whether neutrino and antineutrino are fundamentally distinct Dirac particles or Majorana manifestations of one field remains experimentally unresolved.
@@ -1185,7 +1185,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 12
     kind: structure
     conceptType: Weak-interaction state basis
     summary: An electron-, muon-, or tau-flavor state defined by the charged-current interaction. Flavor states are coherent superpositions of neutrino mass eigenstates.
@@ -1202,7 +1202,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 14
+    level: 12
     kind: structure
     conceptType: Propagation eigenstate class
     summary: One of the propagation eigenstates conventionally labeled $\nu_1,\nu_2,\nu_3$, with definite mass in vacuum. Their coherent phases and PMNS amplitudes generate flavor oscillation.
@@ -1219,7 +1219,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 15
+    level: 13
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The antineutrino flavor state associated with the muon charged-current channel.
@@ -1235,7 +1235,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 15
+    level: 13
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The antineutrino flavor state associated with the tau charged-current channel.

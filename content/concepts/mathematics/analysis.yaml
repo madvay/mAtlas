@@ -734,7 +734,7 @@ nodes:
     domains:
       - analysis
       - algebra
-    level: 21
+    level: 20
     kind: junction
     summary: Compatibility construction producing a $C^*$-algebra.
     carriers: []
@@ -966,7 +966,7 @@ nodes:
     domains:
       - analysis
       - algebra
-    level: 22
+    level: 21
     kind: structure
     summary: A complex associative Banach $*$-algebra satisfying the $C^*$-identity $\lVert a^*a\rVert=\lVert a\rVert^2$.
     carriers:
@@ -1384,7 +1384,7 @@ nodes:
     domains:
       - analysis
       - topology
-    level: 17
+    level: 16
     kind: structure
     conceptType: Regular map
     summary: A map between open subsets of normed vector spaces that admits a linear first-order approximation at every point.

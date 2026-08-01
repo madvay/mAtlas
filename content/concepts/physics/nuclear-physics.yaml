@@ -112,7 +112,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 20
+    level: 19
     kind: structure
     conceptType: Effective interaction
     summary: The two-nucleon interaction extracted from scattering and constrained by QCD symmetries, forming a leading part of nuclear Hamiltonians.
@@ -345,7 +345,7 @@ nodes:
     domains:
       - nuclear-physics
       - quantum-chemistry-spectroscopy
-    level: 25
+    level: 24
     kind: structure
     conceptType: State property
     summary: The total angular momentum quantum number of a nuclear state, combining nucleon orbital and intrinsic spins.
@@ -411,7 +411,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 30
+    level: 25
     kind: structure
     conceptType: Composite-system energy
     summary: The energy required to separate a nucleus into free nucleons, equal to its mass defect times $c^2$.
@@ -478,7 +478,7 @@ nodes:
       - nuclear-physics
       - atomic-structure-periodicity
       - radiochemistry
-    level: 29
+    level: 25
     kind: structure
     conceptType: Atomic species classified by nucleus
     summary: A species of atom characterized by the numbers of protons and neutrons in its nucleus and, when needed, by the nuclear energy state.
@@ -494,7 +494,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 30
+    level: 26
     kind: structure
     conceptType: Nuclide relation class
     summary: Nuclides with the same neutron number $N$ but different proton number $Z$.
@@ -513,7 +513,7 @@ nodes:
       - nuclear-physics
       - atomic-structure-periodicity
       - radiochemistry
-    level: 30
+    level: 26
     kind: structure
     conceptType: Nuclide class
     summary: A member of a set of nuclides having the same atomic number but different mass numbers; equivalently, the same proton number but different neutron numbers.
@@ -530,7 +530,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 30
+    level: 26
     kind: structure
     conceptType: Nuclide relation class
     summary: Nuclides with the same mass number $A$ but different proton number $Z$.
@@ -580,7 +580,7 @@ nodes:
     domains:
       - nuclear-physics
       - radiochemistry
-    level: 32
+    level: 26
     kind: structure
     conceptType: Spontaneous process
     summary: A transition of an unstable nuclear or particle state to lower-energy products with a characteristic probability per unit time.
@@ -598,7 +598,7 @@ nodes:
     domains:
       - nuclear-physics
       - radiochemistry
-    level: 33
+    level: 27
     kind: structure
     conceptType: Nuclear decay process
     summary: Quantum tunneling emission of an alpha particle from a parent nucleus.
@@ -616,7 +616,7 @@ nodes:
     domains:
       - nuclear-physics
       - radiochemistry
-    level: 33
+    level: 27
     kind: structure
     conceptType: Weak nuclear process
     summary: A weak-interaction process changing nuclear charge through nucleon flavor conversion, including beta-minus, beta-plus, and related capture processes.
@@ -635,7 +635,7 @@ nodes:
     domains:
       - nuclear-physics
       - radiochemistry
-    level: 33
+    level: 27
     kind: structure
     conceptType: Electromagnetic nuclear transition
     summary: An excited nuclear state emits one or more photons or transfers energy internally to atomic electrons.
@@ -651,7 +651,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 34
+    level: 28
     kind: structure
     conceptType: Weak nuclear process
     summary: A neutron-rich system converts a neutron to a proton while emitting an electron and electron antineutrino.
@@ -667,7 +667,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 34
+    level: 28
     kind: structure
     conceptType: Weak nuclear process
     summary: A proton-rich system converts a proton to a neutron while emitting a positron and electron neutrino, when energetically allowed.
@@ -683,7 +683,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 34
+    level: 28
     kind: structure
     conceptType: Weak nuclear process
     summary: A nucleus captures an atomic electron and converts a proton to a neutron while emitting an electron neutrino.
@@ -739,7 +739,7 @@ nodes:
     domains:
       - nuclear-physics
       - cosmology
-    level: 28
+    level: 27
     kind: structure
     conceptType: Nuclear reaction process
     summary: Two light nuclei combine into a heavier nuclear product, with energy released for exothermic channels when the final products have greater total binding energy.

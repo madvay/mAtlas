@@ -7,7 +7,7 @@ nodes:
   primaryDomain: chemical-thermodynamics-equilibrium
   domains:
   - chemical-thermodynamics-equilibrium
-  level: 25
+  level: 24
   kind: structure
   conceptType: Disciplinary framework
   summary: Thermodynamic description of composition-changing systems, phase behavior, reaction energetics, and chemical equilibrium.
@@ -76,7 +76,7 @@ nodes:
   primaryDomain: chemical-thermodynamics-equilibrium
   domains:
   - chemical-thermodynamics-equilibrium
-  level: 34
+  level: 27
   kind: structure
   conceptType: Thermodynamic potential
   summary: The state function $G=H-TS$, whose decrease at fixed temperature and pressure bounds non-expansion work and whose minimum characterizes

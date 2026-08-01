@@ -7,7 +7,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 3
+    level: 1
     kind: structure
     conceptType: Geometric physical framework
     summary: The four-dimensional collection of physical events in which temporal and spatial relations are represented together.
@@ -70,7 +70,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 4
+    level: 3
     kind: structure
     conceptType: Geometric model
     summary: Flat four-dimensional spacetime equipped with the Lorentzian metric used by special relativity.
@@ -209,7 +209,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 6
+    level: 5
     kind: structure
     conceptType: Invariant quantity
     summary: The Lorentz-invariant time measured along a timelike worldline.
@@ -391,7 +391,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 2
+    level: 1
     kind: structure
     conceptType: Spacetime element
     summary: An idealized occurrence localized at a point of spacetime.
@@ -759,7 +759,7 @@ nodes:
       - relativity
       - quantum-field-theory
       - cosmology
-    level: 11
+    level: 9
     kind: junction
     summary: Compatibility construction for the semiclassical prediction of Hawking radiation.
     carriers: []
@@ -790,7 +790,7 @@ nodes:
       - relativity
       - quantum-field-theory
       - cosmology
-    level: 12
+    level: 10
     kind: structure
     conceptType: Semiclassical prediction
     summary: Quantum fields on a black-hole background predict approximately thermal radiation at infinity, with temperature set by surface gravity in the stationary case.
