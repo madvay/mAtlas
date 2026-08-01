@@ -23,7 +23,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 29
+  level: 28
   kind: structure
   conceptType: Disciplinary framework
   summary: Study of reaction rates, mechanisms, transport coupling, and time-dependent chemical composition.
@@ -39,7 +39,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 30
+  level: 29
   kind: structure
   conceptType: Kinetic quantity
   summary: The time derivative of reaction progress or species amount normalized by an explicitly stated volume, area, mass, or other basis.
@@ -55,7 +55,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 34
+  level: 33
   kind: structure
   conceptType: Kinetic relation
   summary: A mathematical relation between reaction rate and state variables or species activities, determined by mechanism or experiment rather
@@ -72,7 +72,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 31
+  level: 30
   kind: structure
   conceptType: Mechanistic event
   summary: A single molecular event with no resolved intermediate on the chosen mechanism and time scale.
@@ -105,7 +105,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 30
+  level: 29
   kind: structure
   conceptType: Reduced dynamical coordinate
   summary: A chosen low-dimensional variable that tracks progress between reactant and product regions but generally omits other coupled degrees
@@ -122,7 +122,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 31
+  level: 30
   kind: structure
   conceptType: Dynamical bottleneck
   summary: A dividing-surface configuration near a free-energy or potential-energy saddle that controls reactive flux under a specified theory.
@@ -138,7 +138,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 31
+  level: 30
   kind: structure
   conceptType: Kinetic parameter
   summary: An empirical or model-derived energy scale governing temperature sensitivity; its meaning depends on the rate expression and need not
@@ -171,7 +171,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 32
+  level: 31
   kind: structure
   conceptType: Temperature-rate relation
   summary: An exponential model $k=Ae^{-E_a/(RT)}$ for a rate coefficient over a regime in which the apparent activation energy and prefactor
@@ -188,7 +188,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 32
+  level: 31
   kind: structure
   conceptType: Kinetic model
   summary: A gas-phase reaction model relating rate to collision frequency, relative speed, energetic threshold, and an orientation or steric
@@ -205,7 +205,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 33
+  level: 32
   kind: structure
   conceptType: Rate theory
   summary: A statistical rate theory based on equilibrium-like population near a dividing surface and negligible recrossing, with corrections
@@ -222,7 +222,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 34
+  level: 33
   kind: structure
   conceptType: Reaction-pathway modification
   summary: Increase of reaction rate by a substance or active site that participates in a lower-free-energy mechanism and is regenerated in the
@@ -239,7 +239,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 35
+  level: 34
   kind: structure
   conceptType: Catalysis regime
   summary: Catalysis in which catalyst and reactants occupy the same phase, often through a molecular cycle of intermediates.
@@ -255,7 +255,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 35
+  level: 34
   kind: structure
   conceptType: Catalysis regime
   summary: Catalysis at an interface between phases, involving adsorption, surface reaction, transport, and desorption.
@@ -271,7 +271,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 35
+  level: 34
   kind: structure
   conceptType: Excited-state reaction field
   summary: Chemical transformations initiated or redirected by photon absorption and subsequent excited-state dynamics.
@@ -288,7 +288,7 @@ nodes:
   domains:
   - chemical-kinetics-dynamics
   - chemistry-experiments-evidence
-  level: 31
+  level: 30
   kind: structure
   conceptType: Historical motivating data analysis
   summary: Arrhenius compared the strong temperature dependence of reaction rates with an activated-molecule population model, motivating the
@@ -305,7 +305,7 @@ nodes:
   domains:
   - chemical-kinetics-dynamics
   - chemistry-experiments-evidence
-  level: 35
+  level: 34
   kind: structure
   conceptType: Canonical verifying experiment program
   summary: Pump–probe measurements with femtosecond pulses resolved transient molecular configurations and time scales during bond rearrangement

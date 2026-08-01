@@ -24,7 +24,7 @@ nodes:
     domains:
       - condensed-matter-physics
       - quantum-mechanics
-    level: 22
+    level: 19
     kind: structure
     conceptType: Interacting quantum system
     summary: A quantum system with many constituent degrees of freedom whose interactions and exchange statistics generally prevent reduction to independent one-particle solutions.
@@ -40,7 +40,7 @@ nodes:
     primaryDomain: condensed-matter-physics
     domains:
       - condensed-matter-physics
-    level: 25
+    level: 20
     kind: structure
     conceptType: Emergent excitation class
     summary: A coherent mode involving correlated motion of many microscopic degrees of freedom. It can behave as an effective excitation with its own dispersion and quantum numbers.
@@ -57,7 +57,7 @@ nodes:
     domains:
       - condensed-matter-physics
       - quantum-field-theory
-    level: 26
+    level: 21
     kind: structure
     conceptType: Emergent effective excitation
     summary: A long-lived excitation of an interacting many-body state that propagates approximately like a particle with renormalized properties. Quasiparticles are regime-dependent and can cease to exist when damping is too strong.
@@ -74,7 +74,7 @@ nodes:
     domains:
       - condensed-matter-physics
       - atomic-molecular-physics
-    level: 29
+    level: 24
     kind: structure
     conceptType: Ordinary material many-body system
     summary: A condensed system whose relevant microscopic constituents include electrons and ionic cores or nuclei coupled predominantly by electromagnetism, with chemical bonding and exchange organizing the material state.

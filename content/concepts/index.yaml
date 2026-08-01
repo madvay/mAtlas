@@ -2,7 +2,7 @@ meta:
   title: Atlas of Fundamental Concepts
   # Content version must be updated on each change, fix for fixes, minor for content additions,
   # major for breaking schema change (i.e. content major == schema major version).
-  version: 2.1.5
+  version: 2.1.6
   description: A source-backed visual atlas connecting mathematics, physics, and fundamental chemistry from formal structures and physical law through chemical composition, bonding, reactivity, measurement, and radiochemical processes.
   direction: Lower levels, closer to the top, generally indicate less structure or composition; increasing levels generally indicate specialization, composition, effective description, collective organization, or emergence. Mathematics occupies the upper formal band. Physics and Chemistry share the lower scientific band. The order is ontological and structural, not pedagogical difficulty.
   scope: Mathematics; physics from classical and relativistic foundations through quantum, particle, nuclear, atomic, statistical, and condensed-matter organization; and chemistry from composition, atomic periodicity, molecular structure, thermodynamics, kinetics, measurement, inorganic and organic reactivity, electrochemistry, radiochemistry, and experimental evidence.

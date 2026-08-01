@@ -499,7 +499,7 @@ nodes:
       - thermodynamics-statistical-mechanics
       - condensed-matter-physics
       - chemical-thermodynamics-equilibrium
-    level: 30
+    level: 25
     kind: structure
     conceptType: Collective thermodynamic phenomenon
     summary: A change between macroscopic phases as control parameters vary. In equilibrium statistical mechanics an ideal sharp transition is represented by nonanalytic thermodynamic behavior in the thermodynamic limit; finite systems display rounded precursors.

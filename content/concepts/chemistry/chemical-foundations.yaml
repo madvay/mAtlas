@@ -270,7 +270,7 @@ nodes:
   - solutions-interfaces
   - electrochemistry
   - atomic-molecular-physics
-  level: 34
+  level: 26
   kind: structure
   conceptType: Charged system
   summary: An atom or molecular entity carrying a net electric charge because its total number of electrons differs from its total nuclear charge.
@@ -291,7 +291,7 @@ nodes:
   - solutions-interfaces
   - electrochemistry
   - atomic-molecular-physics
-  level: 35
+  level: 27
   kind: structure
   conceptType: Ion class
   summary: A negatively charged atom or molecule with more electrons than total nuclear charge.
@@ -311,7 +311,7 @@ nodes:
   - solutions-interfaces
   - electrochemistry
   - atomic-molecular-physics
-  level: 35
+  level: 27
   kind: structure
   conceptType: Ion class
   summary: A positively charged atom or molecule with fewer electrons than total nuclear charge.
@@ -329,7 +329,7 @@ nodes:
   - chemical-foundations
   - molecular-structure-bonding
   - atomic-molecular-physics
-  level: 35
+  level: 28
   kind: structure
   conceptType: Composite system
   summary: An electrically neutral entity consisting of more than one atom; its bound structure and spectra arise from quantum states of electrons

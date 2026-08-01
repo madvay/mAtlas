@@ -42,7 +42,7 @@ nodes:
   - atomic-structure-periodicity
   - chemical-foundations
   - atomic-molecular-physics
-  level: 27
+  level: 24
   kind: structure
   conceptType: Classification by nuclear charge
   summary: The class of atoms and ions with the same proton number $Z$.

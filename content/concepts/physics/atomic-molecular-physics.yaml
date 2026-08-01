@@ -232,7 +232,7 @@ nodes:
       - atomic-molecular-physics
       - chemical-foundations
       - atomic-structure-periodicity
-    level: 28
+    level: 25
     kind: structure
     conceptType: Composite system
     summary: An electrically neutral system consisting of a nucleus and bound electrons, identified chemically by the proton number of its nucleus.
