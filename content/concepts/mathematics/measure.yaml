@@ -229,7 +229,7 @@ nodes:
       - measure
       - topology
       - analysis
-    level: 9
+    level: 10
     kind: junction
     summary: Combine a topological-group structure with local compactness and Hausdorff separation on the same underlying topology; the Haar existence theorem then supplies invariant measure.
     carriers: []
@@ -259,7 +259,7 @@ nodes:
     domains:
       - measure
       - topology
-    level: 10
+    level: 11
     kind: structure
     conceptType: Invariant measure
     summary: A nonzero left-invariant regular Borel measure on a locally compact Hausdorff group, unique up to positive scale; right Haar measure is analogous, and a left Haar measure is also right-invariant precisely for unimodular groups.
