@@ -187,6 +187,7 @@ export class FilterControls {
     byId<HTMLSelectElement>('layoutSelect').value = state.layout;
     const preferences = this.options.preferences();
     byId<HTMLSelectElement>('themeSelect').value = preferences.theme;
+    byId<HTMLInputElement>('compactControlsToggle').checked = preferences.compactControls;
     byId<HTMLInputElement>('highResolutionToggle').checked = preferences.highResolution;
     byId<HTMLInputElement>('transitionsToggle').checked = preferences.transitions;
     byId<HTMLInputElement>('animateGraphToggle').checked = preferences.animateGraph;
@@ -263,7 +264,7 @@ export class FilterControls {
       if (theme !== 'system' && theme !== 'light' && theme !== 'dark') return;
       this.options.setPreferences({ ...this.options.preferences(), theme });
     });
-    for (const id of ['highResolution', 'transitions', 'animateGraph', 'refitOnChange', 'motionBlur', 'indicateOtherDomains', 'overlayDomains', 'hideEdgesWhileMoving', 'allowNodeMovement', 'dimPrerequisites', 'highlightPrerequisites', 'experimentalFeatures'] as const) {
+    for (const id of ['compactControls', 'highResolution', 'transitions', 'animateGraph', 'refitOnChange', 'motionBlur', 'indicateOtherDomains', 'overlayDomains', 'hideEdgesWhileMoving', 'allowNodeMovement', 'dimPrerequisites', 'highlightPrerequisites', 'experimentalFeatures'] as const) {
       byId<HTMLInputElement>(`${id}Toggle`).addEventListener('change', (event) => {
         this.options.setPreferences({ ...this.options.preferences(), [id]: (event.currentTarget as HTMLInputElement).checked });
         if (id === 'experimentalFeatures') this.syncPreferences();

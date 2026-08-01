@@ -9,14 +9,19 @@
   <script>
     (() => {
       let preference = 'system';
+      let compactControls = false;
       try {
         const value = JSON.parse(window.localStorage.getItem('human-knowledge-atlas:preferences:v1') || 'null');
-        if (value?.version === 1 && (value.theme === 'light' || value.theme === 'dark' || value.theme === 'system')) preference = value.theme;
+        if (value?.version === 1) {
+          if (value.theme === 'light' || value.theme === 'dark' || value.theme === 'system') preference = value.theme;
+          compactControls = value.compactControls === true;
+        }
       } catch { /* use system */ }
       const dark = preference === 'dark' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
       const resolved = dark ? 'dark' : 'light';
       document.documentElement.dataset.theme = resolved;
       document.documentElement.dataset.themePreference = preference;
+      document.documentElement.dataset.compactControls = compactControls ? 'true' : 'false';
       document.documentElement.style.colorScheme = resolved;
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.content = dark ? '#0b1020' : '#f6f7f9';
@@ -197,6 +202,7 @@
           </div>
           <div id="preferencesFilterSection" class="filter-section-body display-filter-controls">
             <label class="select-row" for="themeSelect"><span>Theme</span><select id="themeSelect" class="select"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+            <label class="toggle-row"><input id="compactControlsToggle" type="checkbox"> Compact controls</label>
             <label class="toggle-row"><input id="highResolutionToggle" type="checkbox" checked> High resolution</label>
             <label class="toggle-row"><input id="transitionsToggle" type="checkbox" checked> Fade transitions</label>
             <label class="toggle-row"><input id="animateGraphToggle" type="checkbox"> Animate graph</label>

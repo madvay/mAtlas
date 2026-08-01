@@ -182,6 +182,7 @@ export type ResolvedTheme = Exclude<ThemePreference, 'system'>;
 export interface Preferences {
   version: 1;
   theme: ThemePreference;
+  compactControls: boolean;
   highResolution: boolean;
   transitions: boolean;
   animateGraph: boolean;

@@ -4199,3 +4199,117 @@ body.mobile-panel-open .graph-shell::after {
     min-height: 44px;
   }
 }
+
+/*
+ * Optional density profile. The default controls retain the larger accessible
+ * targets above; this explicit preference restores the app's earlier compact
+ * dimensions without changing semantics, keyboard behavior, or focus styling.
+ */
+:root[data-compact-controls="true"] .button,
+:root[data-compact-controls="true"] .select,
+:root[data-compact-controls="true"] .icon-button {
+  min-height: 34px;
+}
+
+:root[data-compact-controls="true"] .icon-button,
+:root[data-compact-controls="true"] .view-banner-close,
+:root[data-compact-controls="true"] .views-welcome-close,
+:root[data-compact-controls="true"] .view-sequence-button {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+}
+
+:root[data-compact-controls="true"] .search-box input {
+  min-height: 34px;
+}
+
+:root[data-compact-controls="true"] .select-row .select {
+  min-height: 30px;
+}
+
+:root[data-compact-controls="true"] .panel-header {
+  min-height: 0;
+}
+
+:root[data-compact-controls="true"] .filter-section-toggle {
+  min-height: 0;
+  padding-block: 2px;
+}
+
+:root[data-compact-controls="true"] .text-button,
+:root[data-compact-controls="true"] .small-link,
+:root[data-compact-controls="true"] .filter-link,
+:root[data-compact-controls="true"] .field-nav a,
+:root[data-compact-controls="true"] .brand p a {
+  min-width: 0;
+  min-height: 0;
+  padding-block: 0;
+}
+
+:root[data-compact-controls="true"] .field-nav a,
+:root[data-compact-controls="true"] .brand p a {
+  padding-inline: 0;
+}
+
+:root[data-compact-controls="true"] .filter-item,
+:root[data-compact-controls="true"] .toggle-row {
+  align-items: flex-start;
+  min-height: 0;
+  line-height: 1.25;
+  cursor: pointer;
+}
+
+:root[data-compact-controls="true"] .filter-checkbox-target {
+  align-items: flex-start;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+:root[data-compact-controls="true"] .filter-checkbox-target input,
+:root[data-compact-controls="true"] .filter-item input,
+:root[data-compact-controls="true"] .toggle-row input {
+  width: 14px;
+  height: 14px;
+  margin: 2px 0 0;
+}
+
+:root[data-compact-controls="true"] .exclude-toggle {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 0;
+}
+
+:root[data-compact-controls="true"] .exclude-toggle .material-symbols-outlined {
+  font-size: 12px;
+}
+
+:root[data-compact-controls="true"] .graph-viewport-controls {
+  grid-template-columns: repeat(3, 34px);
+  gap: 4px;
+  padding: 5px;
+}
+
+:root[data-compact-controls="true"] .graph-viewport-controls .icon-button {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+}
+
+:root[data-compact-controls="true"] .node-movement-grid {
+  grid-template-columns: 34px minmax(92px, 1fr) 34px;
+  gap: 4px;
+}
+
+:root[data-compact-controls="true"] .node-movement-grid .icon-button {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+}

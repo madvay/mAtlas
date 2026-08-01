@@ -5,6 +5,7 @@ export const PREFERENCES_STORAGE_KEY = 'human-knowledge-atlas:preferences:v1';
 export const DEFAULT_PREFERENCES: Readonly<Preferences> = Object.freeze({
   version: 1,
   theme: 'dark',
+  compactControls: false,
   highResolution: true,
   transitions: true,
   animateGraph: false,
@@ -33,6 +34,7 @@ export function parsePreferences(raw: string | null): Preferences {
     return {
       version: 1,
       theme: parseTheme(candidate.theme),
+      compactControls: typeof candidate.compactControls === 'boolean' ? candidate.compactControls : false,
       highResolution: typeof candidate.highResolution === 'boolean' ? candidate.highResolution : true,
       transitions: typeof candidate.transitions === 'boolean' ? candidate.transitions : true,
       animateGraph: typeof candidate.animateGraph === 'boolean' ? candidate.animateGraph : false,

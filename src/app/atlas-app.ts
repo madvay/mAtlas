@@ -109,6 +109,7 @@ export async function startAtlasApp(): Promise<void> {
 
 
   let preferences = staticAtlasSvgMode ? { ...DEFAULT_PREFERENCES, theme: 'light' as const } : readPreferences();
+  document.documentElement.dataset.compactControls = preferences.compactControls ? 'true' : 'false';
   const systemThemeQuery = window.matchMedia(DARK_THEME_MEDIA_QUERY);
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   let resolvedTheme: ResolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
@@ -449,6 +450,7 @@ export async function startAtlasApp(): Promise<void> {
       const disableGraphAnimation = preferences.animateGraph && !next.animateGraph;
       const disableRefit = preferences.refitOnChange && !next.refitOnChange;
       preferences = next;
+      document.documentElement.dataset.compactControls = preferences.compactControls ? 'true' : 'false';
       if (disableGraphAnimation) stopGraphAnimations();
       else if (disableRefit) viewportController.cancel();
       resolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
