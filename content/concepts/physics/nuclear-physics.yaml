@@ -24,7 +24,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 16
+    level: 17
     kind: structure
     conceptType: Effective field theory
     summary: A low-energy expansion for nuclear interactions and currents using nucleons, pions or pionless degrees of freedom according to the scale.
