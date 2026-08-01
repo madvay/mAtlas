@@ -56,7 +56,7 @@ nodes:
   primaryDomain: quantum-chemistry-spectroscopy
   domains:
   - quantum-chemistry-spectroscopy
-  level: 34
+  level: 33
   kind: structure
   conceptType: Computational method class
   summary: Electronic-structure methods derived from an explicit Hamiltonian without fitting the central result to the same target data, while
@@ -235,7 +235,7 @@ nodes:
   primaryDomain: quantum-chemistry-spectroscopy
   domains:
   - quantum-chemistry-spectroscopy
-  level: 40
+  level: 35
   kind: structure
   conceptType: Attenuation relation
   summary: In a homogeneous dilute regime, absorbance is proportional to optical path length and concentration, with deviations from interactions,

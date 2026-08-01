@@ -236,7 +236,7 @@ nodes:
   primaryDomain: analytical-chemistry
   domains:
   - analytical-chemistry
-  level: 26
+  level: 36
   kind: structure
   conceptType: Instrumental analysis method
   summary: Production, separation, and detection of gas-phase ions according to mass-to-charge ratio, often with structural inference from fragmentation

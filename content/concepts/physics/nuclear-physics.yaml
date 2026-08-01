@@ -778,7 +778,7 @@ nodes:
       - analytical-chemistry
       - radiochemistry
       - chemistry-experiments-evidence
-    level: 27
+    level: 37
     kind: structure
     conceptType: Discovery and measurement program
     summary: Aston separated isotopes by mass-to-charge ratio and established isotope masses and packing-fraction regularities central to nuclide and binding-energy systematics.

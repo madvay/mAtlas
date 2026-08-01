@@ -673,7 +673,7 @@ nodes:
       - atomic-molecular-physics
       - condensed-matter-physics
       - quantum-chemistry-spectroscopy
-    level: 31
+    level: 33
     kind: structure
     conceptType: Ground-state many-body formulation and approximation family
     summary: An exact ground-state density formulation in the Hohenberg–Kohn sense, implemented in practice through Kohn–Sham orbitals and approximate exchange–correlation functionals.
@@ -739,7 +739,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
-    level: 31
+    level: 32
     kind: structure
     conceptType: Self-consistent-field approximation
     summary: A variational product-state mean-field method in which each electron moves in the average electrostatic field of the others; it omits exact exchange antisymmetry.
@@ -756,7 +756,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 31
+    level: 33
     kind: structure
     conceptType: Self-consistent-field approximation
     summary: A variational single-Slater-determinant method including exchange exactly within that determinant but omitting correlation beyond it.
@@ -881,7 +881,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 32
+    level: 34
     kind: structure
     conceptType: Many-body approximation method
     summary: A variational expansion of an atomic state in multiple configuration-state functions, recovering correlation within the chosen basis and excitation space.
@@ -898,7 +898,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 32
+    level: 34
     kind: structure
     conceptType: Many-body approximation method
     summary: An exponential correlated-wavefunction method with systematic truncations such as singles and doubles, widely used for high-accuracy electronic structure.
