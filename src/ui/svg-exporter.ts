@@ -4,6 +4,7 @@ import { stripInlineMathText } from '../core/text.js';
 import type { AppState, GraphNode, LineStyle, Point, Preferences } from '../types.js';
 import type { GraphModel } from '../model/graph-model.js';
 import { DOMAIN_MARKER_RADIUS, DOMAIN_MARKER_STEP, domainMarkerTopLeft } from '../graph/domain-marker-geometry.js';
+import { includePassiveDomainOverlayInVisibleSvg } from './svg-export-policy.js';
 
 export interface SvgExportResult {
   svg: string;
@@ -37,7 +38,11 @@ export class SvgExporter {
   ) {}
 
   serializeVisible(): SvgExportResult | null {
-    const visibleNodes = this.cy.nodes().not('.filter-hidden').filter((element) => element.style('display') !== 'none');
+    const visibleNodes = this.cy.nodes().not('.filter-hidden').filter((element) => {
+      if (element.style('display') === 'none') return false;
+      if (Number(element.data('domainNameOverlay')) !== 1) return true;
+      return includePassiveDomainOverlayInVisibleSvg(this.state.layout, element.hasClass('domain-name-overlay-visible'));
+    });
     const visibleEdges = this.cy.edges().not('.filter-hidden').filter((element) => {
       const edge = element as cytoscape.EdgeSingular;
       return edge.style('display') !== 'none'
@@ -254,7 +259,33 @@ export class SvgExporter {
     });
 
     const sequenceIndex = new Map(this.nodeSequence().map((nodeId, index) => [nodeId, index + 1]));
-    visibleNodes.forEach((element) => {
+    const orderedVisibleNodes = visibleNodes.toArray().sort((left, right) => {
+      const layer = (element: cytoscape.NodeSingular): number => {
+        if (Number(element.data('semanticGroup')) === 1) return 2;
+        if (Number(element.data('domainNameOverlay')) === 1) return 1;
+        return 0;
+      };
+      return layer(left) - layer(right);
+    });
+    orderedVisibleNodes.forEach((element) => {
+      if (Number(element.data('domainNameOverlay')) === 1) {
+        const position = element.position();
+        const color = String(element.data('color') ?? '#64748b');
+        const label = String(element.data('label') ?? '');
+        const conceptCount = Number(element.data('conceptCount') ?? 0);
+        const opacity = element.data('domainOverlayContext') === 'fields' ? 0.58 : 0.92;
+        parts.push(`<g opacity="${opacity}"><title>${escapeHtml(label)} — ${conceptCount} concept${conceptCount === 1 ? '' : 's'}</title>`);
+        const lines = String(element.data('canvasLabel') ?? label).split('\n');
+        const fontSize = Number(element.data('labelFontSize')) || 15;
+        const lineHeight = fontSize * 1.06;
+        const outlineWidth = Number(element.data('textOutlineWidth')) || 0;
+        lines.forEach((line, index) => {
+          const textY = position.y + (index - (lines.length - 1) / 2) * lineHeight + fontSize * 0.34;
+          parts.push(`<text x="${position.x.toFixed(2)}" y="${textY.toFixed(2)}" text-anchor="middle" font-family="${escapeHtml(this.fontFamily)}" font-size="${fontSize.toFixed(2)}" font-weight="800" fill="${escapeHtml(color)}" stroke="#ffffff" stroke-opacity="0.92" stroke-width="${outlineWidth.toFixed(2)}" stroke-linejoin="round" paint-order="stroke">${escapeHtml(line)}</text>`);
+        });
+        parts.push('</g>');
+        return;
+      }
       if (Number(element.data('semanticGroup')) === 1) {
         const position = element.position();
         const selected = element.selected();

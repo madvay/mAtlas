@@ -50,6 +50,7 @@
     "src/ui/render.ts",
     "src/ui/structure-overlay-controller.ts",
     "src/ui/field-band-controller.ts",
+    "src/ui/svg-export-policy.ts",
     "src/graph/idle-render-controller.ts"
   ]
 }

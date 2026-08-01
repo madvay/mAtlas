@@ -932,6 +932,7 @@ export async function startAtlasApp(): Promise<void> {
     model,
     state,
     cy,
+    preferences: () => preferences,
     openPanel: openDetailsPanel,
     focusField: (fieldId) => filterControls.focusField(fieldId),
     focusDomain: (domainId) => filterControls.focusDomain(domainId),

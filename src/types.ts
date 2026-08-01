@@ -170,6 +170,7 @@ export interface Preferences {
   refitOnChange: boolean;
   motionBlur: boolean;
   indicateOtherDomains: boolean;
+  overlayDomains: boolean;
   hideEdgesWhileMoving: boolean;
   allowNodeMovement: boolean;
   dimPrerequisites: boolean;

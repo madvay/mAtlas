@@ -55,6 +55,13 @@ test('renderer preferences change the live renderer and immediately redraw both 
       && value === 'node.structure-source-node, node.structure-source-junction'));
     assert.ok(fixture.declarations.some(([name, value]) => name === 'selector'
       && value === 'edge.structure-source-edge'));
+    const domainSelectorIndex = fixture.declarations.findIndex(([name, value]) => name === 'selector'
+      && value === 'node[domainNameOverlay = 1]');
+    assert.deepEqual(fixture.declarations.slice(domainSelectorIndex, domainSelectorIndex + 3), [
+      ['selector', 'node[domainNameOverlay = 1]'],
+      ['transition-property', 'opacity'],
+      ['transition-duration', 120]
+    ]);
 
     applyRendererPreferences(fixture.graph, {
       version: 1, highResolution: false, transitions: false, motionBlur: false,
@@ -65,6 +72,13 @@ test('renderer preferences change the live renderer and immediately redraw both 
     assert.equal(fixture.renderer.motionBlur, false);
     assert.equal(fixture.renderer.hideEdgesOnViewport, true);
     assert.deepEqual(fixture.movement.slice(3), [['autoungrabify', false], 'unpanify', 'grabify']);
+    const disabledDomainSelectorIndex = fixture.declarations.findLastIndex(([name, value]) => name === 'selector'
+      && value === 'node[domainNameOverlay = 1]');
+    assert.deepEqual(fixture.declarations.slice(disabledDomainSelectorIndex, disabledDomainSelectorIndex + 3), [
+      ['selector', 'node[domainNameOverlay = 1]'],
+      ['transition-property', 'none'],
+      ['transition-duration', 0]
+    ]);
     assert.equal(fixture.resized, 2);
     assert.equal(fixture.rendered, 2);
   } finally {
@@ -88,6 +102,17 @@ test('structure modes use text-only centroid labels and disable source-node even
   assert.equal(centroidStyle?.width, 'data(nodeWidth)');
   assert.equal(centroidStyle?.height, 'data(nodeHeight)');
   assert.equal(centroidStyle?.['font-size'], 'data(labelFontSize)');
+  const domainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1]')?.style;
+  const visibleDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1].domain-name-overlay-visible')?.style;
+  const fieldDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1][domainOverlayContext = "fields"]')?.style;
+  const visibleFieldDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1][domainOverlayContext = "fields"].domain-name-overlay-visible')?.style;
+  assert.equal(domainOverlayStyle?.display, 'element');
+  assert.equal(domainOverlayStyle?.opacity, 0);
+  assert.equal(domainOverlayStyle?.events, 'no');
+  assert.equal(domainOverlayStyle?.['z-index'], 1000);
+  assert.equal(visibleDomainOverlayStyle?.opacity, 0.92);
+  assert.equal(fieldDomainOverlayStyle?.['z-index'], 998);
+  assert.equal(visibleFieldDomainOverlayStyle?.opacity, 0.58);
   const connectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1]')?.style;
   const emphasizedConnectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1].structure-connection-emphasis')?.style;
   assert.equal(connectionStyle?.opacity, 0.09);

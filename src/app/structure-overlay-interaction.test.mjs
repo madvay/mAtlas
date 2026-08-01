@@ -93,7 +93,7 @@ function graphFixture() {
   });
 }
 
-function controllerFixture(layout = 'domains') {
+function controllerFixture(layout = 'domains', preferenceOverrides = {}) {
   const cy = graphFixture();
   const model = modelFixture();
   const state = {
@@ -103,11 +103,13 @@ function controllerFixture(layout = 'domains') {
     neighborhoodElementId: null
   };
   const selectionChanges = [];
+  const preferences = { overlayDomains: true, ...preferenceOverrides };
   let clearGraphSelectionCalls = 0;
   const controller = new StructureOverlayController({
     cy,
     model,
     state,
+    preferences: () => preferences,
     openPanel() {},
     focusField() {},
     focusDomain() {},
@@ -161,11 +163,61 @@ test('refresh executes aggregation and creates selectable domain overlays from v
     fixture.controller.refresh();
     assert.equal(fixture.cy.nodes('[semanticGroup = 1]').length, 3);
     assert.equal(fixture.cy.edges('[semanticConnection = 1]').length, 2);
+    assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').length, 0);
     assert.equal(fixture.cy.getElementById('structure-group:domains:algebra').data('label'), 'Algebra');
     assert.equal(fixture.cy.getElementById('structure-connection:domains:algebra->mechanics').data('relationCount'), 1);
     assert.equal(fixture.cy.getElementById('group').hasClass('structure-source-node'), true);
     assert.equal(fixture.cy.getElementById('junction').hasClass('structure-source-junction'), true);
     assert.equal(fixture.cy.getElementById('group-phase').hasClass('structure-source-edge'), true);
+  } finally {
+    fixture.cy.destroy();
+    dom.restore();
+  }
+});
+
+test('layered mode adds passive domain names only at whole-map zoom', () => {
+  const fixture = controllerFixture('atlas');
+  fixture.controller.initialize();
+  fixture.cy.zoom(0.2);
+  fixture.controller.refresh();
+  assert.equal(fixture.cy.nodes('[semanticGroup = 1]').length, 0);
+  assert.equal(fixture.cy.edges('[semanticConnection = 1]').length, 0);
+  assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').length, 3);
+  assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').some((node) => node.hasClass('domain-name-overlay-visible')), false);
+
+  fixture.cy.zoom(0.1);
+  assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').every((node) => node.hasClass('domain-name-overlay-visible')), true);
+  fixture.cy.zoom(0.2);
+  assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').every((node) => node.hasClass('domain-name-overlay-visible')), true);
+  fixture.cy.zoom(0.25);
+  assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').some((node) => node.hasClass('domain-name-overlay-visible')), false);
+  assert.equal(fixture.cy.getElementById('group').hasClass('structure-source-node'), false);
+  assert.equal(fixture.cy.getElementById('group-phase').hasClass('structure-source-edge'), false);
+  fixture.cy.destroy();
+});
+
+test('fields mode keeps dimmed domain names beneath fields except at extremely small concept scale', () => {
+  const dom = installDom();
+  const fixture = controllerFixture('fields');
+  try {
+    fixture.controller.initialize();
+    fixture.cy.zoom(0.1);
+    fixture.controller.refresh();
+    assert.equal(fixture.cy.nodes('[semanticGroup = 1]').length, 2);
+    assert.equal(fixture.cy.edges('[semanticConnection = 1]').length, 1);
+    const domainNames = fixture.cy.nodes('[domainNameOverlay = 1]');
+    assert.equal(domainNames.length, 3);
+    assert.equal(domainNames.every((node) => node.data('domainOverlayContext') === 'fields'), true);
+    assert.equal(domainNames.every((node) => node.hasClass('domain-name-overlay-visible')), true);
+
+    fixture.cy.zoom(0.055);
+    assert.equal(domainNames.every((node) => node.hasClass('domain-name-overlay-visible')), true);
+    fixture.cy.zoom(0.04);
+    assert.equal(domainNames.some((node) => node.hasClass('domain-name-overlay-visible')), false);
+    fixture.cy.zoom(0.055);
+    assert.equal(domainNames.some((node) => node.hasClass('domain-name-overlay-visible')), false);
+    fixture.cy.zoom(0.07);
+    assert.equal(domainNames.every((node) => node.hasClass('domain-name-overlay-visible')), true);
   } finally {
     fixture.cy.destroy();
     dom.restore();
@@ -252,8 +304,8 @@ test('layout transition classes apply to existing overlays and are removed after
   fixture.cy.destroy();
 });
 
-test('inactive refresh removes aggregate overlays and source classes', () => {
-  const fixture = controllerFixture('atlas');
+test('disabled domain names remove aggregate overlays and source classes outside structure mode', () => {
+  const fixture = controllerFixture('atlas', { overlayDomains: false });
   installOverlayElements(fixture.cy);
   fixture.cy.getElementById('group').addClass('structure-source-node');
   fixture.cy.getElementById('junction').addClass('structure-source-junction');

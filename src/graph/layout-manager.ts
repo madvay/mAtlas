@@ -141,7 +141,7 @@ export class LayoutManager {
       return;
     }
     const visible = this.options.cy.elements().not('.filter-hidden')
-      .filter((element) => element.style('display') !== 'none');
+      .filter((element) => Number(element.data('domainNameOverlay')) !== 1 && element.style('display') !== 'none');
     this.options.fitVisible(visible, undefined, () => this.finishRun(run));
   }
 

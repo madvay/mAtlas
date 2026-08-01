@@ -196,6 +196,33 @@ export const graphStyles: cytoscape.StylesheetJson = [
     }
   },
   {
+    selector: 'node[domainNameOverlay = 1]',
+    style: {
+      display: 'element', shape: 'rectangle',
+      width: 'data(nodeWidth)', height: 'data(nodeHeight)',
+      'background-opacity': 0, 'border-width': 0,
+      label: 'data(canvasLabel)', color: 'data(color)',
+      'font-size': 'data(labelFontSize)', 'font-weight': 800,
+      'text-wrap': 'wrap', 'text-max-width': 'data(textWidth)',
+      'text-halign': 'center', 'text-valign': 'center',
+      'text-outline-color': '#ffffff', 'text-outline-opacity': 0.92,
+      'text-outline-width': 'data(textOutlineWidth)',
+      opacity: 0, 'z-index': 1000, events: 'no'
+    }
+  },
+  {
+    selector: 'node[domainNameOverlay = 1].domain-name-overlay-visible',
+    style: { opacity: 0.92 }
+  },
+  {
+    selector: 'node[domainNameOverlay = 1][domainOverlayContext = "fields"]',
+    style: { 'z-index': 998 }
+  },
+  {
+    selector: 'node[domainNameOverlay = 1][domainOverlayContext = "fields"].domain-name-overlay-visible',
+    style: { opacity: 0.58 }
+  },
+  {
     selector: 'edge[semanticConnection = 1]',
     style: {
       width: 'data(edgeWidth)', 'curve-style': 'bezier',
@@ -271,7 +298,7 @@ export function applyRendererPreferences(cy: cytoscape.Core, preferences: Prefer
   renderer.motionBlur = preferences.motionBlur;
   renderer.hideEdgesOnViewport = preferences.hideEdgesWhileMoving;
   cy.autoungrabify(!preferences.allowNodeMovement);
-  const nodes = cy.nodes();
+  const nodes = cy.nodes('[semanticOverlay != 1]');
   if (preferences.allowNodeMovement) {
     nodes.unpanify();
     nodes.grabify();
@@ -293,6 +320,9 @@ export function applyRendererPreferences(cy: cytoscape.Core, preferences: Prefer
     .selector('edge.structure-source-edge')
     .style('transition-property', 'none')
     .style('transition-duration', 0)
+    .selector('node[domainNameOverlay = 1]')
+    .style('transition-property', preferences.transitions ? 'opacity' : 'none')
+    .style('transition-duration', preferences.transitions ? 120 : 0)
     .update();
   cy.resize();
   cy.forceRender();

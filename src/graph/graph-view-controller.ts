@@ -148,7 +148,8 @@ export class GraphViewController {
   }
 
   visibleElements(): cytoscape.CollectionReturnValue {
-    return this.options.cy.elements().not('.filter-hidden').filter((element) => element.style('display') !== 'none');
+    return this.options.cy.elements().not('.filter-hidden')
+      .filter((element) => Number(element.data('domainNameOverlay')) !== 1 && element.style('display') !== 'none');
   }
 
   fitVisible(): void {

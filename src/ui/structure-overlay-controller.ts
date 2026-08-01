@@ -4,7 +4,7 @@ import { buildSemanticMap, domainLevelAnchor, type SemanticMapConnection, type S
 import { deconflictStructurePositions, estimateStructureFitZoom, structureEdgeVisualMetrics, structureNodeGap, structureNodeVisualMetrics } from '../graph/structure-overlay-geometry.js';
 import { isCrossFieldEdgeAllowed } from '../graph/visibility-policy.js';
 import type { GraphModel } from '../model/graph-model.js';
-import type { AppState, GraphEdge, GraphNode, HistoryMode, LayoutName, Point, SelectionTarget } from '../types.js';
+import type { AppState, GraphEdge, GraphNode, HistoryMode, LayoutName, Point, Preferences, SelectionTarget } from '../types.js';
 import { renderHtml } from './render.js';
 import { stripInlineMathText } from '../core/text.js';
 
@@ -12,6 +12,7 @@ interface StructureOverlayControllerOptions {
   model: GraphModel;
   state: AppState;
   cy: cytoscape.Core;
+  preferences: () => Preferences;
   openPanel: () => void;
   focusField: (fieldId: string) => void;
   focusDomain: (domainId: string) => void;
@@ -30,19 +31,28 @@ const OVERLAY_SELECTOR = '[semanticOverlay = 1]';
 const OVERLAY_PENDING_CLASS = 'structure-overlay-pending';
 const CONNECTION_EMPHASIS_CLASS = 'structure-connection-emphasis';
 const CONNECTION_HIDDEN_CLASS = 'structure-connection-hidden';
+const DOMAIN_NAME_OVERLAY_SELECTOR = 'node[domainNameOverlay = 1]';
+const DOMAIN_NAME_OVERLAY_VISIBLE_CLASS = 'domain-name-overlay-visible';
+const CONCEPT_NODE_GRAPH_WIDTH = 164;
+const LAYERED_DOMAIN_OVERLAY_SHOW_BELOW_WIDTH = 24;
+const LAYERED_DOMAIN_OVERLAY_HIDE_ABOVE_WIDTH = 28;
+const FIELD_DOMAIN_OVERLAY_HIDE_BELOW_WIDTH = 8;
+const FIELD_DOMAIN_OVERLAY_SHOW_ABOVE_WIDTH = 10;
 
 export class StructureOverlayController {
   private mapData: SemanticMapData = { groups: [], connections: [] };
   private selection: OverlaySelection | null = null;
   private layoutTransitionPending = false;
+  private domainNamesVisible = false;
 
   constructor(private readonly options: StructureOverlayControllerOptions) {}
 
   initialize(): void {
     this.options.cy.on('dragfree', 'node', (event) => {
-      if (!this.active() || Number(event.target.data('semanticOverlay')) === 1) return;
+      if ((!this.active() && !this.domainNamesEnabled()) || Number(event.target.data('semanticOverlay')) === 1) return;
       this.refresh();
     });
+    this.options.cy.on('zoom', () => this.syncDomainNameOverlayVisibility());
   }
 
   active(): boolean {
@@ -86,54 +96,56 @@ export class StructureOverlayController {
 
   refresh(): void {
     const { cy, model, state } = this.options;
-    if (!this.active()) {
+    const structureActive = this.active();
+    const domainNamesEnabled = this.domainNamesEnabled();
+    if (!domainNamesEnabled) this.domainNamesVisible = false;
+    if (!structureActive && !domainNamesEnabled) {
       cy.batch(() => {
         cy.elements(OVERLAY_SELECTOR).remove();
         cy.nodes().removeClass('structure-source-node structure-source-junction');
         cy.edges().removeClass('structure-source-edge');
       });
+      this.mapData = { groups: [], connections: [] };
       this.selection = null;
       this.layoutTransitionPending = false;
+      this.domainNamesVisible = false;
       return;
     }
 
-    // Keep the dimmed substrate classes in place while the overlay is rebuilt.
-    // Removing them before the aggregate data is calculated allows Cytoscape to
-    // paint one full-opacity frame on layout entry and filter changes.
-    this.prepareForLayout(state.layout);
+    if (structureActive) {
+      // Keep the dimmed substrate classes in place while the overlay is rebuilt.
+      // Removing them before the aggregate data is calculated allows Cytoscape to
+      // paint one full-opacity frame on layout entry and filter changes.
+      this.prepareForLayout(state.layout);
+    } else {
+      cy.batch(() => {
+        cy.nodes().removeClass('structure-source-node structure-source-junction');
+        cy.edges().removeClass('structure-source-edge');
+      });
+      this.mapData = { groups: [], connections: [] };
+      this.selection = null;
+    }
     cy.elements(OVERLAY_SELECTOR).remove();
 
-    const scale: SemanticMapScale = state.layout === 'fields' ? 'fields' : 'domains';
     const visibleNodes = cy.nodes().not('.filter-hidden')
       .map((element) => model.nodeRecord.get(element.id()))
       .filter((node): node is GraphNode => Boolean(node && node.kind === 'structure'));
     const visibleNodeIds = new Set(visibleNodes.map((node) => node.id));
     const semanticEdges = model.allEdges.filter((edge) => this.edgeIncluded(edge, visibleNodeIds));
-    this.mapData = buildSemanticMap({
-      scale,
-      nodes: visibleNodes,
-      edges: semanticEdges,
-      fields: model.data.fields,
-      domains: model.data.domains,
-      fieldOrder: model.fieldOrder,
-      domainOrder: model.domainOrder,
-      fieldForDomain: (domainId) => model.fieldForDomain(domainId),
-      primaryFieldForNode: (node) => model.nodePrimaryField(node),
-      positionForNode: (nodeId) => {
-        const element = cy.getElementById(nodeId);
-        return element && !element.empty() ? element.position() : undefined;
-      },
-      ...(scale === 'domains'
-        ? { anchorForGroup: (groupId: string, conceptIds: readonly string[]) => this.domainLevelAnchor(groupId, conceptIds) }
-        : {})
-    });
-
     const sourceElements = cy.nodes().not('.filter-hidden').filter((element) => {
       const record = model.nodeRecord.get(element.id());
       return Boolean(record && record.kind === 'structure');
     });
     const sourceBounds = sourceElements.boundingBox({ includeLabels: false, includeOverlays: false });
     const estimatedFitZoom = estimateStructureFitZoom(sourceBounds, { width: cy.width(), height: cy.height() });
+
+    if (!structureActive) {
+      this.addDomainNameOverlays(visibleNodes, semanticEdges, estimatedFitZoom);
+      return;
+    }
+
+    const scale: SemanticMapScale = state.layout === 'fields' ? 'fields' : 'domains';
+    this.mapData = this.buildMap(scale, visibleNodes, semanticEdges);
     const metricsByGroup = new Map(this.mapData.groups.map((group) => [
       group.id,
       structureNodeVisualMetrics(scale, group.conceptCount, stripInlineMathText(group.label), estimatedFitZoom)
@@ -204,6 +216,8 @@ export class StructureOverlayController {
       const added = cy.add(elements);
       if (this.layoutTransitionPending) added.addClass(OVERLAY_PENDING_CLASS);
     }
+
+    if (domainNamesEnabled) this.addDomainNameOverlays(visibleNodes, semanticEdges, estimatedFitZoom);
 
     this.restoreSelection();
     this.syncConnectionEmphasis();
@@ -286,6 +300,108 @@ export class StructureOverlayController {
       : this.connectionElementId(this.selection.id);
     const element = this.options.cy.getElementById(elementId);
     return element && !element.empty() ? element : null;
+  }
+
+  private domainNamesEnabled(): boolean {
+    return this.options.preferences().overlayDomains
+      && (this.options.state.layout === 'atlas' || this.options.state.layout === 'fields');
+  }
+
+  private syncDomainNameOverlayVisibility(force = false): void {
+    const renderedConceptWidth = CONCEPT_NODE_GRAPH_WIDTH * this.options.cy.zoom();
+    let visible = false;
+    if (this.domainNamesEnabled()) {
+      visible = this.options.state.layout === 'fields'
+        ? (this.domainNamesVisible
+          ? renderedConceptWidth > FIELD_DOMAIN_OVERLAY_HIDE_BELOW_WIDTH
+          : renderedConceptWidth > FIELD_DOMAIN_OVERLAY_SHOW_ABOVE_WIDTH)
+        : (this.domainNamesVisible
+          ? renderedConceptWidth < LAYERED_DOMAIN_OVERLAY_HIDE_ABOVE_WIDTH
+          : renderedConceptWidth < LAYERED_DOMAIN_OVERLAY_SHOW_BELOW_WIDTH);
+    }
+    if (!force && visible === this.domainNamesVisible) return;
+    this.domainNamesVisible = visible;
+    this.options.cy.nodes(DOMAIN_NAME_OVERLAY_SELECTOR)
+      .toggleClass(DOMAIN_NAME_OVERLAY_VISIBLE_CLASS, visible);
+  }
+
+  private buildMap(
+    scale: SemanticMapScale,
+    visibleNodes: readonly GraphNode[],
+    semanticEdges: readonly GraphEdge[]
+  ): SemanticMapData {
+    const { cy, model } = this.options;
+    return buildSemanticMap({
+      scale,
+      nodes: visibleNodes,
+      edges: semanticEdges,
+      fields: model.data.fields,
+      domains: model.data.domains,
+      fieldOrder: model.fieldOrder,
+      domainOrder: model.domainOrder,
+      fieldForDomain: (domainId) => model.fieldForDomain(domainId),
+      primaryFieldForNode: (node) => model.nodePrimaryField(node),
+      positionForNode: (nodeId) => {
+        const element = cy.getElementById(nodeId);
+        return element && !element.empty() ? element.position() : undefined;
+      },
+      ...(scale === 'domains'
+        ? { anchorForGroup: (groupId: string, conceptIds: readonly string[]) => this.domainLevelAnchor(groupId, conceptIds) }
+        : {})
+    });
+  }
+
+  private addDomainNameOverlays(
+    visibleNodes: readonly GraphNode[],
+    semanticEdges: readonly GraphEdge[],
+    estimatedFitZoom: number
+  ): void {
+    const domainMap = this.buildMap('domains', visibleNodes, semanticEdges);
+    const metricsByGroup = new Map(domainMap.groups.map((group) => [
+      group.id,
+      structureNodeVisualMetrics('domains', group.conceptCount, stripInlineMathText(group.label), estimatedFitZoom)
+    ]));
+    const displayPositions = deconflictStructurePositions(
+      domainMap.groups.map((group) => ({
+        id: group.id,
+        anchor: group.position,
+        width: metricsByGroup.get(group.id)?.width ?? 0,
+        height: metricsByGroup.get(group.id)?.height ?? 0
+      })),
+      structureNodeGap('domains', estimatedFitZoom)
+    );
+    const elements: cytoscape.ElementDefinition[] = [];
+    for (const group of domainMap.groups) {
+      const metrics = metricsByGroup.get(group.id);
+      if (!metrics) continue;
+      elements.push({
+        group: 'nodes',
+        data: {
+          id: `domain-name-overlay:${group.id}`,
+          semanticOverlay: 1,
+          domainNameOverlay: 1,
+          domainOverlayContext: this.options.state.layout,
+          domainId: group.id,
+          label: group.label,
+          canvasLabel: metrics.labelLines.join('\n'),
+          color: group.color,
+          nodeWidth: metrics.width,
+          nodeHeight: metrics.height,
+          labelFontSize: metrics.fontSize,
+          textOutlineWidth: metrics.textOutlineWidth,
+          textWidth: metrics.textWidth,
+          conceptCount: group.conceptCount
+        },
+        position: displayPositions.get(group.id) ?? group.position,
+        locked: true,
+        grabbable: false
+      });
+    }
+    if (elements.length) {
+      const added = this.options.cy.add(elements);
+      if (this.layoutTransitionPending) added.addClass(OVERLAY_PENDING_CLASS);
+    }
+    this.syncDomainNameOverlayVisibility(true);
   }
 
   private edgeIncluded(edge: GraphEdge, visibleNodeIds: ReadonlySet<string>): boolean {
