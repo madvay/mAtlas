@@ -12,6 +12,7 @@
   "include": [
     "src/env.d.ts",
     "src/types.ts",
+    "src/cache-recovery.ts",
     "src/core/hash.ts",
     "src/core/text.ts",
     "src/core/search.ts",
@@ -44,6 +45,11 @@
     "src/ui/views-controller.ts",
     "src/model/concept-comparison.ts",
     "src/state/compare-state.ts",
-    "src/graph/connection-path.ts"
+    "src/graph/connection-path.ts",
+    "src/core/dom.ts",
+    "src/ui/render.ts",
+    "src/ui/structure-overlay-controller.ts",
+    "src/ui/field-band-controller.ts",
+    "src/graph/idle-render-controller.ts"
   ]
 }

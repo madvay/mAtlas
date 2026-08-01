@@ -95,6 +95,20 @@ await Promise.all([
   writeFile(new URL(`content/${provenanceFile}`, dist), provenanceBytes)
 ]);
 
+const recoveryBundle = await build({
+  absWorkingDir: rootPath,
+  entryPoints: ['src/cache-recovery.ts'],
+  bundle: true,
+  format: 'iife',
+  platform: 'browser',
+  target: ['es2021'],
+  minify: true,
+  write: false,
+  logLevel: 'silent'
+});
+const recoveryScript = recoveryBundle.outputFiles?.[0]?.text;
+if (!recoveryScript) throw new Error('Bundler did not emit the inline cache-recovery bootstrap.');
+
 const bundle = await build({
   absWorkingDir: rootPath,
   entryPoints: ['src/main.ts'],
@@ -133,6 +147,7 @@ const assetTags = [
 
 const sourceTemplate = await readFile(new URL('src/index.html', root), 'utf8');
 const builtTemplate = sourceTemplate
+  .replace('<!-- atlas:cache-recovery -->', `<script>${recoveryScript}</script>`)
   .replace('<!-- atlas:assets -->', assetTags)
   .replaceAll('__ATLAS_DATA_URL__', `./content/${graphFile}`)
   .replaceAll('__ATLAS_SCHEMA_URL__', `./content/${schemaFile}`)

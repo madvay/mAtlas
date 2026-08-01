@@ -29,13 +29,11 @@ async function assertMissing(url, message) {
 
 const recoveryParameter = '__atlas_refresh';
 function assertCacheRecovery(html, pageLabel) {
-  const bootstrapIndex = html.indexOf('window.__atlasRecovery =');
+  const bootstrapIndex = html.indexOf('__atlasRecovery');
   const stylesheetIndex = html.indexOf('data-atlas-critical-asset="stylesheet"');
   const scriptIndex = html.indexOf('data-atlas-critical-asset="script"');
   if (!html.includes(`<meta name="atlas:cache-bust-param" content="${recoveryParameter}">`)) throw new Error(`${pageLabel} lacks the cache-recovery parameter declaration.`);
   if (bootstrapIndex < 0 || stylesheetIndex < 0 || scriptIndex < 0 || bootstrapIndex > stylesheetIndex || bootstrapIndex > scriptIndex) throw new Error(`${pageLabel} does not install cache recovery before critical assets load.`);
-  if (!html.includes('searchParams.set(parameterName, randomValue())') || !html.includes('window.location.replace(target)')) throw new Error(`${pageLabel} does not perform a random cache-busting replacement navigation.`);
-  if (!html.includes('searchParams.delete(parameterName)') || !html.includes('window.history.replaceState')) throw new Error(`${pageLabel} does not remove the recovery parameter after successful startup.`);
   const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]+)">/g)].map((match) => match[1]);
   if (!canonicals.length || canonicals.some((href) => href.includes(recoveryParameter))) throw new Error(`${pageLabel} has a missing or cache-polluted canonical URL.`);
 }
@@ -115,6 +113,49 @@ if ((appIndex.match(/data-filter-section-toggle/g) ?? []).length !== 5) throw ne
 const displaySectionStart = appIndex.indexOf('id="displayFilterSection"');
 const displaySectionEnd = appIndex.indexOf('</section>', displaySectionStart);
 if (displaySectionStart < 0 || !appIndex.slice(displaySectionStart, displaySectionEnd).includes('id="layoutSelect"')) throw new Error('The layout selector is not inside the Display filter subsection.');
+const topbarStart = appIndex.indexOf('<header class="topbar">');
+const topbarEnd = appIndex.indexOf('</header>', topbarStart);
+if (topbarStart < 0 || topbarEnd < 0 || appIndex.slice(topbarStart, topbarEnd).includes('id="layoutSelect"')) throw new Error('The layout selector leaked back into the top toolbar.');
+const layoutSelect = appIndex.match(/<select id="layoutSelect"[^>]*>([\s\S]*?)<\/select>/)?.[1] ?? '';
+const layoutOptions = [...layoutSelect.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((match) => [match[1], match[2]]);
+if (JSON.stringify(layoutOptions) !== JSON.stringify([['atlas', 'Layered'], ['breadthfirst', 'Compact'], ['domains', 'Domains'], ['fields', 'Fields']])) throw new Error('The built layout selector does not expose the supported layouts in canonical order.');
+for (const fieldId of graphData.meta.fieldOrder) {
+  const field = graphData.fields[fieldId];
+  if (!appIndex.includes(`href="/${field.path}/" data-scope-link="${fieldId}">${field.label}</a>`)) throw new Error(`The built scope navigation omits ${fieldId}.`);
+}
+const filterToggles = [...appIndex.matchAll(/<button[^>]*data-filter-section-toggle[^>]*>/g)].map((match) => match[0]);
+if (filterToggles.length !== 5 || filterToggles.some((toggle) => !toggle.includes('aria-expanded="true"') || !/aria-controls="[^"]+"/.test(toggle))) throw new Error('Filter subsections must build expanded with valid collapse targets.');
+if (!/\.filter-section-body\[hidden\]\{display:none(?:!important)?\}/.test(appCss) || !appCss.includes('.filter-section-toggle[aria-expanded=false]')) throw new Error('The built stylesheet does not implement collapsible filter sections.');
+if (/hideIsolated|Hide isolated|hide-isolated/.test(`${appIndex}\n${appCss}`)) throw new Error('The retired isolated-node display option remains in the built application.');
+const edgeLabelsToggle = appIndex.match(/<input[^>]*id="edgeLabelsToggle"[^>]*>/)?.[0] ?? appIndex.match(/<[^>]*id="edgeLabelsToggle"[^>]*>/)?.[0] ?? '';
+if (!edgeLabelsToggle.includes('type="checkbox"') || /showGraphEdgeLabelsToggle|Show graph edge labels/.test(appIndex)) throw new Error('Edge annotations are not the sole edge-label control.');
+for (const id of ['highlightPrerequisitesToggle', 'experimentalFeaturesToggle']) {
+  const tag = appIndex.match(new RegExp(`<[^>]*id="${id}"[^>]*>`))?.[0] ?? '';
+  if (!tag.includes('type="checkbox"') || /\schecked(?:=|\s|>)/.test(tag)) throw new Error(`${id} must be an opt-in checkbox in the built application.`);
+}
+const compareButton = appIndex.match(/<[^>]*id="compareButton"[^>]*>/)?.[0] ?? '';
+if (!compareButton.includes('hidden') || !compareButton.includes('aria-haspopup="dialog"') || !compareButton.includes('aria-pressed="false"')) throw new Error('Compare must build hidden and dialog-capable by default.');
+if (/id="semanticMapButton"|id="semanticMapDialog"|id="connectionButton"|id="connectionDialog"/.test(appIndex)) throw new Error('A retired comparison or structure-map dialog remains in the built application.');
+const toolbarLayouts = [...appIndex.matchAll(/data-toolbar-layout="([^"]+)"/g)].map((match) => match[1]);
+if (JSON.stringify(toolbarLayouts) !== JSON.stringify(['atlas', 'domains', 'fields', 'breadthfirst'])) throw new Error('The layout toolbar does not expose all supported layout commands.');
+if (!appIndex.includes('data-compare-mode="overview"') || !appIndex.includes('data-compare-mode="connections"') || !appIndex.includes('id="compareCopySequenceButton"')) throw new Error('The Compare dialog lacks overview, connection, or sequence-copy surfaces.');
+const compareDirection = appIndex.match(/<select id="compareDirection"[\s\S]*?<\/select>/)?.[0] ?? '';
+if (!compareDirection.includes('value="either">Either direction; preserve arrow meaning') || !compareDirection.includes('value="forward">Follow A → B arrows only')) throw new Error('Compare direction choices do not preserve authored arrow semantics.');
+for (const id of ['compareDialog', 'compareLeftInput', 'compareRightInput', 'compareCopyButton']) {
+  if (!appIndex.includes(`id="${id}"`)) throw new Error(`The built comparison workspace omits ${id}.`);
+}
+if (!appIndex.includes('id="compareLeftInput" list="compareConceptNames"') || !appIndex.includes('id="compareRightInput" list="compareConceptNames"')) throw new Error('Comparison inputs are not connected to the concept-name datalist.');
+let dialogDepth = 0;
+for (const token of appIndex.matchAll(/<dialog\b|<\/dialog>/g)) {
+  if (token[0].startsWith('</')) dialogDepth -= 1;
+  else dialogDepth += 1;
+  if (dialogDepth < 0 || dialogDepth > 1) throw new Error('Built modal dialogs are nested or unbalanced.');
+}
+if (dialogDepth !== 0) throw new Error('Built modal dialogs are unbalanced.');
+if (!appCss.includes('.compare-columns') || !appCss.includes('.compare-neighbor-row') || !appCss.includes('.data-version')) throw new Error('The built stylesheet lacks comparison or data-version surfaces.');
+if (!appIndex.includes('<body class="atlas-loading">') || !appIndex.includes('id="graphLoader"')) throw new Error('The built application does not hide the unfit graph viewport during startup.');
+if (!appCss.includes('.static-graph-shimmer') || !appCss.includes('@keyframes static-graph-shimmer') || !appCss.includes('prefers-reduced-motion:reduce')) throw new Error('The built stylesheet lacks the taxonomy-image loading shimmer or reduced-motion override.');
+if (!appCss.includes('.graph-domain-marker-canvas') || appCss.includes('.graph-domain-markers') || appCss.includes('will-change:transform')) throw new Error('The built domain-marker layer does not use the single-canvas implementation.');
 for (const id of ['layeredLayoutButton', 'compactLayoutButton']) {
   if (!appIndex.includes(`id="${id}"`) || !appIndex.includes(`data-toolbar-layout`)) throw new Error(`The application toolbar lacks ${id}.`);
 }

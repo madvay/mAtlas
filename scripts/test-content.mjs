@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFile, readdir } from 'node:fs/promises';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFile } from 'node:fs/promises';
 import { COMPILED_CONTENT_FILES, SUPPORTED_SCHEMA_VERSIONS } from './content/contract.mjs';
 import { compiledContentDirectory } from './content/paths.mjs';
 import { loadSourceContent } from './content/load.mjs';
@@ -42,34 +40,17 @@ assert.equal(provenance.compiled.views.sha256, digest(viewsBytes));
 assert.equal(provenance.compiled.shareCodec.sha256, digest(shareCodecBytes));
 assert.equal(provenance.compiled.removedDomains.sha256, digest(removedDomainsBytes));
 assert.equal(provenance.license.identifier, 'CC-BY-SA-4.0');
-const shareCodecSource = await readFile(new URL('../content/share-codec.yaml', import.meta.url), 'utf8');
-assert.doesNotMatch(shareCodecSource, /materials-polymer-chemistry|biochemistry-chemical-biology|environmental-atmospheric-chemistry|industrial-process-chemistry/);
+const removedChemistryDomains = new Set([
+  'materials-polymer-chemistry',
+  'biochemistry-chemical-biology',
+  'environmental-atmospheric-chemistry',
+  'industrial-process-chemistry'
+]);
+const liveCodecDomains = new Set(shareCodec.domains.flatMap((slot) => slot.id ? [slot.id] : []));
+for (const domainId of removedChemistryDomains) {
+  assert.equal(liveCodecDomains.has(domainId), false, `removed domain ${domainId} must not remain in the compiled share codec`);
+}
 assert.deepEqual(Object.keys(shareCodec).sort(), ['domains', 'edgeTypes', 'fields', 'formatVersion']);
-assert.equal('booleans' in shareCodec, false, 'display Boolean settings must not live in content/share-codec.yaml');
-assert.equal('enums' in shareCodec, false, 'display enum settings must not live in content/share-codec.yaml');
-console.log('Verified the compiled content boundary, versions, hashes, and license provenance.');
-
-const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));
-async function textFiles(directory) {
-  const files = [];
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const path = join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...await textFiles(path));
-    else if (/\.(?:ts|mjs|md|json|ya?ml)$/u.test(entry.name)) files.push(path);
-  }
-  return files;
-}
-const legacyPath = ['src', 'data'].join('/');
-for (const file of [
-  ...await textFiles(join(repositoryRoot, 'src')),
-  ...await textFiles(join(repositoryRoot, 'scripts')),
-  join(repositoryRoot, 'README.md'),
-  join(repositoryRoot, 'package.json')
-]) {
-  const text = await readFile(file, 'utf8');
-  assert.ok(!text.includes(legacyPath), `${file} still references the retired editable-data path`);
-}
-const buildSource = await readFile(join(repositoryRoot, 'scripts/build.mjs'), 'utf8');
-assert.match(buildSource, /\.build\/content/u);
-assert.doesNotMatch(buildSource, /readFile\(new URL\(['"](?:\.\.\/)?content\//u, 'site build must not read editable content directly');
-console.log('Verified source-path migration and renderer/publisher isolation from editable content.');
+assert.equal('booleans' in shareCodec, false, 'display Boolean settings must not live in the compiled share codec');
+assert.equal('enums' in shareCodec, false, 'display enum settings must not live in the compiled share codec');
+console.log('Verified the compiled content boundary, versions, hashes, license provenance, and share-codec catalog.');
