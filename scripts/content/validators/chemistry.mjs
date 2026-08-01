@@ -22,13 +22,7 @@ const EVIDENCE_DOMAIN = 'chemistry-experiments-evidence';
 const SUBSTANTIVE_DOMAINS = CHEMISTRY_DOMAINS.filter((id) => id !== EVIDENCE_DOMAIN);
 
 const REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS = Object.freeze({
-  chemical_element: 'atomic-structure-periodicity',
   atom: 'atomic-structure-periodicity',
-  ion: 'solutions-interfaces',
-  anion: 'electrochemistry',
-  cation: 'electrochemistry',
-  molecule: 'molecular-structure-bonding',
-  chemical_bond: 'molecular-structure-bonding',
   isotope: 'radiochemistry',
   radioactive_decay: 'radiochemistry',
   nuclear_spin: 'quantum-chemistry-spectroscopy',
@@ -41,9 +35,6 @@ const REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS = Object.freeze({
   photon: 'quantum-chemistry-spectroscopy',
   atomic_spectrum: 'analytical-chemistry',
   density_functional_theory: 'quantum-chemistry-spectroscopy',
-  hartree_fock_method: 'quantum-chemistry-spectroscopy',
-  configuration_interaction_method: 'quantum-chemistry-spectroscopy',
-  coupled_cluster_method: 'quantum-chemistry-spectroscopy',
   moseley_xray_spectroscopy: EVIDENCE_DOMAIN,
   aston_mass_spectrograph_measurements: EVIDENCE_DOMAIN
 });
@@ -118,7 +109,7 @@ export function validate(context) {
   const crossFieldEdges = chemistrySourceEdges.filter((item) => primaryField(nodeById.get(item?.target), graph) !== 'chemistry');
   if (chemistrySourceEdges.length < 310) errors.push(`Chemistry must author at least 310 outgoing relations; found ${chemistrySourceEdges.length}.`);
   if (crossDomainEdges.length < 100) errors.push(`Chemistry must contain at least 100 cross-domain relations; found ${crossDomainEdges.length}.`);
-  if (crossFieldEdges.length < 25) errors.push(`Chemistry must contain at least 25 cross-field relations; found ${crossFieldEdges.length}.`);
+  if (crossFieldEdges.length < 15) errors.push(`Chemistry must contain at least 15 cross-field relations; found ${crossFieldEdges.length}.`);
 
   for (const edge of chemistrySourceEdges) {
     const sources = citedSources(edge, graph);
@@ -163,8 +154,8 @@ export function validate(context) {
   }
 
   const physicsPrimaryChemistryMembers = chemistryMembers.filter((node) => primaryField(node, graph) === 'physics');
-  if (physicsPrimaryChemistryMembers.length < 70) {
-    errors.push(`At least 70 shared Physics-primary concepts must retain Chemistry memberships; found ${physicsPrimaryChemistryMembers.length}.`);
+  if (physicsPrimaryChemistryMembers.length < 60) {
+    errors.push(`At least 60 shared Physics-primary concepts must retain Chemistry memberships; found ${physicsPrimaryChemistryMembers.length}.`);
   }
   for (const [nodeId, domainId] of Object.entries(REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS)) {
     const node = nodeById.get(nodeId);

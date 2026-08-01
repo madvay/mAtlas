@@ -65,6 +65,23 @@ nodes:
   - wp-chem-quantum-chemistry
   - iupac-green-book
   - nist-chemistry-webbook
+- id: hartree_fock_method
+  label: Hartree–Fock method
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  - atomic-molecular-physics
+  level: 34
+  kind: structure
+  conceptType: Self-consistent-field approximation
+  summary: A variational single-Slater-determinant method including exchange exactly within that determinant but omitting correlation beyond it.
+  citations:
+  - wp-physics-hartree_fock_method
+  - nist-atomic-wavefunctions
 - id: potential_energy_surface
   label: Potential-energy surface
   primaryField: chemistry
@@ -81,6 +98,42 @@ nodes:
   - wp-chem-quantum-chemistry
   - iupac-green-book
   - nist-chemistry-webbook
+- id: configuration_interaction_method
+  label: Configuration interaction
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  - atomic-molecular-physics
+  level: 35
+  kind: structure
+  conceptType: Many-body approximation method
+  summary: A variational expansion of an atomic state in multiple configuration-state functions, recovering correlation within the chosen basis
+    and excitation space.
+  citations:
+  - wp-physics-configuration_interaction_method
+  - nist-atomic-wavefunctions
+- id: coupled_cluster_method
+  label: Coupled-cluster method
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  - atomic-molecular-physics
+  level: 35
+  kind: structure
+  conceptType: Many-body approximation method
+  summary: An exponential correlated-wavefunction method with systematic truncations such as singles and doubles, widely used for high-accuracy
+    electronic structure.
+  citations:
+  - wp-physics-coupled_cluster_method
+  - nist-atomic-wavefunctions
 - id: molecular_vibration
   label: Molecular vibration
   primaryField: chemistry
@@ -633,3 +686,34 @@ edges:
   - wp-chem-quantum-chemistry
   - iupac-green-book
   - nist-chemistry-webbook
+- id: hf_to_ci
+  source: hartree_fock_method
+  target: configuration_interaction_method
+  type: framework-specialization
+  label: multi-configuration extension
+  detail: Configuration interaction expands beyond one Hartree–Fock determinant using selected excited determinants or configuration-state functions
+    in a finite basis.
+  citations:
+  - wp-physics-configuration_interaction_method
+  - nist-atomic-wavefunctions
+- id: hf_to_cc
+  source: hartree_fock_method
+  target: coupled_cluster_method
+  type: framework-specialization
+  label: exponential correlated extension
+  detail: Coupled-cluster theory builds an exponential correlated ansatz, commonly from a Hartree–Fock reference; truncation such as CCSD defines
+    the practical approximation.
+  citations:
+  - wp-physics-coupled_cluster_method
+  - nist-atomic-wavefunctions
+- id: hf_to_correlation
+  source: hartree_fock_method
+  target: electron_correlation
+  type: state-description
+  label: correlation beyond mean field
+  detail: Electron correlation is conventionally the difference between the exact nonrelativistic solution and the Hartree–Fock limit for the
+    same Hamiltonian.
+  citations:
+  - wp-physics-electron_correlation
+  - nist-atomic-wavefunctions
+  - wp-physics-hartree_fock_method

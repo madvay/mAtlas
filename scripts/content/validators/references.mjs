@@ -44,10 +44,15 @@ export function validate(context) {
     const inferredFields = [...new Set(arrayOrEmpty(node?.domains).map((domainId) => graph?.domains?.[domainId]?.field).filter(Boolean))];
     const declaredFields = Array.isArray(node?.fields) ? node.fields : inferredFields;
     for (const fieldId of declaredFields) if (!fieldIds.has(fieldId)) errors.push(`${path}.fields references unknown field: ${fieldId}`);
-    const primaryField = node?.primaryField ?? graph?.domains?.[node?.primaryDomain]?.field;
+    const primaryDomainField = graph?.domains?.[node?.primaryDomain]?.field;
+    const primaryField = node?.primaryField ?? primaryDomainField;
     if (!fieldIds.has(primaryField)) errors.push(`${path}.primaryField could not be resolved to a known field.`);
+    if (node?.primaryField !== undefined && primaryDomainField && node.primaryField !== primaryDomainField) {
+      errors.push(`${path}.primaryField must equal field ${primaryDomainField} of primaryDomain ${String(node.primaryDomain)}.`);
+    }
     if (primaryField && !declaredFields.includes(primaryField)) errors.push(`${path}.fields must include primaryField ${primaryField}.`);
     for (const fieldId of inferredFields) if (!declaredFields.includes(fieldId)) errors.push(`${path}.fields omits field ${fieldId} implied by its domains.`);
+    for (const fieldId of declaredFields) if (!inferredFields.includes(fieldId)) errors.push(`${path}.fields includes field ${fieldId} not implied by its domains.`);
     for (const input of arrayOrEmpty(node?.combination?.inputs)) if (!nodeIds.has(input)) errors.push(`${path}.combination.inputs references unknown node: ${input}`);
     if (node?.combination?.output && !nodeIds.has(node.combination.output)) errors.push(`${path}.combination.output references unknown node: ${node.combination.output}`);
   }

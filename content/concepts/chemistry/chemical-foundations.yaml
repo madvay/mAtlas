@@ -257,6 +257,88 @@ nodes:
   - wp-chem-stoichiometry
   - openstax-chemistry-2e
   - iupac-gold-book
+- id: ion
+  label: Ion
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  - atomic-structure-periodicity
+  - solutions-interfaces
+  - electrochemistry
+  - atomic-molecular-physics
+  level: 34
+  kind: structure
+  conceptType: Charged system
+  summary: An atom or molecular entity carrying a net electric charge because its total number of electrons differs from its total nuclear charge.
+  citations:
+  - wp-physics-ion
+  - iupac-ion
+  - iupac-ionization
+- id: anion
+  label: Anion
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  - atomic-structure-periodicity
+  - solutions-interfaces
+  - electrochemistry
+  - atomic-molecular-physics
+  level: 35
+  kind: structure
+  conceptType: Ion class
+  summary: A negatively charged atom or molecule with more electrons than total nuclear charge.
+  citations:
+  - wp-physics-ion
+  - iupac-ion
+- id: cation
+  label: Cation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  - atomic-structure-periodicity
+  - solutions-interfaces
+  - electrochemistry
+  - atomic-molecular-physics
+  level: 35
+  kind: structure
+  conceptType: Ion class
+  summary: A positively charged atom or molecule with fewer electrons than total nuclear charge.
+  citations:
+  - wp-physics-ion
+  - iupac-ion
+- id: molecule
+  label: Molecule
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  - molecular-structure-bonding
+  - atomic-molecular-physics
+  level: 35
+  kind: structure
+  conceptType: Composite system
+  summary: An electrically neutral entity consisting of more than one atom; its bound structure and spectra arise from quantum states of electrons
+    and nuclei.
+  citations:
+  - wp-physics-molecule
+  - nlab-molecule
+  - iupac-molecule
+  scale: Molecular
 - id: chemical_equation
   label: Chemical equation
   primaryField: chemistry
@@ -583,3 +665,58 @@ edges:
   - wp-chem-analytical-chemistry
   - iupac-orange-book
   - nist-chemistry-webbook
+- id: ion_to_anion
+  source: ion
+  target: anion
+  type: classification
+  label: negative ion
+  detail: Anions have negative net charge.
+  citations:
+  - wp-physics-ion
+  - iupac-ion
+- id: ion_to_cation
+  source: ion
+  target: cation
+  type: classification
+  label: positive ion
+  detail: Cations have positive net charge.
+  citations:
+  - wp-physics-ion
+  - iupac-ion
+- id: molecule_to_ion
+  source: molecule
+  target: ion
+  type: transformation-process
+  label: molecular ionization or electron attachment
+  detail: Removing an electron from, or attaching an electron to, a molecule produces a molecular ion.
+  citations:
+  - iupac-ion
+  - iupac-ionization
+  - iupac-molecule
+  - wp-physics-ion
+  - wp-physics-molecule
+- id: molecule_to_molecular_structure
+  source: molecule
+  target: molecular_structure
+  type: state-description
+  label: described by connectivity and geometry
+  detail: A molecular entity is assigned a structure comprising connectivity, nuclear geometry, conformation, and electronic organization at a
+    stated resolution and time scale.
+  citations:
+  - wp-physics-molecule
+  - iupac-molecule
+  - wp-chem-molecular-graph
+  - iupac-gold-book
+  overview: true
+- id: molecule_to_molecular_rotation
+  source: molecule
+  target: molecular_rotation
+  type: state-description
+  label: has quantized rotational degrees of freedom
+  detail: An isolated molecule has rotational degrees of freedom whose quantized level pattern depends on nuclear geometry and masses; symmetry,
+    vibration–rotation coupling, fields, collisions, and condensed environments modify the ideal rigid-rotor description.
+  citations:
+  - wp-physics-molecule
+  - nlab-molecule
+  - wp-chem-quantum-chemistry
+  - iupac-green-book

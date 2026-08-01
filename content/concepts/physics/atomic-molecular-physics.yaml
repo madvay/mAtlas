@@ -205,26 +205,6 @@ nodes:
     citations:
       - wp-physics-breit_interaction
       - nist-atomic-spectroscopy
-  - id: chemical_element
-    label: Chemical element
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - chemical-foundations
-      - atomic-structure-periodicity
-    level: 27
-    kind: structure
-    conceptType: Classification by nuclear charge
-    summary: The class of atoms and ions with the same proton number $Z$.
-    citations:
-      - wp-physics-chemical_element
-      - nlab-chemical-element
-      - iupac-atom
-      - iupac-nuclide
   - id: nuclear_recoil
     label: Nuclear recoil correction
     primaryField: physics
@@ -683,24 +663,6 @@ nodes:
       - nist-atomic-wavefunctions
       - aps-hohenberg-kohn
       - aps-kohn-sham
-  - id: electron_configuration
-    label: Electron configuration
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - atomic-structure-periodicity
-    level: 31
-    kind: structure
-    conceptType: Many-electron basis classification
-    summary: An occupation pattern over atomic orbitals or subshells used to organize many-electron basis states; the exact state can be a superposition of configurations.
-    citations:
-      - wp-physics-electron_configuration
-      - nist-atomic-states
-      - nist-atomic-spectroscopy
   - id: electron_correlation
     label: Electron correlation
     primaryField: physics
@@ -745,23 +707,6 @@ nodes:
     summary: A variational product-state mean-field method in which each electron moves in the average electrostatic field of the others; it omits exact exchange antisymmetry.
     citations:
       - wp-physics-hartree_method
-      - nist-atomic-wavefunctions
-  - id: hartree_fock_method
-    label: Hartree–Fock method
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - quantum-chemistry-spectroscopy
-    level: 34
-    kind: structure
-    conceptType: Self-consistent-field approximation
-    summary: A variational single-Slater-determinant method including exchange exactly within that determinant but omitting correlation beyond it.
-    citations:
-      - wp-physics-hartree_fock_method
       - nist-atomic-wavefunctions
   - id: jj_coupling
     label: jj coupling
@@ -871,40 +816,6 @@ nodes:
       - wp-physics-atomic_term_symbol
       - nist-atomic-states
       - nist-asd-levels
-  - id: configuration_interaction_method
-    label: Configuration interaction
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - quantum-chemistry-spectroscopy
-    level: 35
-    kind: structure
-    conceptType: Many-body approximation method
-    summary: A variational expansion of an atomic state in multiple configuration-state functions, recovering correlation within the chosen basis and excitation space.
-    citations:
-      - wp-physics-configuration_interaction_method
-      - nist-atomic-wavefunctions
-  - id: coupled_cluster_method
-    label: Coupled-cluster method
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - quantum-chemistry-spectroscopy
-    level: 35
-    kind: structure
-    conceptType: Many-body approximation method
-    summary: An exponential correlated-wavefunction method with systematic truncations such as singles and doubles, widely used for high-accuracy electronic structure.
-    citations:
-      - wp-physics-coupled_cluster_method
-      - nist-atomic-wavefunctions
   - id: hyperfine_structure
     label: Atomic hyperfine structure
     primaryField: physics
@@ -1036,26 +947,6 @@ nodes:
     citations:
       - wp-physics-electric_dipole_transition
       - nist-atomic-spectroscopy
-  - id: ion
-    label: Ion
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - atomic-structure-periodicity
-      - solutions-interfaces
-      - electrochemistry
-    level: 34
-    kind: structure
-    conceptType: Charged system
-    summary: An atom or molecular entity carrying a net electric charge because its total number of electrons differs from its total nuclear charge.
-    citations:
-      - wp-physics-ion
-      - iupac-ion
-      - iupac-ionization
   - id: spontaneous_emission
     label: Spontaneous emission
     primaryField: physics
@@ -1116,102 +1007,6 @@ nodes:
     summary: Splitting and shifting of atomic levels in an applied magnetic field.
     citations:
       - wp-physics-zeeman_effect
-      - nist-atomic-spectroscopy
-  - id: chemical_bond
-    label: Chemical bond
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - condensed-matter-physics
-      - molecular-structure-bonding
-    level: 34
-    kind: structure
-    conceptType: Interatomic binding relation
-    summary: A stabilizing interaction between atoms or groups of atoms that supports formation of a molecular entity, arising from quantum states of electrons and nuclei coupled electromagnetically.
-    citations:
-      - wp-physics-chemical-bond
-      - iupac-chemical-bond
-      - nist-quantum-theory
-    notes: Covalent, ionic, metallic, and other bonding descriptions emphasize different regimes; a chemical bond is not a separate fundamental force.
-  - id: anion
-    label: Anion
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - atomic-structure-periodicity
-      - solutions-interfaces
-      - electrochemistry
-    level: 35
-    kind: structure
-    conceptType: Ion class
-    summary: A negatively charged atom or molecule with more electrons than total nuclear charge.
-    citations:
-      - wp-physics-ion
-      - iupac-ion
-  - id: cation
-    label: Cation
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - atomic-structure-periodicity
-      - solutions-interfaces
-      - electrochemistry
-    level: 35
-    kind: structure
-    conceptType: Ion class
-    summary: A positively charged atom or molecule with fewer electrons than total nuclear charge.
-    citations:
-      - wp-physics-ion
-      - iupac-ion
-  - id: molecule
-    label: Molecule
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - chemical-foundations
-      - molecular-structure-bonding
-    level: 35
-    kind: structure
-    conceptType: Composite system
-    summary: An electrically neutral entity consisting of more than one atom; its bound structure and spectra arise from quantum states of electrons and nuclei.
-    citations:
-      - wp-physics-molecule
-      - nlab-molecule
-      - iupac-molecule
-    scale: Molecular
-  - id: ionization_energy
-    label: Ionization energy
-    primaryField: physics
-    fields:
-      - physics
-      - chemistry
-    primaryDomain: atomic-molecular-physics
-    domains:
-      - atomic-molecular-physics
-      - atomic-structure-periodicity
-    level: 32
-    kind: structure
-    conceptType: Separation energy
-    summary: The minimum energy required to remove an electron from an atom or ion in its ground state, for a specified charge state and final channel.
-    citations:
-      - wp-physics-ionization_energy
-      - nist-ionization-energy
       - nist-atomic-spectroscopy
   - id: balmer_hydrogen_spectrum_observations
     label: Balmer hydrogen-spectrum observations
@@ -1326,17 +1121,6 @@ nodes:
       - nist-codata-2022
     status: Observed / performed
 edges:
-  - id: chemical_bond_to_molecule
-    source: chemical_bond
-    target: molecule
-    type: couples-interacts
-    label: stabilizes molecular structure
-    detail: Interatomic binding can produce a stable molecular entity; the electronic and nuclear quantum state determines its geometry, dissociation channels, and spectra.
-    citations:
-      - wp-physics-chemical-bond
-      - iupac-chemical-bond
-      - iupac-molecule
-      - nist-quantum-theory
   - id: angular_to_jjcoupling
     source: many_electron_atom
     target: jj_coupling
@@ -1641,17 +1425,6 @@ edges:
       - nist-hydrogen
       - wp-physics-center_of_mass_separation
       - nist-atomic-spectroscopy
-  - id: element_to_atom
-    source: chemical_element
-    target: atom
-    type: classification
-    label: neutral atomic representative
-    detail: A neutral atom is an atomic representative of an element when its nucleus has the element’s proton number.
-    citations:
-      - wp-physics-atom
-      - nlab-physics-atom
-      - wp-physics-chemical_element
-      - iupac-atom
   - id: csf_to_atomicstate
     source: atomic_state
     target: configuration_state_function
@@ -1718,34 +1491,6 @@ edges:
     citations:
       - wp-physics-electron_shell
       - nist-atomic-states
-  - id: hf_to_ci
-    source: hartree_fock_method
-    target: configuration_interaction_method
-    type: framework-specialization
-    label: multi-configuration extension
-    detail: Configuration interaction expands beyond one Hartree–Fock determinant using selected excited determinants or configuration-state functions in a finite basis.
-    citations:
-      - wp-physics-configuration_interaction_method
-      - nist-atomic-wavefunctions
-  - id: hf_to_cc
-    source: hartree_fock_method
-    target: coupled_cluster_method
-    type: framework-specialization
-    label: exponential correlated extension
-    detail: Coupled-cluster theory builds an exponential correlated ansatz, commonly from a Hartree–Fock reference; truncation such as CCSD defines the practical approximation.
-    citations:
-      - wp-physics-coupled_cluster_method
-      - nist-atomic-wavefunctions
-  - id: hf_to_correlation
-    source: hartree_fock_method
-    target: electron_correlation
-    type: state-description
-    label: correlation beyond mean field
-    detail: Electron correlation is conventionally the difference between the exact nonrelativistic solution and the Hartree–Fock limit for the same Hamiltonian.
-    citations:
-      - wp-physics-electron_correlation
-      - nist-atomic-wavefunctions
-      - wp-physics-hartree_fock_method
   - id: hartree_to_hf
     source: hartree_method
     target: hartree_fock_method
@@ -1768,24 +1513,6 @@ edges:
       - nist-asd-levels
       - wp-physics-rydberg_formula
       - nist-codata
-  - id: ion_to_anion
-    source: ion
-    target: anion
-    type: classification
-    label: negative ion
-    detail: Anions have negative net charge.
-    citations:
-      - wp-physics-ion
-      - iupac-ion
-  - id: ion_to_cation
-    source: ion
-    target: cation
-    type: classification
-    label: positive ion
-    detail: Cations have positive net charge.
-    citations:
-      - wp-physics-ion
-      - iupac-ion
   - id: ionization_to_ion
     source: ionization_process
     target: ion
@@ -1887,18 +1614,6 @@ edges:
       - nist-atomic-wavefunctions
       - wp-physics-atomic_hamiltonian
       - nist-atomic-spectroscopy
-  - id: molecule_to_ion
-    source: molecule
-    target: ion
-    type: transformation-process
-    label: molecular ionization or electron attachment
-    detail: Removing an electron from, or attaching an electron to, a molecule produces a molecular ion.
-    citations:
-      - iupac-ion
-      - iupac-ionization
-      - iupac-molecule
-      - wp-physics-ion
-      - wp-physics-molecule
   - id: coulomb_h_to_com
     source: nonrelativistic_coulomb_hamiltonian
     target: center_of_mass_separation
@@ -2062,15 +1777,6 @@ edges:
     citations:
       - wp-physics-ionization_energy
       - nist-ionization-energy
-  - id: ionizationenergy_to_process
-    source: ionization_energy
-    target: ionization_process
-    type: describes-governs
-    label: threshold energy
-    detail: The ionization energy sets the lowest energetic threshold for the specified ionization process.
-    citations:
-      - wp-physics-ionization_energy
-      - nist-ionization-energy
   - id: atom_to_ground
     source: atom
     target: ground_state
@@ -2152,15 +1858,6 @@ edges:
     citations:
       - wp-physics-proton_radius_puzzle
       - nist-codata-2022
-  - id: exp_chemical_element_by_moseley_xray_spectroscopy
-    source: chemical_element
-    target: moseley_xray_spectroscopy
-    type: experimentally-verified-by
-    label: element identity by atomic number
-    detail: Characteristic X-ray spectra tied chemical identity to integer atomic number.
-    citations:
-      - wp-physics-moseley_xray_spectroscopy
-      - nist-atomic-spectrum-history
   - id: exp_atomic_energy_level_by_franck_hertz_experiment
     source: atomic_energy_level
     target: franck_hertz_experiment
@@ -2218,16 +1915,6 @@ edges:
       - wp-physics-atom
       - wp-physics-crystal-structure
       - tong-solid-state-physics
-  - id: chemical_bond_to_crystalline_solid
-    source: chemical_bond
-    target: crystalline_solid
-    type: couples-interacts
-    label: stabilizes ordered material structure
-    detail: Ionic, covalent, metallic, van der Waals, and related bonding regimes can stabilize crystalline structures. A chemical bond is an effective description of electromagnetic quantum interactions, not an additional fundamental force.
-    citations:
-      - wp-physics-chemical-bond
-      - wp-physics-crystal-structure
-      - tong-solid-state-physics
   - id: exchange_interaction_to_magnetic_order
     source: exchange_interaction
     target: magnetic_order
@@ -2239,67 +1926,3 @@ edges:
       - wp-physics-magnetism
       - tong-solid-state-physics
       - mit-theory-of-solids
-  - id: molecule_to_molecular_structure
-    source: molecule
-    target: molecular_structure
-    type: state-description
-    label: described by connectivity and geometry
-    detail: A molecular entity is assigned a structure comprising connectivity, nuclear geometry, conformation, and electronic organization at a stated resolution and time scale.
-    citations:
-      - wp-physics-molecule
-      - iupac-molecule
-      - wp-chem-molecular-graph
-      - iupac-gold-book
-    overview: true
-  - id: chemical_bond_to_covalent_bond
-    source: chemical_bond
-    target: covalent_bond
-    type: classification
-    label: includes covalent bonding descriptions
-    detail: Covalent bonding is a major chemical-bond regime characterized by shared and delocalized electron density; real bonds can mix covalent, ionic, and other character.
-    citations:
-      - wp-physics-chemical-bond
-      - iupac-chemical-bond
-      - openstax-chemistry-2e
-  - id: chemical_bond_to_ionic_bonding
-    source: chemical_bond
-    target: ionic_bonding
-    type: classification
-    label: includes ionic bonding descriptions
-    detail: Ionic bonding describes electrostatic stabilization in charge-separated structures, with polarization, covalency, lattice geometry, and environment determining the realized character.
-    citations:
-      - wp-physics-chemical-bond
-      - iupac-chemical-bond
-      - openstax-chemistry-2e
-  - id: chemical_bond_to_hydrogen_bond
-    source: chemical_bond
-    target: hydrogen_bond
-    type: classification
-    label: includes directional hydrogen bonding
-    detail: Hydrogen bonding is an attractive, directional interaction involving a hydrogen atom bound to an electronegative partner and another electron-rich site, with strength and covalency varying by system.
-    citations:
-      - wp-physics-chemical-bond
-      - iupac-chemical-bond
-      - iupac-gold-book
-  - id: chem_chemical_bond_to_bond_order_state_description
-    source: chemical_bond
-    target: bond_order
-    type: state-description
-    label: assigned a model-dependent bond multiplicity
-    detail: Bond order is a model-dependent descriptor of a chemical bond; formal, valence-bond, molecular-orbital,
-      and density-based definitions need not yield the same value.
-    citations:
-    - wp-physics-chemical-bond
-    - openstax-chemistry-2e
-    - iupac-gold-book
-  - id: molecule_to_molecular_rotation
-    source: molecule
-    target: molecular_rotation
-    type: state-description
-    label: has quantized rotational degrees of freedom
-    detail: An isolated molecule has rotational degrees of freedom whose quantized level pattern depends on nuclear geometry and masses; symmetry, vibration–rotation coupling, fields, collisions, and condensed environments modify the ideal rigid-rotor description.
-    citations:
-      - wp-physics-molecule
-      - nlab-molecule
-      - wp-chem-quantum-chemistry
-      - iupac-green-book

@@ -15,6 +15,28 @@ nodes:
   - wp-physics-chemical-bond
   - openstax-chemistry-2e
   - iupac-gold-book
+- id: chemical_bond
+  label: Chemical bond
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  - atomic-molecular-physics
+  - condensed-matter-physics
+  level: 34
+  kind: structure
+  conceptType: Interatomic binding relation
+  summary: A stabilizing interaction between atoms or groups of atoms that supports formation of a molecular entity, arising from quantum states
+    of electrons and nuclei coupled electromagnetically.
+  citations:
+  - wp-physics-chemical-bond
+  - iupac-chemical-bond
+  - nist-quantum-theory
+  notes: Covalent, ionic, metallic, and other bonding descriptions emphasize different regimes; a chemical bond is not a separate fundamental
+    force.
 - id: valence_bond_theory
   label: Valence-bond theory
   primaryField: chemistry
@@ -537,6 +559,73 @@ edges:
   label: classified by invariant symmetry operations
   detail: A molecular geometry is classified by symmetry operations that leave the idealized nuclear arrangement
     invariant; conformational motion, isotopic substitution, and environment can lower the effective symmetry.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chemical_bond_to_molecule
+  source: chemical_bond
+  target: molecule
+  type: couples-interacts
+  label: stabilizes molecular structure
+  detail: Interatomic binding can produce a stable molecular entity; the electronic and nuclear quantum state determines its geometry, dissociation
+    channels, and spectra.
+  citations:
+  - wp-physics-chemical-bond
+  - iupac-chemical-bond
+  - iupac-molecule
+  - nist-quantum-theory
+- id: chemical_bond_to_crystalline_solid
+  source: chemical_bond
+  target: crystalline_solid
+  type: couples-interacts
+  label: stabilizes ordered material structure
+  detail: Ionic, covalent, metallic, van der Waals, and related bonding regimes can stabilize crystalline structures. A chemical bond is an effective
+    description of electromagnetic quantum interactions, not an additional fundamental force.
+  citations:
+  - wp-physics-chemical-bond
+  - wp-physics-crystal-structure
+  - tong-solid-state-physics
+- id: chemical_bond_to_covalent_bond
+  source: chemical_bond
+  target: covalent_bond
+  type: classification
+  label: includes covalent bonding descriptions
+  detail: Covalent bonding is a major chemical-bond regime characterized by shared and delocalized electron density; real bonds can mix covalent,
+    ionic, and other character.
+  citations:
+  - wp-physics-chemical-bond
+  - iupac-chemical-bond
+  - openstax-chemistry-2e
+- id: chemical_bond_to_ionic_bonding
+  source: chemical_bond
+  target: ionic_bonding
+  type: classification
+  label: includes ionic bonding descriptions
+  detail: Ionic bonding describes electrostatic stabilization in charge-separated structures, with polarization, covalency, lattice geometry,
+    and environment determining the realized character.
+  citations:
+  - wp-physics-chemical-bond
+  - iupac-chemical-bond
+  - openstax-chemistry-2e
+- id: chemical_bond_to_hydrogen_bond
+  source: chemical_bond
+  target: hydrogen_bond
+  type: classification
+  label: includes directional hydrogen bonding
+  detail: Hydrogen bonding is an attractive, directional interaction involving a hydrogen atom bound to an electronegative partner and another
+    electron-rich site, with strength and covalency varying by system.
+  citations:
+  - wp-physics-chemical-bond
+  - iupac-chemical-bond
+  - iupac-gold-book
+- id: chem_chemical_bond_to_bond_order_state_description
+  source: chemical_bond
+  target: bond_order
+  type: state-description
+  label: assigned a model-dependent bond multiplicity
+  detail: Bond order is a model-dependent descriptor of a chemical bond; formal, valence-bond, molecular-orbital, and density-based definitions
+    need not yield the same value.
   citations:
   - wp-physics-chemical-bond
   - openstax-chemistry-2e
