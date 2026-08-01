@@ -215,6 +215,19 @@ export const graphStyles: cytoscape.StylesheetJson = [
     style: { opacity: 0.92 }
   },
   {
+    selector: 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"]',
+    style: {
+      color: '#ffffff',
+      'text-outline-color': 'data(color)',
+      'text-outline-opacity': 1,
+      'text-outline-width': 'data(overlayTextOutlineWidth)'
+    }
+  },
+  {
+    selector: 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"].domain-name-overlay-visible',
+    style: { opacity: 1 }
+  },
+  {
     selector: 'node[domainNameOverlay = 1][domainOverlayContext = "fields"]',
     style: { 'z-index': 998 }
   },

@@ -184,6 +184,7 @@ test('layered mode adds passive domain names only at whole-map zoom', {skip: 'to
   assert.equal(fixture.cy.edges('[semanticConnection = 1]').length, 0);
   assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').length, 3);
   assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').some((node) => node.hasClass('domain-name-overlay-visible')), false);
+  assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').every((node) => Number(node.data('overlayTextOutlineWidth')) > Number(node.data('textOutlineWidth'))), true);
 
   fixture.cy.zoom(0.1);
   assert.equal(fixture.cy.nodes('[domainNameOverlay = 1]').every((node) => node.hasClass('domain-name-overlay-visible')), true);

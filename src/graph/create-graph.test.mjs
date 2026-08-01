@@ -115,6 +115,8 @@ test('structure modes use text-only centroid labels and disable source-node even
   assert.equal(centroidStyle?.['font-size'], 'data(labelFontSize)');
   const domainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1]')?.style;
   const visibleDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1].domain-name-overlay-visible')?.style;
+  const atlasDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"]')?.style;
+  const visibleAtlasDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1][domainOverlayContext = "atlas"].domain-name-overlay-visible')?.style;
   const fieldDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1][domainOverlayContext = "fields"]')?.style;
   const visibleFieldDomainOverlayStyle = graphStyles.find((entry) => entry.selector === 'node[domainNameOverlay = 1][domainOverlayContext = "fields"].domain-name-overlay-visible')?.style;
   assert.equal(domainOverlayStyle?.display, 'element');
@@ -122,6 +124,11 @@ test('structure modes use text-only centroid labels and disable source-node even
   assert.equal(domainOverlayStyle?.events, 'no');
   assert.equal(domainOverlayStyle?.['z-index'], 1000);
   assert.equal(visibleDomainOverlayStyle?.opacity, 0.92);
+  assert.equal(atlasDomainOverlayStyle?.color, '#ffffff');
+  assert.equal(atlasDomainOverlayStyle?.['text-outline-color'], 'data(color)');
+  assert.equal(atlasDomainOverlayStyle?.['text-outline-opacity'], 1);
+  assert.equal(atlasDomainOverlayStyle?.['text-outline-width'], 'data(overlayTextOutlineWidth)');
+  assert.equal(visibleAtlasDomainOverlayStyle?.opacity, 1);
   assert.equal(fieldDomainOverlayStyle?.['z-index'], 998);
   assert.equal(visibleFieldDomainOverlayStyle?.opacity, 0.58);
   const connectionStyle = graphStyles.find((entry) => entry.selector === 'edge[semanticConnection = 1]')?.style;
