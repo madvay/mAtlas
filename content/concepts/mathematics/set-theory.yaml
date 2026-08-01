@@ -913,7 +913,7 @@ nodes:
     domains:
       - set-theory
       - logic
-    level: 2
+    level: 3
     conceptType: Axiomatic theory
     summary: The standard first-order set theory with extensionality, foundation, pairing, union, power set, infinity, and the separation and replacement schemas, but without the axiom of choice.
     carriers:

@@ -170,7 +170,7 @@ nodes:
     primaryDomain: logic
     domains:
       - logic
-    level: 5
+    level: 7
     kind: structure
     summary: A first-order structure satisfying every sentence of a specified theory.
     carriers:
@@ -291,7 +291,7 @@ nodes:
       - logic
       - computability-theory
       - number-theory
-    level: 8
+    level: 9
     kind: junction
     summary: Compatibility construction collecting the hypotheses of Gödel’s first incompleteness theorem.
     carriers: []
@@ -320,7 +320,7 @@ nodes:
     domains:
       - logic
       - computability-theory
-    level: 8
+    level: 10
     kind: structure
     summary: Every consistent, effectively axiomatized formal theory strong enough to represent elementary arithmetic is syntactically incomplete.
     carriers:
@@ -374,7 +374,7 @@ nodes:
     domains:
       - logic
       - computability-theory
-    level: 9
+    level: 10
     kind: structure
     summary: A consistent, effectively axiomatized theory strong enough for the incompleteness machinery cannot prove its own suitably formalized consistency.
     carriers:
@@ -497,7 +497,7 @@ nodes:
     primaryDomain: logic
     domains:
       - logic
-    level: 5
+    level: 6
     kind: junction
     summary: Identify a first-order theory with a syntactically consistent formal proof system so that Gödel’s completeness theorem applies.
     carriers: []

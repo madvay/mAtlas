@@ -7,7 +7,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 3
+    level: 10
     kind: structure
     conceptType: Theory or framework
     summary: A framework in which fields are quantum degrees of freedom, supporting many-body and variable-particle-number descriptions. Relativistic QFT additionally imposes relativistic symmetry and causal locality and naturally accommodates antiparticles and scattering.
@@ -33,7 +33,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 4
+    level: 11
     kind: structure
     conceptType: Theory class
     summary: A field theory with local gauge redundancy, whose gauge structure constrains interactions and introduces gauge fields.
@@ -122,7 +122,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 5
+    level: 12
     kind: structure
     conceptType: Gauge field theory
     summary: A gauge theory with Abelian gauge group, lacking the pure-gauge self-couplings characteristic of non-Abelian Yang–Mills fields.
@@ -139,7 +139,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 5
+    level: 12
     kind: structure
     conceptType: Quantization procedure
     summary: A procedure promoting canonical field variables and momenta to operators with commutation or anticommutation relations.
@@ -235,7 +235,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 5
+    level: 12
     kind: structure
     conceptType: Gauge field theory
     summary: A gauge theory with noncommutative gauge group and self-interacting gauge fields.
@@ -251,7 +251,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 5
+    level: 11
     kind: structure
     conceptType: Quantization formalism
     summary: A formulation of amplitudes and correlation functions as functional integrals, often defined perturbatively or through regulated Euclidean constructions.
@@ -349,7 +349,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 5
+    level: 13
     kind: structure
     conceptType: Gauge field theory
     summary: A non-Abelian gauge theory with curvature field strength and self-interacting gauge bosons.
@@ -382,7 +382,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 6
+    level: 11
     kind: structure
     conceptType: Effective theory framework
     summary: A QFT organized as all local operators allowed by chosen degrees of freedom and symmetries, ordered by powers of a high-energy scale.
@@ -399,7 +399,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 6
+    level: 12
     kind: structure
     conceptType: Quantum field theory
     summary: The unified gauge theory of weak and electromagnetic interactions before and through spontaneous electroweak symmetry breaking.
@@ -435,7 +435,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 6
+    level: 11
     kind: structure
     conceptType: Solvable QFT
     summary: A quantum field theory with quadratic action and no interaction vertices, decomposable into independent oscillator modes.
@@ -515,7 +515,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 6
+    level: 12
     kind: structure
     conceptType: Quantum field theory
     summary: The non-Abelian gauge theory of quarks and gluons and the fundamental strong interaction.
@@ -553,7 +553,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 6
+    level: 11
     kind: structure
     conceptType: Vacuum structure / phenomenon
     summary: A situation in which the dynamics has a symmetry but the chosen vacuum state does not, producing order parameters and, for global continuous symmetries, Goldstone modes.
@@ -588,7 +588,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 6
+    level: 11
     kind: structure
     conceptType: Quantum state
     summary: A lowest-energy or invariant state relative to a chosen Hamiltonian and spacetime structure; a unique particle vacuum need not exist in general curved spacetime.
@@ -702,7 +702,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 7
+    level: 11
     kind: structure
     conceptType: Interacting QFT
     summary: A quantum field theory with nonquadratic couplings, requiring perturbative, lattice, bootstrap, algebraic, or other nonperturbative methods.
@@ -718,7 +718,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 7
+    level: 11
     kind: structure
     conceptType: Controlled formal expansion
     summary: A formal expansion in coupling constants or loops around a free or solvable theory, with domain controlled when couplings and kinematics permit.
@@ -734,7 +734,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 7
+    level: 11
     kind: structure
     conceptType: Intermediate mathematical procedure
     summary: A modification introducing a cutoff, dimension shift, lattice, or other regulator so divergent expressions become well-defined before renormalization.
@@ -873,7 +873,7 @@ nodes:
       - quantum-field-theory
       - thermodynamics-statistical-mechanics
       - condensed-matter-physics
-    level: 8
+    level: 11
     kind: structure
     conceptType: Observable distribution
     summary: An expectation value of products of fields or observables, encoding propagation, response, and scattering information.
@@ -986,7 +986,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 8
+    level: 11
     kind: structure
     conceptType: Asymptotic state
     summary: A state in a one-particle representation or asymptotic sector associated with a stable particle species.
@@ -1182,7 +1182,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 9
+    level: 13
     kind: structure
     conceptType: Regulated nonperturbative formulation and computational method
     summary: A Euclidean spacetime lattice regularization of QCD enabling numerical path-integral calculations and continuum extrapolation.
@@ -1199,7 +1199,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 9
+    level: 11
     kind: structure
     conceptType: Quantum state
     summary: A Fock or scattering state containing several particle excitations, with exchange statistics and interactions treated appropriately.
@@ -1231,7 +1231,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 9
+    level: 12
     kind: structure
     conceptType: Green function / correlation kernel
     summary: A two-point Green function or inverse kinetic operator with specified boundary prescription, not a literal particle trajectory.
@@ -1263,7 +1263,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 10
+    level: 12
     kind: structure
     conceptType: Perturbative bookkeeping object
     summary: A graph organizing terms in a perturbative expansion of correlation functions or amplitudes; internal lines are not directly observed particles.
@@ -1279,7 +1279,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 10
+    level: 12
     kind: structure
     conceptType: Quantum field theory
     summary: The relativistic quantum field theory of the electromagnetic interaction between electrically charged fields and the photon field.
@@ -1299,7 +1299,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 10
+    level: 11
     kind: structure
     conceptType: Scattering operator
     summary: The operator mapping asymptotic in-states to out-states when such asymptotic particle states exist.
@@ -1315,7 +1315,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 10
+    level: 12
     kind: structure
     conceptType: Transition quantity
     summary: A complex quantity whose squared magnitude and phase-space factors determine scattering probabilities and cross sections.
@@ -1332,7 +1332,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 10
+    level: 12
     kind: structure
     conceptType: Scale-dependent action
     summary: An action for low-momentum modes obtained by integrating out higher-momentum degrees of freedom down to a cutoff scale.
@@ -1414,7 +1414,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 12
+    level: 13
     kind: structure
     conceptType: Low-energy effective field theory
     summary: A local four-fermion theory approximating charged-current weak processes at momentum transfers far below the $W$-boson mass.
@@ -1431,7 +1431,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 12
+    level: 13
     kind: structure
     conceptType: Nonperturbative regime
     summary: The strongly coupled regime of QCD where quarks and gluons are confined and hadrons are the useful degrees of freedom.
@@ -1672,7 +1672,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 9
+    level: 14
     kind: structure
     conceptType: Polarization state
     summary: The third physical polarization of a massive vector boson. In a Higgs phase, degrees of freedom represented as would-be Goldstone modes in a gauge-fixed description reorganize into longitudinal massive-gauge-boson polarizations.
@@ -1704,7 +1704,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 9
+    level: 13
     kind: structure
     conceptType: Approximate global symmetry
     summary: For light-quark masses small compared with the strong scale, the QCD Lagrangian has an approximate $SU(N_f)_L\times SU(N_f)_R$ flavor symmetry, apart from anomalous and mass effects.
@@ -1740,7 +1740,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 11
+    level: 12
     kind: structure
     conceptType: Vacuum order parameter
     summary: The vacuum expectation value $\langle\bar q q\rangle$, an order parameter for spontaneous chiral-symmetry breaking in the chiral limit; its numerical value depends on renormalization scheme and scale.
@@ -1776,7 +1776,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
-    level: 12
+    level: 14
     kind: structure
     conceptType: Expected nonperturbative property / open mathematical problem
     summary: Pure four-dimensional confining quantum Yang–Mills theory is expected to have a positive energy gap above its vacuum. Constructing the continuum theory rigorously and proving the gap remains an open Clay Millennium problem. This must not be conflated with exact chiral-limit QCD, whose spontaneously broken chiral symmetry gives massless Nambu–Goldstone modes.

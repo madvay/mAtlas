@@ -167,7 +167,7 @@ nodes:
   primaryDomain: atomic-structure-periodicity
   domains:
   - atomic-structure-periodicity
-  level: 31
+  level: 40
   kind: structure
   conceptType: Electron-bookkeeping descriptor
   summary: An atom’s formal charge after assigning bonding electron pairs by an agreed ionic approximation; it is not generally an observable

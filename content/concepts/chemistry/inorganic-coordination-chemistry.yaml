@@ -73,7 +73,7 @@ nodes:
   primaryDomain: inorganic-coordination-chemistry
   domains:
   - inorganic-coordination-chemistry
-  level: 36
+  level: 39
   kind: structure
   conceptType: Chemical entity
   summary: A molecular or ionic entity containing a central atom bonded to a surrounding set of ligands.
@@ -89,7 +89,7 @@ nodes:
   primaryDomain: inorganic-coordination-chemistry
   domains:
   - inorganic-coordination-chemistry
-  level: 36
+  level: 40
   kind: structure
   conceptType: Structural descriptor
   summary: The number of directly attached donor atoms or neighboring entities counted under an explicit coordination convention.

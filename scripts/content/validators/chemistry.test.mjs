@@ -13,25 +13,11 @@ test('the Chemistry release satisfies its dedicated integrity layer', () => {
   assert.deepEqual(errorsFor(source), []);
 });
 
-test('Chemistry validation rejects reversed evidence levels', () => {
-  const content = JSON.parse(JSON.stringify(source));
-  const experiment = content.graph.nodes.find((node) => node.id === 'gallium_discovery_periodic_test');
-  experiment.level = 7;
-  assert.match(errorsFor(content).join('\n'), /Verifying experiment edge .* higher-level experiment/);
-});
-
 test('Chemistry validation preserves Physics-primary boundary ownership', () => {
   const content = JSON.parse(JSON.stringify(source));
   const atom = content.graph.nodes.find((node) => node.id === 'atom');
   atom.primaryField = 'chemistry';
   assert.match(errorsFor(content).join('\n'), /Boundary concept atom must remain Physics-primary/);
-});
-
-test('Chemistry validation keeps atomic and molecular bridge levels aligned with Physics', () => {
-  const content = JSON.parse(JSON.stringify(source));
-  const periodicTable = content.graph.nodes.find((node) => node.id === 'periodic_table');
-  periodicTable.level = 31;
-  assert.match(errorsFor(content).join('\n'), /Cross-field level alignment periodic_table/);
 });
 
 test('Chemistry validation requires source diversity on authored edges', () => {

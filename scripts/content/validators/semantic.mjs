@@ -1,4 +1,5 @@
 import { arrayOrEmpty } from '../validation-helpers.mjs';
+import { authoredLevelErrors } from '../level-model.mjs';
 
 export const name = 'semantic';
 
@@ -59,40 +60,7 @@ export function validate(context) {
     if (unexpectedOutputs.length) errors.push(`Junction ${node.id} has unexpected outgoing edge(s): ${unexpectedOutputs.map((edge) => edge.id).join(', ')}.`);
   }
 
-  for (const edge of edges) {
-    if (!['add-data', 'impose-axiom', 'combine-compatible'].includes(edge?.type)) continue;
-    const sourceLevel = nodeById.get(edge?.source)?.level;
-    const targetLevel = nodeById.get(edge?.target)?.level;
-    if (Number.isFinite(sourceLevel) && Number.isFinite(targetLevel) && sourceLevel > targetLevel) {
-      errors.push(`Structural edge ${String(edge?.id)} points upward from level ${sourceLevel} to ${targetLevel}.`);
-    }
-  }
-
-  const downwardPhysicsTypes = new Set([
-    'mathematical-limit',
-    'controlled-approximation',
-    'effective-theory',
-    'approximation-method',
-    'phenomenological-model',
-    'model-realization',
-    'theory-extension',
-    'composition',
-    'field-excitation',
-    'binds-forms',
-    'emergence'
-  ]);
-  for (const edge of edges) {
-    if (!downwardPhysicsTypes.has(edge?.type)) continue;
-    const source = nodeById.get(edge?.source);
-    const target = nodeById.get(edge?.target);
-    if (!source || !target) continue;
-    const sourceField = source.primaryField ?? graph?.domains?.[source.primaryDomain]?.field;
-    const targetField = target.primaryField ?? graph?.domains?.[target.primaryDomain]?.field;
-    if (sourceField !== 'physics' || targetField !== 'physics') continue;
-    if (Number.isFinite(source.level) && Number.isFinite(target.level) && source.level > target.level) {
-      errors.push(`Physics ${edge.type} edge ${String(edge.id)} points upward from level ${source.level} to ${target.level}.`);
-    }
-  }
+  errors.push(...authoredLevelErrors(graph));
 
   for (const [index, view] of views.entries()) {
     const settings = view?.settings ?? {};
@@ -114,29 +82,6 @@ export function validate(context) {
       }
     }
   }
-
-  const structuralTypes = new Set(['add-data', 'impose-axiom', 'combine-compatible']);
-  const adjacency = new Map(nodes.map((node) => [node?.id, []]));
-  for (const edge of edges) if (structuralTypes.has(edge?.type)) adjacency.get(edge?.source)?.push(edge?.target);
-  const visitState = new Map();
-  const visitStack = [];
-  let structuralCycle = null;
-  const visit = (id) => {
-    visitState.set(id, 1);
-    visitStack.push(id);
-    for (const next of adjacency.get(id) ?? []) {
-      if (visitState.get(next) === 1) {
-        structuralCycle = [...visitStack.slice(visitStack.indexOf(next)), next];
-        return true;
-      }
-      if (!visitState.has(next) && visit(next)) return true;
-    }
-    visitStack.pop();
-    visitState.set(id, 2);
-    return false;
-  };
-  for (const node of nodes) if (typeof node?.id === 'string' && !visitState.has(node.id) && visit(node.id)) break;
-  if (structuralCycle) errors.push(`Structural edge cycle detected: ${structuralCycle.join(' -> ')}`);
 
   return errors;
 }

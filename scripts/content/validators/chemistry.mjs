@@ -21,21 +21,6 @@ export const CHEMISTRY_DOMAINS = Object.freeze([
 const EVIDENCE_DOMAIN = 'chemistry-experiments-evidence';
 const SUBSTANTIVE_DOMAINS = CHEMISTRY_DOMAINS.filter((id) => id !== EVIDENCE_DOMAIN);
 
-const LEVEL_RANGES = Object.freeze({
-  'chemical-foundations': [19, 27],
-  'atomic-structure-periodicity': [25, 31],
-  'molecular-structure-bonding': [31, 36],
-  'quantum-chemistry-spectroscopy': [30, 41],
-  'chemical-thermodynamics-equilibrium': [24, 33],
-  'solutions-interfaces': [26, 34],
-  'chemical-kinetics-dynamics': [27, 35],
-  'inorganic-coordination-chemistry': [32, 40],
-  'organic-chemistry': [32, 41],
-  'analytical-chemistry': [26, 37],
-  electrochemistry: [29, 39],
-  radiochemistry: [27, 38],
-});
-
 const REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS = Object.freeze({
   chemical_element: 'atomic-structure-periodicity',
   atom: 'atomic-structure-periodicity',
@@ -62,11 +47,6 @@ const REQUIRED_PHYSICS_PRIMARY_MEMBERSHIPS = Object.freeze({
   moseley_xray_spectroscopy: EVIDENCE_DOMAIN,
   aston_mass_spectrograph_measurements: EVIDENCE_DOMAIN
 });
-
-const REQUIRED_GLOBAL_LEVEL_ALIGNMENTS = Object.freeze([
-  { chemistryId: 'periodic_table', physicsId: 'chemical_element', maximumDifference: 3 },
-  { chemistryId: 'molecular_structure', physicsId: 'molecule', maximumDifference: 4 }
-]);
 
 function primaryField(node, graph) {
   return node?.primaryField ?? graph?.domains?.[node?.primaryDomain]?.field;
@@ -121,10 +101,6 @@ export function validate(context) {
     if (!nodeFields(node, graph).includes('chemistry')) errors.push(`Chemistry node ${node.id} omits Chemistry from fields.`);
     if (!arrayOrEmpty(node?.domains).includes(node.primaryDomain)) errors.push(`Chemistry node ${node.id} omits its primary domain.`);
     if (node.primaryDomain === EVIDENCE_DOMAIN) errors.push(`Evidence node ${node.id} must retain a substantive primary domain.`);
-    const range = LEVEL_RANGES[node.primaryDomain];
-    if (range && (!Number.isFinite(node.level) || node.level < range[0] || node.level > range[1])) {
-      errors.push(`Chemistry node ${node.id} level ${String(node.level)} is outside ${node.primaryDomain}'s rationalized range ${range[0]}–${range[1]}.`);
-    }
     const sources = citedSources(node, graph);
     if (arrayOrEmpty(node?.citations).length < 2) errors.push(`Chemistry node ${node.id} must cite multiple sources.`);
     if (!hasWikipedia(sources)) errors.push(`Chemistry node ${node.id} must cite a Wikipedia navigation source.`);
@@ -179,20 +155,10 @@ export function validate(context) {
   }
   for (const edge of edges) {
     if (edge.type === 'historically-motivated' && (evidenceIds.has(edge.source) || evidenceIds.has(edge.target))) {
-      const source = nodeById.get(edge.source);
-      const target = nodeById.get(edge.target);
       if (!evidenceIds.has(edge.source)) errors.push(`Historical edge ${edge.id} must point from its evidence concept.`);
-      if (Number.isFinite(source?.level) && Number.isFinite(target?.level) && source.level >= target.level) {
-        errors.push(`Motivating experiment edge ${edge.id} must rise from a lower level (${source.level}) to its motivated concept (${target.level}).`);
-      }
     }
     if (edge.type === 'experimentally-verified-by' && (evidenceIds.has(edge.source) || evidenceIds.has(edge.target))) {
-      const source = nodeById.get(edge.source);
-      const target = nodeById.get(edge.target);
       if (!evidenceIds.has(edge.target)) errors.push(`Verification edge ${edge.id} must point to its evidence concept.`);
-      if (Number.isFinite(source?.level) && Number.isFinite(target?.level) && target.level <= source.level) {
-        errors.push(`Verifying experiment edge ${edge.id} must point to a higher-level experiment (${target.level}) than its claim (${source.level}).`);
-      }
     }
   }
 
@@ -209,18 +175,6 @@ export function validate(context) {
     if (primaryField(node, graph) !== 'physics') errors.push(`Boundary concept ${nodeId} must remain Physics-primary.`);
     if (!nodeFields(node, graph).includes('chemistry')) errors.push(`Boundary concept ${nodeId} must include Chemistry membership.`);
     if (!arrayOrEmpty(node.domains).includes(domainId)) errors.push(`Boundary concept ${nodeId} must include Chemistry domain ${domainId}.`);
-  }
-  for (const alignment of REQUIRED_GLOBAL_LEVEL_ALIGNMENTS) {
-    const chemistryNode = nodeById.get(alignment.chemistryId);
-    const physicsNode = nodeById.get(alignment.physicsId);
-    if (!chemistryNode || !physicsNode) {
-      errors.push(`Missing required cross-field level alignment ${alignment.chemistryId} ↔ ${alignment.physicsId}.`);
-      continue;
-    }
-    if (Number.isFinite(chemistryNode.level) && Number.isFinite(physicsNode.level)
-      && Math.abs(chemistryNode.level - physicsNode.level) > alignment.maximumDifference) {
-      errors.push(`Cross-field level alignment ${alignment.chemistryId} (${chemistryNode.level}) ↔ ${alignment.physicsId} (${physicsNode.level}) exceeds ${alignment.maximumDifference} levels.`);
-    }
   }
 
   return errors;

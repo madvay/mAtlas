@@ -402,7 +402,7 @@ nodes:
     domains:
       - condensed-matter-physics
       - quantum-mechanics
-    level: 38
+    level: 41
     kind: structure
     conceptType: Spectral state property
     summary: The allowed electron energies as functions of crystal momentum in a periodic or approximately periodic solid. Band calculations depend on the Hamiltonian and approximation and need not capture strong correlation without additional treatment.
@@ -457,7 +457,7 @@ nodes:
     domains:
       - condensed-matter-physics
       - thermodynamics-statistical-mechanics
-    level: 39
+    level: 41
     kind: structure
     conceptType: Low-energy momentum-space structure
     summary: At zero temperature, the locus in momentum or crystal-momentum space where a fermionic quasiparticle excitation meets the chemical potential. It bounds filled one-particle states in the free case; in an interacting Fermi liquid its shape and enclosed volume remain meaningful with qualifications.

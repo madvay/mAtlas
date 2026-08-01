@@ -395,7 +395,7 @@ nodes:
     domains:
       - homological-algebra
       - category-theory
-    level: 8
+    level: 9
     kind: structure
     summary: A degree-preserving morphism between chain complexes that commutes with the differentials.
     carriers:
@@ -420,7 +420,7 @@ nodes:
     domains:
       - homological-algebra
       - category-theory
-    level: 9
+    level: 10
     kind: structure
     summary: A chain map that induces an isomorphism on every homology object.
     carriers:

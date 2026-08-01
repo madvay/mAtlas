@@ -5,7 +5,7 @@ nodes:
     domains:
       - differential-geometry
       - category-theory
-    level: 7
+    level: 8
     kind: junction
     summary: Compatibility construction producing Lie groupoid.
     carriers: []
@@ -142,7 +142,7 @@ nodes:
       - differential-geometry
       - category-theory
       - algebra
-    level: 8
+    level: 9
     kind: structure
     summary: A groupoid whose object and arrow spaces are smooth manifolds and whose structure maps are smooth, with source and target submersions.
     carriers:
@@ -427,7 +427,7 @@ nodes:
     domains:
       - differential-geometry
       - analysis
-    level: 9
+    level: 10
     kind: junction
     summary: Compatibility construction producing Hermitian manifold.
     carriers: []
@@ -768,7 +768,7 @@ nodes:
     domains:
       - differential-geometry
       - analysis
-    level: 10
+    level: 11
     kind: structure
     summary: A complex manifold with a smoothly varying Hermitian inner product on tangent spaces.
     carriers:
@@ -896,7 +896,7 @@ nodes:
       - differential-geometry
       - algebraic-geometry
       - analysis
-    level: 11
+    level: 12
     kind: structure
     summary: A Hermitian manifold whose fundamental 2-form is closed.
     carriers:

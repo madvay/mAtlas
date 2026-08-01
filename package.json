@@ -20,6 +20,7 @@
     "content:build": "node scripts/build-content.mjs",
     "test:content": "npm run content:build && node scripts/test-content.mjs",
     "math:mark": "node scripts/mark-explicit-math.mjs --write",
+    "levels:check": "node scripts/fix-levels.mjs --check",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "node scripts/build.mjs",
     "dev": "node scripts/dev.mjs",
@@ -30,7 +31,9 @@
     "test:unit": "npm run content:build && node scripts/test-unit.mjs",
     "excise-node": "node scripts/excise-node.mjs",
     "test:build-output": "node scripts/test-build-output.mjs",
-    "validate:content:share-codec": "node scripts/validate-content.mjs share-codec"
+    "validate:content:share-codec": "node scripts/validate-content.mjs share-codec",
+    "levels:fix": "node scripts/fix-levels.mjs --write",
+    "levels:minimum-report": "node scripts/fix-levels.mjs --minimum-report"
   },
   "dependencies": {
     "cytoscape": "^3.33.1",

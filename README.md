@@ -55,7 +55,7 @@ npm test
 
 `npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export and `/directory/` semantic atlas directory. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
 
-Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, structural direction and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, every view object's identifiers and settings, Chemistry evidence levels, shared-node ownership, and minimum cross-domain and cross-field connectivity.
+Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, strict-predecessor level monotonicity and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, every view object's identifiers and settings, Chemistry evidence orientation, shared-node ownership, and minimum cross-domain and cross-field connectivity.
 
 ## Additional scripts
 
@@ -107,7 +107,7 @@ Each domain belongs to one field. Each concept declares:
 - `primaryField` and `fields`
 - `primaryDomain` and `domains`
 - `conceptType`
-- `level`, used for vertical placement on the global cross-field scale
+- `level`, an authored vertical placement that may include editorial spacing but must remain strictly above selected predecessors
 - common descriptive fields and optional generic `sections`
 
 Existing mathematics concepts inherit the mathematics field through their domains. Physics and Chemistry concepts use the generalized detail-section model so theories, laws, fields, particles, substances, systems, processes, states, measurements, and phenomena can coexist without forcing them into the mathematics-specific carrier/data/axiom schema.
@@ -137,6 +137,8 @@ The original mathematical relation types remain. The multi-field model adds rela
 - transformations and processes
 
 Relations are not treated as one undifferentiated “built from” ordering. This is essential in physics and chemistry: special relativity and quantum mechanics jointly constrain relativistic QFT, while chemical classifications, state descriptions, mechanisms, transformations, measurements, and model realizations carry distinct claims. Classical limits are marked as approximations rather than derivations, and an experimental edge records scoped evidence rather than proof.
+
+`npm run levels:fix` raises only concept levels that violate the strict predecessor relation or a hard editorial floor; it never lowers ordinary authored levels. `npm run levels:check` validates the same constraints, and `npm run levels:minimum-report` reports each concept's slack above the minimum permitted rank. The selected relation uses add-data, impose-axiom, compatible combination, framework specialization, quantization, composition, classification, limiting/effective/model descriptions, emergence, and state/property description. Set is fixed as the sole global minimum; Physical system and Physical theory are the Physics minima; Matter in chemistry is the Chemistry-primary minimum. Other edge types do not impose vertical order.
 
 ## User interface and URL state
 

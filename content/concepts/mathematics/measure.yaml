@@ -104,7 +104,7 @@ nodes:
     primaryDomain: measure
     domains:
       - measure
-    level: 3
+    level: 4
     kind: structure
     summary: A function whose inverse images of measurable sets are measurable.
     carriers:

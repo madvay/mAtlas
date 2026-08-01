@@ -2,9 +2,9 @@
 
 This directory is the editable source product for the mAtlas knowledge graph and
 its editorial navigation. Application and publishing code must not read these
-files directly. Run `npm run content:build` to validate and compile them into the
-stable `.build/content/` contract consumed by the renderer, page generators, and
-tests.
+files directly. Run `npm run levels:fix` after changing selected predecessor relations,
+then run `npm run content:build` to validate and compile the source into the stable
+`.build/content/` contract consumed by the renderer, page generators, and tests.
 
 ## Source files
 
@@ -34,7 +34,7 @@ npm run test:content
 ```
 
 Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and
-renderer-compatibility layers. The Chemistry layer enforces source diversity, evidence-level direction, shared-node ownership, and graph-connectivity floors. Compilation writes normalized files, including `share-codec.json`, and a
+renderer-compatibility layers. Semantic validation permits editorial spacing but requires every selected predecessor edge to increase strictly, enforces the editorial minima, and rejects cycles in that relation. The Chemistry layer enforces source diversity, evidence-edge orientation, shared-node ownership, and graph-connectivity floors. Compilation writes normalized files, including `share-codec.json`, and a
 hash-based `provenance.json` plus build-only `removed-domains.json` to `.build/content/`. Published hashed JSON files
 are produced only from that compiled directory and are served under the public
 `/content/` namespace; `/data/` is not emitted. YAML sources are assembled into

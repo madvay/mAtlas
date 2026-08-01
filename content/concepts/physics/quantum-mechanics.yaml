@@ -314,7 +314,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
-    level: 8
+    level: 9
     kind: structure
     conceptType: Intrinsic angular momentum
     summary: Intrinsic quantum angular momentum classified by representations of the rotation or Poincaré symmetry groups.
@@ -395,7 +395,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
-    level: 9
+    level: 11
     kind: structure
     conceptType: Effective theory
     summary: Quantum mechanics for degrees of freedom with velocities small compared with $c$ and energies far below pair-production thresholds.
@@ -443,7 +443,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
-    level: 9
+    level: 10
     kind: structure
     conceptType: Representation class
     summary: The two-dimensional irreducible representation of $SU(2)\cong\mathrm{Spin}(3)$, corresponding to a projective representation of $SO(3)$ and spin projections $\pm\hbar/2$ along a chosen axis.
@@ -591,7 +591,7 @@ nodes:
     domains:
       - quantum-mechanics
       - quantum-chemistry-spectroscopy
-    level: 10
+    level: 11
     kind: structure
     conceptType: Evolution equation
     summary: The Schrödinger-picture evolution equation $i\hbar\,\partial_t|\psi(t)\rangle=H|\psi(t)\rangle$; its concrete Hamiltonian may describe a nonrelativistic system or an effective quantum theory.
@@ -692,7 +692,7 @@ nodes:
     primaryDomain: quantum-mechanics
     domains:
       - quantum-mechanics
-    level: 8
+    level: 12
     kind: structure
     conceptType: Composite-state property
     summary: A composite quantum state is entangled when it is not separable into a mixture of product states across the chosen subsystem partition.
@@ -729,7 +729,7 @@ nodes:
     domains:
       - quantum-mechanics
       - atomic-molecular-physics
-    level: 9
+    level: 29
     kind: structure
     conceptType: Quantum state class
     summary: A state of minimum energy for a specified Hamiltonian or sector; degeneracy is possible, and some systems have no normalizable ground state.
@@ -747,7 +747,7 @@ nodes:
     domains:
       - quantum-mechanics
       - atomic-molecular-physics
-    level: 10
+    level: 29
     kind: structure
     conceptType: Quantum state class
     summary: A state with energy above the ground state of the specified Hamiltonian; it may be stationary, metastable, resonant, or unstable.
@@ -767,7 +767,7 @@ nodes:
       - particle-physics
       - nuclear-physics
       - atomic-molecular-physics
-    level: 9
+    level: 31
     kind: structure
     conceptType: Discrete-symmetry quantum number
     summary: The eigenvalue under spatial inversion when parity is a symmetry. Atomic and nuclear states are commonly labeled by parity, and transition operators impose parity selection rules.
@@ -820,7 +820,7 @@ nodes:
     domains:
       - quantum-mechanics
       - experiments-observations
-    level: 1
+    level: 2
     kind: structure
     conceptType: Observation / theoretical problem
     summary: Measured blackbody spectra remained finite at high frequency, while classical equipartition produced the divergent Rayleigh–Jeans prediction known as the ultraviolet catastrophe.

@@ -7,7 +7,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 33
+  level: 36
   kind: structure
   conceptType: Compound class
   summary: A historically defined class centered on carbon frameworks and their derivatives, with conventional exclusions such as many carbon
@@ -57,7 +57,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 35
+  level: 37
   kind: structure
   conceptType: Compound class
   summary: An organic compound composed only of carbon and hydrogen.
@@ -73,7 +73,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 37
+  level: 38
   kind: structure
   conceptType: Electronic-structure property
   summary: Enhanced cyclic delocalization and associated energetic, magnetic, structural, and reactivity patterns under an explicitly stated aromaticity
@@ -106,7 +106,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 36
+  level: 37
   kind: structure
   conceptType: Isomer class
   summary: One of two or more compounds sharing a molecular formula but differing in atom connectivity.
@@ -122,7 +122,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 36
+  level: 37
   kind: structure
   conceptType: Structural field
   summary: Study and specification of the three-dimensional arrangement of atoms and its consequences for identity, reactivity, and properties.
@@ -138,7 +138,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 37
+  level: 38
   kind: structure
   conceptType: Symmetry property
   summary: The property of a molecular entity or conformation not being superposable on its mirror image under the relevant allowed transformations.
@@ -154,7 +154,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 38
+  level: 39
   kind: structure
   conceptType: Stereoisomer class
   summary: One member of a pair of stereoisomers related as nonsuperposable mirror images.
