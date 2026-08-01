@@ -21,6 +21,7 @@ The atlas is one graph rather than a collection of isolated applications. Fields
 - `/content/views.<hash>.json` — immutable Story/View definitions
 - `/content/provenance.<hash>.json` — content/schema versions, source paths, SHA-256 hashes, license, and attribution
 - `/CONTENT_LICENSE` — content-specific CC BY-SA 4.0 notice
+- `/guide/` — static user guide for new and power users, with real, build-validated permalinks into atlas content and application states
 - `/directory/` — static semantic atlas directory with the exact all-in SVG transcluded, crawlable concept links, relation definitions, structured data, and atlas context
 - `/static/atlas.svg` — stable standalone all-in SVG export containing every field, domain, concept, junction, and relation
 
@@ -53,7 +54,7 @@ npm test
 
 `npm run content:build` validates editable source under `content/` and atomically writes the normalized renderer/publisher contract to `.build/content/`. The compiled contract contains `atlas.json`, `schema.json`, `views.json`, `share-codec.json`, and `provenance.json`. Application code, page generators, and tests consume only this compiled boundary.
 
-`npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export and `/directory/` semantic atlas directory. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
+`npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export, `/directory/` semantic atlas directory, and `/guide/` user guide. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
 
 Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, strict-predecessor level monotonicity and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, every view object's identifiers and settings, Chemistry evidence orientation, shared-node ownership, and minimum cross-domain and cross-field connectivity.
 
@@ -181,7 +182,7 @@ The browser escapes prose and sends only delimited formulas to KaTeX. `npm run m
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/directory/`, `/concepts/`, `/views/`, and `/static/atlas.svg`.
+`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/guide/`, `/directory/`, `/concepts/`, `/views/`, and `/static/atlas.svg`.
 
 ## License
 

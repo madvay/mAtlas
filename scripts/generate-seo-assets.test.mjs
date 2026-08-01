@@ -31,6 +31,7 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
       viewsPath: 'content/views.test.json',
       atlasSvgPath: 'static/atlas.svg',
       directoryPath: 'directory/',
+      guidePath: 'guide/',
       fieldImages,
       domainImages,
       lastModified: '2026-07-28'
@@ -41,6 +42,7 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
     await assert.rejects(readFile(new URL('content/search-index.json', distUrl), 'utf8'), { code: 'ENOENT' });
     await assert.rejects(readFile(new URL('data/search-index.json', distUrl), 'utf8'), { code: 'ENOENT' });
     assert.match(sitemap, /xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/);
+    assert.ok(sitemap.includes('<loc>https://atlas.madvay.com/guide/</loc><lastmod>2026-07-28</lastmod>'));
     assert.ok(sitemap.includes('<loc>https://atlas.madvay.com/directory/</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/static/atlas.svg</image:loc></image:image>'));
     assert.ok(sitemap.includes('<loc>https://atlas.madvay.com/static/atlas.svg</loc><lastmod>2026-07-28</lastmod>'));
     const firstFieldUrl = `https://atlas.madvay.com/${graphData.fields[firstFieldId].path}/`;
@@ -52,6 +54,7 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
     assert.ok(!sitemap.includes('<loc>https://atlas.madvay.com/static/atlas/</loc>'));
     assert.ok(!sitemap.includes('/m/'));
     assert.ok(robots.includes('User-agent: *\nAllow: /'));
+    assert.ok(llms.includes('[User Guide](https://atlas.madvay.com/guide/)'));
     assert.ok(llms.includes('[Atlas Directory](https://atlas.madvay.com/directory/)'));
     assert.ok(llms.includes('[All-in atlas SVG](https://atlas.madvay.com/static/atlas.svg)'));
     assert.ok(llms.includes('[Graph JSON](https://atlas.madvay.com/content/atlas.test.json)'));

@@ -35,7 +35,7 @@ function sitemapEntry(url, { lastModified, imageUrl } = {}) {
   return `  <url>${children.join('')}</url>`;
 }
 
-function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, fieldImages, domainImages, lastModified) {
+function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, fieldImages, domainImages, lastModified) {
   const concepts = graphData.nodes.filter((node) => node.kind === 'structure');
   const fieldEntries = (graphData.meta.fieldOrder ?? Object.keys(graphData.fields))
     .map((fieldId) => ({
@@ -55,6 +55,7 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, fiel
     ...fieldEntries.map((entry) => entry.url),
     ...domainEntries.map((entry) => entry.url),
     directoryUrl,
+    appUrl(guidePath),
     appUrl('views/'),
     ...viewUrls,
     ...concepts.map((node) => appUrl(conceptPath(node.id))),
@@ -75,7 +76,7 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, fiel
   ].join('\n');
 }
 
-function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath) {
+function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath, guidePath) {
   const fields = (graphData.meta.fieldOrder ?? Object.keys(graphData.fields)).map((id) => graphData.fields[id].label).join(', ');
   const domainLinks = (graphData.meta.domainOrder ?? Object.keys(graphData.domains)).map((domainId) => {
     const domain = graphData.domains[domainId];
@@ -86,6 +87,7 @@ function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath
     '# Atlas of Fundamental Concepts', '', `Canonical: ${appUrl()}`, `Version: ${graphData.meta.version}`, `Description: ${graphData.meta.description}`, '',
     '## Scope', graphData.meta.scope, '',
     '## Data',
+    `- [User Guide](${appUrl(guidePath)})`,
     `- [Atlas Directory](${appUrl(directoryPath)})`,
     `- [All-in atlas SVG](${appUrl(atlasSvgPath)})`,
     `- [Graph JSON](${appUrl(graphDataPath)})`,
@@ -104,6 +106,7 @@ function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath
     '',
     '## Editorial guidance',
     '- Use canonical /concepts/<id>/ URLs when citing atlas concepts.',
+    '- Use /guide/ for instructions and reproducible examples of interactive atlas states.',
     '- Use /directory/ for the complete crawlable visual overview and concept directory, and /static/atlas.svg for the standalone vector document.',
     '- Treat the atlas as editorially selective and source-backed.',
     '- Verify technical claims against the attached sources.', ''
@@ -119,14 +122,15 @@ export async function generateSeoAssets({
   viewsPath = 'content/views.json',
   atlasSvgPath = 'static/atlas.svg',
   directoryPath = 'directory/',
+  guidePath = 'guide/',
   fieldImages = {},
   domainImages = {},
   lastModified
 }) {
   await Promise.all([
     writeFile(new URL('robots.txt', distUrl), buildRobotsTxt()),
-    writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, fieldImages, domainImages, lastModified)),
-    writeFile(new URL('llms.txt', distUrl), buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath)),
+    writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, fieldImages, domainImages, lastModified)),
+    writeFile(new URL('llms.txt', distUrl), buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath, guidePath)),
     writeFile(new URL('opensearch.xml', distUrl), buildOpenSearchXml())
   ]);
 }

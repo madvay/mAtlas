@@ -13,6 +13,7 @@ const llms = await readFile(new URL('llms.txt', dist), 'utf8');
 const openSearch = await readFile(new URL('opensearch.xml', dist), 'utf8');
 const atlasSvg = await readFile(new URL('static/atlas.svg', dist), 'utf8');
 const directoryPage = await readFile(new URL('directory/index.html', dist), 'utf8');
+const guidePage = await readFile(new URL('guide/index.html', dist), 'utf8');
 const conceptsIndex = await readFile(new URL('concepts/index.html', dist), 'utf8');
 const viewIndex = await readFile(new URL('views/index.html', dist), 'utf8');
 const appIndex = await readFile(new URL('index.html', dist), 'utf8');
@@ -78,6 +79,7 @@ if (!manifest.assets?.css) throw new Error('asset-manifest.json does not include
 if (manifest.assets?.atlasSvg !== 'static/atlas.svg') throw new Error('asset-manifest.json does not expose the stable static/atlas.svg path.');
 if (Object.keys(manifest.assets?.fieldSvgs ?? {}).length !== Object.keys(graphData.fields).length) throw new Error('asset-manifest.json does not expose one SVG path per field.');
 if (Object.keys(manifest.assets?.domainSvgs ?? {}).length !== Object.keys(graphData.domains).length) throw new Error('asset-manifest.json does not expose one SVG path per domain.');
+if (manifest.assets?.guide !== 'guide/') throw new Error('asset-manifest.json does not expose the stable guide/ page.');
 if (manifest.assets?.directory !== 'directory/') throw new Error('asset-manifest.json does not expose the stable directory/ page.');
 if ('atlasPage' in (manifest.assets ?? {})) throw new Error('asset-manifest.json still exposes the retired atlasPage entry.');
 if ('searchIndex' in (manifest.assets ?? {})) throw new Error('asset-manifest.json still exposes the removed search index.');
@@ -106,6 +108,7 @@ if (!appIndex.includes('id="searchResults"') || !appIndex.includes('role="combob
 if (appIndex.includes('id="conceptNames"')) throw new Error('The application still contains the retired empty search datalist.');
 if (!appIndex.includes('href="/directory/"')) throw new Error('The application omits the atlas directory link.');
 if (appIndex.includes('href="/static/atlas/"')) throw new Error('The application still links to the retired static atlas page.');
+if (!appIndex.includes('href="/guide/"')) throw new Error('The application does not link to the user guide.');
 if (!appIndex.includes('href="/static/atlas.svg"')) throw new Error('The application data panel omits the stable all-in SVG link.');
 if (!appIndex.includes(`href="./${manifest.assets.provenance}"`) || !appIndex.includes('href="/CONTENT_LICENSE"')) throw new Error('The application data panel omits content provenance or licensing links.');
 if (!appIndex.includes('<noscript>') || !appIndex.includes('Open the atlas directory')) throw new Error('The application lacks its no-JavaScript directory fallback.');
@@ -166,17 +169,20 @@ if (!appCss.includes('.graph-overlay-layer') || !appCss.includes('.graph-overlay
 if (!viewIndex.includes('Stories &amp; Views')) throw new Error('The static stories and views directory was not generated.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/views/</loc>')) throw new Error('The sitemap omits the view directory.');
 if (!sitemap.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')) throw new Error('The sitemap lacks the image sitemap namespace.');
+if (!sitemap.includes('<loc>https://atlas.madvay.com/guide/</loc>')) throw new Error('The sitemap omits guide/.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/directory/</loc>')) throw new Error('The sitemap omits directory/.');
 if (sitemap.includes('<loc>https://atlas.madvay.com/static/atlas/</loc>')) throw new Error('The sitemap still lists the retired static atlas page.');
 if (sitemap.includes('<loc>https://atlas.madvay.com/concepts/</loc>')) throw new Error('The sitemap lists the redirect-only concepts index instead of directory/.');
 if (!sitemap.includes('<image:image><image:loc>https://atlas.madvay.com/static/atlas.svg</image:loc></image:image>')) throw new Error('The sitemap does not associate static/atlas.svg with its HTML landing page.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/static/atlas.svg</loc>')) throw new Error('The sitemap omits static/atlas.svg.');
 if (!sitemap.includes('<lastmod>')) throw new Error('The sitemap lacks last-modified dates.');
+if (!llms.includes('[User Guide](https://atlas.madvay.com/guide/)')) throw new Error('llms.txt omits guide/.');
 if (!llms.includes('[Atlas Directory](https://atlas.madvay.com/directory/)')) throw new Error('llms.txt omits directory/.');
 if (llms.includes('https://atlas.madvay.com/static/atlas/')) throw new Error('llms.txt still references the retired static atlas page.');
 if (!llms.includes('[All-in atlas SVG](https://atlas.madvay.com/static/atlas.svg)')) throw new Error('llms.txt omits static/atlas.svg.');
 if (!llms.includes('https://atlas.madvay.com/content/atlas.') || !llms.includes('https://atlas.madvay.com/content/schema.') || !llms.includes('https://atlas.madvay.com/content/views.')) throw new Error('llms.txt does not expose all published JSON under /content/.');
 if (llms.includes('https://atlas.madvay.com/data/')) throw new Error('llms.txt still references the retired /data/ namespace.');
+if (!directoryPage.includes('href="/guide/"')) throw new Error('The directory page does not link to the user guide.');
 if (!directoryPage.includes(`href="/${manifest.assets.graph}"`) || directoryPage.includes('href="/data/')) throw new Error('The directory page does not link to graph JSON under /content/.');
 if (!atlasSvg.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) throw new Error('static/atlas.svg is not the runtime SVG export format.');
 if (!atlasSvg.includes('<title id="atlas-title">') || !atlasSvg.endsWith('</svg>')) throw new Error('static/atlas.svg is incomplete.');
@@ -194,6 +200,14 @@ if (exportedMathLabels !== 0 || /katex|foreignObject|requiredExtensions|data:fon
 
 const atlasSvgFragment = atlasSvg.replace(/^\uFEFF?\s*<\?xml\s+[^?]*\?>\s*/i, '').trim();
 if (!directoryPage.includes(atlasSvgFragment)) throw new Error('directory/index.html does not transclude the exact generated SVG document.');
+if (!guidePage.includes('<link rel="canonical" href="https://atlas.madvay.com/guide/">')) throw new Error('The guide page has the wrong canonical URL.');
+if (!guidePage.includes('prefers-color-scheme: dark') || !guidePage.includes('<dt>Theme</dt>')) throw new Error('The guide page does not follow or document the site theme preference.');
+if ((guidePage.match(/class="guide-section"/g) ?? []).length !== 13) throw new Error('The guide page does not contain the complete section set.');
+for (const text of ['Quick start', 'Read the graph', 'Stories and Views', 'Compare and connect', 'Permalinks and export', 'Keyboard and mobile']) {
+  if (!guidePage.includes(text)) throw new Error(`The guide page omits ${text}.`);
+}
+if (!guidePage.includes('https://atlas.madvay.com/concepts/group/') || !guidePage.includes('views/from-sets-to-spaces/?node=topological_space')) throw new Error('The guide page lacks genuine content permalinks.');
+if (!guidePage.includes('filter=') || !guidePage.includes('disp=')) throw new Error('The guide page lacks compact application-state permalinks.');
 if (!directoryPage.includes('<link rel="canonical" href="https://atlas.madvay.com/directory/">')) throw new Error('The directory page has the wrong canonical URL.');
 if (!directoryPage.includes('"primaryImageOfPage"') || !directoryPage.includes('"ImageObject"')) throw new Error('The directory page lacks primary-image structured data.');
 if (!directoryPage.includes('Browse all') || !directoryPage.includes('Relation legend:')) throw new Error('The directory page lacks its semantic concept and relation directories.');

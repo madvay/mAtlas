@@ -9,6 +9,7 @@ import { generateConceptPages } from './generate-concept-pages.mjs';
 import { generateViewPages } from './generate-view-pages.mjs';
 import { generateStaticAtlasSvgs } from './generate-static-atlas-svg.mjs';
 import { generateDirectoryPage } from './generate-directory-page.mjs';
+import { generateGuidePage } from './generate-guide-page.mjs';
 import { minifyHtml } from './minify-html.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -49,7 +50,8 @@ function buildLastModifiedDate() {
     'content/manifest.json',
     'src/ui/svg-exporter.ts',
     'scripts/generate-static-atlas-svg.mjs',
-    'scripts/generate-directory-page.mjs'
+    'scripts/generate-directory-page.mjs',
+    'scripts/generate-guide-page.mjs'
   ], { cwd: rootPath, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
   const timestamp = git.status === 0 ? git.stdout.trim() : '';
   const parsed = timestamp ? new Date(timestamp) : null;
@@ -81,6 +83,7 @@ const removedDomainsBytes = await readFile(new URL('removed-domains.json', compi
 const graphData = JSON.parse(graphBytes.toString('utf8'));
 const viewsData = JSON.parse(viewsBytes.toString('utf8'));
 const provenance = JSON.parse(provenanceBytes.toString('utf8'));
+const shareCodec = JSON.parse(shareCodecBytes.toString('utf8'));
 const removedDomains = JSON.parse(removedDomainsBytes.toString('utf8'));
 const graphFile = `atlas.${digest(graphBytes)}.json`;
 const schemaFile = `schema.${digest(schemaBytes)}.json`;
@@ -194,6 +197,14 @@ await generateDirectoryPage({
   directoryPath: 'directory/',
   lastModified
 });
+await generateGuidePage({
+  graphData,
+  viewsData,
+  shareCodec,
+  distUrl: dist,
+  guidePath: 'guide/',
+  lastModified
+});
 await generateSeoAssets({
   graphData,
   viewsData,
@@ -203,6 +214,7 @@ await generateSeoAssets({
   viewsPath: `content/${viewsFile}`,
   atlasSvgPath: 'static/atlas.svg',
   directoryPath: 'directory/',
+  guidePath: 'guide/',
   fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
   lastModified
@@ -227,8 +239,9 @@ const manifest = {
     fieldSvgs: Object.fromEntries(Object.entries(staticSvgs.fields).map(([fieldId, image]) => [fieldId, image.path])),
     domainSvgs: Object.fromEntries(Object.entries(staticSvgs.domains).map(([domainId, image]) => [domainId, image.path])),
     directory: 'directory/',
+    guide: 'guide/',
     openSearch: 'opensearch.xml'
   }
 };
 await writeFile(new URL('asset-manifest.json', dist), `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, and directory/ into dist/.`);
+console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, directory/, and guide/ into dist/.`);

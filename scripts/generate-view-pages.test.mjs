@@ -19,6 +19,8 @@ test('view page generator emits a directory and crawlable static routes', async 
 
     const index = await readFile(new URL('views/index.html', distUrl), 'utf8');
     assert.match(index, /Stories &amp; Views/);
+    assert.ok(index.includes('href="/guide/"'));
+    assert.ok(index.includes('prefers-color-scheme: dark'));
     assert.match(index, /Local arithmetic and the 𝑝-adic world/);
     assert.match(index, /dark components, and 𝛬CDM\./);
     assert.doesNotMatch(index, />Local arithmetic and the \$p\$-adic world<|dark components, and \$\\Lambda\$CDM\./);

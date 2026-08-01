@@ -222,6 +222,7 @@ export function renderDirectoryPage({
     </div>
     <nav class="resource-nav" aria-label="Atlas resources">
       <a href="/">Explore the interactive atlas</a>
+      <a href="/guide/">Read the user guide</a>
       <a href="/views/">Explore stories and views</a>
       <a href="#concept-directory">Browse canonical concepts</a>
       <a href="${svgUrl}">Open the standalone SVG</a>

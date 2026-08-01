@@ -35,6 +35,7 @@ test('directory page is semantic, crawlable, root-relative, and exactly transclu
   assert.ok(html.includes('<link rel="canonical" href="https://atlas.madvay.com/directory/">'));
   assert.ok(html.includes('"primaryImageOfPage"'));
   assert.ok(html.includes('"contentUrl":"https://atlas.madvay.com/static/atlas.svg"'));
+  assert.ok(html.includes('href="/guide/"'));
   assert.ok(html.includes('Browse all'));
   assert.ok(html.includes('Relation legend:'));
   assert.ok(html.includes('href="/concepts/finite_set/"'));
