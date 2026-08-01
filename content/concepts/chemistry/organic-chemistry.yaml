@@ -7,7 +7,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 33
+  level: 36
   kind: structure
   conceptType: Compound class
   summary: A historically defined class centered on carbon frameworks and their derivatives, with conventional exclusions such as many carbon
@@ -57,7 +57,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 35
+  level: 37
   kind: structure
   conceptType: Compound class
   summary: An organic compound composed only of carbon and hydrogen.
@@ -106,7 +106,7 @@ nodes:
   primaryDomain: organic-chemistry
   domains:
   - organic-chemistry
-  level: 36
+  level: 37
   kind: structure
   conceptType: Isomer class
   summary: One of two or more compounds sharing a molecular formula but differing in atom connectivity.

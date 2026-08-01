@@ -1078,7 +1078,7 @@ nodes:
     domains:
       - topology
       - set-theory
-    level: 2
+    level: 3
     kind: junction
     summary: Combine a function with topologies on its domain and codomain, then impose continuity.
     carriers: []
@@ -1105,7 +1105,7 @@ nodes:
     domains:
       - topology
       - set-theory
-    level: 2
+    level: 4
     kind: structure
     summary: A function between topological spaces whose inverse image of every open set is open.
     carriers:
@@ -1129,7 +1129,7 @@ nodes:
     domains:
       - topology
       - set-theory
-    level: 3
+    level: 5
     kind: structure
     summary: A bijective continuous map whose inverse is continuous, hence an isomorphism of topological spaces.
     carriers:

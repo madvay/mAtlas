@@ -112,7 +112,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 19
+    level: 20
     kind: structure
     conceptType: Effective interaction
     summary: The two-nucleon interaction extracted from scattering and constrained by QCD symmetries, forming a leading part of nuclear Hamiltonians.
@@ -260,7 +260,7 @@ nodes:
       - nuclear-physics
       - atomic-structure-periodicity
       - radiochemistry
-    level: 23
+    level: 24
     kind: structure
     conceptType: Composite system
     summary: The compact positively charged core of an atom, ordinarily composed of protons and neutrons bound by residual strong interactions.
@@ -459,7 +459,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 25
+    level: 26
     kind: structure
     conceptType: Effective many-body model
     summary: A model of nucleons moving in an effective mean field with residual interactions, organizing nuclear levels into shell-model configurations.
@@ -478,7 +478,7 @@ nodes:
       - nuclear-physics
       - atomic-structure-periodicity
       - radiochemistry
-    level: 25
+    level: 29
     kind: structure
     conceptType: Atomic species classified by nucleus
     summary: A species of atom characterized by the numbers of protons and neutrons in its nucleus and, when needed, by the nuclear energy state.
@@ -494,7 +494,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 26
+    level: 30
     kind: structure
     conceptType: Nuclide relation class
     summary: Nuclides with the same neutron number $N$ but different proton number $Z$.
@@ -513,7 +513,7 @@ nodes:
       - nuclear-physics
       - atomic-structure-periodicity
       - radiochemistry
-    level: 26
+    level: 30
     kind: structure
     conceptType: Nuclide class
     summary: A member of a set of nuclides having the same atomic number but different mass numbers; equivalently, the same proton number but different neutron numbers.
@@ -530,7 +530,7 @@ nodes:
     primaryDomain: nuclear-physics
     domains:
       - nuclear-physics
-    level: 26
+    level: 30
     kind: structure
     conceptType: Nuclide relation class
     summary: Nuclides with the same mass number $A$ but different proton number $Z$.
@@ -739,7 +739,7 @@ nodes:
     domains:
       - nuclear-physics
       - cosmology
-    level: 27
+    level: 28
     kind: structure
     conceptType: Nuclear reaction process
     summary: Two light nuclei combine into a heavier nuclear product, with energy released for exothermic channels when the final products have greater total binding energy.

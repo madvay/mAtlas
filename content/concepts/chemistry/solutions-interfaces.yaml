@@ -7,7 +7,7 @@ nodes:
   primaryDomain: solutions-interfaces
   domains:
   - solutions-interfaces
-  level: 26
+  level: 28
   kind: structure
   conceptType: Homogeneous material system
   summary: A macroscopically homogeneous phase containing two or more components whose molecular-scale mixing persists over the observation time.
@@ -352,7 +352,7 @@ nodes:
   primaryDomain: solutions-interfaces
   domains:
   - solutions-interfaces
-  level: 31
+  level: 37
   kind: structure
   conceptType: Electron-pair reaction framework
   summary: A framework in which a Lewis acid accepts an electron pair and a Lewis base donates one to form an adduct or participate in a reaction.
@@ -386,7 +386,7 @@ nodes:
   primaryDomain: solutions-interfaces
   domains:
   - solutions-interfaces
-  level: 29
+  level: 32
   kind: structure
   conceptType: Boundary region
   summary: The finite transition region between phases in which composition, structure, free energy, electric potential, and reaction environment
@@ -492,7 +492,7 @@ nodes:
   primaryDomain: solutions-interfaces
   domains:
   - solutions-interfaces
-  level: 32
+  level: 33
   kind: structure
   conceptType: Dispersed material system
   summary: A dispersed system whose particles or domains are large compared with molecules yet sufficiently small for interfacial and Brownian
@@ -528,7 +528,7 @@ nodes:
   primaryDomain: solutions-interfaces
   domains:
   - solutions-interfaces
-  level: 33
+  level: 34
   kind: structure
   conceptType: Self-assembled aggregate
   summary: A dynamic aggregate of surfactant molecules formed above condition-dependent association thresholds, with structure set by molecular

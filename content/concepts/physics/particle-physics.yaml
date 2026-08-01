@@ -72,7 +72,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 10
+    level: 11
     kind: structure
     conceptType: Mixing matrix
     summary: The unitary matrix relating down-type quark weak-interaction eigenstates to mass eigenstates in charged-current interactions.
@@ -306,7 +306,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 11
+    level: 13
     kind: structure
     conceptType: Particle class
     summary: 'A color-neutral spin-$1/2$ lepton with electric charge $-e$: electron, muon, or tau.'
@@ -407,7 +407,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 11
+    level: 12
     kind: structure
     conceptType: Particle class
     summary: 'A bosonic quantum associated with a gauge field: photons, gluons, and the $W$ and $Z$ bosons in the Standard Model.'
@@ -441,7 +441,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 11
+    level: 12
     kind: structure
     conceptType: Elementary particle class
     summary: A spin-one-half fermion that does not carry color charge; charged leptons and neutrinos occur in three generations.
@@ -522,7 +522,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 11
+    level: 14
     kind: structure
     conceptType: Elementary particle class
     summary: A color-charged spin-one-half fermion occurring in six flavors and confined into hadrons by QCD.
@@ -571,7 +571,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 15
     kind: structure
     conceptType: Elementary particle
     summary: A third-generation color-triplet quark with electric charge $-e/3$.
@@ -589,7 +589,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 15
     kind: structure
     conceptType: Elementary particle
     summary: A second-generation color-triplet quark with electric charge $+2e/3$.
@@ -607,7 +607,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Nonperturbative QCD phenomenon
     summary: The absence of isolated color-charged asymptotic states and formation of color-singlet hadrons at ordinary energies.
@@ -624,7 +624,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 15
     kind: structure
     conceptType: Elementary particle
     summary: A first-generation color-triplet quark with electric charge $-e/3$.
@@ -646,7 +646,7 @@ nodes:
       - atomic-structure-periodicity
       - quantum-chemistry-spectroscopy
       - electrochemistry
-    level: 12
+    level: 14
     kind: structure
     conceptType: Elementary particle
     summary: The lightest charged lepton, with negative elementary electric charge and spin one-half.
@@ -680,7 +680,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Elementary particle
     summary: The massless spin-1 quantum of the QCD gauge field. The eight gluon field components transform in the adjoint representation of $SU(3)_C$ and carry color charge.
@@ -716,7 +716,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 14
     kind: structure
     conceptType: Elementary particle
     summary: The second-generation charged lepton, unstable to weak decay.
@@ -733,7 +733,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Elementary particle class
     summary: An electrically neutral lepton occurring in three flavors; observed flavor oscillations imply nonzero neutrino masses beyond the minimal massless-neutrino Standard Model.
@@ -751,7 +751,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Quantum phenomenon
     summary: The distance- and energy-dependent change of neutrino flavor caused by coherent propagation of distinct mass eigenstates.
@@ -770,7 +770,7 @@ nodes:
       - particle-physics
       - quantum-chemistry-spectroscopy
       - chemical-kinetics-dynamics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Elementary particle
     summary: The massless spin-one gauge boson of unbroken electromagnetic $U(1)$. Photon excitations form electromagnetic radiation states, and photon propagators organize electromagnetic interactions in perturbative QED.
@@ -804,7 +804,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 15
     kind: structure
     conceptType: Elementary particle
     summary: A second-generation color-triplet quark with electric charge $-e/3$.
@@ -822,7 +822,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 14
     kind: structure
     conceptType: Elementary particle
     summary: The third-generation charged lepton, unstable to weak decay.
@@ -854,7 +854,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 15
     kind: structure
     conceptType: Elementary particle
     summary: A third-generation color-triplet quark with electric charge $+2e/3$.
@@ -872,7 +872,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 15
     kind: structure
     conceptType: Elementary particle
     summary: A first-generation color-triplet quark with electric charge $+2e/3$.
@@ -890,7 +890,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Elementary particle
     summary: A massive charged spin-one electroweak gauge boson whose field generates charged-current weak amplitudes.
@@ -908,7 +908,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 13
     kind: structure
     conceptType: Elementary particle
     summary: A massive neutral spin-one electroweak gauge boson whose field generates neutral-current weak amplitudes.
@@ -941,7 +941,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 15
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The neutrino flavor state produced with an electron in charged-current weak interactions.
@@ -973,7 +973,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 15
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The neutrino flavor state produced with a muon in charged-current weak interactions.
@@ -1006,7 +1006,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 13
+    level: 15
     kind: structure
     conceptType: Elementary particle flavor state
     summary: The neutrino flavor state produced with a tau in charged-current weak interactions.
@@ -1185,7 +1185,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 14
     kind: structure
     conceptType: Weak-interaction state basis
     summary: An electron-, muon-, or tau-flavor state defined by the charged-current interaction. Flavor states are coherent superpositions of neutrino mass eigenstates.
@@ -1202,7 +1202,7 @@ nodes:
     primaryDomain: particle-physics
     domains:
       - particle-physics
-    level: 12
+    level: 14
     kind: structure
     conceptType: Propagation eigenstate class
     summary: One of the propagation eigenstates conventionally labeled $\nu_1,\nu_2,\nu_3$, with definite mass in vacuum. Their coherent phases and PMNS amplitudes generate flavor oscillation.
@@ -1252,7 +1252,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 15
     kind: structure
     conceptType: Discovery experiment
     summary: J. J. Thomson’s deflection measurements showed that cathode rays consist of negatively charged particles with a common charge-to-mass ratio, establishing the electron as a constituent of matter.
@@ -1269,7 +1269,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 15
     kind: structure
     conceptType: Canonical measurement
     summary: Millikan and collaborators measured charges on suspended droplets and found them in integer multiples of an elementary charge, enabling a precision value of $e$.
@@ -1303,7 +1303,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 15
     kind: structure
     conceptType: Discovery experiment
     summary: Cloud-chamber cosmic-ray tracks revealed a charged particle heavier than the electron and lighter than the proton, later identified as the muon.
@@ -1371,7 +1371,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 14
+    level: 16
     kind: structure
     conceptType: Discovery experiment
     summary: A high-energy neutrino beam produced muons but not electrons at the expected rate, establishing the muon neutrino as distinct from the electron neutrino.
@@ -1423,7 +1423,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 11
+    level: 13
     kind: structure
     conceptType: Canonical experiment program
     summary: High-energy electron scattering from nucleons revealed approximately pointlike charged constituents and scaling behavior, establishing partonic nucleon structure and driving quark acceptance.
@@ -1441,7 +1441,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 12
+    level: 13
     kind: structure
     conceptType: Discovery experiment
     summary: The Gargamelle bubble chamber observed weak neutrino interactions without charged leptons, establishing neutral-current weak interactions predicted by electroweak theory.
@@ -1458,7 +1458,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 16
     kind: structure
     conceptType: Discovery experiment
     summary: Independent discoveries of a narrow $J/\psi$ resonance in 1974 established charmonium and transformed acceptance of the quark model and Standard Model.
@@ -1476,7 +1476,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 15
     kind: structure
     conceptType: Discovery experiment
     summary: Electron–positron collision events with missing energy revealed the tau, establishing a third charged-lepton species.
@@ -1493,7 +1493,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 16
     kind: structure
     conceptType: Discovery experiment
     summary: A narrow dimuon resonance near $9.5\,\mathrm{GeV}$ revealed bottomonium and established the bottom-quark flavor.
@@ -1510,7 +1510,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 14
     kind: structure
     conceptType: Discovery experiment
     summary: Three-jet electron–positron events at PETRA displayed hard gluon radiation and supplied direct evidence for the gluon and QCD’s vector gauge dynamics.
@@ -1528,7 +1528,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 14
     kind: structure
     conceptType: Discovery experiment program
     summary: Proton–antiproton collisions at CERN produced events with the masses and decay signatures predicted for the charged $W$ and neutral $Z$ weak bosons.
@@ -1546,7 +1546,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 11
+    level: 13
     kind: structure
     conceptType: Precision experiment program
     summary: LEP measurements of the $Z$ resonance, electroweak observables, and fermion production subjected the Standard Model to high-precision consistency tests.
@@ -1564,7 +1564,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 16
     kind: structure
     conceptType: Discovery experiment
     summary: The CDF and DØ collaborations observed top–antitop production in 1995, completing the third-generation quark doublet predicted by the Standard Model.
@@ -1582,7 +1582,7 @@ nodes:
     domains:
       - particle-physics
       - experiments-observations
-    level: 13
+    level: 14
     kind: structure
     conceptType: Discovery experiment
     summary: Super-Kamiokande observed a zenith-angle-dependent deficit of muon neutrinos, providing compelling evidence for atmospheric neutrino oscillations.

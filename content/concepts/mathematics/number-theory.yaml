@@ -696,7 +696,7 @@ nodes:
     domains:
       - number-theory
       - algebraic-geometry
-    level: 15
+    level: 16
     kind: structure
     summary: For a variety $X$ over a global field $K$ and a place $v$, a local point is a $K_v$-rational point of the base change $X_{K_v}$.
     carriers:

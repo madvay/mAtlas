@@ -23,7 +23,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 31
+  level: 36
   kind: structure
   conceptType: Bonding framework
   summary: A quantum description that builds molecular states from localized atomic-orbital configurations and their resonance among bonding patterns.
@@ -39,7 +39,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 31
+  level: 38
   kind: structure
   conceptType: Bonding framework
   summary: A quantum description using one-electron functions delocalized over a molecule as a basis for its many-electron state.
@@ -55,7 +55,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 32
+  level: 33
   kind: structure
   conceptType: Electron-bookkeeping model
   summary: A two-dimensional valence-electron representation showing bonds, lone pairs, and formal charges.
@@ -87,7 +87,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 33
+  level: 38
   kind: structure
   conceptType: Representation principle
   summary: Use of several contributing valence-bond structures to represent one delocalized quantum state, not rapid switching among classical
@@ -104,7 +104,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 33
+  level: 40
   kind: structure
   conceptType: Qualitative geometry model
   summary: A qualitative model that predicts many main-group geometries by arranging valence-shell electron domains to reduce repulsions.
@@ -120,7 +120,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 33
+  level: 36
   kind: structure
   conceptType: Localized-orbital model
   summary: A basis transformation among atomic orbitals used to construct directional localized orbitals; it is a model choice rather than a separately
@@ -153,7 +153,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 34
+  level: 35
   kind: structure
   conceptType: Bonding regime
   summary: A bond stabilized substantially by shared electron density between atomic centers.
@@ -169,7 +169,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 34
+  level: 35
   kind: structure
   conceptType: Bonding regime
   summary: Electrostatic stabilization in an assembly with substantial charge separation, usually coupled to short-range repulsion, polarization,
@@ -186,7 +186,7 @@ nodes:
   primaryDomain: molecular-structure-bonding
   domains:
   - molecular-structure-bonding
-  level: 35
+  level: 36
   kind: structure
   conceptType: Directional intermolecular or intramolecular interaction
   summary: An attractive, directional interaction involving a hydrogen atom bound to an electronegative center and another electron-rich region.

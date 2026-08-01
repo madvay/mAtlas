@@ -7,7 +7,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 1
+    level: 3
     kind: structure
     conceptType: Geometric physical framework
     summary: The four-dimensional collection of physical events in which temporal and spatial relations are represented together.
@@ -28,7 +28,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 2
+    level: 3
     kind: structure
     conceptType: Theory or framework
     summary: The relativistic framework for nongravitational physics in inertial frames, with invariant light speed and Lorentz symmetry.
@@ -48,7 +48,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 3
+    level: 4
     kind: structure
     conceptType: Theory or framework
     summary: Einstein’s classical theory of gravitation, in which gravity is represented by dynamical Lorentzian spacetime geometry.
@@ -70,7 +70,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 3
+    level: 4
     kind: structure
     conceptType: Geometric model
     summary: Flat four-dimensional spacetime equipped with the Lorentzian metric used by special relativity.
@@ -391,7 +391,7 @@ nodes:
     primaryDomain: relativity
     domains:
       - relativity
-    level: 1
+    level: 2
     kind: structure
     conceptType: Spacetime element
     summary: An idealized occurrence localized at a point of spacetime.
@@ -623,7 +623,7 @@ nodes:
     domains:
       - relativity
       - experiments-observations
-    level: 8
+    level: 9
     kind: structure
     conceptType: Canonical observational test
     summary: Long-term timing of PSR B1913+16 revealed orbital decay agreeing with general-relativistic energy loss by gravitational radiation.
@@ -640,7 +640,7 @@ nodes:
     domains:
       - relativity
       - experiments-observations
-    level: 9
+    level: 10
     kind: structure
     conceptType: Canonical observational test
     summary: LIGO observed a transient waveform from a binary-black-hole merger in 2015, the first direct detection of gravitational waves and a strong-field test of general relativity.
@@ -759,7 +759,7 @@ nodes:
       - relativity
       - quantum-field-theory
       - cosmology
-    level: 9
+    level: 11
     kind: junction
     summary: Compatibility construction for the semiclassical prediction of Hawking radiation.
     carriers: []
@@ -790,7 +790,7 @@ nodes:
       - relativity
       - quantum-field-theory
       - cosmology
-    level: 10
+    level: 12
     kind: structure
     conceptType: Semiclassical prediction
     summary: Quantum fields on a black-hole background predict approximately thermal radiation at infinity, with temperature set by surface gravity in the stationary case.

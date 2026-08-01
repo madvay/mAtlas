@@ -7,7 +7,7 @@ nodes:
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
-    level: 0
+    level: 1
     kind: structure
     conceptType: Entity or system
     summary: A delimited portion or idealized part of the physical world selected for description by a physical theory or model.
@@ -28,7 +28,7 @@ nodes:
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
-    level: 0
+    level: 1
     kind: structure
     conceptType: Theory or framework
     summary: A mathematically expressed, empirically constrained framework that represents classes of physical systems and predicts relations among measurable quantities.
@@ -50,7 +50,7 @@ nodes:
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
-    level: 1
+    level: 2
     kind: structure
     conceptType: Law or relation
     summary: A compact relation or rule describing a stable regularity of physical systems within a stated domain of validity.
@@ -66,7 +66,7 @@ nodes:
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
-    level: 1
+    level: 2
     kind: structure
     conceptType: Physical quantity
     summary: A measurable or theoretically defined property represented by a value, unit, tensor, operator, field, or distribution.
@@ -97,7 +97,7 @@ nodes:
     primaryDomain: physical-foundations
     domains:
       - physical-foundations
-    level: 2
+    level: 3
     kind: structure
     conceptType: Physical quantity
     summary: A quantity represented by a theory and connected to a possible measurement outcome or statistical distribution.

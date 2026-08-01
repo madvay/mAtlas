@@ -182,7 +182,7 @@ nodes:
     primaryDomain: atomic-molecular-physics
     domains:
       - atomic-molecular-physics
-    level: 27
+    level: 28
     kind: structure
     conceptType: Precision correction framework
     summary: Radiative and vacuum effects from QED added to bound-state energies and transition amplitudes, including self-energy and vacuum polarization.
@@ -756,7 +756,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 33
+    level: 34
     kind: structure
     conceptType: Self-consistent-field approximation
     summary: A variational single-Slater-determinant method including exchange exactly within that determinant but omitting correlation beyond it.
@@ -881,7 +881,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 34
+    level: 35
     kind: structure
     conceptType: Many-body approximation method
     summary: A variational expansion of an atomic state in multiple configuration-state functions, recovering correlation within the chosen basis and excitation space.
@@ -898,7 +898,7 @@ nodes:
     domains:
       - atomic-molecular-physics
       - quantum-chemistry-spectroscopy
-    level: 34
+    level: 35
     kind: structure
     conceptType: Many-body approximation method
     summary: An exponential correlated-wavefunction method with systematic truncations such as singles and doubles, widely used for high-accuracy electronic structure.

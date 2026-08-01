@@ -253,7 +253,7 @@ nodes:
   primaryDomain: analytical-chemistry
   domains:
   - analytical-chemistry
-  level: 36
+  level: 40
   kind: structure
   conceptType: Optical measurement method
   summary: Quantitative measurement of transmitted, absorbed, emitted, or reflected radiant power as a function of wavelength.

@@ -73,7 +73,7 @@ nodes:
   primaryDomain: inorganic-coordination-chemistry
   domains:
   - inorganic-coordination-chemistry
-  level: 36
+  level: 39
   kind: structure
   conceptType: Chemical entity
   summary: A molecular or ionic entity containing a central atom bonded to a surrounding set of ligands.

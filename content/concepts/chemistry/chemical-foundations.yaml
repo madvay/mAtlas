@@ -265,7 +265,7 @@ nodes:
   primaryDomain: chemical-foundations
   domains:
   - chemical-foundations
-  level: 27
+  level: 41
   kind: structure
   conceptType: Reaction representation
   summary: A symbolic representation of a chemical transformation whose coefficients encode relative stoichiometric amounts and whose notation

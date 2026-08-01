@@ -25,7 +25,7 @@ nodes:
     domains:
       - cosmology
       - relativity
-    level: 4
+    level: 5
     kind: structure
     conceptType: Cosmological geometry
     summary: A homogeneous and isotropic spacetime geometry with a time-dependent scale factor and constant-curvature spatial slices.
@@ -95,7 +95,7 @@ nodes:
     domains:
       - cosmology
       - experiments-observations
-    level: 8
+    level: 10
     kind: structure
     conceptType: Cosmological observation
     summary: Nearly thermal microwave radiation released when the primordial plasma became transparent, carrying anisotropy and polarization information about the early universe.

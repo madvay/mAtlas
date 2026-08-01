@@ -55,7 +55,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 31
+  level: 34
   kind: structure
   conceptType: Kinetic relation
   summary: A mathematical relation between reaction rate and state variables or species activities, determined by mechanism or experiment rather
@@ -88,7 +88,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 32
+  level: 40
   kind: structure
   conceptType: Process model
   summary: An ordered network of elementary or effective steps proposed to account for products, intermediates, kinetics, stereochemistry, and
@@ -155,7 +155,7 @@ nodes:
   primaryDomain: chemical-kinetics-dynamics
   domains:
   - chemical-kinetics-dynamics
-  level: 33
+  level: 41
   kind: structure
   conceptType: Kinetic approximation
   summary: An approximation setting selected intermediate production and consumption nearly equal after an initial transient.

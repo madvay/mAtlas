@@ -36,7 +36,7 @@ nodes:
       - algebraic-geometry
       - topology
       - category-theory
-    level: 6
+    level: 7
     kind: structure
     summary: A presheaf on a site satisfying the local identity and unique gluing condition for every cover.
     carriers:
@@ -61,7 +61,7 @@ nodes:
       - algebraic-geometry
       - topology
       - algebra
-    level: 7
+    level: 8
     kind: structure
     summary: A sheaf whose sections form groups and whose restriction maps are homomorphisms.
     carriers:
@@ -86,7 +86,7 @@ nodes:
       - algebraic-geometry
       - topology
       - algebra
-    level: 7
+    level: 8
     kind: structure
     summary: A sheaf whose sections form rings and whose restrictions are ring homomorphisms.
     carriers:
@@ -111,7 +111,7 @@ nodes:
       - algebraic-geometry
       - topology
       - algebra
-    level: 8
+    level: 10
     kind: structure
     summary: A topological space equipped with a sheaf of rings.
     carriers:
@@ -135,7 +135,7 @@ nodes:
       - algebraic-geometry
       - topology
       - algebra
-    level: 8
+    level: 9
     kind: junction
     summary: Compatibility construction producing Ringed space.
     carriers: []
@@ -164,7 +164,7 @@ nodes:
       - algebraic-geometry
       - algebra
       - number-theory
-    level: 9
+    level: 10
     kind: structure
     summary: A commutative ring with exactly one maximal ideal.
     carriers:
@@ -190,7 +190,7 @@ nodes:
       - algebraic-geometry
       - topology
       - algebra
-    level: 9
+    level: 11
     kind: structure
     summary: A ringed space whose stalks are local rings.
     carriers:
@@ -262,7 +262,7 @@ nodes:
     domains:
       - algebraic-geometry
       - algebra
-    level: 10
+    level: 11
     kind: junction
     summary: Compatibility construction producing Regular local ring.
     carriers: []
@@ -290,7 +290,7 @@ nodes:
       - algebraic-geometry
       - topology
       - algebra
-    level: 10
+    level: 12
     kind: structure
     summary: A locally ringed space locally isomorphic to affine schemes.
     carriers:
@@ -315,7 +315,7 @@ nodes:
       - algebraic-geometry
       - algebra
       - topology
-    level: 11
+    level: 13
     kind: structure
     summary: A locally ringed space isomorphic to $\operatorname{Spec}(R)$ for a commutative ring $R$.
     carriers:
@@ -339,7 +339,7 @@ nodes:
     domains:
       - algebraic-geometry
       - algebra
-    level: 11
+    level: 12
     kind: structure
     summary: A Noetherian local ring $(R,\mathfrak m)$ whose Krull dimension equals the dimension of its Zariski cotangent space $\mathfrak m/\mathfrak m^2$ over the residue field $R/\mathfrak m$.
     carriers:
@@ -414,7 +414,7 @@ nodes:
     domains:
       - algebraic-geometry
       - topology
-    level: 12
+    level: 13
     kind: structure
     summary: A quasi-compact locally Noetherian scheme.
     carriers:
@@ -439,7 +439,7 @@ nodes:
     domains:
       - algebraic-geometry
       - algebra
-    level: 12
+    level: 13
     kind: structure
     summary: A scheme whose local rings contain no nonzero nilpotents.
     carriers:
@@ -462,7 +462,7 @@ nodes:
     domains:
       - algebraic-geometry
       - algebra
-    level: 12
+    level: 13
     kind: junction
     summary: Compatibility construction producing Algebraic variety.
     carriers: []
@@ -490,7 +490,7 @@ nodes:
     domains:
       - algebraic-geometry
       - topology
-    level: 12
+    level: 13
     kind: structure
     summary: A scheme whose structure morphism $X\to \operatorname{Spec}(\mathbb{Z})$ is separated.
     carriers:
@@ -511,7 +511,7 @@ nodes:
     primaryDomain: algebraic-geometry
     domains:
       - algebraic-geometry
-    level: 13
+    level: 14
     kind: structure
     summary: Under the adopted Stacks Project convention, an integral separated scheme of finite type over a field.
     carriers:
@@ -539,7 +539,7 @@ nodes:
     domains:
       - algebraic-geometry
       - algebra
-    level: 13
+    level: 14
     kind: structure
     summary: A nonempty scheme that is reduced and irreducible.
     carriers:
@@ -716,7 +716,7 @@ nodes:
       - algebraic-geometry
       - number-theory
       - algebra
-    level: 14
+    level: 15
     kind: structure
     summary: For a nondegenerate quadratic form $q$ of dimension at least three over a field of characteristic not two, the projective zero locus $q=0$ is a smooth projective quadric and a geometrically integral variety.
     carriers:

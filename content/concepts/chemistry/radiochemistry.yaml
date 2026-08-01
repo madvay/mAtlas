@@ -24,7 +24,7 @@ nodes:
   primaryDomain: radiochemistry
   domains:
   - radiochemistry
-  level: 30
+  level: 31
   kind: structure
   conceptType: Nuclear chemical entity
   summary: A nuclide in a specified nuclear energy state that is radioactive, identified by proton number, mass number, and state where required.
@@ -140,7 +140,7 @@ nodes:
   primaryDomain: radiochemistry
   domains:
   - radiochemistry
-  level: 37
+  level: 40
   kind: structure
   conceptType: Functional chemical product
   summary: A medicinal preparation containing a radionuclide in a chemical form designed for diagnostic measurement or targeted therapy.

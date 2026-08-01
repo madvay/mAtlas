@@ -7,7 +7,7 @@ nodes:
   primaryDomain: chemical-thermodynamics-equilibrium
   domains:
   - chemical-thermodynamics-equilibrium
-  level: 24
+  level: 25
   kind: structure
   conceptType: Disciplinary framework
   summary: Thermodynamic description of composition-changing systems, phase behavior, reaction energetics, and chemical equilibrium.
@@ -111,7 +111,7 @@ nodes:
   primaryDomain: chemical-thermodynamics-equilibrium
   domains:
   - chemical-thermodynamics-equilibrium
-  level: 28
+  level: 29
   kind: structure
   conceptType: Measurement method class
   summary: Determination of heat exchanged by a process from temperature change and a calibrated thermal model of the apparatus and surroundings.

@@ -24,7 +24,7 @@ nodes:
     primaryDomain: electromagnetism
     domains:
       - electromagnetism
-    level: 11
+    level: 13
     kind: structure
     conceptType: Classical field theory
     summary: The classical theory of electric and magnetic fields, charges, currents, radiation, and their Maxwell–Lorentz dynamics.
@@ -57,7 +57,7 @@ nodes:
     domains:
       - electromagnetism
       - quantum-chemistry-spectroscopy
-    level: 12
+    level: 13
     kind: structure
     conceptType: Classical field
     summary: The antisymmetric field-strength tensor $F_{\mu\nu}$, or equivalently electric and magnetic fields relative to an observer.
