@@ -9,7 +9,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 23
+    level: 18
     kind: structure
     conceptType: Macroscopic physical system
     summary: A selected quantity of matter or region of space separated conceptually from its surroundings by a boundary. The permitted exchange of energy and matter distinguishes isolated, closed, and open systems.
@@ -26,7 +26,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 24
+    level: 19
     kind: structure
     conceptType: Macroscopic state description
     summary: A macroscopic condition specified by a sufficient set of state variables. A thermodynamic state deliberately omits most microscopic coordinates and does not identify a unique microstate.
@@ -43,7 +43,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 25
+    level: 20
     kind: structure
     conceptType: Thermodynamic-state class
     summary: A state with no unresolved macroscopic tendency to change under the imposed constraints, requiring thermal, mechanical, chemical, and phase equilibrium where those modes of exchange are available.
@@ -60,7 +60,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 25
+    level: 20
     kind: structure
     conceptType: Macroscopic observable
     summary: A macroscopic quantity used to specify equilibrium states, such as internal energy, entropy, volume, pressure, particle number, or temperature. State variables may be extensive or intensive and are constrained by equations of state.
@@ -97,7 +97,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 25
+    level: 20
     kind: structure
     conceptType: Intensive state variable
     summary: The intensive variable that equalizes between systems in mutual thermal equilibrium. In equilibrium statistical mechanics, inverse temperature is the variable conjugate to energy under the appropriate entropy representation.
@@ -115,7 +115,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 24
+    level: 19
     kind: structure
     conceptType: Thermodynamic law
     summary: If two systems are separately in thermal equilibrium with a third, they are in thermal equilibrium with each other. This transitive relation supports consistent empirical temperature scales.
@@ -133,7 +133,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 24
+    level: 19
     kind: structure
     conceptType: Thermodynamic law
     summary: 'Energy conservation for thermodynamic processes: the change in internal energy equals energy transferred as heat and work, with signs fixed by convention. Heat and work describe transfer paths rather than stored state variables.'
@@ -151,7 +151,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 24
+    level: 19
     kind: structure
     conceptType: Thermodynamic law
     summary: 'A law constraining spontaneous macroscopic processes: the entropy of an isolated system does not decrease, with equality for an ideal reversible process. Equivalent formulations restrict cyclic conversion of heat into work.'
@@ -240,7 +240,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 24
+    level: 19
     kind: structure
     conceptType: Macroscopic effective theory
     summary: The macroscopic theory of equilibrium states, state functions, reversible comparison paths, and constraints on processes. It is largely insensitive to microscopic constitution but correspondingly omits microscopic fluctuations and detailed relaxation dynamics.
@@ -256,7 +256,7 @@ nodes:
     primaryDomain: thermodynamics-statistical-mechanics
     domains:
       - thermodynamics-statistical-mechanics
-    level: 24
+    level: 19
     kind: structure
     conceptType: Coarse-grained state space
     summary: The state space defined by selected macroscopic observables or coarse-grained fields. Many microscopically distinct states can correspond to the same macrostate.
@@ -341,7 +341,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 26
+    level: 21
     kind: structure
     conceptType: Extensive state function
     summary: A thermodynamic state function whose reversible differential heat transfer satisfies $\mathrm dS=\delta Q_{\mathrm{rev}}/T$ for a simple closed system. Entropy change is defined independently of whether an actual process is reversible.
@@ -359,7 +359,7 @@ nodes:
     domains:
       - thermodynamics-statistical-mechanics
       - chemical-thermodynamics-equilibrium
-    level: 27
+    level: 22
     kind: structure
     conceptType: Thermodynamic potential
     summary: The potential $F=U-TS$, natural for fixed temperature, volume, and particle number. Under those constraints, stable equilibrium minimizes $F$ relative to allowed states.
