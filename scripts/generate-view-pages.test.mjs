@@ -19,6 +19,7 @@ test('view page generator emits a directory and crawlable static routes', async 
 
     const index = await readFile(new URL('views/index.html', distUrl), 'utf8');
     assert.match(index, /Stories &amp; Views/);
+    assert.ok(index.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/views/index.html.md"'));
     assert.ok(index.includes('href="/guide/"'));
     assert.ok(index.includes('prefers-color-scheme: dark'));
     assert.match(index, /Local arithmetic and the 𝑝-adic world/);
@@ -41,6 +42,7 @@ test('view page generator emits a directory and crawlable static routes', async 
       assert.ok(html.includes(view.narrative));
       assert.match(html, /<base href="\.\.\/\.\.\/">/);
       assert.match(html, /<script id="view-page-jsonld" type="application\/ld\+json">/);
+      assert.ok(html.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/views/${encodeURIComponent(view.id)}/index.html.md"`));
     }
   } finally {
     await rm(directory, { recursive: true, force: true });

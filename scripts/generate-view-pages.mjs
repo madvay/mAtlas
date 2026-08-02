@@ -54,6 +54,7 @@ function renderStaticBanner(view, graphData) {
 
 function renderViewPage(templateHtml, graphData, view) {
   const canonicalUrl = appUrl(viewPath(view.id));
+  const markdownUrl = `${canonicalUrl}index.html.md`;
   const pageTitle = `${view.title} — ${graphData.meta.title}`;
   let html = templateHtml;
   html = replaceFirst(html, /<title>[^<]*<\/title>/, `<title>${escapeHtml(pageTitle)}</title>`);
@@ -87,7 +88,7 @@ function renderViewPage(templateHtml, graphData, view) {
       }))
     } } : {})
   };
-  return html.replace('</head>', `  <script id="view-page-jsonld" type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n  </script>\n</head>`);
+  return html.replace('</head>', `  <link rel="alternate" type="text/markdown" href="${escapeHtml(markdownUrl)}" title="Markdown story or view record">\n  <script id="view-page-jsonld" type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n  </script>\n</head>`);
 }
 
 function renderViewCard(view) {
@@ -103,10 +104,11 @@ function renderViewCard(view) {
 
 function renderViewIndex(graphData, viewsData) {
   const canonicalUrl = appUrl('views/');
+  const markdownUrl = `${canonicalUrl}index.html.md`;
   const featured = viewsData.views.filter((view) => view.featured);
   const other = viewsData.views.filter((view) => !view.featured);
   const section = (title, views) => `<section><h2>${escapeHtml(title)}</h2><div class="grid">${views.map(renderViewCard).join('')}</div></section>`;
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Curated stories and views through the Atlas of Fundamental Concepts."><link rel="canonical" href="${canonicalUrl}"><title>Stories &amp; Views — ${escapeHtml(graphData.meta.title)}</title><meta name="theme-color" content="#f6f7f9">${themeBootstrapScript}<style>
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Curated stories and views through the Atlas of Fundamental Concepts."><link rel="canonical" href="${canonicalUrl}"><link rel="alternate" type="text/markdown" href="${markdownUrl}" title="Markdown Stories and Views directory"><title>Stories &amp; Views — ${escapeHtml(graphData.meta.title)}</title><meta name="theme-color" content="#f6f7f9">${themeBootstrapScript}<style>
   ${staticThemeCss}:root{font-family:Inter,system-ui,sans-serif;color:var(--text);background:var(--page-bg)}body{margin:0}main{max-width:1180px;margin:auto;padding:2rem 1rem 4rem}header{margin-bottom:2rem}h1{margin:.25rem 0;font-size:2rem}header p{max-width:760px;color:var(--muted);line-height:1.55}.home{color:var(--link);text-decoration:none;font-weight:650}section{margin-top:2.2rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}article{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}article>div{padding:1rem}article img{width:100%;aspect-ratio:16/8;object-fit:cover}article h2{font-size:1.05rem;margin:0 0 .5rem}article h2 a{color:var(--text);text-decoration:none}article p{color:var(--muted);font-size:.9rem;line-height:1.5;min-height:4.1em}.view-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin:.8rem 0}.view-tags span{font-size:.72rem;padding:.2rem .5rem;border-radius:999px;background:var(--accent-soft);color:var(--accent-text)}.open{display:inline-block;margin-top:.25rem;color:white;background:var(--primary);border-radius:8px;padding:.55rem .8rem;text-decoration:none;font-weight:700;font-size:.85rem}
   </style></head><body><main><header><a class="home" href="/">← Atlas home</a> · <a class="home" href="/guide/">User guide</a> · <a class="home" href="/directory/">Atlas directory</a><h1>Stories &amp; Views</h1><p>Views apply curated filters, relation types, and display settings. Stories add a numbered concept sequence with Previous and Next navigation. You can adjust either while keeping its URL as long as its required nodes remain visible.</p></header>${section('Featured stories and views', featured)}${other.length ? section('More stories and views', other) : ''}</main></body></html>`;
 }

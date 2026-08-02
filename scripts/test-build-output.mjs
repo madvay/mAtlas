@@ -10,13 +10,34 @@ const removedDomains = JSON.parse(await readFile(new URL('.build/content/removed
 const manifest = JSON.parse(await readFile(new URL('asset-manifest.json', dist), 'utf8'));
 const sitemap = await readFile(new URL('sitemap.xml', dist), 'utf8');
 const llms = await readFile(new URL('llms.txt', dist), 'utf8');
+const llmsContext = await readFile(new URL('llms-context.txt', dist), 'utf8');
+const llmsContextFull = await readFile(new URL('llms-context-full.txt', dist), 'utf8');
 const openSearch = await readFile(new URL('opensearch.xml', dist), 'utf8');
 const atlasSvg = await readFile(new URL('static/atlas.svg', dist), 'utf8');
 const directoryPage = await readFile(new URL('directory/index.html', dist), 'utf8');
+const directoryMarkdown = await readFile(new URL('directory/index.html.md', dist), 'utf8');
 const guidePage = await readFile(new URL('guide/index.html', dist), 'utf8');
+const guideMarkdown = await readFile(new URL('guide/index.html.md', dist), 'utf8');
 const conceptsIndex = await readFile(new URL('concepts/index.html', dist), 'utf8');
+const conceptsMarkdown = await readFile(new URL('concepts/index.html.md', dist), 'utf8');
 const viewIndex = await readFile(new URL('views/index.html', dist), 'utf8');
+const viewsMarkdown = await readFile(new URL('views/index.html.md', dist), 'utf8');
+const rootMarkdown = await readFile(new URL('index.html.md', dist), 'utf8');
 const appIndex = await readFile(new URL('index.html', dist), 'utf8');
+const dataManifest = JSON.parse(await readFile(new URL('data/latest/manifest.json', dist), 'utf8'));
+const dataPage = await readFile(new URL('data/index.html', dist), 'utf8');
+const dataMarkdown = await readFile(new URL('data/index.html.md', dist), 'utf8');
+const citationCff = await readFile(new URL('CITATION.cff', dist), 'utf8');
+const citation = JSON.parse(await readFile(new URL('citation.json', dist), 'utf8'));
+const openApi = JSON.parse(await readFile(new URL('openapi.json', dist), 'utf8'));
+const aiPage = await readFile(new URL('ai/index.html', dist), 'utf8');
+const aiMarkdown = await readFile(new URL('ai/index.html.md', dist), 'utf8');
+const aiSkill = await readFile(new URL('ai/skills/matlas/SKILL.md', dist), 'utf8');
+const workbenchPage = await readFile(new URL('ai/workbench/index.html', dist), 'utf8');
+const aiBundle = await readFile(new URL('ai/matlas-ai-bundle.zip', dist));
+const vocabularyPage = await readFile(new URL('vocab/index.html', dist), 'utf8');
+const vocabularyMarkdown = await readFile(new URL('vocab/index.html.md', dist), 'utf8');
+const vocabularyJson = JSON.parse(await readFile(new URL('vocab/matlas.jsonld', dist), 'utf8'));
 
 async function assertMissing(url, message) {
   try {
@@ -55,14 +76,53 @@ assertCacheRecovery(appIndex, 'The application root');
 if (!appIndex.includes('rel="search" type="application/opensearchdescription+xml"')) throw new Error('The application does not advertise OpenSearch discovery.');
 if (!appIndex.includes('class="skip-link"')) throw new Error('The application lacks a keyboard skip link.');
 if (!openSearch.includes('<OpenSearchDescription') || !openSearch.includes('?q={searchTerms}')) throw new Error('opensearch.xml is incomplete.');
-if (manifest.version !== 4) throw new Error('asset-manifest.json does not use the search-index-free content format.');
+if (manifest.version !== 6) throw new Error('asset-manifest.json does not use the AI-publication content format.');
 for (const key of ['graph', 'schema', 'views', 'shareCodec', 'provenance']) {
   if (!manifest.assets?.[key]?.startsWith('content/')) throw new Error(`asset-manifest.json does not publish ${key} under content/.`);
 }
 const publishedShareCodec = JSON.parse(await readFile(new URL(manifest.assets.shareCodec, dist), 'utf8'));
 if (JSON.stringify(publishedShareCodec) !== JSON.stringify(shareCodec)) throw new Error('The published share codec differs from compiled content.');
 if (!appIndex.includes(manifest.assets.shareCodec)) throw new Error('The application page does not link to the published share codec.');
-await assertMissing(new URL('data/', dist), 'The build still emits the retired /data/ directory.');
+if (manifest.assets?.data?.landing !== 'data/' || manifest.assets.data.manifest !== 'data/latest/manifest.json' || manifest.assets.data.sqlite !== 'data/latest/matlas.sqlite' || manifest.assets.data.jsonld !== 'data/latest/matlas.jsonld') throw new Error('asset-manifest.json does not expose the stable data publication.');
+if (manifest.assets?.ai?.landing !== 'ai/' || manifest.assets.ai.bundle !== 'ai/matlas-ai-bundle.zip' || manifest.assets.ai.workbench !== 'ai/workbench/' || manifest.assets.ai.pythonSdk !== 'ai/sdk/matlas.py' || manifest.assets.ai.vocabulary !== 'vocab/' || manifest.assets.ai.vocabularyJsonLd !== 'vocab/matlas.jsonld' || !manifest.assets.ai.workbenchScript?.startsWith('assets/ai-workbench.')) throw new Error('asset-manifest.json does not expose the static AI integration publication.');
+if (manifest.assets?.markdown?.directory !== 'directory/index.html.md' || manifest.assets?.llms?.contextFull !== 'llms-context-full.txt') throw new Error('asset-manifest.json does not expose the Markdown and AI-context publication routes.');
+if (dataManifest.formatVersion !== 2 || dataManifest.contentVersion !== compiledProvenance.contentVersion || dataManifest.schemaVersion !== compiledProvenance.schemaVersion || dataManifest.license?.attribution !== graphData.meta.attribution || dataManifest.retention?.urlStability !== 'latest-only' || dataManifest.retention?.versionedSnapshots !== false) throw new Error('The current data manifest has the wrong content contract versions, license metadata, or retention policy.');
+for (const [key, compiledFile] of [['atlas', 'atlas.json'], ['schema', 'schema.json'], ['views', 'views.json'], ['shareCodec', 'share-codec.json'], ['provenance', 'provenance.json']]) {
+  const distribution = dataManifest.distributions?.[key];
+  if (!distribution?.contentUrl?.endsWith(`/data/latest/${key === 'shareCodec' ? 'share-codec' : key}.json`) && !(key === 'provenance' && distribution?.contentUrl?.endsWith('/data/latest/provenance.json'))) throw new Error(`The stable data manifest lacks ${key}.`);
+  const stableBytes = await readFile(new URL(`data/latest/${compiledFile}`, dist), 'utf8');
+  const compiledBytes = await readFile(new URL(`.build/content/${compiledFile}`, root), 'utf8');
+  if (stableBytes !== compiledBytes) throw new Error(`Stable ${key} data differs from its compiled content artifact.`);
+}
+for (const [key, file] of [['conceptsNdjson', 'concepts.ndjson'], ['relationsNdjson', 'relations.ndjson'], ['sourcesNdjson', 'sources.ndjson'], ['domainsNdjson', 'domains.ndjson'], ['fieldsNdjson', 'fields.ndjson'], ['relationTypesNdjson', 'relation-types.ndjson'], ['sqlite', 'matlas.sqlite'], ['jsonld', 'matlas.jsonld'], ['turtle', 'matlas.ttl']]) {
+  const distribution = dataManifest.distributions?.[key];
+  if (!distribution?.contentUrl?.endsWith(`/data/latest/${file}`) || 'versionUrl' in distribution || 'immutableUrl' in distribution || !/^[0-9a-f]{64}$/.test(distribution.sha256 ?? '')) throw new Error(`The current data manifest lacks a valid ${key} distribution.`);
+  await access(new URL(`data/latest/${file}`, dist));
+}
+const sqliteBytes = await readFile(new URL('data/latest/matlas.sqlite', dist));
+if (sqliteBytes.subarray(0, 16).toString('utf8') !== 'SQLite format 3\u0000') throw new Error('The published SQLite distribution is not a SQLite database.');
+const conceptNdjson = await readFile(new URL('data/latest/concepts.ndjson', dist), 'utf8');
+if (!conceptNdjson.startsWith('{') || !conceptNdjson.includes('"recordType":"publication_metadata"') || !conceptNdjson.includes(graphData.meta.attribution)) throw new Error('The concept NDJSON distribution lacks publication metadata and attribution.');
+const jsonld = JSON.parse(await readFile(new URL('data/latest/matlas.jsonld', dist), 'utf8'));
+const turtle = await readFile(new URL('data/latest/matlas.ttl', dist), 'utf8');
+if (jsonld['@type'] !== 'matlas:AtlasGraph' || !Array.isArray(jsonld['@graph']) || !turtle.includes(graphData.meta.attribution)) throw new Error('The RDF graph distributions lack their graph contract or attribution.');
+if (!dataManifest.recordEndpoints?.concepts?.contentUrlTemplate?.includes('{conceptId}') || !dataManifest.recordEndpoints?.concepts?.relationsUrlTemplate?.includes('{conceptId}') || !dataManifest.recordEndpoints?.domains?.contentUrlTemplate?.includes('{domainId}') || !dataManifest.recordEndpoints?.relationTypes?.contentUrlTemplate?.includes('{relationTypeId}')) throw new Error('The stable data manifest lacks predictable per-record endpoints.');
+if (!dataPage.includes('"@type":"Dataset"') || !dataPage.includes('"@type":"DataDownload"') || !dataPage.includes('data/latest/manifest.json')) throw new Error('The dataset landing page lacks Dataset/DataDownload structured data or its stable manifest link.');
+if (!dataPage.includes('rel="alternate" type="text/markdown"') || !dataMarkdown.includes('## Current downloads')) throw new Error('The dataset landing page lacks its Markdown equivalent.');
+if (!dataPage.includes('https://github.com/madvay/mAtlas/blob/main/LICENSE')) throw new Error('The dataset landing-page footer lacks the repository license.');
+await assertMissing(new URL(`data/${encodeURIComponent(dataManifest.contentVersion)}/manifest.json`, dist), 'A non-retained versioned data manifest was published.');
+if (!citationCff.includes(`version: "${dataManifest.contentVersion}"`) || !citationCff.includes(graphData.meta.attribution) || citation.copyrightNotice !== graphData.meta.attribution || citation.license !== graphData.meta.licenseUrl) throw new Error('The published citation metadata lacks version, license, or attribution.');
+if (openApi.openapi !== '3.1.0' || openApi['x-matlas-static-only'] !== true || !openApi.paths?.['/data/latest/concepts/{conceptId}.json']?.get || !openApi.paths?.['/data/latest/concepts/{conceptId}/relations.json']?.get || Object.values(openApi.paths ?? {}).some((pathItem) => Object.keys(pathItem).some((method) => method !== 'get'))) throw new Error('The OpenAPI document does not describe only static GET resources.');
+if (!aiPage.includes('matlas-ai-bundle.zip') || !aiPage.includes(graphData.meta.attribution) || !aiMarkdown.includes('Browser-local workbench') || !aiSkill.includes('name: matlas') || !aiSkill.includes(graphData.meta.attribution)) throw new Error('The AI landing page, Markdown, or Agent Skill lacks its integration contract or attribution.');
+if (!aiPage.includes('https://github.com/madvay/mAtlas/blob/main/LICENSE') || !workbenchPage.includes('https://github.com/madvay/mAtlas/blob/main/LICENSE')) throw new Error('The AI and workbench footers lack the repository license.');
+for (const text of [aiMarkdown, aiSkill]) if (!text.includes('License URL: https://github.com/madvay/mAtlas/blob/main/LICENSE')) throw new Error('Mixed software/content Markdown must link to the repository license.');
+if (!vocabularyPage.includes(graphData.meta.attribution) || !vocabularyPage.includes(graphData.meta.licenseUrl) || !vocabularyMarkdown.includes('## Relation types') || !vocabularyMarkdown.includes(`License URL: ${graphData.meta.licenseUrl}`) || vocabularyJson['@type'] !== 'DefinedTermSet' || !Array.isArray(vocabularyJson.hasDefinedTerm)) throw new Error('The relation vocabulary lacks a published, CC BY-SA-attributed controlled-vocabulary contract.');
+if (!workbenchPage.includes('data-atlas-url="/data/latest/atlas.json"') || !workbenchPage.includes('toolname="search_concepts"') || !workbenchPage.includes('toolname="find_paths"') || !workbenchPage.includes(`src="/${manifest.assets.ai.workbenchScript}"`)) throw new Error('The static workbench lacks accessible local-data or progressive-tool integration.');
+if (aiBundle.subarray(0, 4).toString('binary') !== 'PK\u0003\u0004') throw new Error('The AI bundle is not a ZIP archive.');
+const aiBundleText = aiBundle.toString('utf8');
+for (const pathname of ['README.md', 'SKILL.md', 'CITATION.cff', 'LICENSE', 'CONTENT_LICENSE', 'openapi.json', 'data/matlas.sqlite', 'data/matlas.jsonld', 'data/matlas.ttl', 'sdk/matlas.py', 'sdk/matlas.mjs']) {
+  if (!aiBundleText.includes(pathname)) throw new Error(`The AI bundle omits ${pathname}.`);
+}
 await assertMissing(new URL('content/removed-domains.json', dist), 'Build-only removed-domain metadata was published at runtime.');
 if ('removedDomains' in (manifest.assets ?? {})) throw new Error('asset-manifest.json exposes build-only removed-domain metadata.');
 if (graphData.domains.foundation) throw new Error('Foundation remains an active runtime domain.');
@@ -107,6 +167,9 @@ if (!appIndex.includes('id="mobileViewContext"')) throw new Error('The applicati
 if (!appIndex.includes('id="searchResults"') || !appIndex.includes('role="combobox"')) throw new Error('The application template lacks the accessible search suggestions UI.');
 if (appIndex.includes('id="conceptNames"')) throw new Error('The application still contains the retired empty search datalist.');
 if (!appIndex.includes('href="/directory/"')) throw new Error('The application omits the atlas directory link.');
+if (!appIndex.includes('href="/data/"')) throw new Error('The application omits the published dataset link.');
+if (!appIndex.includes('href="/ai/"') || !appIndex.includes('href="/ai/workbench/"')) throw new Error('The application omits the static AI integration or local workbench links.');
+if (!appIndex.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/index.html.md"')) throw new Error('The application root does not advertise its Markdown equivalent.');
 if (appIndex.includes('href="/static/atlas/"')) throw new Error('The application still links to the retired static atlas page.');
 if (!appIndex.includes('href="/guide/"')) throw new Error('The application does not link to the user guide.');
 if (!appIndex.includes('href="/static/atlas.svg"')) throw new Error('The application data panel omits the stable all-in SVG link.');
@@ -166,11 +229,14 @@ if (!appJs.includes('prohibitedDomains') || !appJs.includes('data-suppression'))
 if (!appCss.includes('.mobile-view-context') || !appCss.includes('.view-banner-mobile')) throw new Error('The application stylesheet lacks the thin-screen guided-view surfaces.');
 if (!appCss.includes('.view-sequence-controls') || !appCss.includes('.filter-section-toggle')) throw new Error('The application stylesheet lacks guided-sequence or collapsible-filter controls.');
 if (!appCss.includes('.graph-overlay-layer') || !appCss.includes('.graph-overlay-viewport')) throw new Error('The application stylesheet lacks the graph overlay layer.');
-if (!viewIndex.includes('Stories &amp; Views')) throw new Error('The static stories and views directory was not generated.');
+if (!viewIndex.includes('Stories &amp; Views') || !viewIndex.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/views/index.html.md"') || !viewsMarkdown.includes('Views apply curated filters')) throw new Error('The static stories and views directory or its Markdown equivalent was not generated.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/views/</loc>')) throw new Error('The sitemap omits the view directory.');
 if (!sitemap.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')) throw new Error('The sitemap lacks the image sitemap namespace.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/guide/</loc>')) throw new Error('The sitemap omits guide/.');
 if (!sitemap.includes('<loc>https://atlas.madvay.com/directory/</loc>')) throw new Error('The sitemap omits directory/.');
+if (!sitemap.includes('<loc>https://atlas.madvay.com/data/</loc>')) throw new Error('The sitemap omits the dataset landing page.');
+if (!sitemap.includes('<loc>https://atlas.madvay.com/ai/</loc>')) throw new Error('The sitemap omits the AI integration landing page.');
+if (!sitemap.includes('<loc>https://atlas.madvay.com/vocab/</loc>')) throw new Error('The sitemap omits the relation vocabulary landing page.');
 if (sitemap.includes('<loc>https://atlas.madvay.com/static/atlas/</loc>')) throw new Error('The sitemap still lists the retired static atlas page.');
 if (sitemap.includes('<loc>https://atlas.madvay.com/concepts/</loc>')) throw new Error('The sitemap lists the redirect-only concepts index instead of directory/.');
 if (!sitemap.includes('<image:image><image:loc>https://atlas.madvay.com/static/atlas.svg</image:loc></image:image>')) throw new Error('The sitemap does not associate static/atlas.svg with its HTML landing page.');
@@ -178,12 +244,17 @@ if (!sitemap.includes('<loc>https://atlas.madvay.com/static/atlas.svg</loc>')) t
 if (!sitemap.includes('<lastmod>')) throw new Error('The sitemap lacks last-modified dates.');
 if (!llms.includes('[User Guide](https://atlas.madvay.com/guide/)')) throw new Error('llms.txt omits guide/.');
 if (!llms.includes('[Atlas Directory](https://atlas.madvay.com/directory/)')) throw new Error('llms.txt omits directory/.');
+if (!llms.includes('[Dataset landing page](https://atlas.madvay.com/data/)')) throw new Error('llms.txt omits the dataset landing page.');
+if (!llms.includes('[Current data manifest](https://atlas.madvay.com/data/latest/manifest.json)') || !llms.includes('latest-only')) throw new Error('llms.txt omits the current data manifest or retention policy.');
+if (!llms.includes('[AI integration](https://atlas.madvay.com/ai/)') || !llms.includes('[AI bundle](https://atlas.madvay.com/ai/matlas-ai-bundle.zip)') || !llms.includes('[Browser-local AI workbench](https://atlas.madvay.com/ai/workbench/)') || !llms.includes('[Static OpenAPI description](https://atlas.madvay.com/openapi.json)') || !llms.includes('[Relation vocabulary](https://atlas.madvay.com/vocab/)')) throw new Error('llms.txt omits the static AI integration entry points.');
+if (!llms.includes('[Concise AI context](https://atlas.madvay.com/llms-context.txt)') || !llms.includes('[Complete AI context](https://atlas.madvay.com/llms-context-full.txt)')) throw new Error('llms.txt omits the generated AI contexts.');
 if (llms.includes('https://atlas.madvay.com/static/atlas/')) throw new Error('llms.txt still references the retired static atlas page.');
 if (!llms.includes('[All-in atlas SVG](https://atlas.madvay.com/static/atlas.svg)')) throw new Error('llms.txt omits static/atlas.svg.');
-if (!llms.includes('https://atlas.madvay.com/content/atlas.') || !llms.includes('https://atlas.madvay.com/content/schema.') || !llms.includes('https://atlas.madvay.com/content/views.')) throw new Error('llms.txt does not expose all published JSON under /content/.');
-if (llms.includes('https://atlas.madvay.com/data/')) throw new Error('llms.txt still references the retired /data/ namespace.');
+if (llms.includes('Current immutable graph JSON') || llms.includes('/data/<content-version>/')) throw new Error('llms.txt promises retained versioned data that GitHub Pages does not keep.');
+if (!llmsContext.includes('## Relation types') || !llmsContext.includes('## Canonical concept summaries')) throw new Error('llms-context.txt lacks relation semantics or concept summaries.');
+if (!llmsContextFull.includes('# Complete concept records') || !llmsContextFull.includes('Incoming relations (arrows to this concept)')) throw new Error('llms-context-full.txt lacks complete direct relation records.');
 if (!directoryPage.includes('href="/guide/"')) throw new Error('The directory page does not link to the user guide.');
-if (!directoryPage.includes(`href="/${manifest.assets.graph}"`) || directoryPage.includes('href="/data/')) throw new Error('The directory page does not link to graph JSON under /content/.');
+if (!directoryPage.includes(`href="/${manifest.assets.graph}"`) || !directoryPage.includes('href="/data/"')) throw new Error('The directory page does not link to graph JSON under /content/ and the dataset landing page.');
 if (!atlasSvg.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) throw new Error('static/atlas.svg is not the runtime SVG export format.');
 if (!atlasSvg.includes('<title id="atlas-title">') || !atlasSvg.endsWith('</svg>')) throw new Error('static/atlas.svg is incomplete.');
 assertSvgMetadata(atlasSvg, 'static/atlas.svg');
@@ -209,6 +280,7 @@ for (const text of ['Quick start', 'Read the graph', 'Stories and Views', 'Compa
 if (!guidePage.includes('https://atlas.madvay.com/concepts/group/') || !guidePage.includes('views/from-sets-to-spaces/?node=topological_space')) throw new Error('The guide page lacks genuine content permalinks.');
 if (!guidePage.includes('filter=') || !guidePage.includes('disp=')) throw new Error('The guide page lacks compact application-state permalinks.');
 if (!directoryPage.includes('<link rel="canonical" href="https://atlas.madvay.com/directory/">')) throw new Error('The directory page has the wrong canonical URL.');
+if (!directoryPage.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/directory/index.html.md"')) throw new Error('The directory page does not advertise its Markdown equivalent.');
 if (!directoryPage.includes('"primaryImageOfPage"') || !directoryPage.includes('"ImageObject"')) throw new Error('The directory page lacks primary-image structured data.');
 if (!directoryPage.includes('Browse all') || !directoryPage.includes('Relation legend:')) throw new Error('The directory page lacks its semantic concept and relation directories.');
 const directoryBeforeSvg = directoryPage.slice(0, directoryPage.indexOf('<svg '));
@@ -216,6 +288,21 @@ if (!directoryBeforeSvg.includes('<math')) throw new Error('The directory concep
 const firstConcept = graphData.nodes.find((node) => node.kind === 'structure');
 const firstConceptLink = firstConcept ? `href="/concepts/${encodeURIComponent(firstConcept.id)}/"` : '';
 if (!firstConceptLink || directoryPage.indexOf(firstConceptLink) < 0 || directoryPage.indexOf(firstConceptLink) > directoryPage.indexOf('<svg ')) throw new Error('Crawlable concept links must appear before the inline SVG.');
+const firstConceptRecord = JSON.parse(await readFile(new URL(`data/latest/concepts/${encodeURIComponent(firstConcept.id)}.json`, dist), 'utf8'));
+const firstConceptRelations = JSON.parse(await readFile(new URL(`data/latest/concepts/${encodeURIComponent(firstConcept.id)}/relations.json`, dist), 'utf8'));
+if (firstConceptRecord.recordType !== 'concept' || firstConceptRecord.concept?.id !== firstConcept.id || firstConceptRecord.contentVersion !== dataManifest.contentVersion || firstConceptRecord.attribution !== graphData.meta.attribution || firstConceptRelations.recordType !== 'concept_relations' || !Array.isArray(firstConceptRelations.incoming) || !Array.isArray(firstConceptRelations.outgoing)) throw new Error('The predictable concept record endpoints lack the generated concept contract.');
+const [firstDomainId] = graphData.meta.domainOrder;
+const [firstRelationTypeId] = graphData.meta.edgeTypeOrder;
+const domainRecord = JSON.parse(await readFile(new URL(`data/latest/domains/${encodeURIComponent(firstDomainId)}.json`, dist), 'utf8'));
+const relationTypeRecord = JSON.parse(await readFile(new URL(`data/latest/relation-types/${encodeURIComponent(firstRelationTypeId)}.json`, dist), 'utf8'));
+const relationVocabularyPage = await readFile(new URL(`vocab/relation/${encodeURIComponent(firstRelationTypeId)}/index.html`, dist), 'utf8');
+const relationVocabularyMarkdown = await readFile(new URL(`vocab/relation/${encodeURIComponent(firstRelationTypeId)}/index.html.md`, dist), 'utf8');
+if (domainRecord.recordType !== 'domain' || domainRecord.domain?.id !== firstDomainId || !Array.isArray(domainRecord.conceptIds) || relationTypeRecord.recordType !== 'relation_type' || relationTypeRecord.relationType?.id !== firstRelationTypeId || !Array.isArray(relationTypeRecord.relationIds) || !relationVocabularyPage.includes(firstRelationTypeId) || !relationVocabularyPage.includes(graphData.meta.attribution) || !relationVocabularyPage.includes(graphData.meta.licenseUrl) || !relationVocabularyMarkdown.includes('## Directed semantics') || !relationVocabularyMarkdown.includes(`License URL: ${graphData.meta.licenseUrl}`) || !sitemap.includes(`<loc>https://atlas.madvay.com/vocab/relation/${encodeURIComponent(firstRelationTypeId)}/</loc>`)) throw new Error('The predictable domain, relation-type, or vocabulary endpoints lack generated CC BY-SA records.');
+if (!directoryMarkdown.includes('## Relation types') || !directoryMarkdown.includes('## Canonical concepts')) throw new Error('The directory Markdown equivalent lacks atlas semantics or concepts.');
+if (!guidePage.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/guide/index.html.md"')) throw new Error('The guide does not advertise its Markdown equivalent.');
+if (!guidePage.includes('href="/data/"') || !guideMarkdown.match('##.*Static pages and published data')) throw new Error('The guide lacks the published-data route or its Markdown equivalent.');
+if (!conceptsMarkdown.includes('# Atlas of Fundamental Concepts — Canonical concepts')) throw new Error('The canonical concept index Markdown was not generated.');
+if (!rootMarkdown.includes('Current data manifest') || !rootMarkdown.includes('Complete AI context') || !rootMarkdown.includes('AI integration') || !rootMarkdown.includes('Uploadable AI bundle')) throw new Error('The root Markdown equivalent lacks publication entry points.');
 if (!conceptsIndex.includes('<meta http-equiv="refresh" content="0; url=/directory/">')) throw new Error('concepts/index.html lacks its HTML redirect to /directory/.');
 if (!conceptsIndex.includes('window.location.replace(target)')) throw new Error('concepts/index.html lacks its JavaScript redirect to /directory/.');
 if (!conceptsIndex.includes('<link rel="canonical" href="https://atlas.madvay.com/directory/">')) throw new Error('concepts/index.html does not canonicalize to /directory/.');
@@ -233,6 +320,7 @@ for (const removedDomain of removedDomains) {
 for (const view of viewsData.views) {
   const encodedId = encodeURIComponent(view.id);
   const html = await readFile(new URL(`views/${encodedId}/index.html`, dist), 'utf8');
+  const markdown = await readFile(new URL(`views/${encodedId}/index.html.md`, dist), 'utf8');
   assertCacheRecovery(html, `Static view page ${view.id}`);
   if (legacyIconPattern.test(html)) throw new Error(`Static view page ${view.id} still contains a legacy icon-font reference.`);
   if (!html.includes(`<meta name="atlas:view" content="${view.id}">`)) throw new Error(`Static page for ${view.id} lacks its view metadata.`);
@@ -250,6 +338,7 @@ for (const view of viewsData.views) {
     if (html.includes('data-view-prev') || html.includes('data-view-next')) throw new Error(`Static View page for ${view.id} must not emit Story controls.`);
   }
   if (!html.includes(view.title) || !html.includes(view.narrative)) throw new Error(`Static page for ${view.id} lacks crawlable view copy.`);
+  if (!html.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/views/${encodedId}/index.html.md"`) || !markdown.includes('## Narrative')) throw new Error(`Static page for ${view.id} lacks its Markdown equivalent.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/views/${encodedId}/</loc>`)) throw new Error(`The sitemap omits ${view.id}.`);
 }
 
@@ -277,6 +366,7 @@ for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)
   if (!html.includes(`<meta name="atlas:scope" content="${fieldId}">`)) throw new Error(`Static field page for ${fieldId} lacks its field metadata.`);
   if (!html.includes('<base href="../">')) throw new Error(`Static field page for ${fieldId} has the wrong base path.`);
   if (!html.includes(`<link rel="canonical" href="https://atlas.madvay.com/${path}">`)) throw new Error(`Static field page for ${fieldId} has the wrong canonical URL.`);
+  if (!html.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/${path}index.html.md"`)) throw new Error(`Static field page for ${fieldId} does not advertise its Markdown equivalent.`);
   if (!html.includes('<script id="taxonomy-page-jsonld" type="application/ld+json">')) throw new Error(`Static field page for ${fieldId} lacks taxonomy JSON-LD.`);
   const imageUrl = `https://atlas.madvay.com/${imagePath}`;
   if (!html.includes(`<meta property="og:image" content="${imageUrl}">`)) throw new Error(`Static field page for ${fieldId} lacks its Open Graph SVG.`);
@@ -293,12 +383,21 @@ for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)
   if (!html.includes('<span class="static-graph-shimmer" aria-hidden="true"></span>')) throw new Error(`Static field page for ${fieldId} lacks the visible loading shimmer.`);
   if (!html.includes('"primaryImageOfPage"') || !html.includes(`"contentUrl": "${imageUrl}"`)) throw new Error(`Static field page for ${fieldId} lacks SVG structured data.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc><lastmod>`) || !sitemap.includes(`<image:loc>${imageUrl}</image:loc>`)) throw new Error(`The sitemap does not associate field ${fieldId} with its SVG.`);
+  const fieldMarkdown = await readFile(new URL(`${path}index.html.md`, dist), 'utf8');
+  if (!fieldMarkdown.includes('## Description') || !fieldMarkdown.includes('## Domains')) throw new Error(`Static field Markdown for ${fieldId} lacks its real scope content.`);
 }
 
 for (const node of graphData.nodes.filter((candidate) => candidate.kind === 'structure')) {
   const html = await readFile(new URL(`concepts/${encodeURIComponent(node.id)}/index.html`, dist), 'utf8');
+  const markdown = await readFile(new URL(`concepts/${encodeURIComponent(node.id)}/index.html.md`, dist), 'utf8');
   assertCacheRecovery(html, `Static concept page ${node.id}`);
   if (html.includes('�')) throw new Error(`Static concept page ${node.id} contains a Unicode replacement character.`);
+  if (!html.includes('class="concept-static-document"') || !html.includes('Concept sources') || !html.includes('Incoming relations (arrows to this concept)') || !html.includes('Outgoing relations (arrows from this concept)')) throw new Error(`Static concept page ${node.id} lacks its complete semantic record.`);
+  if (!html.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/concepts/${encodeURIComponent(node.id)}/index.html.md"`)) throw new Error(`Static concept page ${node.id} does not advertise its Markdown equivalent.`);
+  if (!html.includes('class="atlas-loading concept-page"') || !html.includes('html.concept-page-html')) throw new Error(`Static concept page ${node.id} does not make its static record reachable below the interactive graph.`);
+  if (!markdown.includes(`**Concept ID:** \`${node.id}\``) || !markdown.includes('## Incoming relations (arrows to this concept)') || !markdown.includes('## Outgoing relations (arrows from this concept)')) throw new Error(`Static concept Markdown for ${node.id} lacks its complete record.`);
+  const directEdge = graphData.edges.find((edge) => edge.source === node.id || edge.target === node.id);
+  if (directEdge && !html.includes(`id="relation-${encodeURIComponent(directEdge.id)}"`)) throw new Error(`Static concept page ${node.id} lacks a stable direct-relation fragment.`);
   if (node.id === 'epsilon_zero' && !html.includes('<meta name="description" content="The least nonzero fixed point of ordinal exponentiation 𝛼↦𝜔^(𝛼).">')) {
     throw new Error('The epsilon-zero concept page has an incorrect crawlable description.');
   }
@@ -333,6 +432,7 @@ for (const domainId of graphData.meta.domainOrder ?? Object.keys(graphData.domai
   if (!html.includes(`<meta name="atlas:domain" content="${domainId}">`)) throw new Error(`Static domain page for ${domainId} lacks its domain metadata.`);
   if (!html.includes('<base href="../../">')) throw new Error(`Static domain page for ${domainId} has the wrong base path.`);
   if (!html.includes(`<link rel="canonical" href="https://atlas.madvay.com/${path}">`)) throw new Error(`Static domain page for ${domainId} has the wrong canonical URL.`);
+  if (!html.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/${path}index.html.md"`)) throw new Error(`Static domain page for ${domainId} does not advertise its Markdown equivalent.`);
   if (!html.includes('<script id="taxonomy-page-jsonld" type="application/ld+json">')) throw new Error(`Static domain page for ${domainId} lacks taxonomy JSON-LD.`);
   const imageUrl = `https://atlas.madvay.com/${imagePath}`;
   if (!html.includes(`<meta property="og:image" content="${imageUrl}">`)) throw new Error(`Static domain page for ${domainId} lacks its Open Graph SVG.`);
@@ -351,6 +451,8 @@ for (const domainId of graphData.meta.domainOrder ?? Object.keys(graphData.domai
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc>`)) throw new Error(`The sitemap omits domain ${domainId}.`);
   if (!sitemap.includes(`<loc>https://atlas.madvay.com/${path}</loc><lastmod>`) || !sitemap.includes(`<image:loc>${imageUrl}</image:loc>`)) throw new Error(`The sitemap does not associate domain ${domainId} with its SVG.`);
   if (!directoryPage.includes(`href="/${path}"`)) throw new Error(`The directory page does not link to domain ${domainId}.`);
+  const domainMarkdown = await readFile(new URL(`${path}index.html.md`, dist), 'utf8');
+  if (!domainMarkdown.includes('## Concepts')) throw new Error(`Static domain Markdown for ${domainId} lacks its concept listing.`);
 }
 
 console.log(`Verified cache recovery across the root and ${graphData.nodes.filter((node) => node.kind === 'structure').length} concept, ${Object.keys(graphData.fields).length} field, ${Object.keys(graphData.domains).length} active domain, ${removedDomains.length} removed-domain redirect, and ${viewsData.views.length} view pages, plus the atlas directory, redirects, SVG export, data assets, and sitemap entries.`);

@@ -13,6 +13,8 @@
     "src/env.d.ts",
     "src/types.ts",
     "src/cache-recovery.ts",
+    "src/ai/atlas-operations.ts",
+    "src/ai/matlas-sdk.ts",
     "src/core/hash.ts",
     "src/core/text.ts",
     "src/core/search.ts",

@@ -245,6 +245,7 @@ export function renderGuidePage({
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
   ${modifiedMeta}
   <link rel="canonical" href="${canonicalUrl}">
+  <link rel="alternate" type="text/markdown" href="${canonicalUrl}index.html.md" title="Markdown user guide">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
@@ -275,6 +276,7 @@ export function renderGuidePage({
       <a href="${escapeHtml(links.atlas)}">Explore the interactive atlas</a>
       <a href="${escapeHtml(links.directory)}">Open the Directory</a>
       <a href="${escapeHtml(links.stories)}">Browse Stories &amp; Views</a>
+      <a href="/data/">Browse published data</a>
       <a href="#quick-start">Start here</a>
       <a href="#sharing">Permalinks and export</a>
     </nav>
@@ -485,6 +487,7 @@ export function renderGuidePage({
           <dt>/math/algebra/ and other domains</dt><dd>Domain landing pages scoped to primary-domain concepts.</dd>
           <dt>/concepts/&lt;id&gt;/</dt><dd>Canonical concept pages. Example: <a href="${escapeHtml(links.molecule)}">${renderInlineMath(molecule.label)}</a>.</dd>
           <dt><a href="/views/">/views/</a></dt><dd>Static Story and View directory, with one crawlable page per entry.</dd>
+          <dt><a href="/data/">/data/</a></dt><dd>Dataset landing page with stable JSON URLs, checksums, and AI-use guidance.</dd>
           <dt><a href="/static/atlas.svg">/static/atlas.svg</a></dt><dd>Standalone vector map with links back to concept routes.</dd>
           <dt>Data section in Filters</dt><dd>Published graph, schema, Story/View data, share codec, provenance, content license, Directory, and standalone SVG.</dd>
         </dl>

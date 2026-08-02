@@ -62,6 +62,7 @@ test('guide page is complete, crawlable, static', async () => {
   const html = renderGuidePage({ ...data, guidePath: 'guide/', lastModified: '2026-07-31' });
 
   assert.ok(html.includes('<link rel="canonical" href="https://atlas.madvay.com/guide/">'));
+  assert.ok(html.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/guide/index.html.md"'));
   assert.ok(html.includes('<meta name="theme-color" content="#f6f7f9">'));
   assert.ok(html.includes('prefers-color-scheme: dark'));
   assert.ok(html.includes(':root[data-theme="dark"]'));
@@ -77,6 +78,7 @@ test('guide page is complete, crawlable, static', async () => {
   assert.ok(html.includes('The Preferences default is System'));
   assert.ok(html.includes('preserves the active resolved Light or Dark theme'));
   assert.ok(html.includes('build-published all-in export uses a deterministic Light theme'));
+  assert.ok(html.includes('href="/data/"'));
   assert.ok(!html.includes('<script src='));
 
   const directory = await mkdtemp(join(tmpdir(), 'atlas-guide-page-'));

@@ -13,22 +13,40 @@ The atlas is one graph rather than a collection of isolated applications. Fields
 - `/math/` — mathematics scope
 - `/physics/` — physics scope
 - `/chemistry/` — chemistry scope
-- `/concepts/<id>/` — canonical concept pages
+- `/concepts/<id>/` — canonical concept pages with complete static records, typed direct relations, citations, stable relation fragments, and an interactive-graph entry point
 - `/concepts/` — HTML/JavaScript compatibility redirect to `/directory/`
 - `/views/` — static directory of curated stories and views
 - `/views/<id>/` — a static, crawlable Story/View route that opens the interactive atlas with the preset applied
-- `/content/atlas.<hash>.json` — immutable canonical graph export (the exact URL is linked from each generated page)
+- `/content/atlas.<hash>.json` — content-addressed canonical graph export for the current build
 - `/content/schema.<hash>.json` — published graph JSON Schema
-- `/content/views.<hash>.json` — immutable Story/View definitions
+- `/content/views.<hash>.json` — content-addressed Story/View definitions for the current build
 - `/content/provenance.<hash>.json` — content/schema versions, source paths, SHA-256 hashes, license, and attribution
+- `/data/` — indexable dataset landing page with `Dataset`/`DataDownload` JSON-LD and AI-use guidance
+- `/data/latest/manifest.json` — current dataset manifest with SHA-256 digests and explicit latest-only retention policy
+- `/data/latest/atlas.json` — stable alias for the canonical graph JSON
+- `/data/latest/schema.json`, `/data/latest/views.json`, `/data/latest/share-codec.json`, `/data/latest/provenance.json` — stable aliases for the remaining machine-readable artifacts
+- `/data/latest/concepts/<id>.json` and `/data/latest/concepts/<id>/relations.json` — small canonical concept and direct-relation records for deterministic retrieval
+- `/data/latest/domains/<id>.json` and `/data/latest/relation-types/<id>.json` — small taxonomy and relation-policy records
+- `/data/latest/concepts.ndjson`, `/relations.ndjson`, `/sources.ndjson`, `/domains.ndjson`, `/fields.ndjson`, `/relation-types.ndjson` — streamable self-identifying records with content version, license, and attribution metadata
+- `/data/latest/matlas.sqlite` — a no-server SQLite export with indexed normalized tables and the canonical graph payload
+- `/data/latest/matlas.jsonld` and `/data/latest/matlas.ttl` — secondary RDF/JSON-LD and Turtle graph representations with stable relation vocabulary URLs
+- `/vocab/` and `/vocab/relation/<type-id>/` — dereferenceable human/Markdown/JSON-LD definitions for every relation-type URL used by RDF exports
+- `/ai/` — static AI integration landing page
+- `/ai/sdk/matlas.py` and `/ai/sdk/matlas.mjs` — zero-dependency deterministic Python and ESM graph libraries
+- `/ai/matlas-ai-bundle.zip` — uploadable local-agent bundle: data, SDKs, Agent Skill, examples, citation metadata, and license texts
+- `/ai/skills/matlas/SKILL.md` — portable Agent Skill instructions with scripts and references
+- `/ai/workbench/` — browser-local accessible graph workbench with visible JSON output and progressive WebMCP registration where supported
+- `/openapi.json` — static GET-only description of the predictable generated records; it is not a dynamic query API
+- `/CITATION.cff`, `/citation.json`, and `/ai/citation-guide.md` — citation metadata and source-chain guidance
 - `/CONTENT_LICENSE` — content-specific CC BY-SA 4.0 notice
 - `/guide/` — static user guide for new and power users, with real, build-validated permalinks into atlas content and application states
 - `/directory/` — static semantic atlas directory with the exact all-in SVG transcluded, crawlable concept links, relation definitions, structured data, and atlas context
 - `/static/atlas.svg` — stable standalone all-in SVG export containing every field, domain, concept, junction, and relation
+- `/llms.txt` — concise AI routing and citation guidance
+- `/llms-context.txt` and `/llms-context-full.txt` — generated AI context documents with respectively concept summaries and complete direct relation records
+- `index.html.md` beside each major generated HTML page — machine-clean Markdown equivalents, including every canonical concept, field, domain, Story/View, the guide, and the directory
 
-All runtime-readable JSON is published under `/content/`; the build does not emit a `/data/` directory.
-
-The generated site does not create or preserve `/m/`; configure an external redirect if one is required.
+The application reads content-addressed JSON under `/content/`. `/data/latest/` is a separate public integration contract for the current publication only: its files are replaced on each GitHub Pages deployment, and its manifest provides the current content version and hashes. Save the manifest and downloaded artifacts when reproducibility requires a retained snapshot. Agents that need arbitrary graph computation use the bundled local SDKs, SQLite, or browser workbench; a static host cannot provide a remote arbitrary-query API or hosted MCP server.
 
 ## Requirements and setup
 
@@ -55,7 +73,7 @@ npm test
 
 `npm run content:build` validates editable source under `content/` and atomically writes the normalized renderer/publisher contract to `.build/content/`. The compiled contract contains `atlas.json`, `schema.json`, `views.json`, `share-codec.json`, and `provenance.json`. Application code, page generators, and tests consume only this compiled boundary.
 
-`npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export, `/directory/` semantic atlas directory, and `/guide/` user guide. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
+`npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export, `/directory/` semantic atlas directory, `/guide/` user guide, `/data/` latest-only data exports, per-record JSON, NDJSON, SQLite, RDF/JSON-LD, Turtle, deterministic Python/ESM SDKs, an uploadable AI bundle, an Agent Skill, a local accessible workbench, a static OpenAPI description, citation metadata, Markdown equivalents, and generated AI context files. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
 
 Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, strict-predecessor level monotonicity and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, every view object's identifiers and settings, Chemistry evidence orientation, shared-node ownership, and minimum cross-domain and cross-field connectivity.
 
@@ -83,6 +101,7 @@ src/
   styles.css                 application, graph, and field-band styling
   main.ts                    graph renderer, routing, state, details, and SVG export
   types.ts                   graph and application types
+  ai/                         shared deterministic graph operations, SDK entry point, Python SDK, and browser workbench
 scripts/
   build-content.mjs          validates and compiles content into .build/content/
   validate-content.mjs       layered content validation entry point
@@ -94,7 +113,17 @@ scripts/
                               invokes the compiled runtime SVG exporter for /static/atlas.svg
   generate-directory-page.mjs
                               transcludes that exact SVG into the semantic /directory/ page
-  generate-seo-assets.mjs    sitemap, robots.txt, and llms.txt
+  generate-data-publication.mjs
+                              publishes latest-only data, per-record JSON, NDJSON, SQLite, RDF, and a dataset manifest
+  generate-machine-artifacts.mjs
+                              derives normalized/local-agent data artifacts and record endpoints from compiled graph content
+  generate-matlas-sqlite.py  creates the dependency-free SQLite distribution
+  generate-ai-publication.mjs
+                              publishes SDKs, AI bundle, Agent Skill, workbench, citation metadata, and static OpenAPI
+  zip-archive.mjs            deterministic ZIP writer used for the AI bundle
+  generate-markdown-pages.mjs
+                              creates Markdown counterparts for major static pages
+  generate-seo-assets.mjs    sitemap, robots.txt, llms.txt, and expanded AI context documents
   matlas-render-benchmark.mjs repeatable before/after renderer performance benchmark
   prepare-pages.mjs          root-level GitHub Pages artifact
 .build/content/              generated, normalized build contract; never edited directly
@@ -183,7 +212,7 @@ The browser escapes prose and sends only delimited formulas to KaTeX. `npm run m
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/guide/`, `/directory/`, `/concepts/`, `/views/`, and `/static/atlas.svg`.
+`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/guide/`, `/directory/`, `/concepts/`, `/views/`, `/data/`, `/ai/`, and `/static/atlas.svg`.
 
 ## License
 

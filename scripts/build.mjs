@@ -1,6 +1,6 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { relative } from 'node:path';
+import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild-wasm';
@@ -10,6 +10,9 @@ import { generateViewPages } from './generate-view-pages.mjs';
 import { generateStaticAtlasSvgs } from './generate-static-atlas-svg.mjs';
 import { generateDirectoryPage } from './generate-directory-page.mjs';
 import { generateGuidePage } from './generate-guide-page.mjs';
+import { generateDataPublication } from './generate-data-publication.mjs';
+import { generateAiPublication } from './generate-ai-publication.mjs';
+import { generateMarkdownPages } from './generate-markdown-pages.mjs';
 import { minifyHtml } from './minify-html.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -51,7 +54,11 @@ function buildLastModifiedDate() {
     'src/ui/svg-exporter.ts',
     'scripts/generate-static-atlas-svg.mjs',
     'scripts/generate-directory-page.mjs',
-    'scripts/generate-guide-page.mjs'
+    'scripts/generate-guide-page.mjs',
+    'scripts/generate-data-publication.mjs',
+    'scripts/generate-ai-publication.mjs',
+    'scripts/generate-machine-artifacts.mjs',
+    'src/ai/'
   ], { cwd: rootPath, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
   const timestamp = git.status === 0 ? git.stdout.trim() : '';
   const parsed = timestamp ? new Date(timestamp) : null;
@@ -98,6 +105,21 @@ await Promise.all([
   writeFile(new URL(`content/${provenanceFile}`, dist), provenanceBytes)
 ]);
 
+const dataManifest = await generateDataPublication({
+  graphData,
+  viewsData,
+  provenance,
+  assets: {
+    atlas: { bytes: graphBytes, immutablePath: `content/${graphFile}` },
+    schema: { bytes: schemaBytes, immutablePath: `content/${schemaFile}` },
+    views: { bytes: viewsBytes, immutablePath: `content/${viewsFile}` },
+    shareCodec: { bytes: shareCodecBytes, immutablePath: `content/${shareCodecFile}` },
+    provenance: { bytes: provenanceBytes, immutablePath: `content/${provenanceFile}` }
+  },
+  distUrl: dist,
+  lastModified
+});
+
 const recoveryBundle = await build({
   absWorkingDir: rootPath,
   entryPoints: ['src/cache-recovery.ts'],
@@ -136,6 +158,47 @@ const bundle = await build({
   },
   logLevel: 'info'
 });
+
+const sdkBundle = await build({
+  absWorkingDir: rootPath,
+  entryPoints: ['src/ai/matlas-sdk.ts'],
+  bundle: true,
+  format: 'esm',
+  platform: 'neutral',
+  target: ['es2021'],
+  outfile: join(distPath, 'assets/matlas-sdk.mjs'),
+  minify: false,
+  legalComments: 'inline',
+  banner: {
+    js: '/* mAtlas ESM SDK — Apache-2.0 software; loaded mAtlas content is CC BY-SA 4.0. Attribution: https://atlas.madvay.com/ */'
+  },
+  write: false,
+  logLevel: 'silent'
+});
+const sdkSource = sdkBundle.outputFiles?.find((file) => file.path.endsWith('.mjs'))?.text;
+if (!sdkSource) throw new Error('Bundler did not emit the standalone mAtlas ESM SDK.');
+
+const workbenchBundle = await build({
+  absWorkingDir: rootPath,
+  entryPoints: ['src/ai/workbench.ts'],
+  bundle: true,
+  format: 'esm',
+  platform: 'browser',
+  target: ['es2021'],
+  outdir: distPath,
+  entryNames: 'assets/ai-workbench.[hash]',
+  minify: true,
+  sourcemap: 'external',
+  sourcesContent: true,
+  metafile: true,
+  legalComments: 'external',
+  write: true,
+  logLevel: 'silent'
+});
+const workbenchOutput = Object.entries(workbenchBundle.metafile.outputs)
+  .find(([name, info]) => info.entryPoint?.endsWith('src/ai/workbench.ts') && name.endsWith('.js'))?.[0];
+if (!workbenchOutput) throw new Error('Bundler did not emit the mAtlas workbench script.');
+const workbenchScriptPath = `/${relative(distPath, workbenchOutput).replaceAll('\\', '/')}`;
 
 const outputs = Object.entries(bundle.metafile.outputs);
 const jsOutput = outputs.find(([name, info]) => info.entryPoint?.endsWith('src/main.ts') && name.endsWith('.js'))?.[0];
@@ -193,6 +256,7 @@ await generateDirectoryPage({
   svg: staticSvgs.atlas.svg,
   distUrl: dist,
   graphDataPath: `content/${graphFile}`,
+  dataPath: 'data/',
   atlasSvgPath: 'static/atlas.svg',
   directoryPath: 'directory/',
   lastModified
@@ -205,6 +269,15 @@ await generateGuidePage({
   guidePath: 'guide/',
   lastModified
 });
+await generateAiPublication({
+  graphData,
+  dataManifest,
+  distUrl: dist,
+  lastModified,
+  sdkSource,
+  workbenchScriptPath
+});
+await generateMarkdownPages({ graphData, viewsData, dataManifest, distUrl: dist });
 await generateSeoAssets({
   graphData,
   viewsData,
@@ -215,13 +288,17 @@ await generateSeoAssets({
   atlasSvgPath: 'static/atlas.svg',
   directoryPath: 'directory/',
   guidePath: 'guide/',
+  dataPath: 'data/',
+  dataManifestPath: 'data/latest/manifest.json',
+  aiPath: 'ai/',
+  dataManifest,
   fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
   lastModified
 });
 
 const manifest = {
-  version: 4,
+  version: 6,
   content: {
     schemaVersion: provenance.schemaVersion,
     contentVersion: provenance.contentVersion
@@ -240,8 +317,51 @@ const manifest = {
     domainSvgs: Object.fromEntries(Object.entries(staticSvgs.domains).map(([domainId, image]) => [domainId, image.path])),
     directory: 'directory/',
     guide: 'guide/',
+    data: {
+      landing: 'data/',
+      manifest: 'data/latest/manifest.json',
+      atlas: 'data/latest/atlas.json',
+      schema: 'data/latest/schema.json',
+      views: 'data/latest/views.json',
+      shareCodec: 'data/latest/share-codec.json',
+      provenance: 'data/latest/provenance.json',
+      conceptsNdjson: 'data/latest/concepts.ndjson',
+      relationsNdjson: 'data/latest/relations.ndjson',
+      sourcesNdjson: 'data/latest/sources.ndjson',
+      domainsNdjson: 'data/latest/domains.ndjson',
+      fieldsNdjson: 'data/latest/fields.ndjson',
+      relationTypesNdjson: 'data/latest/relation-types.ndjson',
+      sqlite: 'data/latest/matlas.sqlite',
+      jsonld: 'data/latest/matlas.jsonld',
+      turtle: 'data/latest/matlas.ttl'
+    },
+    ai: {
+      landing: 'ai/',
+      workbench: 'ai/workbench/',
+      bundle: 'ai/matlas-ai-bundle.zip',
+      pythonSdk: 'ai/sdk/matlas.py',
+      esmSdk: 'ai/sdk/matlas.mjs',
+      skill: 'ai/skills/matlas/SKILL.md',
+      openApi: 'openapi.json',
+      citation: 'citation.json',
+      vocabulary: 'vocab/',
+      vocabularyJsonLd: 'vocab/matlas.jsonld',
+      workbenchScript: workbenchScriptPath.slice(1)
+    },
+    markdown: {
+      root: 'index.html.md',
+      directory: 'directory/index.html.md',
+      guide: 'guide/index.html.md',
+      concepts: 'concepts/index.html.md',
+      views: 'views/index.html.md'
+    },
+    llms: {
+      index: 'llms.txt',
+      context: 'llms-context.txt',
+      contextFull: 'llms-context-full.txt'
+    },
     openSearch: 'opensearch.xml'
   }
 };
 await writeFile(new URL('asset-manifest.json', dist), `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, directory/, and guide/ into dist/.`);
+console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, directory/, guide/, latest-only data exports, AI bundle and skill, local workbench, Markdown equivalents, and AI context files into dist/.`);

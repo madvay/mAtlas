@@ -112,7 +112,7 @@ function renderConceptDirectory(graphData) {
   </details>`;
 }
 
-function directoryPageJsonLd({ graphData, atlasSvgPath, directoryPath, graphDataPath, dimensions, lastModified }) {
+function directoryPageJsonLd({ graphData, atlasSvgPath, directoryPath, graphDataPath, dataPath, dimensions, lastModified }) {
   const canonicalUrl = appUrl(directoryPath);
   const svgUrl = appUrl(atlasSvgPath);
   const fieldIds = orderedIds(graphData.meta.fieldOrder, graphData.fields);
@@ -161,6 +161,7 @@ function directoryPageJsonLd({ graphData, atlasSvgPath, directoryPath, graphData
       creator: { '@type': 'Person', name: 'Advay Mengle', url: 'https://advaymengle.com/' },
       distribution: [
         { '@type': 'DataDownload', contentUrl: appUrl(graphDataPath), encodingFormat: 'application/json' },
+        { '@type': 'DataDownload', contentUrl: appUrl(`${dataPath}latest/atlas.json`), encodingFormat: 'application/json' },
         { '@type': 'DataDownload', contentUrl: svgUrl, encodingFormat: 'image/svg+xml' }
       ]
     }
@@ -173,6 +174,7 @@ export function renderDirectoryPage({
   atlasSvgPath = 'static/atlas.svg',
   directoryPath = 'directory/',
   graphDataPath = 'content/atlas.json',
+  dataPath = 'data/',
   lastModified
 }) {
   const svgFragment = inlineSvgFragment(svg);
@@ -181,7 +183,7 @@ export function renderDirectoryPage({
   const svgUrl = appUrl(atlasSvgPath);
   const pageTitle = `${graphData.meta.title} — Directory`;
   const description = `The complete all-field, all-domain, all-relation visual export of ${graphData.meta.title}, with crawlable concept links and relation definitions.`;
-  const jsonLd = directoryPageJsonLd({ graphData, atlasSvgPath, directoryPath, graphDataPath, dimensions, lastModified });
+  const jsonLd = directoryPageJsonLd({ graphData, atlasSvgPath, directoryPath, graphDataPath, dataPath, dimensions, lastModified });
   const modifiedMeta = lastModified ? `<meta name="dateModified" content="${escapeHtml(lastModified)}">` : '';
   return `<!doctype html>
 <html lang="en">
@@ -192,6 +194,7 @@ export function renderDirectoryPage({
   <meta name="robots" content="index,follow,max-image-preview:large">
   ${modifiedMeta}
   <link rel="canonical" href="${canonicalUrl}">
+  <link rel="alternate" type="text/markdown" href="${canonicalUrl}index.html.md" title="Markdown atlas directory">
   <link rel="alternate" type="image/svg+xml" href="${svgUrl}" title="Standalone all-in atlas SVG">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <meta property="og:type" content="website">
@@ -224,6 +227,7 @@ export function renderDirectoryPage({
       <a href="/">Explore the interactive atlas</a>
       <a href="/guide/">Read the user guide</a>
       <a href="/views/">Explore stories and views</a>
+      <a href="/${dataPath}">Browse published data</a>
       <a href="#concept-directory">Browse canonical concepts</a>
       <a href="${svgUrl}">Open the standalone SVG</a>
       <a href="/${escapeHtml(graphDataPath)}">Download graph JSON</a>

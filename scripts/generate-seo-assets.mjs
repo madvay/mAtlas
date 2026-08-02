@@ -1,4 +1,7 @@
 import { writeFile } from 'node:fs/promises';
+import { renderLlmsContext, renderLlmsContextFull } from './generate-markdown-pages.mjs';
+import { appendTextPublicationMetadata } from './publication-text-metadata.mjs';
+import { relationTypeVocabularyPath } from './publication-urls.mjs';
 
 const SITE_ORIGIN = 'https://atlas.madvay.com';
 const appUrl = (pathname = '') => new URL(pathname, `${SITE_ORIGIN}/`).toString();
@@ -35,7 +38,7 @@ function sitemapEntry(url, { lastModified, imageUrl } = {}) {
   return `  <url>${children.join('')}</url>`;
 }
 
-function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, fieldImages, domainImages, lastModified) {
+function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, dataPath, aiPath, fieldImages, domainImages, lastModified) {
   const concepts = graphData.nodes.filter((node) => node.kind === 'structure');
   const fieldEntries = (graphData.meta.fieldOrder ?? Object.keys(graphData.fields))
     .map((fieldId) => ({
@@ -48,6 +51,7 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guid
       imageUrl: domainImages?.[domainId] ? appUrl(domainImages[domainId].path) : undefined
     }));
   const viewUrls = viewsData.views.map((view) => appUrl(`views/${encodeURIComponent(view.id)}/`));
+  const relationVocabularyUrls = Object.keys(graphData.edgeTypes).map((typeId) => appUrl(relationTypeVocabularyPath(typeId)));
   const atlasSvgUrl = appUrl(atlasSvgPath);
   const directoryUrl = appUrl(directoryPath);
   const urls = [
@@ -56,6 +60,10 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guid
     ...domainEntries.map((entry) => entry.url),
     directoryUrl,
     appUrl(guidePath),
+    appUrl(dataPath),
+    appUrl(aiPath),
+    appUrl('vocab/'),
+    ...relationVocabularyUrls,
     appUrl('views/'),
     ...viewUrls,
     ...concepts.map((node) => appUrl(conceptPath(node.id))),
@@ -76,7 +84,34 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guid
   ].join('\n');
 }
 
-function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath, guidePath) {
+function fallbackDataManifest(graphData, dataPath, lastModified) {
+  const contentUrl = (file) => appUrl(`${dataPath}latest/${file}`);
+  return {
+    contentVersion: graphData.meta.version,
+    schemaVersion: 'unknown',
+    dateModified: lastModified,
+    distributions: {
+      atlas: { contentUrl: contentUrl('atlas.json') },
+      schema: { contentUrl: contentUrl('schema.json') },
+      views: { contentUrl: contentUrl('views.json') },
+      shareCodec: { contentUrl: contentUrl('share-codec.json') },
+      provenance: { contentUrl: contentUrl('provenance.json') }
+    }
+  };
+}
+
+function buildLlmsTxt(graphData, viewsData, {
+  graphDataPath,
+  schemaPath,
+  viewsPath,
+  atlasSvgPath,
+  directoryPath,
+  guidePath,
+  dataPath,
+  aiPath,
+  dataManifestPath,
+  dataManifest
+}) {
   const fields = (graphData.meta.fieldOrder ?? Object.keys(graphData.fields)).map((id) => graphData.fields[id].label).join(', ');
   const domainLinks = (graphData.meta.domainOrder ?? Object.keys(graphData.domains)).map((domainId) => {
     const domain = graphData.domains[domainId];
@@ -84,15 +119,34 @@ function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath
     return `- [${domain.label}](${appUrl(domainPath(graphData, domainId))}) — ${field?.label ?? domain.field}`;
   });
   return [
-    '# Atlas of Fundamental Concepts', '', `Canonical: ${appUrl()}`, `Version: ${graphData.meta.version}`, `Description: ${graphData.meta.description}`, '',
+    '# Atlas of Fundamental Concepts', '', `Canonical: ${appUrl()}`, `Content version: ${dataManifest.contentVersion}`, `Schema version: ${dataManifest.schemaVersion}`, `Description: ${graphData.meta.description}`, '',
     '## Scope', graphData.meta.scope, '',
-    '## Data',
+    '## AI and dataset entry points',
+    `- [Dataset landing page](${appUrl(dataPath)}) — stable machine-readable publication and use instructions.`,
+    `- [Current data manifest](${appUrl(dataManifestPath)}) — describes the current dataset URLs, content version, and SHA-256 hashes. This endpoint is replaced on each publication.`,
+    `- [Canonical graph JSON](${dataManifest.distributions.atlas.contentUrl})`,
+    `- [JSON Schema](${dataManifest.distributions.schema.contentUrl})`,
+    `- [Stories and Views JSON](${dataManifest.distributions.views.contentUrl})`,
+    `- [Content provenance JSON](${dataManifest.distributions.provenance.contentUrl})`,
+    ...(dataManifest.distributions.sqlite ? [`- [SQLite database](${dataManifest.distributions.sqlite.contentUrl}) — selective local SQL inspection and Python graph operations.`] : []),
+    ...(dataManifest.distributions.conceptsNdjson ? [`- [Concept and junction NDJSON](${dataManifest.distributions.conceptsNdjson.contentUrl})`, `- [Relations NDJSON](${dataManifest.distributions.relationsNdjson.contentUrl})`, `- [Sources NDJSON](${dataManifest.distributions.sourcesNdjson.contentUrl})`] : []),
+    ...(dataManifest.distributions.jsonld ? [`- [RDF JSON-LD graph](${dataManifest.distributions.jsonld.contentUrl})`, `- [RDF Turtle graph](${dataManifest.distributions.turtle.contentUrl})`] : []),
+    `- [AI integration](${appUrl(aiPath)}) — local SDKs, uploadable bundle, Agent Skill, citation guidance, and static workbench.`,
+    `- [AI bundle](${appUrl(`${aiPath}matlas-ai-bundle.zip`)}) — self-contained data and deterministic local tools for upload to compatible AI systems.`,
+    `- [Browser-local AI workbench](${appUrl(`${aiPath}workbench/`)}) — accessible forms and visible JSON results; progressive WebMCP tools where supported.`,
+    `- [Python SDK](${appUrl(`${aiPath}sdk/matlas.py`)}) and [ESM SDK](${appUrl(`${aiPath}sdk/matlas.mjs`)})`,
+    `- [Agent Skill](${appUrl(`${aiPath}skills/matlas/SKILL.md`)})`,
+    `- [Static OpenAPI description](${appUrl('openapi.json')}) — GET-only generated resources, not a dynamic API.`,
+    `- [Relation vocabulary](${appUrl('vocab/')}) — dereferenceable relation-type definitions used by the RDF exports.`,
+    `- [Citation guide](${appUrl(`${aiPath}citation-guide.md`)}) and [CITATION.cff](${appUrl('CITATION.cff')})`,
+    `- [Concise AI context](${appUrl('llms-context.txt')}) — relation semantics, coverage, and all concept summaries.`,
+    `- [Complete AI context](${appUrl('llms-context-full.txt')}) — every concept record and direct authored relation.`,
+    `- [Atlas Directory (Markdown)](${appUrl('directory/index.html.md')})`,
+    `- [Canonical concept index (Markdown)](${appUrl('concepts/index.html.md')})`,
     `- [User Guide](${appUrl(guidePath)})`,
+    `- [User Guide (Markdown)](${appUrl(`${guidePath}index.html.md`)})`,
     `- [Atlas Directory](${appUrl(directoryPath)})`,
     `- [All-in atlas SVG](${appUrl(atlasSvgPath)})`,
-    `- [Graph JSON](${appUrl(graphDataPath)})`,
-    `- [JSON Schema](${appUrl(schemaPath)})`,
-    `- [Views JSON](${appUrl(viewsPath)})`,
     `- [Stories & Views](${appUrl('views/')})`, '',
     '## Coverage',
     `- Fields: ${fields}`,
@@ -104,12 +158,15 @@ function buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath
     '## Domain pages',
     ...domainLinks,
     '',
-    '## Editorial guidance',
-    '- Use canonical /concepts/<id>/ URLs when citing atlas concepts.',
-    '- Use /guide/ for instructions and reproducible examples of interactive atlas states.',
-    '- Use /directory/ for the complete crawlable visual overview and concept directory, and /static/atlas.svg for the standalone vector document.',
-    '- Treat the atlas as editorially selective and source-backed.',
-    '- Verify technical claims against the attached sources.', ''
+    '## Use and citation guidance',
+    '- Resolve a requested topic to a canonical concept ID before making a graph claim.',
+    '- A direct authored edge is always directed from `source` to `target`; preserve its type, endpoint roles, annotation, explanation, and attached sources.',
+    '- Do not infer missing graph edges from general mathematical or scientific knowledge. Distinguish direct authored edges from computed paths or closures.',
+    '- Cite concepts at `https://atlas.madvay.com/concepts/<id>/` and direct relations at their `#relation-<edge-id>` fragment on the canonical endpoint page.',
+    '- Retain the linked external source citations supplied with every concept and relation record.',
+    '- For deterministic graph computation, use the published local SDK, SQLite distribution, or browser workbench; a static site cannot provide arbitrary remote MCP calls.',
+    '- The published data contract is latest-only: save the manifest and downloaded artifacts if a result must remain reproducible after a later publication.',
+    '- Treat the atlas as editorially selective and source-backed; verify technical claims against the attached sources.', ''
   ].join('\n');
 }
 
@@ -123,14 +180,32 @@ export async function generateSeoAssets({
   atlasSvgPath = 'static/atlas.svg',
   directoryPath = 'directory/',
   guidePath = 'guide/',
+  dataPath = 'data/',
+  aiPath = 'ai/',
+  dataManifestPath = 'data/latest/manifest.json',
+  dataManifest,
   fieldImages = {},
   domainImages = {},
   lastModified
 }) {
+  const publicationManifest = dataManifest ?? fallbackDataManifest(graphData, dataPath, lastModified);
   await Promise.all([
     writeFile(new URL('robots.txt', distUrl), buildRobotsTxt()),
-    writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, fieldImages, domainImages, lastModified)),
-    writeFile(new URL('llms.txt', distUrl), buildLlmsTxt(graphData, viewsData, graphDataPath, schemaPath, viewsPath, atlasSvgPath, directoryPath, guidePath)),
+    writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, dataPath, aiPath, fieldImages, domainImages, lastModified)),
+    writeFile(new URL('llms.txt', distUrl), appendTextPublicationMetadata(buildLlmsTxt(graphData, viewsData, {
+      graphDataPath,
+      schemaPath,
+      viewsPath,
+      atlasSvgPath,
+      directoryPath,
+      guidePath,
+      dataPath,
+      aiPath,
+      dataManifestPath,
+      dataManifest: publicationManifest
+    }), graphData, 'llms.txt')),
+    writeFile(new URL('llms-context.txt', distUrl), appendTextPublicationMetadata(renderLlmsContext(graphData, viewsData, publicationManifest), graphData, 'llms-context.txt')),
+    writeFile(new URL('llms-context-full.txt', distUrl), appendTextPublicationMetadata(renderLlmsContextFull(graphData, viewsData, publicationManifest), graphData, 'llms-context-full.txt')),
     writeFile(new URL('opensearch.xml', distUrl), buildOpenSearchXml())
   ]);
 }

@@ -33,6 +33,7 @@ test('directory page is semantic, crawlable, root-relative, and exactly transclu
   assert.ok(html.includes(fragment));
   assert.ok(!html.includes('<?xml version='));
   assert.ok(html.includes('<link rel="canonical" href="https://atlas.madvay.com/directory/">'));
+  assert.ok(html.includes('rel="alternate" type="text/markdown" href="https://atlas.madvay.com/directory/index.html.md"'));
   assert.ok(html.includes('"primaryImageOfPage"'));
   assert.ok(html.includes('"contentUrl":"https://atlas.madvay.com/static/atlas.svg"'));
   assert.ok(html.includes('href="/guide/"'));
@@ -40,7 +41,7 @@ test('directory page is semantic, crawlable, root-relative, and exactly transclu
   assert.ok(html.includes('Relation legend:'));
   assert.ok(html.includes('href="/concepts/finite_set/"'));
   assert.ok(html.includes('href="/content/atlas.test.json"'));
-  assert.ok(!html.includes('href="/data/'));
+  assert.ok(html.includes('href="/data/"'));
   const firstDomainId = graphData.meta.domainOrder[0];
   const firstDomain = graphData.domains[firstDomainId];
   const firstDomainPath = `/${graphData.fields[firstDomain.field].path}/${encodeURIComponent(firstDomainId)}/`;
@@ -111,6 +112,7 @@ test('field and domain scope pages expose canonical routes and crawlable navigat
   };
   const fieldHtml = renderScopePage(templateHtml, graphData, 'mathematics', null, fieldImage);
   assert.ok(fieldHtml.includes(`<link rel="canonical" href="https://atlas.madvay.com/${field.path}/">`));
+  assert.ok(fieldHtml.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/${field.path}/index.html.md"`));
   assert.ok(fieldHtml.includes('<base href="../">'));
   assert.ok(fieldHtml.includes('<meta name="atlas:scope" content="mathematics">'));
   assert.ok(fieldHtml.includes(`href="/${field.path}/${encodeURIComponent(domainId)}/"`));
@@ -135,6 +137,7 @@ test('field and domain scope pages expose canonical routes and crawlable navigat
   };
   const domainHtml = renderScopePage(templateHtml, graphData, 'mathematics', domainId, domainImage);
   assert.ok(domainHtml.includes(`<link rel="canonical" href="https://atlas.madvay.com/${field.path}/${encodeURIComponent(domainId)}/">`));
+  assert.ok(domainHtml.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/${field.path}/${encodeURIComponent(domainId)}/index.html.md"`));
   assert.ok(domainHtml.includes('<base href="../../">'));
   assert.ok(domainHtml.includes('<meta name="atlas:scope" content="mathematics">'));
   assert.ok(domainHtml.includes(`<meta name="atlas:domain" content="${domainId}">`));
