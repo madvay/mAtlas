@@ -890,7 +890,33 @@ nodes:
     fields:
       - mathematics
     conceptType: Foundational structure
+  - id: prime_ideal
+    label: Prime ideal
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: number-theory
+    domains:
+      - number-theory
+      - algebra
+      - algebraic-geometry
+    level: 10
+    kind: structure
+    conceptType: Prime ring ideal
+    summary: A proper ideal $P$ of a commutative ring such that $ab\in P$ implies $a\in P$ or $b\in P$; equivalently, the quotient $R/P$ is an integral domain.
+    citations:
+      - milne-algebraic-number-theory
+      - stacks-algebra-text
 edges:
+  - id: number_prime_ideal_to_prime_spectrum
+    source: prime_ideal
+    target: prime_spectrum
+    type: canonical-construction
+    label: supply points of $\operatorname{Spec}(R)$
+    detail: The prime spectrum of a commutative ring is formed from its prime ideals, equipped with the Zariski topology and its canonical structure sheaf.
+    citations:
+      - stacks-algebra-text
+      - stacks-scheme
   - id: euclidean_domain_to_pid
     source: euclidean_domain
     target: principal_ideal_domain

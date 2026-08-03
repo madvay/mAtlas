@@ -397,7 +397,37 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: graph_isomorphism
+    label: Graph isomorphism
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: combinatorics
+    domains:
+      - combinatorics
+    level: 4
+    kind: structure
+    conceptType: Structure-preserving bijection
+    summary: A bijective correspondence between two graphs that preserves their incidence data; for simple graphs this is equivalently preservation of adjacency.
+    citations:
+      - diestel-graph-theory
 edges:
+  - id: combinatorics_simple_graph_to_graph_isomorphism
+    source: simple_graph
+    target: graph_isomorphism
+    type: state-description
+    label: compared by adjacency-preserving bijections
+    detail: Two simple graphs are isomorphic when a bijection of vertices sends adjacent pairs exactly to adjacent pairs, so graph invariants must be unchanged by the bijection.
+    citations:
+      - diestel-graph-theory
+  - id: combinatorics_undirected_graph_to_graph_isomorphism
+    source: undirected_graph
+    target: graph_isomorphism
+    type: state-description
+    label: compared by incidence-preserving bijections
+    detail: For undirected multigraphs an isomorphism preserves the vertex-edge incidence relation and therefore respects loops and edge multiplicities when those are part of the chosen graph model.
+    citations:
+      - diestel-graph-theory
   - id: dag_to_partial_order
     source: directed_acyclic_graph
     target: partial_order

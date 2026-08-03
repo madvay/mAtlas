@@ -815,7 +815,38 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: representable_presheaf
+    label: Representable presheaf
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: category-theory
+    domains:
+      - category-theory
+    level: 6
+    kind: structure
+    conceptType: Functorial representation
+    summary: A presheaf naturally isomorphic to $\operatorname{Hom}_{\mathcal C}(-,c)$ for an object $c$ of a locally small category $\mathcal C$.
+    citations:
+      - riehl-category-context
+      - stacks-categories
 edges:
+  - id: category_presheaf_to_representable_presheaf
+    source: presheaf
+    target: representable_presheaf
+    type: classification
+    label: represented by an object
+    detail: Representable presheaves are the subclass of presheaves whose values and restriction maps are naturally isomorphic to hom-sets into one fixed representing object.
+    citations:
+      - riehl-category-context
+  - id: category_small_category_to_representable_presheaf
+    source: small_category
+    target: representable_presheaf
+    type: canonical-construction
+    label: form a hom presheaf
+    detail: Fixing an object $c$ of a small category canonically gives the contravariant hom-functor $\operatorname{Hom}_{\mathcal C}(-,c):\mathcal C^{\mathrm{op}}\to\mathbf{Set}$.
+    citations:
+      - riehl-category-context
   - id: abelian_category_to_derived_category
     source: abelian_category
     target: derived_category

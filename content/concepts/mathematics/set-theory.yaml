@@ -1081,7 +1081,40 @@ nodes:
     citations:
       - wp-von-neumann-ordinal
       - nlab-natural-number
+  - id: cumulative_hierarchy
+    label: Cumulative hierarchy
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: set-theory
+    domains:
+      - set-theory
+    level: 7
+    kind: structure
+    conceptType: Transfinite set construction
+    summary: The hierarchy $V_\alpha$ generated from the empty set by successor power sets and unions at limit stages; with the Foundation axiom, every set has a rank and occurs at some stage.
+    citations:
+      - openlogic-set-theory
+      - sep-set-theory
 edges:
+  - id: set_power_set_to_cumulative_hierarchy
+    source: power_set
+    target: cumulative_hierarchy
+    type: canonical-construction
+    label: successor stages
+    detail: The successor clause $V_{\alpha+1}=\mathcal P(V_\alpha)$ adds every subset of the preceding stage; limit stages instead take unions of all earlier stages.
+    citations:
+      - openlogic-set-theory
+      - sep-set-theory
+  - id: set_ordinal_to_cumulative_hierarchy
+    source: ordinal
+    target: cumulative_hierarchy
+    type: mathematical-formulation
+    label: transfinite stage index
+    detail: Ordinals index the successor and limit stages of the cumulative hierarchy, allowing the rank of a set to be stated precisely.
+    citations:
+      - openlogic-set-theory
+      - sep-set-theory
   - id: e_family_bigraded
     source: indexed_family
     target: bigraded_object

@@ -261,7 +261,38 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: many_one_reduction
+    label: Many-one reduction
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: computability-theory
+    domains:
+      - computability-theory
+    level: 5
+    kind: structure
+    conceptType: Computable reduction
+    summary: 'A total computable function $f$ reducing a set or decision problem $A$ to $B$ by preserving membership exactly: $x\in A$ if and only if $f(x)\in B$.'
+    citations:
+      - openlogic-computability
+      - turing-computable-numbers
 edges:
+  - id: computability_decision_problem_to_many_one_reduction
+    source: decision_problem
+    target: many_one_reduction
+    type: add-data
+    label: encode instances computably
+    detail: A many-one reduction supplies a total computable translation of instances so that one answer to the target decision problem decides the original instance without adaptive oracle queries.
+    citations:
+      - openlogic-computability
+  - id: computability_function_to_many_one_reduction
+    source: computable_function
+    target: many_one_reduction
+    type: mathematical-formulation
+    label: membership-preserving translator
+    detail: The reduction is the computable map $f$ whose membership-preservation equivalence transfers decidability and many undecidability arguments from the target problem to the source problem.
+    citations:
+      - openlogic-computability
   - id: story_algorithm_to_turing_machine_framework_specialization
     source: algorithm
     target: turing_machine

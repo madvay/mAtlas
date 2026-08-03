@@ -514,7 +514,30 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: homotopy_type
+    label: Homotopy type
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: algebraic-topology
+    domains:
+      - algebraic-topology
+      - topology
+    level: 6
+    kind: structure
+    conceptType: Homotopy-equivalence class
+    summary: The classification of a space up to homotopy equivalence, retaining the properties invariant under continuous deformations with homotopy inverses rather than its exact point-set form.
+    citations:
+      - hatcher-algebraic-topology
 edges:
+  - id: algebraic_topology_homotopy_equivalence_to_homotopy_type
+    source: homotopy_equivalence
+    target: homotopy_type
+    type: mathematical-formulation
+    label: supplies the equivalence criterion
+    detail: A homotopy equivalence is the relation-generating data used to classify spaces by homotopy type; the construction retains invariants such as homotopy and homology groups.
+    citations:
+      - hatcher-algebraic-topology
   - id: e_contract_path
     source: contractible_space
     target: path_connected_space

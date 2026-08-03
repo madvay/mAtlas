@@ -1427,6 +1427,21 @@ nodes:
     induces:
       - directional derivatives when composed with directions
     notes: This node uses the Fréchet derivative. One-variable derivatives and Jacobian matrices are special presentations; weaker directional or Gâteaux derivatives need not imply Fréchet differentiability.
+  - id: lebesgue_integral
+    label: Lebesgue integral
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: analysis
+    domains:
+      - analysis
+      - measure
+    level: 19
+    kind: structure
+    conceptType: Measure-theoretic integral
+    summary: The integral of a measurable function with respect to a measure, built from simple functions and limits; for signed or complex functions it is defined when the relevant positive and negative parts are integrable.
+    citations:
+      - tao-measure-theory
 edges:
   - id: normed_vector_space_to_differentiable_function_junction
     source: normed_vector_space

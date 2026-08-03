@@ -49,6 +49,40 @@ nodes:
   - wp-chem-organic-chemistry
   - iupac-blue-book
   - pubchem-docs
+- id: carbonyl_group
+  label: Carbonyl group
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  - molecular-structure-bonding
+  level: 38
+  kind: structure
+  conceptType: Functional group
+  summary: The structural unit containing a carbon atom double-bonded to oxygen, whose polarized multiple bond organizes the nomenclature, spectroscopy, and reactivity of carbonyl-containing compounds while substituents determine the specific class.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: carbonyl_compound
+  label: Carbonyl compound
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: organic-chemistry
+  domains:
+  - organic-chemistry
+  - molecular-structure-bonding
+  level: 39
+  kind: structure
+  conceptType: Compound class
+  summary: An organic compound containing a carbonyl group, encompassing classes such as aldehydes, ketones, and carboxylic-acid derivatives under a broad structural convention, although some contexts reserve the term for aldehydes and ketones.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
 - id: hydrocarbon
   label: Hydrocarbon
   primaryField: chemistry
@@ -335,6 +369,36 @@ edges:
   type: classification
   label: includes hydrocarbons
   detail: Hydrocarbons form the carbon–hydrogen base class from which many functionalized organic compounds are conceptually derived.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_functional_group_to_carbonyl_group_classification
+  source: functional_group
+  target: carbonyl_group
+  type: classification
+  label: includes the $\mathrm{C{=}O}$ motif
+  detail: The carbonyl group is a functional-group motif defined by a carbon–oxygen double-bond framework; substituents and charge state determine whether a particular molecule is classified as an aldehyde, ketone, acid derivative, or another class.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_carbonyl_group_to_carbonyl_compound_composition
+  source: carbonyl_group
+  target: carbonyl_compound
+  type: composition
+  label: is the defining structural motif
+  detail: A carbonyl compound contains a carbonyl group as a specified structural component, although the full compound's behavior also depends on all other substituents, conformation, phase, and reaction conditions.
+  citations:
+  - wp-chem-organic-chemistry
+  - iupac-blue-book
+  - pubchem-docs
+- id: chem_organic_compound_to_carbonyl_compound_classification
+  source: organic_compound
+  target: carbonyl_compound
+  type: classification
+  label: includes carbonyl-containing compounds
+  detail: Carbonyl compounds form a broad organic compound class united by a carbonyl functional group but divided into distinct subclasses by the groups attached to its carbon.
   citations:
   - wp-chem-organic-chemistry
   - iupac-blue-book

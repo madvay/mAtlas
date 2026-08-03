@@ -213,7 +213,33 @@ nodes:
       - nasa-hubble-constant
       - nasa-hubble-cosmological-redshift
     notes: At large redshift, distance and recession velocity depend on the chosen relativistic distance measure and cosmological model; the linear low-redshift expression must not be extrapolated naively.
+  - id: big_bang_nucleosynthesis
+    label: Big Bang nucleosynthesis
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: cosmology
+    domains:
+      - cosmology
+      - nuclear-physics
+    level: 29
+    kind: structure
+    conceptType: Early-universe nuclear reaction epoch
+    summary: The early-universe production of light nuclides through a cooling network of weak and nuclear reactions, whose abundances constrain cosmological expansion and baryon density.
+    citations:
+      - wp-physics-big-bang-nucleosynthesis
+      - nasa-big-bang
+      - nuclear-data-bnl
 edges:
+  - id: cosmology_big_bang_model_to_big_bang_nucleosynthesis
+    source: big_bang_model
+    target: big_bang_nucleosynthesis
+    type: describes-governs
+    label: sets the expansion and thermal history
+    detail: A hot expanding-universe model supplies the temperature, density, and expansion history within which weak freeze-out and light-nucleus reaction networks determine primordial abundances.
+    citations:
+      - nasa-big-bang
+      - nuclear-data-bnl
   - id: story_cosmological_principle_to_flrw_spacetime_model_realization
     source: cosmological_principle
     target: flrw_spacetime

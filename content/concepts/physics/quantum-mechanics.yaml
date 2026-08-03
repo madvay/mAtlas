@@ -1033,7 +1033,43 @@ nodes:
       - wp-physics-bell_theorem
       - nist-quantum-theory
       - horodecki-entanglement-review
+  - id: quantum_tunneling
+    label: Quantum tunneling
+    primaryField: physics
+    fields:
+      - physics
+      - chemistry
+    primaryDomain: quantum-mechanics
+    domains:
+      - quantum-mechanics
+      - atomic-molecular-physics
+      - nuclear-physics
+      - chemical-kinetics-dynamics
+    level: 12
+    kind: structure
+    conceptType: Barrier transmission phenomenon
+    summary: The nonzero transmission of a quantum state through a classically forbidden barrier, with probability controlled by the Hamiltonian, barrier profile, state energy, and approximation regime.
+    citations:
+      - wp-physics-quantum-tunnelling
+      - tong-quantum
+      - nist-quantum-theory
 edges:
+  - id: quantum_mechanics_to_quantum_tunneling
+    source: quantum_mechanics
+    target: quantum_tunneling
+    type: describes-governs
+    label: predicts barrier transmission
+    detail: Quantum mechanics assigns amplitudes across potential barriers rather than enforcing a classical turning point; observable tunneling rates depend on the system, environment, and boundary conditions.
+    citations:
+      - tong-quantum
+  - id: quantum_schrodinger_equation_to_quantum_tunneling
+    source: schrodinger_equation
+    target: quantum_tunneling
+    type: describes-governs
+    label: determines barrier amplitudes
+    detail: Solving the Schrödinger equation across a barrier gives reflected and transmitted amplitudes, with semiclassical formulas valid only when their stated action and smoothness conditions hold.
+    citations:
+      - tong-quantum
   - id: angular_to_orbital
     source: angular_momentum
     target: orbital_angular_momentum
@@ -1688,9 +1724,9 @@ edges:
   - id: density_to_expectation
     source: density_operator
     target: quantum_expectation_value
-    type: mathematical-formulation
-    label: trace formula
-    detail: For a density operator $\rho$, the expectation of $A$ is $\operatorname{Tr}(\rho A)$ whenever the product and trace are defined.
+    type: state-description
+    label: gives expectation values
+    detail: For a density operator $\rho$, the expectation of an observable $A$ is $\operatorname{Tr}(\rho A)$ whenever the product and trace are defined.
     citations:
       - tong-quantum
       - wp-physics-expectation-value

@@ -111,6 +111,7 @@ nodes:
   primaryDomain: chemical-thermodynamics-equilibrium
   domains:
   - chemical-thermodynamics-equilibrium
+  - chemistry-experiments-evidence
   level: 29
   kind: structure
   conceptType: Measurement method class
@@ -297,7 +298,44 @@ nodes:
   citations:
   - wp-chem-hess-law
   - openstax-chemistry-2e
+- id: standard_reaction_gibbs_energy
+  label: Standard reaction Gibbs energy
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-thermodynamics-equilibrium
+  domains:
+  - chemical-thermodynamics-equilibrium
+  - electrochemistry
+  level: 28
+  kind: structure
+  conceptType: Standard-state reaction property
+  summary: The Gibbs-energy change for a reaction when every participant is in its stated standard state at the specified temperature and pressure, denoted $\Delta_\mathrm rG^\circ$.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
 edges:
+- id: chem_gibbs_energy_to_standard_reaction_gibbs_energy_state_description
+  source: gibbs_energy
+  target: standard_reaction_gibbs_energy
+  type: state-description
+  label: specifies standard-state reaction change
+  detail: Standard reaction Gibbs energy is assembled from the stoichiometrically weighted chemical potentials of reactants and products evaluated in declared standard states.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
+- id: chem_standard_reaction_gibbs_energy_to_equilibrium_constant_theorem_implication
+  source: standard_reaction_gibbs_energy
+  target: equilibrium_constant
+  type: theorem-implication
+  label: relates $\Delta_\mathrm rG^\circ$ to $K$
+  detail: For a reaction and standard-state convention at temperature $T$, equilibrium thermodynamics gives $\Delta_\mathrm rG^\circ=-RT\ln K$ when the activity-based equilibrium constant is defined consistently.
+  citations:
+  - wp-chem-chemical-thermodynamics
+  - openstax-chemistry-2e
+  - iupac-green-book
 - id: chem_enthalpy_to_chemical_thermodynamics_theory_component
   source: enthalpy
   target: chemical_thermodynamics

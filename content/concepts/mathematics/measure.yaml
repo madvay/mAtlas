@@ -306,7 +306,54 @@ nodes:
     induces:
       - probability measures $p_\rho(B)=\operatorname{Tr}(\rho E(B))$
     notes: A PVM is the special case in which every effect is an orthogonal projection.
+  - id: lebesgue_measure
+    label: Lebesgue measure
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: measure
+    domains:
+      - measure
+      - analysis
+    level: 5
+    kind: structure
+    conceptType: Complete translation-invariant measure
+    summary: The complete translation-invariant measure on Lebesgue-measurable subsets of $\mathbb R^n$ that extends ordinary length, area, and volume.
+    citations:
+      - tao-measure-theory
 edges:
+  - id: measure_borel_space_to_lebesgue_measure
+    source: borel_measurable_space
+    target: lebesgue_measure
+    type: canonical-construction
+    label: complete Borel volume
+    detail: Lebesgue measure starts from the Borel measure agreeing with interval and box volume and is completed by including subsets of measure-zero sets.
+    citations:
+      - tao-measure-theory
+  - id: measure_lebesgue_measure_to_integral
+    source: lebesgue_measure
+    target: lebesgue_integral
+    type: mathematical-formulation
+    label: choose standard Euclidean volume
+    detail: Lebesgue measure supplies the standard volume measure used in the Lebesgue integral on Euclidean space; other measures give different, equally valid integrals.
+    citations:
+      - tao-measure-theory
+  - id: analysis_measure_space_to_lebesgue_integral
+    source: measure_space
+    target: lebesgue_integral
+    type: mathematical-formulation
+    label: supplies an integration measure
+    detail: A measure space supplies the measure against which measurable functions are integrated; changing that measure generally changes both integrability and the resulting value.
+    citations:
+      - tao-measure-theory
+  - id: analysis_measurable_function_to_lebesgue_integral
+    source: measurable_function
+    target: lebesgue_integral
+    type: mathematical-formulation
+    label: supplies the integrand
+    detail: Measurability is the structural condition that permits approximation by simple functions and defines the Lebesgue integral when the relevant extended-real integrals are finite or well specified.
+    citations:
+      - tao-measure-theory
   - id: borel_to_measurable
     source: borel_measurable_space
     target: measurable_space

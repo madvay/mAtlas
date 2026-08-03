@@ -765,7 +765,31 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: scheme_morphism
+    label: Morphism of schemes
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: algebraic-geometry
+    domains:
+      - algebraic-geometry
+    level: 13
+    kind: structure
+    conceptType: Locally ringed-space morphism
+    summary: A map of schemes consisting of a continuous map of the underlying spaces and a compatible morphism of structure sheaves that is local on every stalk.
+    citations:
+      - stacks-scheme
+      - stacks-schemes-text
 edges:
+  - id: algebraic_geometry_scheme_to_scheme_morphism
+    source: scheme
+    target: scheme_morphism
+    type: add-data
+    label: choose source, target, and local sheaf map
+    detail: A scheme morphism adds a continuous map between two schemes and a sheaf homomorphism $\mathcal O_Y\to f_*\mathcal O_X$ whose maps on stalks are local ring homomorphisms.
+    citations:
+      - stacks-scheme
+      - stacks-schemes-text
   - id: e_artinian_noetherian
     source: artinian_ring
     target: noetherian_ring

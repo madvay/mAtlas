@@ -515,7 +515,56 @@ nodes:
       - tong-solid-state-physics
       - mit-theory-of-solids
 
+  - id: two_dimensional_electron_gas
+    label: Two-dimensional electron gas
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 38
+    kind: structure
+    conceptType: Confined electronic system
+    summary: An electronic system whose motion is quantized in one spatial direction and effectively free in two, so that its low-energy dynamics is two-dimensional.
+    citations:
+      - wp-physics-two-dimensional-electron-gas
+      - tong-solid-state-physics
+      - tong-quantum-hall
+  - id: quantum_hall_effect
+    label: Quantum Hall effect
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: condensed-matter-physics
+    domains:
+      - condensed-matter-physics
+    level: 41
+    kind: structure
+    conceptType: Quantized two-dimensional transport phenomenon
+    summary: Quantized transverse conductance and related edge or bulk phenomena of a two-dimensional electron system in a strong magnetic field at sufficiently low temperature and disorder.
+    citations:
+      - wp-physics-quantum-hall-effect
+      - tong-solid-state-physics
+      - tong-quantum-hall
 edges:
+  - id: condensed_electronic_matter_to_two_dimensional_electron_gas
+    source: electronic_condensed_matter
+    target: two_dimensional_electron_gas
+    type: framework-specialization
+    label: confine motion to two dimensions
+    detail: A two-dimensional electron gas specializes an electronic condensed-matter system by strong confinement in one direction, leaving only subband-resolved in-plane motion at relevant energies.
+    citations:
+      - tong-solid-state-physics
+      - tong-quantum-hall
+  - id: condensed_two_dimensional_electron_gas_to_quantum_hall_effect
+    source: two_dimensional_electron_gas
+    target: quantum_hall_effect
+    type: emergence
+    label: yields quantized transport in a magnetic field
+    detail: Landau quantization, disorder, interactions, and sample boundaries can collectively produce integer or fractional quantum Hall regimes; not every two-dimensional electron gas is in such a regime.
+    citations:
+      - tong-quantum-hall
   - id: condensed_framework_to_many_body_system
     source: condensed_matter_physics
     target: quantum_many_body_system

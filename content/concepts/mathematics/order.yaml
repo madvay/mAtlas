@@ -844,7 +844,64 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: monotone_map
+    label: Monotone map
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: order
+    domains:
+      - order
+      - category-theory
+    level: 4
+    kind: structure
+    conceptType: Structure-preserving map
+    summary: 'A function between partially ordered sets that preserves order: $x\le y$ implies $f(x)\le f(y)$.'
+    citations:
+      - gierz-order
+      - riehl-category-context
+  - id: galois_connection
+    label: Galois connection
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: order
+    domains:
+      - order
+      - category-theory
+    level: 6
+    kind: structure
+    conceptType: Order adjunction
+    summary: A pair of monotone maps $f:P\rightleftarrows Q:g$ for which $f(p)\le q$ exactly when $p\le g(q)$; each map determines a closure or interior operator by composition.
+    citations:
+      - gierz-order
+      - riehl-category-context
 edges:
+  - id: order_poset_to_monotone_map
+    source: partial_order
+    target: monotone_map
+    type: add-data
+    label: choose ordered source and target
+    detail: A map becomes monotone after specifying ordered domain and codomain and requiring that every order comparison in the domain is preserved in the codomain.
+    citations:
+      - gierz-order
+  - id: order_monotone_map_to_galois_connection
+    source: monotone_map
+    target: galois_connection
+    type: add-data
+    label: pair with an order adjoint
+    detail: A Galois connection adds a second monotone map in the reverse direction and the adjoint equivalence $f(p)\le q\Leftrightarrow p\le g(q)$.
+    citations:
+      - gierz-order
+      - riehl-category-context
+  - id: topology_equivalence_relation_to_quotient_space
+    source: equivalence_relation
+    target: quotient_space
+    type: mathematical-formulation
+    label: specifies identified points
+    detail: The equivalence relation determines the quotient-set representatives; the topology is then the finest topology making the quotient map continuous.
+    citations:
+      - topology-without-tears
   - id: e_rel_equiv
     source: binary_relation
     target: equivalence_relation

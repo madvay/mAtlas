@@ -173,7 +173,59 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: congruence_relation
+    label: Congruence relation
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: universal-algebra
+    domains:
+      - universal-algebra
+    level: 5
+    kind: structure
+    conceptType: Operation-compatible equivalence relation
+    summary: An equivalence relation on an algebra that is preserved by every basic operation, so applying an operation to pairwise equivalent inputs gives equivalent outputs.
+    citations:
+      - burris-universal-algebra
+  - id: quotient_algebra
+    label: Quotient algebra
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: universal-algebra
+    domains:
+      - universal-algebra
+    level: 6
+    kind: structure
+    conceptType: Congruence quotient
+    summary: The algebra whose elements are congruence classes of an algebra and whose basic operations are induced on those classes by compatibility of the congruence.
+    citations:
+      - burris-universal-algebra
 edges:
+  - id: universal_algebra_to_congruence_relation
+    source: universal_algebra
+    target: congruence_relation
+    type: state-description
+    label: admits operation-compatible identifications
+    detail: A congruence identifies elements only when every basic operation respects the identification, which is the condition needed for operations to descend to equivalence classes.
+    citations:
+      - burris-universal-algebra
+  - id: universal_algebra_to_quotient_algebra
+    source: universal_algebra
+    target: quotient_algebra
+    type: quotient-construction
+    label: quotient by a congruence
+    detail: Given an algebra $A$ and a congruence $\theta$, identify $a$ and $b$ exactly when $a\,\theta\,b$; each basic operation is then defined on the resulting $\theta$-classes.
+    citations:
+      - burris-universal-algebra
+  - id: universal_congruence_to_quotient_algebra
+    source: congruence_relation
+    target: quotient_algebra
+    type: mathematical-formulation
+    label: ensures operations descend
+    detail: Congruence compatibility is precisely what makes the value of every induced operation independent of the selected representatives of its input classes.
+    citations:
+      - burris-universal-algebra
   - id: algebraic_signature_to_j_universal
     source: algebraic_signature
     target: j_universal_algebra

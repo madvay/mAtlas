@@ -1149,7 +1149,40 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: quotient_space
+    label: Quotient space
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: topology
+    domains:
+      - topology
+      - order
+    level: 5
+    kind: structure
+    conceptType: Final-topology identification
+    summary: A set of equivalence classes supplied with the quotient topology, in which a subset is open exactly when its inverse image under the quotient map is open.
+    citations:
+      - topology-without-tears
+      - hatcher-algebraic-topology
 edges:
+  - id: topology_topological_space_to_quotient_space
+    source: topological_space
+    target: quotient_space
+    type: quotient-construction
+    label: identify points and use the final topology
+    detail: Given a topological space $X$ and an equivalence relation, replace points by their equivalence classes and declare $U$ open in $X/{\sim}$ exactly when its quotient-map preimage is open in $X$.
+    citations:
+      - topology-without-tears
+      - hatcher-algebraic-topology
+  - id: algebraic_topology_space_to_homotopy_type
+    source: topological_space
+    target: homotopy_type
+    type: quotient-construction
+    label: identify homotopy-equivalent spaces
+    detail: Homotopy type treats spaces as equivalent when maps in both directions compose to maps homotopic to the corresponding identities, rather than when the spaces are homeomorphic.
+    citations:
+      - hatcher-algebraic-topology
   - id: compact_metric_to_complete
     source: compact_metric_space
     target: complete_metric_space

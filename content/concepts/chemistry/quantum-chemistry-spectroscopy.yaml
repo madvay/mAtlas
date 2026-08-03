@@ -174,6 +174,7 @@ nodes:
   primaryDomain: quantum-chemistry-spectroscopy
   domains:
   - quantum-chemistry-spectroscopy
+  - chemistry-experiments-evidence
   level: 37
   kind: structure
   conceptType: Measurement framework
@@ -190,6 +191,7 @@ nodes:
   primaryDomain: quantum-chemistry-spectroscopy
   domains:
   - quantum-chemistry-spectroscopy
+  - chemistry-experiments-evidence
   level: 38
   kind: structure
   conceptType: Spectroscopic method
@@ -223,6 +225,7 @@ nodes:
   primaryDomain: quantum-chemistry-spectroscopy
   domains:
   - quantum-chemistry-spectroscopy
+  - chemistry-experiments-evidence
   level: 39
   kind: structure
   conceptType: Spectroscopic method
@@ -272,6 +275,7 @@ nodes:
   primaryDomain: quantum-chemistry-spectroscopy
   domains:
   - quantum-chemistry-spectroscopy
+  - chemistry-experiments-evidence
   level: 40
   kind: structure
   conceptType: Magnetic-resonance method
@@ -331,7 +335,43 @@ nodes:
   citations:
   - wp-physics-nuclear_spin
   - nobel-nmr-1952
+- id: basis_set
+  label: Basis set
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: quantum-chemistry-spectroscopy
+  domains:
+  - quantum-chemistry-spectroscopy
+  level: 33
+  kind: structure
+  conceptType: Finite electronic-structure representation
+  summary: A finite collection of functions used to approximate electronic orbitals, densities, or wavefunctions in a specified electronic-structure calculation.
+  citations:
+  - wp-chem-quantum-chemistry
+  - nist-atomic-wavefunctions
+  - openstax-chemistry-2e
 edges:
+- id: chem_basis_set_to_electronic_structure_calculation_theory_component
+  source: basis_set
+  target: electronic_structure_calculation
+  type: theory-component
+  label: supplies a finite representation
+  detail: A basis set turns the electronic-structure equations into a finite numerical problem, and its completeness, functional form, and treatment of diffuse or core regions affect the computed result.
+  citations:
+  - wp-chem-quantum-chemistry
+  - nist-atomic-wavefunctions
+  - openstax-chemistry-2e
+- id: chem_basis_set_to_hartree_fock_theory_component
+  source: basis_set
+  target: hartree_fock_method
+  type: theory-component
+  label: expands orbitals numerically
+  detail: In a basis-set Hartree–Fock calculation, molecular orbitals are expanded in selected basis functions; basis incompleteness and the mean-field approximation are separate error sources.
+  citations:
+  - wp-chem-quantum-chemistry
+  - nist-atomic-wavefunctions
+  - openstax-chemistry-2e
 - id: chem_quantum_chemistry_to_born_oppenheimer_approximation_model_realization
   source: quantum_chemistry
   target: born_oppenheimer_approximation

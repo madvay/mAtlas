@@ -1,2 +1,75 @@
-nodes: []
-edges: []
+nodes:
+  - id: measurement_result
+    label: Measurement result
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: experiments-observations
+    domains:
+      - experiments-observations
+    level: 4
+    kind: structure
+    conceptType: Documented measured value
+    summary: A value or value set attributed to a specified measurand by a documented measurement procedure, together with the information needed to interpret it.
+    citations:
+      - wp-physics-measurement
+      - bipm-gum-1
+  - id: measurement_uncertainty
+    label: Measurement uncertainty
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: experiments-observations
+    domains:
+      - experiments-observations
+    level: 5
+    kind: structure
+    conceptType: Result qualification
+    summary: A nonnegative parameter characterizing the dispersion of values that can reasonably be attributed to a specified measurand, evaluated from the available measurement information.
+    citations:
+      - wp-physics-measurement-uncertainty
+      - bipm-gum-1
+  - id: coulomb_torsion_balance_experiment
+    label: Coulomb’s torsion-balance measurements
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: experiments-observations
+    domains:
+      - experiments-observations
+      - electromagnetism
+    level: 14
+    kind: structure
+    conceptType: Historical quantitative experiment
+    summary: Coulomb’s 1785 torsion-balance measurements compared electrostatic forces between charged bodies and helped establish quantitative electrostatics.
+    citations:
+      - wp-physics-coulomb_law
+      - aps-coulomb-torsion-balance
+      - tong-em
+edges:
+  - id: measurement_result_to_measurement_uncertainty
+    source: measurement_result
+    target: measurement_uncertainty
+    type: state-description
+    label: qualified by dispersion
+    detail: A reported measurement result requires an uncertainty evaluation tied to the defined measurand, model, calibration, sampling, and stated coverage or probability convention where applicable.
+    citations:
+      - bipm-gum-1
+  - id: measurement_uncertainty_to_chemical_measurement_uncertainty
+    source: measurement_uncertainty
+    target: measurement_uncertainty_chemistry
+    type: framework-specialization
+    label: specialize to chemical measurands
+    detail: Chemical measurement uncertainty adds chemistry-specific contributions such as sampling, preparation, matrix effects, species definition, calibration, and metrological traceability to the general evaluation framework.
+    citations:
+      - bipm-gum-1
+      - iupac-orange-book
+  - id: coulomb_torsion_balance_to_coulomb_law
+    source: coulomb_torsion_balance_experiment
+    target: coulomb_law
+    type: historically-motivated
+    label: quantitative electrostatic-force comparison
+    detail: Coulomb used a torsion balance to compare electrostatic forces between charged bodies; the measurements and analysis materially shaped the early quantitative inverse-square formulation of electrostatics.
+    citations:
+      - aps-coulomb-torsion-balance
+      - tong-em

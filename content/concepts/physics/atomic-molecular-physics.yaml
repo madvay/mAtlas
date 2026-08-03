@@ -1120,7 +1120,35 @@ nodes:
       - wp-physics-proton_radius_puzzle
       - nist-codata-2022
     status: Observed / performed
+  - id: photoionization
+    label: Photoionization
+    primaryField: physics
+    fields:
+      - physics
+      - chemistry
+    primaryDomain: atomic-molecular-physics
+    domains:
+      - atomic-molecular-physics
+      - quantum-chemistry-spectroscopy
+      - electromagnetism
+    level: 35
+    kind: structure
+    conceptType: Photon-induced atomic ionization
+    summary: The ionization of an atom or ion by absorption of a photon, producing an ion and a continuum electron when energy and selection conditions permit.
+    citations:
+      - wp-physics-photoionization
+      - nist-atomic-spectroscopy
+      - tong-quantum
 edges:
+  - id: atomic_ionization_process_to_photoionization
+    source: ionization_process
+    target: photoionization
+    type: classification
+    label: photon-induced ionization
+    detail: Photoionization is the subclass of atomic ionization driven by photon absorption, distinguished from collisional, field, or other ionization mechanisms.
+    citations:
+      - nist-atomic-spectroscopy
+      - tong-quantum
   - id: angular_to_jjcoupling
     source: many_electron_atom
     target: jj_coupling

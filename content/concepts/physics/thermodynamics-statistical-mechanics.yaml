@@ -560,7 +560,34 @@ nodes:
       - wp-physics-critical-phenomena
       - tong-statistical-physics
 
+  - id: heat_capacity
+    label: Heat capacity
+    primaryField: physics
+    fields:
+      - physics
+      - chemistry
+    primaryDomain: thermodynamics-statistical-mechanics
+    domains:
+      - thermodynamics-statistical-mechanics
+      - chemical-thermodynamics-equilibrium
+    level: 22
+    kind: structure
+    conceptType: Thermodynamic response function
+    summary: The heat required per infinitesimal temperature change under specified constraints, such as constant volume or pressure; its value depends on the system, state, and constraint.
+    citations:
+      - wp-physics-heat-capacity
+      - tong-statistical-physics
+      - openstax-chemistry-2e
 edges:
+  - id: thermodynamics_system_to_heat_capacity
+    source: thermodynamic_system
+    target: heat_capacity
+    type: state-description
+    label: has constraint-dependent thermal response
+    detail: A thermodynamic system can be assigned heat capacities only after its composition, state variables, phase behavior, and constraints such as fixed volume or pressure are specified.
+    citations:
+      - tong-statistical-physics
+      - openstax-chemistry-2e
   - id: thermo_system_to_state
     source: thermodynamic_system
     target: thermodynamic_state

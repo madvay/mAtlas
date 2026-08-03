@@ -305,7 +305,57 @@ nodes:
       - aps-hertz
       - tong-em
     status: Observed / performed
+  - id: poynting_vector
+    label: Poynting vector
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: electromagnetism
+    domains:
+      - electromagnetism
+    level: 15
+    kind: structure
+    conceptType: Electromagnetic energy-flux density
+    summary: The vector field $\mathbf S=\mathbf E\times\mathbf H$ in macroscopic SI notation, representing electromagnetic energy flux with its exact local interpretation dependent on the chosen field-matter energy split.
+    citations:
+      - wp-physics-poynting-vector
+      - tong-em
+      - nlab-physics-electromagnetic_field
 edges:
+  - id: electromagnetism_electromagnetic_field_to_poynting_vector
+    source: electromagnetic_field
+    target: poynting_vector
+    type: state-description
+    label: has local energy flux
+    detail: Electric and magnetic fields jointly determine the Poynting vector; its surface integral contributes to electromagnetic energy transfer across a boundary under the chosen material description.
+    citations:
+      - tong-em
+  - id: electromagnetism_maxwell_equations_to_poynting_vector
+    source: maxwell_equations
+    target: poynting_vector
+    type: describes-governs
+    label: yields local energy balance
+    detail: Maxwell's equations lead to Poynting's theorem, relating the divergence of energy flux to the time change of field energy and work done on matter under the stated constitutive assumptions.
+    citations:
+      - tong-em
+  - id: electromagnetism_radiation_to_photoionization
+    source: electromagnetic_radiation
+    target: photoionization
+    type: couples-interacts
+    label: supplies ionizing photons
+    detail: When photon energy exceeds an applicable ionization threshold and the transition matrix element is nonzero, electromagnetic radiation can eject a bound electron from an atom or ion.
+    citations:
+      - nist-atomic-spectroscopy
+      - tong-quantum
+  - id: condensed_magnetic_field_to_quantum_hall_effect
+    source: magnetic_field
+    target: quantum_hall_effect
+    type: couples-interacts
+    label: quantizes orbital motion
+    detail: A perpendicular magnetic field couples to charged carriers, producing Landau levels whose filling and disorder structure are central to quantum Hall transport.
+    citations:
+      - tong-solid-state-physics
+      - tong-quantum-hall
   - id: em_to_field
     source: electromagnetic_field
     target: classical_electromagnetism

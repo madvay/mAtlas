@@ -1628,7 +1628,41 @@ nodes:
       - cern-higgs-overview
       - pdg-2026-higgs
     status: Observed / performed
+  - id: cp_violation
+    label: CP violation
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: particle-physics
+    domains:
+      - particle-physics
+      - experiments-observations
+    level: 9
+    kind: structure
+    conceptType: Discrete-symmetry violation
+    summary: A difference between the behavior of a process and its charge-parity transformed process, observed in weak interactions and represented in the Standard Model by physical complex phases in flavor mixing.
+    citations:
+      - wp-physics-kaon_cp_violation_experiment
+      - pdg-2026-ckm
+      - pdg-rpp
 edges:
+  - id: particle_ckm_to_cp_violation
+    source: ckm_matrix
+    target: cp_violation
+    type: describes-governs
+    label: supplies a physical quark-sector phase
+    detail: With three nondegenerate quark generations, a nonzero rephasing-invariant CKM phase permits CP-violating weak-interaction observables, while the measured magnitude remains process dependent.
+    citations:
+      - pdg-2026-ckm
+  - id: particle_cp_violation_to_kaon_experiment
+    source: cp_violation
+    target: kaon_cp_violation_experiment
+    type: experimentally-verified-by
+    label: neutral-kaon decay asymmetry
+    detail: Neutral-kaon decay measurements established CP violation by comparing decay behavior and time evolution in the kaon system, while later measurements test its detailed flavor-sector description.
+    citations:
+      - pdg-2026-ckm
+      - pdg-rpp
   - id: baryon_to_neutron
     source: baryon
     target: neutron

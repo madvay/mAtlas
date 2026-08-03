@@ -219,6 +219,7 @@ nodes:
     primaryDomain: quantum-field-theory
     domains:
       - quantum-field-theory
+      - classical-mechanics
     level: 5
     kind: structure
     conceptType: Theorem / structural relation
@@ -1827,7 +1828,40 @@ nodes:
     sections:
       - title: Qualification
         body: The Casimir effect tests QED predictions for interacting boundaries; it is not by itself a unique measurement of an absolute vacuum energy.
+  - id: ward_takahashi_identity
+    label: Ward–Takahashi identity
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: quantum-field-theory
+    domains:
+      - quantum-field-theory
+    level: 12
+    kind: structure
+    conceptType: Quantum symmetry identity
+    summary: A relation among correlation functions that follows from a continuous symmetry of the quantum theory; in gauge theories it constrains vertices, propagators, and renormalization.
+    citations:
+      - wp-physics-ward-takahashi-identity
+      - tong-qft
+      - cern-qft-intro
 edges:
+  - id: qft_gauge_symmetry_to_ward_takahashi_identity
+    source: gauge_symmetry
+    target: ward_takahashi_identity
+    type: theorem-implication
+    label: yields correlation-function identities
+    detail: In an anomaly-free, suitably gauge-fixed quantum theory, invariance of the generating functional gives Ward–Takahashi identities; the precise form depends on fields, sources, and regularization.
+    citations:
+      - tong-qft
+      - cern-qft-intro
+  - id: qft_qed_to_ward_takahashi_identity
+    source: quantum_electrodynamics
+    target: ward_takahashi_identity
+    type: theorem-implication
+    label: relates vertex and propagator
+    detail: In QED, the Ward–Takahashi identity relates the electromagnetic vertex function to differences of inverse fermion propagators and enforces charge-renormalization constraints.
+    citations:
+      - tong-qft
   - id: canonical_quant_to_qft
     source: canonical_quantization
     target: quantum_field_theory

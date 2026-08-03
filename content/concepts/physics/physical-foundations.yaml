@@ -311,7 +311,61 @@ nodes:
       - wp-physics-binding_energy
       - nlab-binding-energy
       - einstein-binding-energy
+  - id: physical_dimension
+    label: Physical dimension
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: physical-foundations
+    domains:
+      - physical-foundations
+    level: 3
+    kind: structure
+    conceptType: Quantity classification
+    summary: The conventional classification of a physical quantity by its dependence on selected base quantities, independent of any chosen numerical unit.
+    citations:
+      - wp-physics-physical_quantity
+      - bipm-si-brochure
+  - id: dimensional_analysis
+    label: Dimensional analysis
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: physical-foundations
+    domains:
+      - physical-foundations
+    level: 4
+    kind: structure
+    conceptType: Consistency and scaling method
+    summary: A method that compares equations, models, and parameter combinations through the dimensions of their physical quantities, detecting dimensional inconsistency and constructing dimensionless groups.
+    citations:
+      - wp-physics-dimensional-analysis
+      - bipm-si-brochure
 edges:
+  - id: physical_quantity_to_physical_dimension
+    source: physical_quantity
+    target: physical_dimension
+    type: state-description
+    label: classified by dimensions
+    detail: A physical quantity is assigned dimensions relative to a chosen system of base quantities; the assignment is conventional but constrains valid products, powers, and equations.
+    citations:
+      - bipm-si-brochure
+  - id: physical_dimension_to_dimensional_analysis
+    source: physical_dimension
+    target: dimensional_analysis
+    type: theory-component
+    label: supplies dimension exponents
+    detail: Dimensional analysis uses the exponent vectors of quantity dimensions to test equations and organize independent dimensionless combinations under stated modeling assumptions.
+    citations:
+      - bipm-si-brochure
+  - id: physical_quantity_to_measurement_result
+    source: physical_quantity
+    target: measurement_result
+    type: state-description
+    label: reported by a measurement result
+    detail: A measurement result reports a value attributed to a specified physical quantity together with the measurement model, conditions, unit convention, and any required qualification.
+    citations:
+      - bipm-gum-1
   - id: atom_to_oneelectron
     source: physical_system
     target: one_electron_atom

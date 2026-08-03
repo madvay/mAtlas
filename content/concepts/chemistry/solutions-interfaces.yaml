@@ -589,7 +589,44 @@ nodes:
   citations:
   - wp-chem-osmotic-pressure
   - nobel-vanthoff-1901
+- id: ionic_strength
+  label: Ionic strength
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: solutions-interfaces
+  domains:
+  - solutions-interfaces
+  - electrochemistry
+  level: 31
+  kind: structure
+  conceptType: Charge-weighted solution composition
+  summary: The charge-squared weighted concentration measure $I=\tfrac12\sum_i c_i z_i^2$ for ions in a solution under a stated concentration convention.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-gold-book
 edges:
+- id: chem_electrolyte_solution_to_ionic_strength_state_description
+  source: electrolyte_solution
+  target: ionic_strength
+  type: state-description
+  label: has charge-weighted composition
+  detail: The ionic strength of an electrolyte solution depends on the concentrations and charges of all dissolved ions, including ions from background electrolyte and acid-base or complexation equilibria.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_ionic_strength_to_activity_coefficient_describes_governs
+  source: ionic_strength
+  target: activity_coefficient
+  type: describes-governs
+  label: controls a leading nonideality variable
+  detail: Ionic strength is a central variable in dilute-solution activity-coefficient models, but solvent composition, ion size, specific interactions, temperature, and model range also matter.
+  citations:
+  - wp-chem-solution
+  - openstax-chemistry-2e
+  - iupac-gold-book
 - id: chem_solution_to_ideal_solution_model_realization
   source: solution
   target: ideal_solution

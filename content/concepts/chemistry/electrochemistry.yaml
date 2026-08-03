@@ -236,7 +236,9 @@ nodes:
   primaryDomain: electrochemistry
   domains:
   - electrochemistry
-  level: 36
+  - analytical-chemistry
+  - chemistry-experiments-evidence
+  level: 38
   kind: structure
   conceptType: Electroanalytical method
   summary: Measurement of current while an electrode potential is swept through a forward and reverse waveform to probe redox thermodynamics,
@@ -245,6 +247,42 @@ nodes:
   - wp-chem-electrochemistry
   - openstax-chemistry-2e
   - iupac-gold-book
+- id: electrode_kinetics
+  label: Electrode kinetics
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  - chemical-kinetics-dynamics
+  level: 37
+  kind: structure
+  conceptType: Interfacial electron-transfer kinetics
+  summary: The rate description of charge-transfer reactions at an electrode interface, relating current to potential, activities, surface state, temperature, and transport under a specified reaction and kinetic model.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+  - mit-ocw-butler-volmer
+- id: butler_volmer_equation
+  label: Butler–Volmer equation
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: electrochemistry
+  domains:
+  - electrochemistry
+  - chemical-kinetics-dynamics
+  level: 38
+  kind: structure
+  conceptType: Electrode-current relation
+  summary: A kinetic current–overpotential relation for a specified electrode reaction that combines anodic and cathodic exponential terms, subject to its exchange-current, transfer-coefficient, interfacial, and transport assumptions.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+  - mit-ocw-butler-volmer
 - id: battery
   label: Battery
   primaryField: chemistry
@@ -538,6 +576,50 @@ edges:
   - wp-chem-electrochemistry
   - openstax-chemistry-2e
   - iupac-gold-book
+- id: chem_electrode_to_electrode_kinetics_state_description
+  source: electrode
+  target: electrode_kinetics
+  type: state-description
+  label: supports interfacial charge-transfer rates
+  detail: An electrode interface has charge-transfer kinetics only for a specified redox couple, electrolyte, potential reference, surface state, and transport condition; the electrode material alone does not determine a universal rate.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+  - mit-ocw-butler-volmer
+- id: chem_electrode_kinetics_to_butler_volmer_equation_model_realization
+  source: electrode_kinetics
+  target: butler_volmer_equation
+  type: model-realization
+  label: uses a two-direction charge-transfer model
+  detail: The Butler–Volmer equation realizes a common activation-controlled electrode-kinetics model; it must be qualified or extended when mass transport, ohmic loss, adsorption, film growth, multiple steps, or nonideal interfaces dominate.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+  - mit-ocw-butler-volmer
+- id: chem_butler_volmer_equation_to_overpotential_describes_governs
+  source: butler_volmer_equation
+  target: overpotential
+  type: describes-governs
+  label: relates current to kinetic potential departure
+  detail: Under its stated assumptions, the equation relates activation overpotential to the net current through anodic and cathodic partial-current terms; measured overpotential can also include transport and resistive contributions outside that relation.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+  - mit-ocw-butler-volmer
+- id: chem_electrode_kinetics_to_cyclic_voltammetry_experimentally_verified_by
+  source: electrode_kinetics
+  target: cyclic_voltammetry
+  type: experimentally-verified-by
+  label: probed through scan-rate-dependent currents
+  detail: Cyclic-voltammetric peak positions, separation, shape, and scan-rate dependence can test an electrode-kinetics model only together with a model for diffusion, uncompensated resistance, capacitance, electrode area, and coupled chemical reactions.
+  citations:
+  - wp-chem-electrochemistry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+  - mit-ocw-butler-volmer
 - id: chem_electrode_potential_to_electrochemistry_theory_component
   source: electrode_potential
   target: electrochemistry

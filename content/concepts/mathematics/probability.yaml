@@ -457,7 +457,38 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: conditional_expectation
+    label: Conditional expectation
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: probability
+    domains:
+      - probability
+      - measure
+    level: 8
+    kind: structure
+    conceptType: Conditional random variable
+    summary: For an integrable random variable and a sub-$\sigma$-algebra, the almost-surely unique measurable random variable whose integral over every event in that sub-$\sigma$-algebra agrees with the original variable's integral.
+    citations:
+      - durrett-probability
 edges:
+  - id: probability_filtered_space_to_conditional_expectation
+    source: filtered_probability_space
+    target: conditional_expectation
+    type: state-description
+    label: conditions on available information
+    detail: At each stage of a filtration, conditional expectation projects an integrable random variable onto the information represented by the corresponding sub-$\sigma$-algebra.
+    citations:
+      - durrett-probability
+  - id: probability_random_variable_to_conditional_expectation
+    source: random_variable
+    target: conditional_expectation
+    type: state-description
+    label: averages relative to information
+    detail: Conditional expectation is another random variable determined from the original one and the conditioning information, not generally a pointwise average over outcomes.
+    citations:
+      - durrett-probability
   - id: j_filtered_probability__filtration
     source: filtration
     target: j_filtered_probability

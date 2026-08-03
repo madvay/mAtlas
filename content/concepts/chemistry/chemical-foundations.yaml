@@ -394,7 +394,43 @@ nodes:
   citations:
   - wp-chem-definite-proportions
   - openstax-chemistry-2e
+- id: limiting_reactant
+  label: Limiting reactant
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-foundations
+  domains:
+  - chemical-foundations
+  level: 28
+  kind: structure
+  conceptType: Stoichiometric reactant role
+  summary: The reactant that is exhausted first for a specified balanced reaction and initial mixture, thereby setting the maximum amount of product under the stated assumptions.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
 edges:
+- id: chem_stoichiometry_to_limiting_reactant_state_description
+  source: stoichiometry
+  target: limiting_reactant
+  type: state-description
+  label: compares reactant amounts to coefficients
+  detail: Stoichiometric coefficients and the specified initial amounts determine which reactant reaches zero first, provided the intended reaction, conversion assumptions, and side reactions are stated.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
+- id: chem_chemical_equation_to_limiting_reactant_state_description
+  source: chemical_equation
+  target: limiting_reactant
+  type: state-description
+  label: supplies the balanced reaction relation
+  detail: A balanced chemical equation gives the amount ratios used to identify a limiting reactant, but it does not by itself establish reaction completion or exclude competing pathways.
+  citations:
+  - wp-chem-stoichiometry
+  - openstax-chemistry-2e
+  - iupac-gold-book
 - id: chem_chemical_matter_to_chemical_substance_classification
   source: chemical_matter
   target: chemical_substance

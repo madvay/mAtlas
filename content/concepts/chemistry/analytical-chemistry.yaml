@@ -24,6 +24,7 @@ nodes:
   primaryDomain: analytical-chemistry
   domains:
   - analytical-chemistry
+  - chemistry-experiments-evidence
   level: 34
   kind: structure
   conceptType: Inference class
@@ -236,6 +237,7 @@ nodes:
   primaryDomain: analytical-chemistry
   domains:
   - analytical-chemistry
+  - chemistry-experiments-evidence
   level: 36
   kind: structure
   conceptType: Instrumental analysis method
@@ -269,6 +271,7 @@ nodes:
   primaryDomain: analytical-chemistry
   domains:
   - analytical-chemistry
+  - chemistry-experiments-evidence
   level: 36
   kind: structure
   conceptType: Stoichiometric measurement method
@@ -285,6 +288,7 @@ nodes:
   primaryDomain: analytical-chemistry
   domains:
   - analytical-chemistry
+  - chemistry-experiments-evidence
   level: 37
   kind: structure
   conceptType: Structure-determination method
@@ -294,6 +298,40 @@ nodes:
   - wp-chem-analytical-chemistry
   - iupac-orange-book
   - nist-chemistry-webbook
+- id: standard_addition_method
+  label: Standard-addition method
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  level: 37
+  kind: structure
+  conceptType: Matrix-matched calibration method
+  summary: A quantitative calibration method in which known analyte increments are added to portions of the sample so the response–addition relation can compensate for a stated sample-matrix effect.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: mass_spectrometric_isotope_measurement
+  label: Mass-spectrometric isotope-ratio measurement
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: analytical-chemistry
+  domains:
+  - analytical-chemistry
+  - radiochemistry
+  - chemistry-experiments-evidence
+  level: 39
+  kind: structure
+  conceptType: Isotope-ratio measurement method
+  summary: Measurement of isotope abundances or ratios from mass-resolved ion signals after calibration for mass bias, blanks, isobaric interferences, detector response, and the specified isotope-ratio model.
+  citations:
+  - wp-chem-mass-spectrometry
+  - iupac-mass-spectrometry-terminology
+  - nist-isotopic-reference-materials
 - id: tsvet_chromatography_experiments
   label: Tsvet’s pigment chromatography experiments
   primaryField: chemistry
@@ -459,6 +497,36 @@ edges:
   - wp-chem-analytical-chemistry
   - iupac-orange-book
   - nist-chemistry-webbook
+- id: chem_quantitative_chemical_analysis_to_standard_addition_method_classification
+  source: quantitative_chemical_analysis
+  target: standard_addition_method
+  type: classification
+  label: includes matrix-matched calibration
+  detail: Standard addition is a quantitative method used when a sample matrix changes the measurement response; it remains conditional on representative aliquots, known additions, suitable response behavior, and a stated extrapolation model.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_calibration_curve_to_standard_addition_method_theory_component
+  source: calibration_curve
+  target: standard_addition_method
+  type: theory-component
+  label: models response within the sample matrix
+  detail: Standard addition uses a calibration relation from sample aliquots containing known analyte increments; its intercept or extrapolation is meaningful only under the chosen response model and uncertainty treatment.
+  citations:
+  - wp-chem-analytical-chemistry
+  - iupac-orange-book
+  - nist-chemistry-webbook
+- id: chem_mass_spectrometry_to_mass_spectrometric_isotope_measurement_framework_specialization
+  source: mass_spectrometry
+  target: mass_spectrometric_isotope_measurement
+  type: framework-specialization
+  label: specializes mass analysis to isotope ratios
+  detail: Isotope-ratio mass spectrometry specializes mass spectrometry to calibrated relative ion-signal measurements, where mass discrimination, isobaric overlap, chemical preparation, and reference materials limit the inferred isotope ratio.
+  citations:
+  - wp-chem-mass-spectrometry
+  - iupac-mass-spectrometry-terminology
+  - nist-isotopic-reference-materials
 - id: chem_tsvet_chromatography_experiments_to_chromatography_historically_motivated
   source: tsvet_chromatography_experiments
   target: chromatography

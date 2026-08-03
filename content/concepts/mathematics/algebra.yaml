@@ -1460,7 +1460,74 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: ideal
+    label: Ideal
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: algebra
+    domains:
+      - algebra
+      - number-theory
+      - algebraic-geometry
+    level: 9
+    kind: structure
+    conceptType: Absorbing additive subgroup
+    summary: An additive subgroup $I$ of a ring $R$ such that $ri$ and $ir$ lie in $I$ for every $r\in R$ and $i\in I$; for commutative rings the two absorption conditions coincide.
+    citations:
+      - stacks-algebra-text
+      - milne-algebraic-number-theory
+  - id: quotient_ring
+    label: Quotient ring
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: algebra
+    domains:
+      - algebra
+      - number-theory
+      - algebraic-geometry
+    level: 10
+    kind: structure
+    conceptType: Ideal quotient
+    summary: The ring $R/I$ of cosets of a two-sided ideal $I$, with addition and multiplication induced from $R$; every ideal of a commutative ring is two-sided.
+    citations:
+      - stacks-algebra-text
+      - milne-algebraic-number-theory
 edges:
+  - id: algebra_commutative_ring_to_ideal
+    source: commutative_ring
+    target: ideal
+    type: state-description
+    label: has absorbing additive subgroups
+    detail: Ideals of a commutative ring are additive subgroups closed under multiplication by arbitrary ring elements, providing the compatible equivalence data used in quotient rings.
+    citations:
+      - stacks-algebra-text
+  - id: algebra_commutative_ring_to_quotient_ring
+    source: commutative_ring
+    target: quotient_ring
+    type: quotient-construction
+    label: identify elements modulo an ideal
+    detail: For an ideal $I\triangleleft R$, the quotient identifies $a,b\in R$ exactly when $a-b\in I$; the cosets $a+I$ inherit well-defined ring operations.
+    citations:
+      - stacks-algebra-text
+  - id: algebra_ideal_to_quotient_ring
+    source: ideal
+    target: quotient_ring
+    type: mathematical-formulation
+    label: supplies the congruence
+    detail: The ideal determines the equivalence relation used in $R/I$, and ideal absorption is what makes multiplication of cosets independent of representative.
+    citations:
+      - stacks-algebra-text
+  - id: number_ideal_to_prime_ideal
+    source: ideal
+    target: prime_ideal
+    type: classification
+    label: satisfies primality
+    detail: Prime ideals are the proper ideals for which a product can enter the ideal only through at least one factor, a condition equivalent in commutative rings to domain-valued quotient.
+    citations:
+      - milne-algebraic-number-theory
+      - stacks-algebra-text
   - id: abelian_group_to_commutative_monoid
     source: abelian_group
     target: commutative_monoid

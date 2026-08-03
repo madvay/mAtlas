@@ -518,7 +518,37 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: satisfaction_relation
+    label: Satisfaction relation
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: logic
+    domains:
+      - logic
+    level: 4
+    kind: structure
+    conceptType: Semantic relation
+    summary: The relation $M\models\varphi$ stating that a structure $M$ makes a formula or sentence $\varphi$ true under a specified variable assignment when one is needed.
+    citations:
+      - openlogic-model-theory
 edges:
+  - id: logic_structure_to_satisfaction_relation
+    source: first_order_structure
+    target: satisfaction_relation
+    type: add-data
+    label: interpret a formula
+    detail: The recursively defined satisfaction relation evaluates terms and formulas in a first-order structure after an interpretation of the nonlogical symbols and, for open formulas, a variable assignment are fixed.
+    citations:
+      - openlogic-model-theory
+  - id: logic_satisfaction_relation_to_semantic_consequence
+    source: satisfaction_relation
+    target: semantic_consequence
+    type: theory-component
+    label: supplies model-by-model truth
+    detail: 'Semantic consequence is defined by universal satisfaction: $\Gamma\models\varphi$ when every structure satisfying all sentences in $\Gamma$ also satisfies $\varphi$.'
+    citations:
+      - openlogic-model-theory
   - id: e_signature_algebraic
     source: first_order_signature
     target: algebraic_signature

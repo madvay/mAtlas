@@ -1207,7 +1207,39 @@ nodes:
     induces:
       - tangent space $T_pM$
     notes: The curve and derivation constructions are canonically equivalent for finite-dimensional smooth manifolds.
+  - id: exterior_derivative
+    label: Exterior derivative
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: differential-geometry
+    domains:
+      - differential-geometry
+      - analysis
+    level: 10
+    kind: structure
+    conceptType: Differential-form operator
+    summary: The canonical linear operator $d:\Omega^k(M)\to\Omega^{k+1}(M)$ extending the differential of smooth functions, satisfying $d^2=0$ and the graded Leibniz rule.
+    citations:
+      - lee-smooth-manifolds
+      - lee-riemannian-manifolds
 edges:
+  - id: differential_geometry_smooth_manifold_to_exterior_derivative
+    source: smooth_manifold
+    target: exterior_derivative
+    type: canonical-construction
+    label: define coordinate-independent differentiation
+    detail: Smooth coordinate changes make the exterior derivative of differential forms globally well defined, independently of the local chart used to calculate it.
+    citations:
+      - lee-smooth-manifolds
+  - id: differential_geometry_exterior_derivative_to_de_rham_complex
+    source: exterior_derivative
+    target: de_rham_complex
+    type: theory-component
+    label: supplies the differential
+    detail: Repeated exterior derivatives vanish, so the spaces of differential forms and the operator $d$ form the de Rham cochain complex.
+    citations:
+      - lee-smooth-manifolds
   - id: bundleconn_to_gauge
     source: bundle_connection
     target: gauge_field_theory

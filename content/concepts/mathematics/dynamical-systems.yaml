@@ -311,7 +311,37 @@ nodes:
       - wp-math-dynamical-system
       - mit-ocw-nonlinear-dynamics
 
+  - id: poincare_map
+    label: Poincaré return map
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: dynamical-systems
+    domains:
+      - dynamical-systems
+    level: 7
+    kind: structure
+    conceptType: Section return map
+    summary: The map sending a point on a transverse section of a continuous flow to its next return to that section, when the return is defined.
+    citations:
+      - mit-ocw-nonlinear-dynamics
 edges:
+  - id: dynamics_continuous_system_to_poincare_map
+    source: continuous_time_dynamical_system
+    target: poincare_map
+    type: model-realization
+    label: reduce a flow to returns on a section
+    detail: Choosing a transverse section and following trajectories to their next intersection produces a discrete return map that can expose periodic-orbit stability and bifurcations of the continuous flow.
+    citations:
+      - mit-ocw-nonlinear-dynamics
+  - id: dynamics_discrete_system_to_poincare_map
+    source: discrete_time_dynamical_system
+    target: poincare_map
+    type: classification
+    label: return-map subclass
+    detail: A Poincaré map is a discrete-time dynamical system on a chosen section, but it is defined only on points whose relevant trajectories return and may have a restricted domain.
+    citations:
+      - mit-ocw-nonlinear-dynamics
   - id: dyn_self_map_to_discrete_system
     source: self_map
     target: discrete_time_dynamical_system

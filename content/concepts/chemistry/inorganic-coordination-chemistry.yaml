@@ -226,6 +226,24 @@ nodes:
   - wp-chem-inorganic-chemistry
   - iupac-red-book
   - iupac-gold-book
+- id: ligand_substitution
+  label: Ligand substitution
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: inorganic-coordination-chemistry
+  domains:
+  - inorganic-coordination-chemistry
+  - chemical-kinetics-dynamics
+  level: 40
+  kind: structure
+  conceptType: Coordination reaction class
+  summary: A coordination reaction in which one ligand at a central atom is replaced by another, through an associative, dissociative, interchange,
+    or mechanism-specific pathway whose rate depends on the complex, ligands, and medium.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
 - id: bioinorganic_chemistry
   label: Bioinorganic chemistry
   primaryField: chemistry
@@ -367,6 +385,26 @@ edges:
   label: overlaps metal–carbon compounds
   detail: Organometallic chemistry overlaps inorganic chemistry while being defined by metal–carbon bonding rather than by a clean disciplinary
     boundary.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_coordination_complex_to_ligand_substitution_transformation_process
+  source: coordination_complex
+  target: ligand_substitution
+  type: transformation-process
+  label: undergoes ligand exchange
+  detail: A coordination complex can undergo ligand substitution when a leaving ligand and an entering ligand participate through a stated mechanism; lability, solvent, steric environment, and electronic structure affect the observed rate.
+  citations:
+  - wp-chem-inorganic-chemistry
+  - iupac-red-book
+  - iupac-gold-book
+- id: chem_ligand_to_ligand_substitution_couples_interacts
+  source: ligand
+  target: ligand_substitution
+  type: couples-interacts
+  label: supplies entering and leaving groups
+  detail: Ligand identity affects both binding and departure in a substitution reaction, so donor properties, charge, chelation, and solvent exchange must be distinguished from a universal ligand ordering.
   citations:
   - wp-chem-inorganic-chemistry
   - iupac-red-book

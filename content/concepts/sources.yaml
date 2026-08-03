@@ -19,6 +19,111 @@ citationLegend:
   U.S. Environmental Protection Agency: EPA
   Wikipedia: WP
 sources:
+  aps-coulomb-torsion-balance:
+    label: APS — Coulomb’s torsion-balance measurements
+    title: 'June 1785: Coulomb Measures the Electric Force'
+    url: https://www.aps.org/apsnews/2016/06/coulomb-measures-electric-force
+    kind: APS historical reference
+  bipm-gum-1:
+    label: BIPM — Guide to the expression of uncertainty in measurement
+    title: 'Guide to the Expression of Uncertainty in Measurement — Part 1: Introduction'
+    url: https://www.bipm.org/documents/20126/2071204/JCGM_GUM-1.pdf
+    kind: international metrology guide
+  bipm-si-brochure:
+    label: BIPM — The International System of Units
+    title: The International System of Units (SI)
+    url: https://www.bipm.org/en/publications/si-brochure
+    kind: international metrology standard
+  iupac-mass-spectrometry-terminology:
+    label: IUPAC — Definitions of terms relating to mass spectrometry
+    title: Definitions of Terms Relating to Mass Spectrometry (IUPAC Recommendations 2013)
+    url: https://publications.iupac.org/pac/pdf/2013/pdf/8507x1515.pdf
+    kind: IUPAC technical recommendation
+  mit-ocw-butler-volmer:
+    label: MIT OpenCourseWare — Butler–Volmer equation
+    title: 'Lecture 13: Butler–Volmer Equation'
+    url: https://ocw.mit.edu/courses/10-626-electrochemical-energy-systems-spring-2014/56cfa6e0f28bc8fc1a647cbe679384d1_MIT10_626S14_S11lec13.pdf
+    kind: MIT OpenCourseWare lecture notes
+  nist-isotopic-reference-materials:
+    label: NIST — High-Precision Isotopic Reference Materials
+    title: High-Precision Isotopic Reference Materials
+    url: https://www.nist.gov/programs-projects/high-precision-isotopic-reference-materials
+    kind: national metrology program
+  wp-physics-big-bang-nucleosynthesis:
+    label: Wikipedia — Big Bang nucleosynthesis
+    title: Big Bang nucleosynthesis
+    url: https://en.wikipedia.org/wiki/Big_Bang_nucleosynthesis
+    kind: encyclopedic reference
+  wp-physics-dimensional-analysis:
+    label: Wikipedia — Dimensional analysis
+    title: Dimensional analysis
+    url: https://en.wikipedia.org/wiki/Dimensional_analysis
+    kind: encyclopedic reference
+  wp-physics-gravitational-lens:
+    label: Wikipedia — Gravitational lens
+    title: Gravitational lens
+    url: https://en.wikipedia.org/wiki/Gravitational_lens
+    kind: encyclopedic reference
+  wp-physics-heat-capacity:
+    label: Wikipedia — Heat capacity
+    title: Heat capacity
+    url: https://en.wikipedia.org/wiki/Heat_capacity
+    kind: encyclopedic reference
+  wp-physics-measurement:
+    label: Wikipedia — Measurement
+    title: Measurement
+    url: https://en.wikipedia.org/wiki/Measurement
+    kind: encyclopedic reference
+  wp-physics-measurement-uncertainty:
+    label: Wikipedia — Measurement uncertainty
+    title: Measurement uncertainty
+    url: https://en.wikipedia.org/wiki/Measurement_uncertainty
+    kind: encyclopedic reference
+  wp-physics-neutron-capture:
+    label: Wikipedia — Neutron capture
+    title: Neutron capture
+    url: https://en.wikipedia.org/wiki/Neutron_capture
+    kind: encyclopedic reference
+  wp-physics-photoionization:
+    label: Wikipedia — Photoionization
+    title: Photoionization
+    url: https://en.wikipedia.org/wiki/Photoionization
+    kind: encyclopedic reference
+  wp-physics-poynting-vector:
+    label: Wikipedia — Poynting vector
+    title: Poynting vector
+    url: https://en.wikipedia.org/wiki/Poynting_vector
+    kind: encyclopedic reference
+  wp-physics-quantum-hall-effect:
+    label: Wikipedia — Quantum Hall effect
+    title: Quantum Hall effect
+    url: https://en.wikipedia.org/wiki/Quantum_Hall_effect
+    kind: encyclopedic reference
+  wp-physics-quantum-tunnelling:
+    label: Wikipedia — Quantum tunnelling
+    title: Quantum tunnelling
+    url: https://en.wikipedia.org/wiki/Quantum_tunnelling
+    kind: encyclopedic reference
+  wp-physics-rigid-body-dynamics:
+    label: Wikipedia — Rigid body dynamics
+    title: Rigid body dynamics
+    url: https://en.wikipedia.org/wiki/Rigid_body_dynamics
+    kind: encyclopedic reference
+  wp-physics-two-dimensional-electron-gas:
+    label: Wikipedia — Two-dimensional electron gas
+    title: Two-dimensional electron gas
+    url: https://en.wikipedia.org/wiki/Two-dimensional_electron_gas
+    kind: encyclopedic reference
+  wp-physics-ward-takahashi-identity:
+    label: Wikipedia — Ward–Takahashi identity
+    title: Ward–Takahashi identity
+    url: https://en.wikipedia.org/wiki/Ward%E2%80%93Takahashi_identity
+    kind: encyclopedic reference
+  openlogic-computability:
+    label: Open Logic Project — Computability
+    title: 'Open Logic Project: Computability'
+    url: https://builds.openlogicproject.org/content/computability/computability.pdf
+    kind: open textbook
   aps-hohenberg-kohn:
     label: DOI — Inhomogeneous Electron Gas
     title: Inhomogeneous Electron Gas
@@ -2388,6 +2493,11 @@ sources:
     label: Cambridge — Quantum Field Theory
     title: Quantum Field Theory
     url: https://www.damtp.cam.ac.uk/user/tong/qft.html
+    kind: University of Cambridge lecture notes
+  tong-quantum-hall:
+    label: David Tong — Quantum Hall Effect
+    title: Quantum Hall Effect
+    url: https://davidtong.org/teaching/quantum-hall-effect/
     kind: University of Cambridge lecture notes
   tong-quantum:
     label: Cambridge — Quantum Mechanics

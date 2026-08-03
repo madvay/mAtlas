@@ -417,7 +417,37 @@ nodes:
       - intertwines product and irreducible-coupled bases
     induces:
       - angular-momentum coupling amplitudes
+  - id: character_of_representation
+    label: Character of a finite-dimensional representation
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: representation-theory
+    domains:
+      - representation-theory
+    level: 16
+    kind: structure
+    conceptType: Conjugacy-invariant trace function
+    summary: For a finite-dimensional representation $\rho$ of a group, the function $\chi_\rho(g)=\operatorname{Tr}(\rho(g))$, which is constant on conjugacy classes.
+    citations:
+      - etingof-representation-theory
 edges:
+  - id: representation_group_representation_to_character
+    source: group_representation
+    target: character_of_representation
+    type: state-description
+    label: takes matrix traces
+    detail: A finite-dimensional group representation assigns a linear operator to each group element; taking its trace produces the associated character and discards basis-dependent matrix entries.
+    citations:
+      - etingof-representation-theory
+  - id: representation_irreducible_to_character
+    source: irreducible_representation
+    target: character_of_representation
+    type: state-description
+    label: yields an irreducible character
+    detail: Over standard semisimple settings, irreducible representations have characters that organize decomposition and distinguish irreducible isomorphism classes under the stated hypotheses.
+    citations:
+      - etingof-representation-theory
   - id: u1_to_smgroup
     source: circle_group
     target: standard_model_gauge_group

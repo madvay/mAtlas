@@ -352,7 +352,30 @@ nodes:
     sections:
       - title: Historical role
         body: The experiments helped establish mathematical laws of accelerated motion that became inputs to Newtonian mechanics; they did not by themselves contain Newton’s later dynamical laws.
+  - id: rigid_body_dynamics
+    label: Rigid-body dynamics
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: classical-mechanics
+    domains:
+      - classical-mechanics
+    level: 13
+    kind: structure
+    conceptType: Extended-body mechanics model
+    summary: The classical mechanics of an idealized extended body whose internal distances are fixed, separating center-of-mass motion from rotation governed by inertia and torque.
+    citations:
+      - wp-physics-rigid-body-dynamics
+      - cambridge-classical-dynamics
 edges:
+  - id: classical_mechanics_to_rigid_body_dynamics
+    source: classical_mechanics
+    target: rigid_body_dynamics
+    type: framework-specialization
+    label: impose rigidity constraints
+    detail: Rigid-body dynamics specializes classical mechanics by constraining relative positions within the modeled body, an approximation that fails when deformation, vibration, or internal dissipation matters.
+    citations:
+      - cambridge-classical-dynamics
   - id: action_to_stationary
     source: action_functional
     target: stationary_action_principle

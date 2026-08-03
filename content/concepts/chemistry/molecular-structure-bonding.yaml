@@ -314,7 +314,101 @@ nodes:
   - wp-physics-chemical-bond
   - openstax-chemistry-2e
   - iupac-gold-book
+- id: sigma_bond
+  label: Sigma bond
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  - quantum-chemistry-spectroscopy
+  level: 37
+  kind: structure
+  conceptType: Axially symmetric bonding interaction
+  summary: A covalent bonding interaction with electron density cylindrically symmetric about the internuclear axis, commonly formed by head-on overlap of orbitals.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
+- id: pi_bond
+  label: Pi bond
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: molecular-structure-bonding
+  domains:
+  - molecular-structure-bonding
+  - quantum-chemistry-spectroscopy
+  level: 37
+  kind: structure
+  conceptType: Nodal-plane bonding interaction
+  summary: A covalent bonding interaction with a nodal plane containing the internuclear axis, commonly formed by side-on overlap and often accompanying a sigma bond in multiple bonds.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
 edges:
+- id: chem_covalent_bond_to_sigma_bond_classification
+  source: covalent_bond
+  target: sigma_bond
+  type: classification
+  label: includes axial-overlap bonding
+  detail: Sigma bonds are covalent bonding interactions classified by their rotational symmetry about the internuclear axis rather than by a unique localized-orbital picture.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
+- id: chem_covalent_bond_to_pi_bond_classification
+  source: covalent_bond
+  target: pi_bond
+  type: classification
+  label: includes side-on bonding
+  detail: Pi bonds are covalent bonding interactions classified by a nodal plane containing the internuclear axis; conjugation and delocalization can distribute that interaction across several atoms.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
+- id: chem_molecular_orbital_theory_to_sigma_pi_bonds_describes_governs
+  source: molecular_orbital_theory
+  target: sigma_bond
+  type: describes-governs
+  label: classifies orbital symmetry
+  detail: Molecular-orbital theory labels orbitals and bonding combinations by their symmetry relative to the internuclear axis, yielding sigma and pi bonding descriptions within the model.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
+- id: chem_molecular_orbital_theory_to_pi_bond_describes_governs
+  source: molecular_orbital_theory
+  target: pi_bond
+  type: describes-governs
+  label: classifies side-on orbital symmetry
+  detail: Molecular-orbital theory labels pi orbitals and their bonding combinations by the nodal plane containing the internuclear axis, providing a symmetry-based description that need not imply localized electron pairs.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
+- id: chem_sigma_bond_to_carbonyl_group_composition
+  source: sigma_bond
+  target: carbonyl_group
+  type: composition
+  label: contributes axial C–O bonding
+  detail: A conventional carbonyl bond description contains a sigma component along the carbon–oxygen internuclear axis; the molecular-orbital description remains the more general account of its electron density.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
+- id: chem_pi_bond_to_carbonyl_group_composition
+  source: pi_bond
+  target: carbonyl_group
+  type: composition
+  label: contributes C–O pi bonding
+  detail: A conventional carbonyl bond description includes a pi component with its characteristic nodal symmetry; conjugation can delocalize that component over a larger molecular framework.
+  citations:
+  - wp-physics-chemical-bond
+  - openstax-chemistry-2e
+  - iupac-chemical-bond
 - id: chem_molecular_structure_to_lewis_structure_model_realization
   source: molecular_structure
   target: lewis_structure

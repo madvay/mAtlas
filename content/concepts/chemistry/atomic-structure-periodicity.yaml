@@ -288,7 +288,43 @@ nodes:
   - wp-physics-ionization_energy
   - nist-ionization-energy
   - nist-atomic-spectroscopy
+- id: periodic_block
+  label: Periodic-table block
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: atomic-structure-periodicity
+  domains:
+  - atomic-structure-periodicity
+  level: 29
+  kind: structure
+  conceptType: Electron-configuration classification
+  summary: A conventional region of the periodic table classified by the subshell type whose filling organizes the element's valence-electron pattern, commonly called the $s$-, $p$-, $d$-, or $f$-block.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
 edges:
+- id: chem_periodic_table_to_periodic_block_state_description
+  source: periodic_table
+  target: periodic_block
+  type: state-description
+  label: partitions elements by block
+  detail: The conventional periodic table displays $s$-, $p$-, $d$-, and $f$-blocks as regions that organize recurring electron-configuration and chemical-property patterns without making every trend exact.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
+- id: chem_electron_configuration_to_periodic_block_describes_governs
+  source: electron_configuration
+  target: periodic_block
+  type: describes-governs
+  label: identifies the filling block
+  detail: Ground-state electron configurations explain the conventional block assignment through the subshell occupation pattern, while exceptional configurations and ion states require the stated convention.
+  citations:
+  - wp-chem-periodic-table
+  - openstax-chemistry-2e
+  - iupac-periodic-table
 - id: chem_periodic_law_to_periodic_table_model_realization
   source: periodic_law
   target: periodic_table

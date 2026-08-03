@@ -313,7 +313,43 @@ nodes:
   citations:
   - wp-chem-femtochemistry
   - nobel-zewail-1999
+- id: rate_determining_step
+  label: Rate-determining step
+  primaryField: chemistry
+  fields:
+  - chemistry
+  primaryDomain: chemical-kinetics-dynamics
+  domains:
+  - chemical-kinetics-dynamics
+  level: 41
+  kind: structure
+  conceptType: Mechanistic rate-control concept
+  summary: A step or transition in a reaction mechanism with the greatest control over the overall rate under specified conditions; it need not be a unique universally slowest elementary step.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
 edges:
+- id: chem_reaction_mechanism_to_rate_determining_step_state_description
+  source: reaction_mechanism
+  target: rate_determining_step
+  type: state-description
+  label: identifies condition-dependent rate control
+  detail: A proposed mechanism can assign rate control only after concentrations, reversibility, pre-equilibria, catalyst state, and the sensitivity of the overall flux to each elementary rate constant are specified.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
+- id: chem_rate_determining_step_to_rate_law_describes_governs
+  source: rate_determining_step
+  target: rate_law
+  type: describes-governs
+  label: constrains the observed rate form
+  detail: Rate control can determine an approximate rate law only with the accompanying mechanistic assumptions; a single slow-step slogan is insufficient when steps are coupled or partially reversible.
+  citations:
+  - wp-chem-chemical-kinetics
+  - openstax-chemistry-2e
+  - doe-catalysts
 - id: chem_chemical_kinetics_to_chemical_reaction_describes_governs
   source: chemical_kinetics
   target: chemical_reaction

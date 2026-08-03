@@ -821,7 +821,42 @@ nodes:
     sections:
       - title: Regime
         body: Far from a source and in the weak-field limit, gravitational waves are described by transverse radiative metric perturbations; strong-field sources require the full nonlinear Einstein equations.
+  - id: gravitational_lensing
+    label: Gravitational lensing
+    primaryField: physics
+    fields:
+      - physics
+    primaryDomain: relativity
+    domains:
+      - relativity
+      - cosmology
+    level: 10
+    kind: structure
+    conceptType: Curved-spacetime optical phenomenon
+    summary: The deflection, distortion, magnification, or time delay of light from a source caused by spacetime curvature along the light path.
+    citations:
+      - wp-physics-gravitational-lens
+      - einstein-general-relativity
+      - tong-gr
 edges:
+  - id: relativity_general_relativity_to_gravitational_lensing
+    source: general_relativity
+    target: gravitational_lensing
+    type: describes-governs
+    label: predicts curved light paths
+    detail: General relativity determines lensing from the spacetime metric and matter distribution; practical calculations may use weak-field, thin-lens, geometric-optics, or numerical approximations.
+    citations:
+      - einstein-general-relativity
+      - tong-gr
+  - id: relativity_geodesic_motion_to_gravitational_lensing
+    source: geodesic_motion
+    target: gravitational_lensing
+    type: theory-component
+    label: supplies null-ray propagation
+    detail: In geometric optics, light follows null geodesics, so the metric-dependent bending and focusing of neighboring null geodesics provide the kinematic basis for lensing observables.
+    citations:
+      - einstein-general-relativity
+      - tong-gr
   - id: relmomentum_to_kineticcorr
     source: energy_momentum_four_vector
     target: relativistic_kinetic_correction

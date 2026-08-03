@@ -874,7 +874,61 @@ nodes:
       - doe-protons
       - pdg-rpp
     status: Observed / performed
+  - id: neutron_capture
+    label: Neutron capture
+    primaryField: physics
+    fields:
+      - physics
+      - chemistry
+    primaryDomain: nuclear-physics
+    domains:
+      - nuclear-physics
+      - radiochemistry
+    level: 24
+    kind: structure
+    conceptType: Nuclear reaction process
+    summary: A nuclear reaction in which a target nucleus absorbs a neutron and forms a heavier nucleus, often followed by prompt gamma emission or subsequent radioactive decay.
+    citations:
+      - wp-physics-neutron-capture
+      - iaea-ensdf
+      - nuclear-data-bnl
 edges:
+  - id: nuclear_neutron_to_neutron_capture
+    source: neutron
+    target: neutron_capture
+    type: transformation-process
+    label: can be absorbed by a nucleus
+    detail: A neutron can be captured when it interacts with a target nucleus in an allowed reaction channel; the capture probability depends on neutron energy, target isotope, and resonance structure.
+    citations:
+      - iaea-ensdf
+      - nuclear-data-bnl
+  - id: nuclear_nucleus_to_neutron_capture
+    source: atomic_nucleus
+    target: neutron_capture
+    type: transformation-process
+    label: can form a capture product
+    detail: A target nucleus that captures a neutron changes mass number by one and may populate an excited capture state whose de-excitation or decay depends on the nuclide.
+    citations:
+      - iaea-ensdf
+      - nuclear-data-bnl
+  - id: nuclear_capture_to_neutron_activation_analysis
+    source: neutron_capture
+    target: neutron_activation_analysis
+    type: theory-component
+    label: produces analyte-dependent activity
+    detail: Neutron activation analysis uses neutron capture to create characteristic radionuclides, then infers elemental composition from measured decay radiation with calibration and interference controls.
+    citations:
+      - iaea-neutron-activation-analysis
+      - nuclear-data-bnl
+  - id: nuclear_fusion_to_big_bang_nucleosynthesis
+    source: nuclear_fusion
+    target: big_bang_nucleosynthesis
+    type: theory-component
+    label: contributes light-nucleus reactions
+    detail: Big Bang nucleosynthesis includes fusion and capture reactions among light nuclei, coupled to weak processes and cosmic expansion rather than occurring as an isolated laboratory fusion reaction.
+    citations:
+      - nasa-big-bang
+      - nuclear-data-bnl
   - id: nucleus_to_nuclear_fission
     source: atomic_nucleus
     target: nuclear_fission
@@ -1715,6 +1769,26 @@ edges:
       - iaea-livechart
       - wp-chem-radiocarbon-dating
       - nobel-libby-1960
+  - id: radioactive_decay_to_radioactive_decay_chain
+    source: radioactive_decay
+    target: radioactive_decay_chain
+    type: composition
+    label: supplies each sequential nuclear transformation
+    detail: A radioactive decay chain is composed of successive radioactive transformations between designated parent and daughter nuclides; branching and very long-lived intermediates must be included when they affect the stated chain model.
+    citations:
+      - wp-physics-radioactive_decay
+      - iaea-livechart
+      - iupac-nuclide
+  - id: isotope_to_mass_spectrometric_isotope_measurement_experimentally_verified_by
+    source: isotope
+    target: mass_spectrometric_isotope_measurement
+    type: experimentally-verified-by
+    label: abundance differences resolved by calibrated ion masses
+    detail: Isotopic composition is tested by calibrated mass-resolved ion measurements after controlling mass discrimination, isobaric overlap, blanks, chemical preparation, and the isotope-ratio reference convention.
+    citations:
+      - wp-physics-isotope
+      - iupac-isotopes
+      - nist-isotopic-reference-materials
   - id: chem_nuclear_fission_to_nuclear_fuel_cycle_chemistry_theory_component
     source: nuclear_fission
     target: nuclear_fuel_cycle_chemistry

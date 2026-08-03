@@ -544,7 +544,41 @@ nodes:
     primaryField: mathematics
     fields:
       - mathematics
+  - id: mapping_cone
+    label: Mapping cone
+    primaryField: mathematics
+    fields:
+      - mathematics
+    primaryDomain: homological-algebra
+    domains:
+      - homological-algebra
+      - algebraic-topology
+    level: 10
+    kind: structure
+    conceptType: Chain-map construction
+    summary: The chain complex built from a chain map by adjoining a shifted source to the target, encoding the map's failure to be a quasi-isomorphism and supporting associated exact sequences.
+    citations:
+      - hatcher-algebraic-topology
+      - stacks-derived-category
 edges:
+  - id: homological_chain_map_to_mapping_cone
+    source: chain_map
+    target: mapping_cone
+    type: canonical-construction
+    label: adjoin the shifted source
+    detail: For a chain map $f:C\to D$, the mapping cone combines $D_n$ with $C_{n-1}$ and uses a differential incorporating both the original differentials and $f$.
+    citations:
+      - hatcher-algebraic-topology
+      - stacks-derived-category
+  - id: homological_mapping_cone_to_long_exact_sequence
+    source: mapping_cone
+    target: long_exact_sequence
+    type: theorem-implication
+    label: yields the cone long exact sequence
+    detail: The canonical short exact sequence involving a mapping cone induces a long exact sequence in homology, relating the source, target, and cone of the map.
+    citations:
+      - hatcher-algebraic-topology
+      - stacks-derived-category
   - id: e_bigraded_double
     source: bigraded_object
     target: double_complex

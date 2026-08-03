@@ -115,6 +115,24 @@ nodes:
   - wp-chem-radiochemistry
   - iaea-neutron-activation-analysis
   - iupac-gold-book
+- id: radioactive_decay_chain
+  label: Radioactive decay chain
+  primaryField: chemistry
+  fields:
+  - chemistry
+  - physics
+  primaryDomain: radiochemistry
+  domains:
+  - radiochemistry
+  - nuclear-physics
+  level: 33
+  kind: structure
+  conceptType: Sequential nuclear-transformation system
+  summary: A succession of radioactive transformations linking a parent nuclide to daughter nuclides until a stable or effectively terminal state is reached, with branching, half-lives, and chemical separation history specified where relevant.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-livechart
+  - iupac-gold-book
 - id: radiocarbon_dating
   label: Radiocarbon dating
   primaryField: chemistry
@@ -284,6 +302,26 @@ edges:
   citations:
   - wp-chem-radiochemistry
   - iaea-neutron-activation-analysis
+  - iupac-gold-book
+- id: chem_radionuclide_chemistry_to_radioactive_decay_chain_state_description
+  source: radionuclide_chemistry
+  target: radioactive_decay_chain
+  type: state-description
+  label: specifies parent and daughter nuclides
+  detail: A radioactive decay chain is described by the identities, decay modes, branching fractions, and half-lives of its parent and daughter radionuclides, while chemical separation can change which members are retained in a sample.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-livechart
+  - iupac-gold-book
+- id: chem_radioactive_decay_chain_to_radiometric_dating_theory_component
+  source: radioactive_decay_chain
+  target: radiometric_dating
+  type: theory-component
+  label: supplies parent–daughter and ingrowth relations
+  detail: For dating systems involving a chain member, parent–daughter production and secular-equilibrium relations can be required; other radiometric methods use a selected parent–daughter pair rather than the full chain.
+  citations:
+  - wp-chem-radiochemistry
+  - iaea-livechart
   - iupac-gold-book
 - id: chem_radiometric_dating_to_radiocarbon_dating_classification
   source: radiometric_dating
