@@ -184,7 +184,7 @@ const topbarEnd = appIndex.indexOf('</header>', topbarStart);
 if (topbarStart < 0 || topbarEnd < 0 || appIndex.slice(topbarStart, topbarEnd).includes('id="layoutSelect"')) throw new Error('The layout selector leaked back into the top toolbar.');
 const layoutSelect = appIndex.match(/<select id="layoutSelect"[^>]*>([\s\S]*?)<\/select>/)?.[1] ?? '';
 const layoutOptions = [...layoutSelect.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)].map((match) => [match[1], match[2]]);
-if (JSON.stringify(layoutOptions) !== JSON.stringify([['atlas', 'Layered'], ['breadthfirst', 'Compact'], ['domains', 'Domains'], ['fields', 'Fields']])) throw new Error('The built layout selector does not expose the supported layouts in canonical order.');
+if (JSON.stringify(layoutOptions) !== JSON.stringify([['atlas', 'Layered'], ['breadthfirst', 'Packed'], ['domains', 'Domains'], ['fields', 'Fields']])) throw new Error('The built layout selector does not expose the supported layouts in canonical order.');
 for (const fieldId of graphData.meta.fieldOrder) {
   const field = graphData.fields[fieldId];
   if (!appIndex.includes(`href="/${field.path}/" data-scope-link="${fieldId}">${field.label}</a>`)) throw new Error(`The built scope navigation omits ${fieldId}.`);
