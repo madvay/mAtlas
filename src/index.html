@@ -9,12 +9,12 @@
   <script>
     (() => {
       let preference = 'system';
-      let compactControls = false;
+      let compactControls = true;
       try {
         const value = JSON.parse(window.localStorage.getItem('human-knowledge-atlas:preferences:v1') || 'null');
         if (value?.version === 1) {
           if (value.theme === 'light' || value.theme === 'dark' || value.theme === 'system') preference = value.theme;
-          compactControls = value.compactControls === true;
+          compactControls = value.compactControls !== false;
         }
       } catch { /* use system */ }
       const dark = preference === 'dark' || (preference === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -116,7 +116,7 @@
           <button id="fieldsLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="fields" aria-label="Use Fields structure layout" aria-pressed="false" title="Fields structure">
             <span class="material-symbols-outlined" aria-hidden="true">circle</span>
           </button>
-          <button id="compactLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="breadthfirst" aria-label="Use Compact layout" aria-pressed="false" title="Compact layout">
+          <button id="compactLayoutButton" class="button icon-button layout-toolbar-button" data-toolbar-layout="breadthfirst" aria-label="Use Packed layout" aria-pressed="false" title="Packed layout">
             <span class="material-symbols-outlined" aria-hidden="true">compress</span>
           </button>
         </div>
@@ -134,6 +134,9 @@
         </button>
         <button id="viewsButton" class="button views-button" aria-haspopup="dialog" aria-label="Browse stories and views" title="Browse stories and views">
           <span class="material-symbols-outlined" aria-hidden="true">library_books</span><span class="views-button-label">Stories &amp; Views</span>
+        </button>
+        <button id="compactControlsToolbarToggle" class="button control-density-button active" aria-label="Compact controls enabled. Use comfortable controls with larger tap targets" aria-pressed="true" title="Compact controls are on. Tap for larger controls.">
+          <span class="material-symbols-outlined control-density-icon" aria-hidden="true">view_compact</span>
         </button>
         <button id="helpButton" class="button icon-button" aria-haspopup="dialog" aria-label="Open key" title="Open key">
           <span class="material-symbols-outlined" aria-hidden="true">help</span>

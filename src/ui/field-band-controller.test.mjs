@@ -105,7 +105,7 @@ function fixture(layout = 'atlas') {
   };
 }
 
-test('domain, field, and compact layouts clear bands without reading graph geometry', () => {
+test('domain, field, and packed layouts clear bands without reading graph geometry', () => {
   const dom = installDom();
   try {
     for (const layout of ['breadthfirst', 'domains', 'fields']) {

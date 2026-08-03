@@ -234,6 +234,17 @@ code {
   display: none !important;
 }
 
+.control-density-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.control-density-icon {
+  font-size: 18px;
+}
+
 .layout-toolbar-toggle {
   display: inline-flex;
   align-items: center;
@@ -3663,7 +3674,7 @@ textarea {
 
 .filter-item,
 .toggle-row {
-  align-items: center;
+  align-items: flex-start;
   min-height: 30px;
   cursor: default;
 }
@@ -3681,9 +3692,17 @@ textarea {
   flex: 1 1 auto;
 }
 
+.filter-item-copy .filter-link {
+  display: inline-block;
+  padding-block: 0;
+  line-height: 1.25;
+  vertical-align: top;
+}
+
 .exclude-toggle {
   order: 99;
   flex: 0 0 auto;
+  align-items: flex-start;
   width: 30px;
   min-width: 30px;
   height: 30px;
@@ -3927,7 +3946,7 @@ textarea {
 
 .filter-checkbox-target {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex: 0 0 30px;
   width: 30px;

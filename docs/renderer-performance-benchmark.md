@@ -7,7 +7,7 @@ The benchmark covers:
 - repeated node-to-node selection changes;
 - repeated node selection followed by background deselection;
 - repeated edge-to-edge selection changes;
-- repeated animated **Layered ↔ Compact** layout changes;
+- repeated animated **Layered ↔ Packed** layout changes;
 - repeated animated viewport pans as a control workload;
 - DOM size, event-listener count, and JavaScript heap after forced garbage collection;
 - main-thread, script, style, layout, frame, missed-frame, and long-task measurements.

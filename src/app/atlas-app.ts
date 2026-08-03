@@ -305,8 +305,8 @@ export async function startAtlasApp(): Promise<void> {
     }
     compactButton.classList.toggle('compact-layout-suggested', helpful);
     compactButton.title = helpful
-      ? 'Compact layout may use this wide, sparse space more efficiently'
-      : 'Compact layout';
+      ? 'Packed layout may use this wide, sparse space more efficiently'
+      : 'Packed layout';
   }
 
   function scheduleLayoutUiUpdate(): void {
@@ -433,6 +433,40 @@ export async function startAtlasApp(): Promise<void> {
   let exitActiveView = (): void => {};
   let exitActiveCoreNodeScope = (): void => {};
 
+  const syncControlDensityButton = (): void => {
+    const button = byId<HTMLButtonElement>('compactControlsToolbarToggle');
+    const icon = button.querySelector<HTMLElement>('.control-density-icon');
+    const compact = preferences.compactControls;
+    button.setAttribute('aria-pressed', compact ? 'true' : 'false');
+    button.classList.toggle('active', compact);
+    button.setAttribute('aria-label', compact
+      ? 'Compact controls enabled. Use comfortable controls with larger tap targets'
+      : 'Comfortable controls enabled. Use compact controls');
+    button.title = compact
+      ? 'Compact controls are on. Tap for larger controls.'
+      : 'Comfortable controls are on. Tap for compact controls.';
+    if (icon) icon.textContent = compact ? 'view_compact' : 'view_comfy_alt';
+  };
+
+  const setPreferences = (next: Preferences): void => {
+    const disableGraphAnimation = preferences.animateGraph && !next.animateGraph;
+    const disableRefit = preferences.refitOnChange && !next.refitOnChange;
+    preferences = next;
+    document.documentElement.dataset.compactControls = preferences.compactControls ? 'true' : 'false';
+    syncControlDensityButton();
+    if (disableGraphAnimation) stopGraphAnimations();
+    else if (disableRefit) viewportController.cancel();
+    resolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
+    writePreferences();
+    applyRendererPreferences(cy, preferences);
+    applyGraphTheme(cy, resolvedTheme);
+    graphOverlayLayer.setPreferences(preferences);
+    graphView.applyFilters({ relayout: false });
+    structureOverlayController?.refresh();
+    syncExperimentalButtons();
+    syncNodeMovementControls();
+  };
+
   const filterControls = new FilterControls({
     model,
     state,
@@ -446,24 +480,9 @@ export async function startAtlasApp(): Promise<void> {
     exitCoreNodeScope: () => exitActiveCoreNodeScope(),
     renderMathText,
     preferences: () => preferences,
-    setPreferences: (next) => {
-      const disableGraphAnimation = preferences.animateGraph && !next.animateGraph;
-      const disableRefit = preferences.refitOnChange && !next.refitOnChange;
-      preferences = next;
-      document.documentElement.dataset.compactControls = preferences.compactControls ? 'true' : 'false';
-      if (disableGraphAnimation) stopGraphAnimations();
-      else if (disableRefit) viewportController.cancel();
-      resolvedTheme = applyDocumentTheme(preferences.theme, systemThemeQuery.matches);
-      writePreferences();
-      applyRendererPreferences(cy, preferences);
-      applyGraphTheme(cy, resolvedTheme);
-      graphOverlayLayer.setPreferences(preferences);
-      graphView.applyFilters({ relayout: false });
-      structureOverlayController?.refresh();
-      syncExperimentalButtons();
-      syncNodeMovementControls();
-    }
+    setPreferences
   });
+  syncControlDensityButton();
   const buildFilters = (): void => filterControls.build();
   const syncPreferenceControls = (): void => filterControls.syncPreferences();
   const updateFieldNavActiveState = (): void => filterControls.updateFieldNavActiveState();
@@ -1054,6 +1073,10 @@ export async function startAtlasApp(): Promise<void> {
   buildHelp();
 
   byId('fitButton').addEventListener('click', fitVisibleGraph);
+  byId('compactControlsToolbarToggle').addEventListener('click', () => {
+    setPreferences({ ...preferences, compactControls: !preferences.compactControls });
+    filterControls.syncPreferences();
+  });
   $$<HTMLButtonElement>('[data-toolbar-layout]').forEach((button) => {
     button.addEventListener('click', () => {
       const layout = button.dataset.toolbarLayout;

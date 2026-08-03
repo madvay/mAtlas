@@ -427,7 +427,7 @@ function printScenario(results, scenario) {
     'node-switch': 'Node-to-node selection',
     'node-clear': 'Node selection + background deselection',
     'edge-switch': 'Edge-to-edge selection',
-    layout: 'Layered <-> Compact layout animation',
+    layout: 'Layered <-> Packed layout animation',
     pan: 'Animated viewport pan control'
   };
   console.log(`\n${titles[scenario] ?? scenario} (median per action)`);
