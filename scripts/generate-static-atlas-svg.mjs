@@ -4,6 +4,13 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 const STATIC_EXPORT_MARKER = '<meta name="atlas:static-svg-build" content="1">';
 const SITE_ORIGIN = 'https://atlas.madvay.com/';
 const BUILD_TIMEOUT_MS = 120_000;
+const CONCEPT_IMAGE_ENV = 'MATLAS_GENERATE_CONCEPT_IMAGES';
+const CONCEPT_IMAGE_SIZE = 900;
+const CONCEPT_RASTER_WORKERS = 4;
+
+export function conceptImageGenerationEnabled(environment = process.env) {
+  return /^(?:1|true|yes|on)$/i.test(String(environment[CONCEPT_IMAGE_ENV] ?? '').trim());
+}
 
 function validateSvgResult(result, label) {
   if (!result || typeof result.svg !== 'string'
@@ -24,6 +31,49 @@ function domainSvgPath(domainId) {
 
 function fieldSvgPath(fieldId) {
   return `static/fields/${encodeURIComponent(fieldId)}.svg`;
+}
+
+function conceptSvgPath(nodeId) {
+  return `static/concepts/${encodeURIComponent(nodeId)}.svg`;
+}
+
+function conceptPngPath(nodeId) {
+  return `static/concepts/${encodeURIComponent(nodeId)}.png`;
+}
+
+class StaticFileProgress {
+  constructor(total) {
+    this.total = Math.max(1, total);
+    this.current = 0;
+    this.lastBucket = -1;
+    this.tty = Boolean(process.stdout.isTTY);
+    this.render('starting');
+  }
+
+  advance(label) {
+    this.current = Math.min(this.total, this.current + 1);
+    this.render(label);
+  }
+
+  finish(label = 'complete') {
+    this.current = this.total;
+    this.render(label, true);
+    if (this.tty) process.stdout.write('\n');
+  }
+
+  render(label, force = false) {
+    const ratio = this.current / this.total;
+    const bucket = Math.floor(ratio * 50);
+    if (!force && !this.tty && bucket === this.lastBucket) return;
+    this.lastBucket = bucket;
+    const width = 30;
+    const filled = Math.min(width, Math.round(ratio * width));
+    const bar = `${'█'.repeat(filled)}${'░'.repeat(width - filled)}`;
+    const percent = (ratio * 100).toFixed(1).padStart(5);
+    const message = `Static files [${bar}] ${percent}% ${String(this.current).padStart(String(this.total).length)}/${this.total} ${label}`;
+    if (this.tty) process.stdout.write(`\r\u001b[2K${message}`);
+    else console.log(message);
+  }
 }
 
 function fieldBuildPage(buildPage, fieldId) {
@@ -167,9 +217,42 @@ async function serializeInPage(page, method, argument, label) {
     if (!exporter) throw new Error('Missing runtime SVG exporter.');
     if (method === 'domain') return exporter.serializePrimaryDomain(argument);
     if (method === 'field') return exporter.serializeFieldDomainStructure(argument);
+    if (method === 'concept') return exporter.serializeConcept(argument);
     return exporter.serializeVisible();
   }, { method, argument });
   return validateSvgResult(result, label);
+}
+
+async function prepareSvgRasterPage(browser) {
+  const page = await browser.newPage();
+  await page.setContent(`<!doctype html><html><body><canvas id="raster" width="${CONCEPT_IMAGE_SIZE}" height="${CONCEPT_IMAGE_SIZE}"></canvas></body></html>`, { waitUntil: 'domcontentloaded' });
+  return page;
+}
+
+async function rasterizeConceptSvg(page, svg) {
+  const base64 = await page.evaluate(async ({ svg, size }) => {
+    await document.fonts.ready;
+    const canvas = document.getElementById('raster');
+    if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing SVG raster canvas.');
+    const context = canvas.getContext('2d');
+    if (!context) throw new Error('Unable to create the SVG raster canvas context.');
+    const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+    try {
+      const image = new Image();
+      await new Promise((resolve, reject) => {
+        image.onload = resolve;
+        image.onerror = () => reject(new Error('Chromium could not decode the concept SVG.'));
+        image.src = objectUrl;
+      });
+      context.clearRect(0, 0, size, size);
+      context.drawImage(image, 0, 0, size, size);
+      return canvas.toDataURL('image/png').slice('data:image/png;base64,'.length);
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+  }, { svg, size: CONCEPT_IMAGE_SIZE });
+  return Buffer.from(base64, 'base64');
 }
 
 export async function generateStaticAtlasSvg({ distUrl }) {
@@ -184,19 +267,31 @@ export async function generateStaticAtlasSvg({ distUrl }) {
   }
 }
 
-export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
+export async function generateStaticAtlasSvgs({
+  distUrl,
+  graphData,
+  generateConceptImages = conceptImageGenerationEnabled()
+}) {
+  const domainIds = graphData.meta.domainOrder ?? Object.keys(graphData.domains);
+  const fieldIds = graphData.meta.fieldOrder ?? Object.keys(graphData.fields);
+  const conceptNodes = generateConceptImages
+    ? graphData.nodes.filter((node) => node.kind === 'structure')
+    : [];
+  const progress = new StaticFileProgress(1 + domainIds.length + fieldIds.length + conceptNodes.length * 2);
   const { browser, page, buildPage } = await openStaticExporter(distUrl);
   try {
     const atlas = await serializeInPage(page, 'visible', '', 'the all-in atlas');
     await Promise.all([
       mkdir(new URL('static/', distUrl), { recursive: true }),
       mkdir(new URL('static/domains/', distUrl), { recursive: true }),
-      mkdir(new URL('static/fields/', distUrl), { recursive: true })
+      mkdir(new URL('static/fields/', distUrl), { recursive: true }),
+      ...(generateConceptImages ? [mkdir(new URL('static/concepts/', distUrl), { recursive: true })] : [])
     ]);
     await writeFile(new URL('static/atlas.svg', distUrl), atlas.svg);
+    progress.advance('atlas.svg');
 
     const domains = {};
-    for (const domainId of graphData.meta.domainOrder ?? Object.keys(graphData.domains)) {
+    for (const domainId of domainIds) {
       const result = await serializeInPage(page, 'domain', domainId, `domain ${domainId}`);
       const path = domainSvgPath(domainId);
       await writeFile(new URL(path, distUrl), result.svg);
@@ -207,9 +302,11 @@ export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
         nodeCount: result.nodeCount,
         edgeCount: result.edgeCount
       };
+      progress.advance(path);
     }
+
     const fields = {};
-    for (const fieldId of graphData.meta.fieldOrder ?? Object.keys(graphData.fields)) {
+    for (const fieldId of fieldIds) {
       const fieldPage = await prepareStaticExporterPage(browser, fieldBuildPage(buildPage, fieldId));
       try {
         const result = await serializeInPage(fieldPage, 'field', fieldId, `field ${fieldId}`);
@@ -222,11 +319,55 @@ export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
           nodeCount: result.nodeCount,
           edgeCount: result.edgeCount
         };
+        progress.advance(path);
       } finally {
         await fieldPage.close();
       }
     }
 
+    const concepts = {};
+    if (generateConceptImages) {
+      const rasterPages = await Promise.all(Array.from(
+        { length: Math.min(CONCEPT_RASTER_WORKERS, conceptNodes.length) },
+        () => prepareSvgRasterPage(browser)
+      ));
+      const rasterQueues = rasterPages.map(() => Promise.resolve());
+      try {
+        let conceptIndex = 0;
+        for (const node of conceptNodes) {
+          const result = await serializeInPage(page, 'concept', node.id, `concept ${node.id}`);
+          if (result.width !== CONCEPT_IMAGE_SIZE || result.height !== CONCEPT_IMAGE_SIZE) {
+            throw new Error(`Concept ${node.id} exported at ${result.width}x${result.height}; expected ${CONCEPT_IMAGE_SIZE}x${CONCEPT_IMAGE_SIZE}.`);
+          }
+          const svgPath = conceptSvgPath(node.id);
+          const pngPath = conceptPngPath(node.id);
+          await writeFile(new URL(svgPath, distUrl), result.svg);
+          progress.advance(svgPath);
+          concepts[node.id] = {
+            path: pngPath,
+            svgPath,
+            pngPath,
+            width: result.width,
+            height: result.height,
+            nodeCount: result.nodeCount,
+            edgeCount: result.edgeCount
+          };
+          const workerIndex = conceptIndex % rasterPages.length;
+          const rasterPage = rasterPages[workerIndex];
+          rasterQueues[workerIndex] = rasterQueues[workerIndex].then(async () => {
+            const png = await rasterizeConceptSvg(rasterPage, result.svg);
+            await writeFile(new URL(pngPath, distUrl), png);
+            progress.advance(pngPath);
+          });
+          conceptIndex += 1;
+        }
+        await Promise.all(rasterQueues);
+      } finally {
+        await Promise.all(rasterPages.map((rasterPage) => rasterPage.close()));
+      }
+    }
+
+    progress.finish(generateConceptImages ? 'complete with concept images' : `complete; ${CONCEPT_IMAGE_ENV} is off`);
     return {
       atlas: {
         svg: atlas.svg,
@@ -237,7 +378,9 @@ export async function generateStaticAtlasSvgs({ distUrl, graphData }) {
         edgeCount: atlas.edgeCount
       },
       fields,
-      domains
+      domains,
+      concepts,
+      conceptImagesEnabled: generateConceptImages
     };
   } finally {
     await browser.close();

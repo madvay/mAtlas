@@ -248,6 +248,7 @@ await generateConceptPages({
   distUrl: dist,
   fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
+  conceptImages: staticSvgs.concepts,
   removedDomains
 });
 await generateViewPages({ graphData, viewsData, templateHtml: builtTemplate, distUrl: dist });
@@ -294,6 +295,7 @@ await generateSeoAssets({
   dataManifest,
   fieldImages: staticSvgs.fields,
   domainImages: staticSvgs.domains,
+  conceptImages: staticSvgs.concepts,
   lastModified
 });
 
@@ -315,6 +317,12 @@ const manifest = {
     atlasSvg: 'static/atlas.svg',
     fieldSvgs: Object.fromEntries(Object.entries(staticSvgs.fields).map(([fieldId, image]) => [fieldId, image.path])),
     domainSvgs: Object.fromEntries(Object.entries(staticSvgs.domains).map(([domainId, image]) => [domainId, image.path])),
+    conceptImages: Object.fromEntries(Object.entries(staticSvgs.concepts).map(([nodeId, image]) => [nodeId, {
+      svg: image.svgPath,
+      png: image.pngPath,
+      width: image.width,
+      height: image.height
+    }])),
     directory: 'directory/',
     guide: 'guide/',
     data: {
@@ -364,4 +372,4 @@ const manifest = {
   }
 };
 await writeFile(new URL('asset-manifest.json', dist), `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, directory/, guide/, latest-only data exports, AI bundle and skill, local workbench, Markdown equivalents, and AI context files into dist/.`);
+console.log(`Built ${graphData.nodes.length} nodes, ${graphData.edges.length} edges, ${Object.keys(graphData.fields).length} field pages and SVGs, ${Object.keys(graphData.domains).length} active domain pages and SVGs, ${Object.keys(staticSvgs.concepts).length} concept SVG/PNG pairs${staticSvgs.conceptImagesEnabled ? '' : ' (disabled)'}, ${removedDomains.length} removed-domain redirects, ${viewsData.views.length} views, static/atlas.svg, directory/, guide/, latest-only data exports, AI bundle and skill, local workbench, Markdown equivalents, and AI context files into dist/.`);

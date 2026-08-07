@@ -63,7 +63,53 @@ function renderScopeStaticGraph(graphData, fieldId, domainId, image) {
         </div>`;
 }
 
-function nodeJsonLd({ node, graphData, canonicalUrl, description }) {
+function conceptImageAlt(node) {
+  return `Graph centered on ${summarize(node.label)}, showing the selected concept and its surrounding relations`;
+}
+
+function conceptImageMetadata(node, image) {
+  if (!image) return '';
+  const pngUrl = appUrl(image.pngPath);
+  const alt = conceptImageAlt(node);
+  return [
+    '<meta property="og:image:type" content="image/png">',
+    `<meta itemprop="thumbnailUrl" content="${escapeHtml(pngUrl)}">`,
+    `<link rel="image_src" href="${escapeHtml(pngUrl)}">`,
+    `<meta itemprop="image" content="${escapeHtml(pngUrl)}">`,
+    `<meta name="twitter:image" content="${escapeHtml(pngUrl)}">`,
+    `<meta name="twitter:image:alt" content="${escapeHtml(alt)}">`
+  ].join('\n  ');
+}
+
+function renderConceptStaticGraph(node, image) {
+  if (!image) return null;
+  const alt = `${conceptImageAlt(node)}.`;
+  return `<div id="graphLoader" class="graph-loader concept-graph-loader" role="status" aria-live="polite">
+          <picture class="concept-static-graph-picture">
+            <source type="image/svg+xml" srcset="/${escapeHtml(image.svgPath)}">
+            <img class="concept-static-graph" src="/${escapeHtml(image.pngPath)}" width="${image.width}" height="${image.height}" alt="${escapeHtml(alt)}" decoding="async" fetchpriority="high">
+          </picture>
+          <span class="static-graph-shimmer" aria-hidden="true"></span>
+          <span class="concept-graph-loading-label">Preparing the interactive atlas…</span>
+        </div>`;
+}
+
+function conceptImageObject(node, image) {
+  if (!image) return null;
+  return {
+    '@type': 'ImageObject',
+    contentUrl: appUrl(image.pngPath),
+    url: appUrl(image.pngPath),
+    thumbnailUrl: appUrl(image.pngPath),
+    width: image.width,
+    height: image.height,
+    encodingFormat: 'image/png',
+    caption: conceptImageAlt(node),
+    representativeOfPage: true
+  };
+}
+
+function nodeJsonLd({ node, graphData, canonicalUrl, description, image = null }) {
   const fieldId = fieldIdForNode(graphData, node);
   const aliases = alternateTerms(node);
   const citationUrls = (node.citations ?? [])
@@ -83,6 +129,15 @@ function nodeJsonLd({ node, graphData, canonicalUrl, description }) {
     additionalType: node.kind === 'junction' ? 'https://schema.org/Intangible' : 'https://schema.org/Thing',
     ...(aliases.length ? { alternateName: aliases } : {}),
     ...(citationUrls.length ? { citation: citationUrls } : {}),
+    ...(image ? {
+      image,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `${canonicalUrl}#webpage`,
+        url: canonicalUrl,
+        primaryImageOfPage: image
+      }
+    } : {}),
     keywords: [
       graphData.fields[fieldId]?.label,
       ...node.domains.map((domainId) => graphData.domains[domainId]?.label ?? domainId)
@@ -199,7 +254,7 @@ function renderStaticConceptDocument(graphData, node) {
 </article>`;
 }
 
-function renderConceptPage(templateHtml, { graphData, node }) {
+function renderConceptPage(templateHtml, { graphData, node, image = null }) {
   const canonicalUrl = appUrl(conceptPath(node.id));
   const markdownUrl = `${canonicalUrl}index.html.md`;
   const description = summarize(node.summary || graphData.meta.description);
@@ -211,14 +266,25 @@ function renderConceptPage(templateHtml, { graphData, node }) {
   html = replaceFirst(html, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${escapeHtml(description)}">`);
   html = replaceFirst(html, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${escapeHtml(canonicalUrl)}">`);
   html = replaceFirst(html, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${escapeHtml(canonicalUrl)}">`);
+  if (image) {
+    const imageUrl = appUrl(image.pngPath);
+    const imageAlt = conceptImageAlt(node);
+    html = replaceFirst(html, /<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${escapeHtml(imageUrl)}">`);
+    html = replaceFirst(html, /<meta property="og:image:width" content="[^"]*">/, `<meta property="og:image:width" content="${image.width}">`);
+    html = replaceFirst(html, /<meta property="og:image:height" content="[^"]*">/, `<meta property="og:image:height" content="${image.height}">`);
+    html = replaceFirst(html, /<meta property="og:image:alt" content="[^"]*">/, `<meta property="og:image:alt" content="${escapeHtml(imageAlt)}">`);
+    html = replaceFirst(html, /<meta name="twitter:card" content="[^"]*">/, '<meta name="twitter:card" content="summary_large_image">');
+  }
   html = html.replace(
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<meta name="viewport" content="width=device-width, initial-scale=1">\n  <base href="../../">\n  <meta name="atlas:selection" content="node:${escapeHtml(node.id)}">`
   );
   html = html.replace('<html lang="en">', '<html lang="en" class="concept-page-html">');
   html = html.replace('<body class="atlas-loading">', '<body class="atlas-loading concept-page">');
-  const structuredData = JSON.stringify(nodeJsonLd({ node, graphData, canonicalUrl, description }), null, 2);
-  html = html.replace('</head>', `  <link rel="alternate" type="text/markdown" href="${escapeHtml(markdownUrl)}" title="Markdown concept record">\n  <script type="application/ld+json">\n${structuredData}\n  </script>\n  <style>
+  const imageObject = conceptImageObject(node, image);
+  const structuredData = JSON.stringify(nodeJsonLd({ node, graphData, canonicalUrl, description, image: imageObject }), null, 2);
+  const imageMetadata = conceptImageMetadata(node, image);
+  html = html.replace('</head>', `  <link rel="alternate" type="text/markdown" href="${escapeHtml(markdownUrl)}" title="Markdown concept record">\n  ${imageMetadata ? `${imageMetadata}\n  ` : ''}<script type="application/ld+json">\n${structuredData}\n  </script>\n  <style>
     html.concept-page-html { height: auto; overflow-y: auto; }
     body.concept-page { min-height: 100%; height: auto; overflow: visible; }
     body.concept-page #app { height: 100vh; height: 100svh; min-height: 520px; }
@@ -252,6 +318,10 @@ function renderConceptPage(templateHtml, { graphData, node }) {
     .concept-relation p { margin: .45rem 0; }
     @media (max-width: 700px) { body.concept-page #app { min-height: 480px; }.concept-static-document { padding-inline: 1rem; }.concept-static-section { padding: .9rem; }.concept-static-metadata, .concept-relation-metadata { grid-template-columns: 1fr; } }
   </style>\n</head>`);
+  const staticGraph = renderConceptStaticGraph(node, image);
+  if (staticGraph) {
+    html = html.replace('<div id="graphLoader" class="graph-loader" role="status" aria-live="polite">Preparing the atlas…</div>', staticGraph);
+  }
   return html.replace('</body>', `${renderStaticConceptDocument(graphData, node)}\n</body>`);
 }
 
@@ -428,14 +498,14 @@ export function renderScopePage(templateHtml, graphData, fieldId, domainId = nul
   return html.replace(/<noscript>[\s\S]*?<\/noscript>/, renderScopeFallback(graphData, fieldId, domainId));
 }
 
-export async function generateConceptPages({ graphData, templateHtml, distUrl, fieldImages = {}, domainImages = {}, removedDomains = [] }) {
+export async function generateConceptPages({ graphData, templateHtml, distUrl, fieldImages = {}, domainImages = {}, conceptImages = {}, removedDomains = [] }) {
   const concepts = graphData.nodes.filter((node) => node.kind === 'structure');
   await mkdir(new URL('concepts/', distUrl), { recursive: true });
   await writeFile(new URL('concepts/index.html', distUrl), minifyHtml(renderConceptIndexRedirect()));
   await Promise.all(concepts.map(async (node) => {
     const pageDir = new URL(conceptPath(node.id), distUrl);
     await mkdir(pageDir, { recursive: true });
-    await writeFile(new URL('index.html', pageDir), minifyHtml(renderConceptPage(templateHtml, { graphData, node })));
+    await writeFile(new URL('index.html', pageDir), minifyHtml(renderConceptPage(templateHtml, { graphData, node, image: conceptImages[node.id] })));
   }));
   await Promise.all((graphData.meta.fieldOrder ?? Object.keys(graphData.fields)).map(async (fieldId) => {
     const field = graphData.fields[fieldId];

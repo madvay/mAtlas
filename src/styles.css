@@ -898,7 +898,8 @@ body:not(.atlas-loading) .graph-loader {
 
 
 .graph-loader.domain-graph-loader,
-.graph-loader.field-graph-loader {
+.graph-loader.field-graph-loader,
+.graph-loader.concept-graph-loader {
   display: grid;
   grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   place-content: stretch;
@@ -909,7 +910,8 @@ body:not(.atlas-loading) .graph-loader {
 }
 
 .domain-static-graph,
-.field-static-graph {
+.field-static-graph,
+.concept-static-graph {
   grid-area: 1 / 1;
   display: block;
   width: 100%;
@@ -919,8 +921,19 @@ body:not(.atlas-loading) .graph-loader {
   object-fit: contain;
 }
 
+
+.concept-static-graph-picture {
+  grid-area: 1 / 1;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
 .graph-loader.domain-graph-loader::before,
-.graph-loader.field-graph-loader::before {
+.graph-loader.field-graph-loader::before,
+.graph-loader.concept-graph-loader::before {
   grid-area: 1 / 1;
   align-self: start;
   justify-self: end;
@@ -955,7 +968,8 @@ body:not(.atlas-loading) .graph-loader {
 }
 
 .domain-graph-loading-label,
-.field-graph-loading-label {
+.field-graph-loading-label,
+.concept-graph-loading-label {
   grid-area: 1 / 1;
   align-self: end;
   justify-self: end;

@@ -8,6 +8,8 @@ const compiledProvenance = JSON.parse(await readFile(new URL('.build/content/pro
 const shareCodec = JSON.parse(await readFile(new URL('.build/content/share-codec.json', root), 'utf8'));
 const removedDomains = JSON.parse(await readFile(new URL('.build/content/removed-domains.json', root), 'utf8'));
 const manifest = JSON.parse(await readFile(new URL('asset-manifest.json', dist), 'utf8'));
+const conceptImagesExpected = /^(?:1|true|yes|on)$/i.test(process.env.MATLAS_GENERATE_CONCEPT_IMAGES ?? '');
+const manifestConceptImages = manifest.assets?.conceptImages ?? {};
 const sitemap = await readFile(new URL('sitemap.xml', dist), 'utf8');
 const llms = await readFile(new URL('llms.txt', dist), 'utf8');
 const llmsContext = await readFile(new URL('llms-context.txt', dist), 'utf8');
@@ -139,6 +141,8 @@ if (!manifest.assets?.css) throw new Error('asset-manifest.json does not include
 if (manifest.assets?.atlasSvg !== 'static/atlas.svg') throw new Error('asset-manifest.json does not expose the stable static/atlas.svg path.');
 if (Object.keys(manifest.assets?.fieldSvgs ?? {}).length !== Object.keys(graphData.fields).length) throw new Error('asset-manifest.json does not expose one SVG path per field.');
 if (Object.keys(manifest.assets?.domainSvgs ?? {}).length !== Object.keys(graphData.domains).length) throw new Error('asset-manifest.json does not expose one SVG path per domain.');
+const structureCountForImages = graphData.nodes.filter((node) => node.kind === 'structure').length;
+if (Object.keys(manifestConceptImages).length !== (conceptImagesExpected ? structureCountForImages : 0)) throw new Error(`asset-manifest.json exposes ${Object.keys(manifestConceptImages).length} concept image pairs; expected ${conceptImagesExpected ? structureCountForImages : 0}.`);
 if (manifest.assets?.guide !== 'guide/') throw new Error('asset-manifest.json does not expose the stable guide/ page.');
 if (manifest.assets?.directory !== 'directory/') throw new Error('asset-manifest.json does not expose the stable directory/ page.');
 if ('atlasPage' in (manifest.assets ?? {})) throw new Error('asset-manifest.json still exposes the retired atlasPage entry.');
@@ -396,6 +400,29 @@ for (const node of graphData.nodes.filter((candidate) => candidate.kind === 'str
   if (!html.includes(`rel="alternate" type="text/markdown" href="https://atlas.madvay.com/concepts/${encodeURIComponent(node.id)}/index.html.md"`)) throw new Error(`Static concept page ${node.id} does not advertise its Markdown equivalent.`);
   if (!html.includes('class="atlas-loading concept-page"') || !html.includes('html.concept-page-html')) throw new Error(`Static concept page ${node.id} does not make its static record reachable below the interactive graph.`);
   if (!markdown.includes(`**Concept ID:** \`${node.id}\``) || !markdown.includes('## Incoming relations (arrows to this concept)') || !markdown.includes('## Outgoing relations (arrows from this concept)')) throw new Error(`Static concept Markdown for ${node.id} lacks its complete record.`);
+  const conceptImage = manifestConceptImages[node.id];
+  if (conceptImagesExpected) {
+    const encodedId = encodeURIComponent(node.id);
+    const expectedSvgPath = `static/concepts/${encodedId}.svg`;
+    const expectedPngPath = `static/concepts/${encodedId}.png`;
+    if (conceptImage?.svg !== expectedSvgPath || conceptImage?.png !== expectedPngPath || conceptImage?.width !== 900 || conceptImage?.height !== 900) throw new Error(`Concept ${node.id} has incorrect image manifest metadata.`);
+    const conceptSvg = await readFile(new URL(expectedSvgPath, dist), 'utf8');
+    const conceptPng = await readFile(new URL(expectedPngPath, dist));
+    const dimensions = svgDimensions(conceptSvg, expectedSvgPath);
+    if (dimensions.width !== 900 || dimensions.height !== 900) throw new Error(`${expectedSvgPath} is not 900 by 900 pixels.`);
+    assertSvgMetadata(conceptSvg, expectedSvgPath);
+    if (!conceptSvg.includes('<title id="atlas-title">') || !conceptSvg.includes(`https://atlas.madvay.com/concepts/${encodedId}/`) || !conceptSvg.includes('mAtlas · atlas.madvay.com · CC BY-SA 4.0')) throw new Error(`${expectedSvgPath} lacks its concept link, title, or visible attribution.`);
+    if (!conceptPng.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) throw new Error(`${expectedPngPath} is not a PNG image.`);
+    const pngUrl = `https://atlas.madvay.com/${expectedPngPath}`;
+    if (!html.includes(`<source type="image/svg+xml" srcset="/${expectedSvgPath}">`) || !html.includes(`class="concept-static-graph" src="/${expectedPngPath}" width="900" height="900"`)) throw new Error(`Static concept page ${node.id} does not publish the SVG/PNG picture pair.`);
+    if (!html.includes(`<meta property="og:image" content="${pngUrl}">`) || !html.includes('<meta property="og:image:type" content="image/png">') || !html.includes('<meta name="twitter:card" content="summary_large_image">')) throw new Error(`Static concept page ${node.id} lacks PNG social metadata.`);
+    if (!html.includes('"primaryImageOfPage"') || !html.includes(`"contentUrl": "${pngUrl}"`)) throw new Error(`Static concept page ${node.id} lacks concept image structured data.`);
+    const conceptUrl = `https://atlas.madvay.com/concepts/${encodedId}/`;
+    if (!sitemap.includes(`<loc>${conceptUrl}</loc><lastmod>`) || !sitemap.includes(`<image:loc>${pngUrl}</image:loc>`)) throw new Error(`The sitemap does not associate concept ${node.id} with its PNG.`);
+  } else {
+    if (conceptImage) throw new Error(`Concept ${node.id} unexpectedly has image metadata while generation is disabled.`);
+    if (html.includes('concept-static-graph')) throw new Error(`Static concept page ${node.id} includes a concept image while generation is disabled.`);
+  }
   const directEdge = graphData.edges.find((edge) => edge.source === node.id || edge.target === node.id);
   if (directEdge && !html.includes(`id="relation-${encodeURIComponent(directEdge.id)}"`)) throw new Error(`Static concept page ${node.id} lacks a stable direct-relation fragment.`);
   if (node.id === 'epsilon_zero' && !html.includes('<meta name="description" content="The least nonzero fixed point of ordinal exponentiation 𝛼↦𝜔^(𝛼).">')) {

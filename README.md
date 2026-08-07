@@ -42,6 +42,7 @@ The atlas is one graph rather than a collection of isolated applications. Fields
 - `/guide/` — static user guide for new and power users, with real, build-validated permalinks into atlas content and application states
 - `/directory/` — static semantic atlas directory with the exact all-in SVG transcluded, crawlable concept links, relation definitions, structured data, and atlas context
 - `/static/atlas.svg` — stable standalone all-in SVG export containing every field, domain, concept, junction, and relation
+- `/static/concepts/<id>.svg` and `.png` — 900×900 light-theme concept-centered graph images generated for publication builds
 - `/llms.txt` — concise AI routing and citation guidance
 - `/llms-context.txt` and `/llms-context-full.txt` — generated AI context documents with respectively concept summaries and complete direct relation records
 - `index.html.md` beside each major generated HTML page — machine-clean Markdown equivalents, including every canonical concept, field, domain, Story/View, the guide, and the directory
@@ -74,6 +75,8 @@ npm test
 `npm run content:build` validates editable source under `content/` and atomically writes the normalized renderer/publisher contract to `.build/content/`. The compiled contract contains `atlas.json`, `schema.json`, `views.json`, `share-codec.json`, and `provenance.json`. Application code, page generators, and tests consume only this compiled boundary.
 
 `npm run build` first rebuilds that content contract, then writes the publishable static site to `dist/`, including the stable `/static/atlas.svg` all-in export, `/directory/` semantic atlas directory, `/guide/` user guide, `/data/` latest-only data exports, per-record JSON, NDJSON, SQLite, RDF/JSON-LD, Turtle, deterministic Python/ESM SDKs, an uploadable AI bundle, an Agent Skill, a local accessible workbench, a static OpenAPI description, citation metadata, Markdown equivalents, and generated AI context files. The build opens the compiled application in headless Chrome/Chromium with every filter enabled and invokes the same `SvgExporter.serializeVisible()` implementation used by the runtime download button; there is no separate SVG renderer. The generated HTML page removes only the standalone XML declaration and transcludes the resulting SVG element byte-for-byte, while adding ordinary HTML concept links, field/domain context, a relation legend, `WebPage`/`ImageObject` structured data, and links to the interactive and machine-readable forms. `npm run build:pages` copies that output unchanged to `.pages/` for GitHub Pages.
+
+Concept-centered images are opt-in for local builds because the complete set is comparatively expensive and adds roughly two files per concept. Run `MATLAS_GENERATE_CONCEPT_IMAGES=1 npm run build` to generate a self-contained 900×900 SVG and a PNG rasterized from that SVG under `/static/concepts/`, add the images to concept pages and structured metadata, and associate the PNGs with concept URLs in the image sitemap. The GitHub Pages workflow enables this variable. Without it, concept pages and all other outputs still build normally without concept-image references. Static SVG/PNG generation reports a progress bar in terminals and periodic percentage updates in CI logs.
 
 Validation is split into schema/shape, share-codec, reference, semantic, editorial, Chemistry-integrity, and renderer-compatibility layers. The complete validator checks contract versions, field/domain membership, node and edge references, citations and source URLs, construction-junction consistency, strict-predecessor level monotonicity and cycles, duplicate relations, source usage, generic detail sections, explicit inline-math markup, every view object's identifiers and settings, Chemistry evidence orientation, shared-node ownership, and minimum cross-domain and cross-field connectivity.
 
@@ -212,7 +215,7 @@ The browser escapes prose and sends only delimited formulas to KaTeX. `npm run m
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/guide/`, `/directory/`, `/concepts/`, `/views/`, `/data/`, `/ai/`, and `/static/atlas.svg`.
+`.github/workflows/pages.yml` installs locked dependencies with `npm ci`, runs the complete `npm test` pipeline, prepares `.pages/`, and deploys it. The artifact places the complete atlas at its root, including `/math/`, `/physics/`, `/chemistry/`, `/guide/`, `/directory/`, `/concepts/`, `/views/`, `/data/`, `/ai/`, `/static/atlas.svg`, and the publication-only `/static/concepts/` SVG/PNG pairs.
 
 ## License
 

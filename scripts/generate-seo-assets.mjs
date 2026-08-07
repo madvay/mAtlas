@@ -38,7 +38,7 @@ function sitemapEntry(url, { lastModified, imageUrl } = {}) {
   return `  <url>${children.join('')}</url>`;
 }
 
-function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, dataPath, aiPath, fieldImages, domainImages, lastModified) {
+function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, dataPath, aiPath, fieldImages, domainImages, conceptImages, lastModified) {
   const concepts = graphData.nodes.filter((node) => node.kind === 'structure');
   const fieldEntries = (graphData.meta.fieldOrder ?? Object.keys(graphData.fields))
     .map((fieldId) => ({
@@ -50,6 +50,10 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guid
       url: appUrl(domainPath(graphData, domainId)),
       imageUrl: domainImages?.[domainId] ? appUrl(domainImages[domainId].path) : undefined
     }));
+  const conceptEntries = concepts.map((node) => ({
+    url: appUrl(conceptPath(node.id)),
+    imageUrl: conceptImages?.[node.id]?.pngPath ? appUrl(conceptImages[node.id].pngPath) : undefined
+  }));
   const viewUrls = viewsData.views.map((view) => appUrl(`views/${encodeURIComponent(view.id)}/`));
   const relationVocabularyUrls = Object.keys(graphData.edgeTypes).map((typeId) => appUrl(relationTypeVocabularyPath(typeId)));
   const atlasSvgUrl = appUrl(atlasSvgPath);
@@ -66,7 +70,7 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guid
     ...relationVocabularyUrls,
     appUrl('views/'),
     ...viewUrls,
-    ...concepts.map((node) => appUrl(conceptPath(node.id))),
+    ...conceptEntries.map((entry) => entry.url),
     atlasSvgUrl
   ];
   return [
@@ -78,6 +82,7 @@ function buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guid
         ? atlasSvgUrl
         : fieldEntries.find((entry) => entry.url === url)?.imageUrl
           ?? domainEntries.find((entry) => entry.url === url)?.imageUrl
+          ?? conceptEntries.find((entry) => entry.url === url)?.imageUrl
     })),
     '</urlset>',
     ''
@@ -186,12 +191,13 @@ export async function generateSeoAssets({
   dataManifest,
   fieldImages = {},
   domainImages = {},
+  conceptImages = {},
   lastModified
 }) {
   const publicationManifest = dataManifest ?? fallbackDataManifest(graphData, dataPath, lastModified);
   await Promise.all([
     writeFile(new URL('robots.txt', distUrl), buildRobotsTxt()),
-    writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, dataPath, aiPath, fieldImages, domainImages, lastModified)),
+    writeFile(new URL('sitemap.xml', distUrl), buildSitemapXml(graphData, viewsData, atlasSvgPath, directoryPath, guidePath, dataPath, aiPath, fieldImages, domainImages, conceptImages, lastModified)),
     writeFile(new URL('llms.txt', distUrl), appendTextPublicationMetadata(buildLlmsTxt(graphData, viewsData, {
       graphDataPath,
       schemaPath,

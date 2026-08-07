@@ -22,6 +22,16 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
     const domainImages = {
       [firstDomainId]: { path: `static/domains/${encodeURIComponent(firstDomainId)}.svg`, width: 1200, height: 700 }
     };
+    const firstConcept = graphData.nodes.find((node) => node.kind === 'structure');
+    assert.ok(firstConcept);
+    const conceptImages = {
+      [firstConcept.id]: {
+        svgPath: `static/concepts/${encodeURIComponent(firstConcept.id)}.svg`,
+        pngPath: `static/concepts/${encodeURIComponent(firstConcept.id)}.png`,
+        width: 900,
+        height: 900
+      }
+    };
     await generateSeoAssets({
       graphData,
       viewsData,
@@ -34,6 +44,7 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
       guidePath: 'guide/',
       fieldImages,
       domainImages,
+      conceptImages,
       lastModified: '2026-07-28'
     });
     const sitemap = await readFile(new URL('sitemap.xml', distUrl), 'utf8');
@@ -54,6 +65,8 @@ test('SEO assets publish and associate the directory page and standalone SVG', a
     const firstDomain = graphData.domains[firstDomainId];
     const firstDomainUrl = `https://atlas.madvay.com/${graphData.fields[firstDomain.field].path}/${encodeURIComponent(firstDomainId)}/`;
     assert.ok(sitemap.includes(`<loc>${firstDomainUrl}</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/${domainImages[firstDomainId].path}</image:loc></image:image>`));
+    const firstConceptUrl = `https://atlas.madvay.com/concepts/${encodeURIComponent(firstConcept.id)}/`;
+    assert.ok(sitemap.includes(`<loc>${firstConceptUrl}</loc><lastmod>2026-07-28</lastmod><image:image><image:loc>https://atlas.madvay.com/${conceptImages[firstConcept.id].pngPath}</image:loc></image:image>`));
     assert.ok(!sitemap.includes('<loc>https://atlas.madvay.com/concepts/</loc>'));
     assert.ok(!sitemap.includes('<loc>https://atlas.madvay.com/static/atlas/</loc>'));
     assert.ok(!sitemap.includes('/m/'));

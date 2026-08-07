@@ -5,6 +5,7 @@ import { readCompareStateFromLocation, type CompareState } from '../state/compar
 import { createInitialState, readUrlUiStateFromLocation, resolveUrlUiState, sameIdSet } from '../state/ui-state.js';
 import { DEFAULT_PREFERENCES, parsePreferences, PREFERENCES_STORAGE_KEY } from '../state/preferences.js';
 import { applyDocumentTheme, DARK_THEME_MEDIA_QUERY } from '../state/theme.js';
+import { FOCUSED_ELEMENT_MIN_ZOOM } from '../graph/viewport-constants.js';
 import { viewCoreNodes, viewNodeSequence } from '../state/view-state.js';
 import { LabelSizer } from '../graph/label-sizer.js';
 import { applyGraphTheme, applyRendererPreferences, createGraph } from '../graph/create-graph.js';
@@ -653,7 +654,7 @@ export async function startAtlasApp(): Promise<void> {
 
     if (center) {
       if (zoomIn) {
-        const targetZoom = Math.min(1.1, Math.max(cy.zoom(), 0.78));
+        const targetZoom = Math.min(1.1, Math.max(cy.zoom(), FOCUSED_ELEMENT_MIN_ZOOM));
         animateElementCenter(element, targetZoom, pointer, 260);
       } else {
         animateElementCenterCurrentZoom(element, pointer, 220);
@@ -680,7 +681,7 @@ export async function startAtlasApp(): Promise<void> {
     if (historyMode) writeLocationState({ kind: 'edge', id }, historyMode);
     if (center) {
       if (zoomIn) {
-        const targetZoom = Math.min(1.1, Math.max(cy.zoom(), 0.78));
+        const targetZoom = Math.min(1.1, Math.max(cy.zoom(), FOCUSED_ELEMENT_MIN_ZOOM));
         animateElementCenter(element, targetZoom, undefined, 260);
       } else {
         animateElementCenterCurrentZoom(element, undefined, 220);
@@ -993,7 +994,8 @@ export async function startAtlasApp(): Promise<void> {
     window.__atlasStaticSvgExporter = {
       serializeVisible: () => svgExporter.serializeVisible(),
       serializeFieldDomainStructure: (fieldId: string) => svgExporter.serializeFieldDomainStructure(fieldId),
-      serializePrimaryDomain: (domainId: string) => svgExporter.serializePrimaryDomain(domainId)
+      serializePrimaryDomain: (domainId: string) => svgExporter.serializePrimaryDomain(domainId),
+      serializeConcept: (nodeId: string) => svgExporter.serializeConcept(nodeId)
     };
     document.documentElement.dataset.atlasStaticSvg = 'ready';
   };
